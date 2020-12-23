@@ -91,11 +91,11 @@ Database plugins support all the functionality of the standard plugin, and:
 ## Customization
 There are a number of ways to customize your own installation of Synapse.
 
-###Choosing Plugins
+### Choosing Plugins
 
 An installation can be modified to include a subset of the provided plugins, or your own custom plugins by either modifying the pom file of [synapse-web](./synapse-web/pom.xml) or providing references to your custom plugin jars on the classpath. Any plugins found in your execution's classpath will be automatically included and installed in your Synapse deployment.
 
-###Creating Custom Plugins
+### Creating Custom Plugins
 
 While we have provided a number of available plugins for others to choose from, it is likely there are plenty of other plugins that can and should be created. You may create a custom plugin following the model in [plugin-demo](./plugin-demo) or any of the other plugins, as needed. If you feel that a custom plugin might be useful to others, please consider [contributing](#contributions) to this project.
 
