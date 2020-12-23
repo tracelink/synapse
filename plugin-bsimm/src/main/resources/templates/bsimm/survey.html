@@ -1,0 +1,225 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+	<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+		<h3 class="page-title">Survey Responses</h3>
+	</div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+		<div class="card card-small h-100">
+			<div class="card-header border-bottom">
+				<div class="d-block">
+					<h6 class="m-0 d-inline">Survey Responses</h6>
+					<div class="btn-toolbar float-right">
+						<button sec:authorize="hasAuthority('ADMIN')"
+							class="btn btn-success px-2 mx-1" data-toggle="modal"
+							data-target="#importModal">Import New Survey</button>
+						<button sec:authorize="hasAuthority('ADMIN')"
+							class="btn btn-danger px-2 mx-1" data-toggle="modal"
+							data-target="#deleteSurveyModal">Delete A Survey</button>
+						<button sec:authorize="hasAuthority('BSIMMResponder')"
+							class="btn btn-success px-2 mx-1" data-toggle="modal"
+							data-target="#newSurveyModal">Start New Survey</button>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="table-responsive">
+					<table class="table ">
+						<thead>
+							<tr>
+								<th scope="col">Synapse Product Line</th>
+								<th scope="col">Author</th>
+								<th scope="col">Response</th>
+								<th scope="col">Score</th>
+								<th scope="col">BSIMM Survey Name</th>
+								<th scope="col">Date Completed</th>
+								<th scope="col" sec:authorize="hasAuthority('ADMIN')">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="response: ${surveyResponses}">
+								<tr>
+									<td th:text="${response.getSurveyTarget().getName()}"></td>
+									<td th:text="${response.getAuthor()}"></td>
+									<td><a
+										th:href="'/bsimm/survey/review?surveyResponseId='+ ${response.getId()}">Review
+											Responses</a></td>
+									<td th:text="${#numbers.formatDecimal(response.getResponseScore(),1,2)}"></td>
+									<td th:text="${response.getOriginalSurvey().getSurveyName()}"></td>
+									<td th:text="${response.getDateString()}"></td>
+									<td sec:authorize="hasAuthority('ADMIN')">
+									<div class="btn-toolbar">
+										<form method="post" action="/bsimm/deleteSurveyResponse">
+											<input type="hidden" th:name="${_csrf.parameterName}"
+												th:value="${_csrf.token}" />
+											<input type="hidden" name="surveyResponseId" th:value="${response.getId()}"/>
+											<button class="btn btn-danger mx-1" type="submit">
+												Delete
+											</button>
+										</form>
+										<button
+											class="btn btn-warning mx-1 " data-toggle="modal"
+											data-target="#copyResponseModal" 
+											th:data-responseid="${response.getId()}"
+											th:data-responsename="${response.getSurveyTarget().getName() + ' - ' + response.getDateString()}">Copy</button>
+										</div>
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Import Survey Modal -->
+<div sec:authorize="hasAuthority('ADMIN')" class="modal fade" id="importModal" tabindex="-1" role="dialog"
+	aria-labelledby="importModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="importModalLabel">Import Survey</h4>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col">
+						<form id="importModalForm" method="post" class="form"
+							action="/bsimm/importSurvey" enctype="multipart/form-data">
+							<div class="form-group">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}" /> <input class="form-control-file"
+									type="file" name="surveyfile" />
+							</div>
+							<button class="btn btn-success" type="submit">Import
+								Survey XML</button>
+						</form>
+					</div>
+					<div class="col-auto align-self-end">
+						<form method="post" action="/bsimm/rest/downloadSurveyModel"
+							class="inline">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}" />
+							<button class="btn btn-warning" type="submit">Download
+								Survey Model</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- New Survey Modal -->
+<div class="modal fade" id="newSurveyModal" tabindex="-1" role="dialog"
+	aria-labelledby="newSurveyModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="newSurveyModalLabel">Start New
+					Survey</h4>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<form id="newSurveyModalForm" method="post" class="form"
+					action="/bsimm/survey/newResponse">
+					<div class="form-group">
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" /> <select name="productLine"
+							class="selectpicker input-group" title="Choose a Product Line"
+							data-style="rounded border">
+							<th:block th:each="productLine : ${productLines}">
+								<option th:data-content="${productLine}"
+									th:value="${productLine}" />
+							</th:block>
+						</select>
+					</div>
+					<div class="form-group">
+						<select name="surveyName" class="selectpicker input-group"
+							title="Choose a Survey" data-style="rounded border">
+							<th:block th:each="surveyName : ${surveyNames}">
+								<option th:data-content="${surveyName}" th:value="${surveyName}" />
+							</th:block>
+						</select>
+					</div>
+					<button class="btn btn-success" type="submit">Start Survey</button>
+				</form>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- Delete Survey Modal -->
+<div sec:authorize="hasAuthority('ADMIN')" class="modal fade" id="deleteSurveyModal" tabindex="-1" role="dialog"
+	aria-labelledby="deleteSurveyModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="deleteSurveyModalLabel">Delete
+					Survey</h4>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<form id="deleteSurveyModalForm" method="post" class="form"
+					action="/bsimm/deleteSurvey">
+					<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" />
+					<div class="form-group">
+						<select name="surveyName" class="selectpicker input-group"
+							title="Choose a Survey" data-style="rounded border">
+							<th:block th:each="surveyName : ${surveyNames}">
+								<option th:data-content="${surveyName}" th:value="${surveyName}" />
+							</th:block>
+						</select>
+					</div>
+					<button class="btn btn-danger" type="submit">Delete Survey</button>
+				</form>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- Copy Response Modal -->
+<div class="modal fade" id="copyResponseModal" tabindex="-1" role="dialog"
+	aria-labelledby="copyResponseModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="copyResponseModalLabel">Copy Response</h4>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<label>Copy Responses from "<span id="copyResponseName"></span>" to </label>
+				<form id="copyResponseModalForm" method="post" class="form"
+					action="/bsimm/copySurveyResponse">
+					<div class="form-group">
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" /> 
+						<input type="hidden" id="copyResponseId" name="surveyResponseId"/>
+						<select name="productLine"
+							class="selectpicker input-group" title="Choose a Product Line"
+							data-style="rounded border">
+							<th:block th:each="productLine : ${productLines}">
+								<option th:data-content="${productLine}"
+									th:value="${productLine}" />
+							</th:block>
+						</select>
+					</div>
+					<button class="btn btn-success" type="submit">Copy Responses</button>
+				</form>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>

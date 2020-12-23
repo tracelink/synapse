@@ -1,0 +1,1135 @@
+<BsimmSurvey>
+	<surveyName>BSIMM 9</surveyName>
+	<functions>
+		<BsimmFunction>
+			<functionName>Governance</functionName>
+			<practices>
+				<BsimmPractice>
+					<practiceName>Strategy &amp; Metrics</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SM1.1</measureId>
+									<measureTitle>Publish process (roles, responsibilities, plan), evolve as necessary.</measureTitle>
+									<detailMessage>The process for addressing software security is broadcast to all stakeholders so that everyone knows the plan. Goals, roles, responsibilities, and activities are explicitly defined. Most organizations pick and choose from a published methodology, such as the Microsoft SDL or the Synopsys Touchpoints, and then tailor the methodology to their needs. An SSDL process must be adapted to the specifics of the development process it governs (e.g., waterfall, agile, CI/CD, DevOps, etc.) because it will evolve with both the organization and the security landscape. A process must be published to count. In many cases, the methodology is controlled by the SSG and published only internally. The SSDL does not need to be publicly promoted outside of the firm to have the desired impact.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM1.2</measureId>
+									<measureTitle>Create evangelism role and perform internal marketing.</measureTitle>
+									<detailMessage>In order to build support for software security throughout the organization, someone in the SSG must play an evangelism role. This internal marketing function helps keep executives and all other stakeholders current on the magnitude of the software security problem and the elements of its solution. An agile coach familiar with security, for example, could help teams adopt better software security practices as they transform to an agile methodology. Evangelists typically give talks for internal groups including executives, extend invitations to outside speakers, author white papers for internal consumption, or create a collection of papers, books, and other resources on an internal website and promote its use. A canonical example of such an evangelist was Michael Howard’s role at Microsoft just after the Gates memo.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM1.3</measureId>
+									<measureTitle>Educate executives.</measureTitle>
+									<detailMessage>Executives are periodically shown the consequences of inadequate software security and the negative business impact that poor security can have. They’re also shown what other organizations are doing to attain software security, including dealing with the risks of adopting “flavor of the day” engineering methodologies with no oversight. By understanding both the problem and its proper resolution, executives can support the SSI as a risk management necessity. In its most dangerous form, such education arrives courtesy of malicious hackers or public data exposure incidents. Preferably, the SSG will demonstrate a worst-case scenario in a controlled environment with the permission of all involved (e.g., actually showing working exploits and their business impact). In some cases, presentation to the Board can help garner resources for an ongoing SSI. Bringing in an outside guru is often helpful when seeking to bolster executive attention. Tying education to specific development areas, such as mobile or cloud services, or particular methodologies, such as CI/CD and DevOps, can help convince leadership to accept SSG recommendations where they might otherwise be ignored in favor of faster release dates or other priorities.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM1.4</measureId>
+									<measureTitle>Identify gate locations, gather necessary artifacts.</measureTitle>
+									<detailMessage>The software security process includes release gates/checkpoints/milestones at one or more points in an SDLC or, more likely, multiple SDLCs. The first two steps toward establishing security-specific release gates are to identify gate locations that are compatible with existing development practices and to begin gathering the input necessary for making a go/no-go decision. Importantly, the gates are not enforced at this stage. For example, the SSG can collect security testing results for each project prior to release but stop short of passing judgment on what constitutes sufficient testing or acceptable test results. Shorter release cycles, as are seen in organizations practicing CI/CD, often require creative approaches to collecting the right evidence and rely heavily on lightweight, super-fast automation. The idea of identifying gates first and enforcing them later on is extremely helpful in moving development toward software security without major pain. Socialize the gates and then turn them on once most projects already know how to succeed. This gradual approach serves to motivate good behavior without requiring it.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SM2.1</measureId>
+									<measureTitle>Publish data about software security internally.</measureTitle>
+									<detailMessage>The SSG publishes data internally about the state of software security within the organization to facilitate improvement. This information might come in the form of a dashboard with metrics for executives and software development management. Sometimes, these published data are not shared with everyone in the firm but with the relevant executives only. In such cases, publishing the information to executives who then drive change in the organization is necessary. In other cases, open book management and data published to all stakeholders helps everyone know what’s going on, with the philosophy that sunlight is the best disinfectant. If the organization’s culture promotes internal competition between groups, this information adds a security dimension to the game. The time compression associated with CI/CD calls for measurements that can be taken quickly and accurately, focusing less on historical trends (e.g., bugs per release) and more on speed (e.g.,  time to fix).</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM2.2</measureId>
+									<measureTitle>Enforce gates with measurements and track exceptions.</measureTitle>
+									<detailMessage>SDLC security gates are enforced for every software project: to pass a gate, a project must either meet an established measure or obtain a waiver. Even recalcitrant project teams must now play along. The SSG tracks exceptions. A gate could require a project to undergo code review and remediate any critical findings before release. In some cases, gates are directly associated with controls required by regulations, contractual agreements, and other business obligations, and exceptions are tracked as required by statutory or regulatory drivers. In other cases, gate measures yield key performance indicators that are used to govern the process. A revolving door or a rubber stamp exception process does not count. If some projects are automatically passed, that defeats the purpose of enforcing gates. Even seemingly innocuous development projects, such as a new mobile client for an existing back-end or an application ported to a cloud environment from an internal data center, must successfully pass the prescribed security gates in order to progress. Similarly, APIs, frameworks, libraries, COTS, microservices, container configurations, and so on are all software that must traverse the security gates.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM2.3</measureId>
+									<measureTitle>Create or grow a satellite.</measureTitle>
+									<detailMessage>A satellite begins as a collection of people scattered across the organization who show an above-average level of security interest or skill. Identifying this group is a step toward creating a social network that speeds the adoption of security into software development. One way to begin is to track the people who stand out during introductory training courses (see [T3.6 Identify satellite through training]). Another way is to ask for volunteers. In a more top-down approach, initial satellite membership is assigned to ensure complete coverage of all development/product groups. Ongoing membership should be based on actual performance. A strong satellite is a good sign of a mature SSI. In new or fast-moving technology areas such as mobile development, or in development paradigms such as DevOps, satellite members can help combine software security skills with domain knowledge that might be underrepresented in the SSG. Agile coaches make particularly useful satellite members.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM2.4</measureId>
+									<measureTitle>Require security sign-off.</measureTitle>
+									<detailMessage>The organization has an initiative-wide process for accepting security risk and documenting accountability. A risk acceptor signs off on the state of all software prior to release. For example, the sign-off policy might require the head of the business unit to sign off on critical vulnerabilities that have not been mitigated or SSDL steps that have been skipped. The policy must apply to outsourced projects, such as a boutique mobile application, and to projects that will be deployed in external environments, such as the cloud. Informal or uninformed risk acceptance alone does not count as security sign-off because the act of accepting risk is more effective when it is formalized (e.g., with a signature, form submission, or something similar) and captured for future reference. Similarly, simply stating that certain projects never need a sign-off does not achieve the desired results.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SM3.1</measureId>
+									<measureTitle>Use an internal tracking application with portfolio view.</measureTitle>
+									<detailMessage>The SSG uses a centralized tracking application to chart the progress of every piece of software in its purview, regardless of development methodology. The application records the security activities scheduled, in progress, and completed, incorporating results from activities such as architecture analysis, code review, and security testing even when they happen in a tight loop. The SSG uses the tracking application to generate portfolio reports for many of the metrics it uses. A combined inventory and risk posture view is fundamental. In many cases, these data are published at least among executives. Depending on the culture, this can cause interesting effects via internal competition. As an initiative matures and activities become more distributed, the SSG uses the centralized reporting system to keep track of all the moving parts.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM3.2</measureId>
+									<measureTitle>Run an external marketing program.</measureTitle>
+									<detailMessage>The SSG helps the firm market the SSI outside to build external support. Software security grows beyond being a risk reduction exercise and instead becomes a competitive advantage or market differentiator. The SSG might write papers or books about its SSDL or have a public blog. It might also participate in external conferences or trade shows. In some cases, a complete SSDL methodology can be published and promoted externally. Mobile and cloud security projects can make great software security case studies. Sharing details externally and inviting critique can bring new perspectives into the firm.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SM3.3</measureId>
+									<measureTitle>Identify metrics and use them to drive budgets.</measureTitle>
+									<detailMessage>The SSG and its management choose the metrics that define and measure SSI progress. These metrics will drive the initiative’s budget and resource allocations, so simple counts and statistics won’t suffice. Metrics also allow the SSG to explain its goals and progress in quantitative terms. One such metric could be security defect density, a reduction in which could be used to show a decreasing cost of remediation over time. Recall that, in agile methodologies, metrics are best collected early and often in a lightweight manner. The key here is to tie technical results to business objectives in a clear and obvious fashion in order to justify funding. Because the concept of security is already tenuous to many business people, making an explicit tie-in can be helpful.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Compliance &amp; Policy</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CP1.1</measureId>
+									<measureTitle>Unify regulatory pressures</measureTitle>
+									<detailMessage>If the business or its customers are subject to regulatory or compliance drivers such as GDPR, FFIEC, GLBA, OCC, PCI DSS, SOX, HIPAA, or others, the SSG acts as a focal point for understanding the constraints such drivers impose on software. In some cases, the SSG creates a unified approach that removes redundancy and conflicts from overlapping compliance requirements. A formal approach will map applicable portions of regulations to control statements explaining how the organization complies. As an alternative, existing business processes run by legal or other risk and compliance groups outside the SSG could also serve as the regulatory focal point. A single set of software security guidance ensures that compliance work is completed as efficiently as possible. Some firms move on to guide exposure by becoming directly involved in standards groups exploring new technologies in order to influence the regulatory environment.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP1.2</measureId>
+									<measureTitle>Identify PII obligations.</measureTitle>
+									<detailMessage>The way software handles personally identifiable information (PII) could be explicitly regulated, but even if it isn’t, privacy is a hot topic. The SSG plays a key role in identifying and describing PII obligations stemming from regulation and customer expectations. It uses this information to promote best practices related to privacy. For example, if the organization processes credit card transactions, the SSG will identify the constraints that the PCI DSS places on the handling of cardholder data and then inform all stakeholders. Note that outsourcing to hosted environments (e.g., the cloud) does not relax PII obligations. Also note that firms creating software products that process PII (but that don’t necessarily handle PII directly) can get credit by providing privacy controls and guidance for their customers. The proliferation of Internet of Things (IoT) and mobile devices adds yet another dimension to PII protection.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP1.3</measureId>
+									<measureTitle>Create policy.</measureTitle>
+									<detailMessage>The SSG guides the rest of the organization by creating or contributing to software security policy that satisfies internal, regulatory, and customer-driven security requirements. The policy includes a unified approach for satisfying the (potentially lengthy) list of security drivers at the governance level. As a result, project teams can avoid keeping up with the details involved in complying with all applicable regulations or other mandates. Likewise, project teams don’t need to relearn customer security requirements on their own. The SSG policy documents are sometimes focused around major compliance topics such as the handling of PII or the use of cryptography. In some cases, policy documents relate directly to the SSDL and its use in the firm. Because they’re so new, codifying decisions about IoT, cloud, and mobile architectures can add some much needed pizzazz to the policy discussion. Similarly, it may be necessary to explain what can and can’t be automated into CI/CD and continuous deployment pipelines. Architecture standards and coding guidelines are not examples of software security policy. On the other hand, policy that prescribes and mandates the use of coding guidelines and architecture standards for certain categories of applications does count. Policy is what is permitted and denied at the initiative level. If it’s not mandatory, it’s not policy.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CP2.1</measureId>
+									<measureTitle>Identify PII data inventory.</measureTitle>
+									<detailMessage>The organization identifies the kinds of PII processed or stored by each of its systems and their data repositories, including mobile and cloud environments. A PII inventory can be approached in two ways: starting with each individual application by noting its PII use or starting with particular types of PII and the applications that touch them. In either case, an inventory of data repositories is required. Note that when applications are distributed across multiple deployment environments, PII inventory control can get tricky. Do not ignore it. Likewise, do not ignore the constantly evolving definitions of PII. When combined with the organization’s PII obligations, this inventory guides privacy planning. For example, the SSG can now create a list of databases that would require customer notification if breached.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP2.2</measureId>
+									<measureTitle>Require security sign-off for compliance-related risk.</measureTitle>
+									<detailMessage>The organization has a formal compliance risk acceptance and accountability process that addresses all software development projects, regardless of development methodology. The SSG might act as an advisor when the risk acceptor signs off on the state of the software prior to release. For example, the sign-off policy might require the head of the business unit to sign off on compliance issues that have not been mitigated or SSDL steps related to compliance that have been skipped. Sign-off should be explicit and captured for future reference. Any exceptions should be tracked, even under the fastest of agile methodologies. An application without security defects might still be noncompliant.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP2.3</measureId>
+									<measureTitle>Implement and track controls for compliance.</measureTitle>
+									<detailMessage>The organization can demonstrate compliance with applicable regulations because its SSDL is aligned with the control statements developed by the SSG (see [CP1.1 Unify regulatory pressures]). The SSG tracks the controls, shepherds problem areas, and makes sure auditors and regulators are satisfied. If the organization’s SDLC is predictable and reliable, the SSG might be able to largely sit back and keep score. If the SDLC is uneven, less reliable, or trying to go faster than its supporting infrastructure can handle (looking at you, CI/CD), the SSG could be forced to take a more active role as referee. A firm doing this properly can explicitly associate satisfying its compliance concerns with following its SSDL.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP2.4</measureId>
+									<measureTitle>Include software security SLAs in all vendor contracts.</measureTitle>
+									<detailMessage>Vendor contracts include an SLA ensuring that the vendor will not jeopardize the organization’s compliance story and SSI. This is particularly important when controlling cloud computing providers. Each new or renewed contract contains a set of provisions requiring the vendor to address software security and deliver a product or service compatible with the organization’s security policy (see [SR2.5 Create SLA boilerplate]). In some cases, open source licensing concerns initiate the vendor control process, which can open the door for further software security language in the SLA. Traditional IT security requirements and a simple agreement to allow penetration testing are not sufficient.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP2.5</measureId>
+									<measureTitle>Ensure executive awareness of compliance and privacy obligations.</measureTitle>
+									<detailMessage>The SSG gains executive buy-in around compliance and privacy activities. Executives are provided plain-language explanations of the organization’s compliance and privacy obligations, plus the potential consequences for failing to meet those obligations. For some organizations, explaining the direct cost and likely fallout from a compliance failure or data breach could be an effective way to broach the subject. For other organizations, having an outside expert address the Board works because some executives value outside perspective more than internal perspective. One sure sign of proper executive awareness is adequate allocation of resources to get the job done. Be aware that the light and heat typically following a breach will not last.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CP3.1</measureId>
+									<measureTitle>Create a regulator compliance story.</measureTitle>
+									<detailMessage>The SSG has the information regulators want. A combination of written policy, controls documentation, and artifacts gathered through the SSDL gives the SSG the ability to demonstrate the organization’s compliance story without a fire drill for every audit or piece of paper for every sprint. In some cases, regulators, auditors, and senior management are satisfied with the same kinds of reports, which might be generated directly from various tools.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP3.2</measureId>
+									<measureTitle>Impose policy on vendors.</measureTitle>
+									<detailMessage>Vendors are required to adhere to the same policies used internally and must submit evidence that their software security practices pass muster. This goes for cloud and mobile platform providers as well. Evidence could include results from code reviews or penetration tests. Vendors may also attest to the fact that they are carrying out certain SSDL processes. In some cases, a BSIMM score or a vBSIMM score is used to help ensure that vendors are complying with the firm’s policies.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CP3.3</measureId>
+									<measureTitle>Drive feedback from SSDL data back to policy.</measureTitle>
+									<detailMessage>Information from the SSDL is routinely fed back into the policy creation process to help find defects earlier or to prevent them from occurring in the first place. Blind spots are eliminated based on trends in SSDL failures. For example, inadequate architecture analysis, recurring vulnerabilities, ignored security gates, or choosing the wrong firm to carry out a penetration test can expose policy weakness. Likewise, policies that impose too much bureaucracy might need to be adjusted to fit agile methodologies. Over time, policies should become more practical and easier to carry out (see [SM1.1 Publish process (roles, responsibilities, plan), evolve as necessary]). Ultimately, policies align themselves with the SSDL data to enhance and improve a firm’s effectiveness.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Training</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>T1.1</measureId>
+									<measureTitle>Provide awareness training.</measureTitle>
+									<detailMessage>The SSG provides awareness training in order to promote a culture of software security throughout the organization. Training might be delivered via SSG members, an outside firm, the internal training organization, or e-learning. Course content isn’t necessarily tailored for a specific audience. For example, all programmers, QA engineers, and project managers could attend the same “Introduction to Software Security” course, but this activity should be enhanced with a tailored approach that addresses a firm’s culture explicitly. Generic introductory courses that cover basic IT or high-level software security concepts do not generate satisfactory results. Likewise, awareness training aimed only at developers and not at other roles in the organization is insufficient.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T1.2</measureId>
+									<measureTitle>Deliver role-specific advanced curriculum (tools, technology stacks, and bug parade).</measureTitle>
+									<detailMessage>Software security training goes beyond building awareness by enabling trainees to incorporate security practices into their work. The training is tailored to cover the tools, technology stacks, development methodologies, and bugs that are most relevant to the trainee. An organization might offer four tracks for its engineers: one for architects, one for Java developers, one for mobile developers, and a fourth for testers. Tool-specific training is also commonly observed in a curriculum. Don’t forget that training will be useful for many different roles in an organization, including QA, product management, executives, and others.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T1.3</measureId>
+									<measureTitle>Create and use material specific to company history.</measureTitle>
+									<detailMessage>To make a strong and lasting change in behavior, training includes material specific to the company’s history. When participants can see themselves in the problem, they are more likely to understand how the material is relevant to their work and to know when and how to apply what they have learned. One way to do this is to use noteworthy attacks on the company as examples in the training curriculum. Be wary of training that covers platforms not used by developers (Windows developers don’t care about old Unix problems) or examples of problems only relevant to languages no longer in common use (Java developers don’t need to understand buffer overflows in C). Stories from company history can help steer training in the right direction, but only if the stories are still relevant and not overly censored.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T1.4</measureId>
+									<measureTitle>Deliver on-demand individual training.</measureTitle>
+									<detailMessage>The organization lowers the burden on trainees and reduces the cost of delivering training by offering ondemand training for individuals across roles. The most obvious choice, e-learning, can be kept up to date through a subscription model, but online courses must be engaging and relevant to achieve their intended purpose. Of course, training that sits around on the shelf does nobody any good, and hot topics like mobile and cloud will attract more interest than wonky policy discussions. For developers, it is possible to provide training directly through the IDE right at the time that it’s needed, but in some cases, building a new skill  (such as code review) could be better suited for instructor-led training.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>T2.1</measureId>
+									<measureTitle>Enhance satellite through training and events.</measureTitle>
+									<detailMessage>The SSG strengthens the satellite network by inviting guest speakers or holding special events. about advanced topics (e.g., the latest software security techniques for AWS cloud development). Offering pizza and beer doesn’t hurt. A standing conference call with voluntary attendance does not address this activity, which is as much about building camaraderie as it is about sharing knowledge or organizational efficiency. There’s no substitute for face-to-face meetings, even if they happen only once or twice a year.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T2.2</measureId>
+									<measureTitle>Include security resources in onboarding.</measureTitle>
+									<detailMessage>The process for bringing new hires into the engineering organization requires that they complete a training module about software security. The generic new hire process usually covers things like picking a good password and making sure that people don’t tail you into the building, but this orientation period can be enhanced to cover topics such as secure coding, the SSDL, and internal security resources. The objective is to ensure that new hires contribute to the security culture. Turnover in engineering organizations is generally high, and although a generic onboarding module is useful, it does not take the place of a timely and more complete introductory software security course.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>T3.1</measureId>
+									<measureTitle>Reward progression through curriculum (certification or HR).</measureTitle>
+									<detailMessage>Knowledge is its own reward, but progression through the security curriculum brings other benefits, too, such as career advancement. The reward system can be formal and lead to a certification or an official mark in the HR system, or it can be less formal and include motivators such as documented praise at annual review time. Involving a corporate training department and/or HR can make security’s impact on career progression more obvious, but the SSG should continue to monitor security knowledge in the firm and not cede complete  control or oversight.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T3.2</measureId>
+									<measureTitle>Provide training for vendors or outsourced workers.</measureTitle>
+									<detailMessage>Spending time and effort helping suppliers get security right at the outset is easier than trying to determine what went wrong later on, especially if the agile team has sprinted on to other projects. In the best case, outsourced workers receive the same training given to employees. Training individual contractors is much more natural than training entire outsource firms and is a reasonable place to start. Of course, it’s important to train everyone who works on your software, regardless of their employment status.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T3.3</measureId>
+									<measureTitle>Host external software security events.</measureTitle>
+									<detailMessage>The organization highlights its security culture as a differentiator by hosting security events featuring external speakers and content. Good examples of this are Microsoft’s BlueHat and QUALCOMM’s Mobile Security Summit. Employees benefit from hearing outside perspectives, especially related to fast-moving technology areas. The organization as a whole benefits from putting its security cred on display (see [SM3.2 Run an external marketing program]). Events open to just certain small groups will not result in the desired change.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T3.4</measureId>
+									<measureTitle>Require an annual refresher.</measureTitle>
+									<detailMessage>Everyone involved in the SSDL is required to take an annual software security refresher course. This refresher keeps the staff up to date on security and ensures that the organization doesn’t lose focus due to turnover, evolving methodologies, or changing deployment models. The SSG might use half a day to give an update on the security landscape and explain changes to policies and standards. A refresher can also be rolled out as part of a firm-wide security day or in concert with an internal security conference, but it is useful only if it’s fresh.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T3.5</measureId>
+									<measureTitle>Establish SSG office hours.</measureTitle>
+									<detailMessage>The SSG offers help any and all comers during an advertised lab period or regularly scheduled office hours. By acting as an informal resource for people who want to solve security problems, the SSG leverages teachable moments and emphasizes the carrot over the stick. Office hours might be held one afternoon per week in the office of a senior SSG member. Roving office hours are also a possibility, with visits to particular product or application group by request.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>T3.6</measureId>
+									<measureTitle>Identify a satellite through training.</measureTitle>
+									<detailMessage>The satellite begins as a collection of people scattered across the organization who show an above-average level of security interest or advanced knowledge of new tech stacks and development methodologies. Identifying this group proactively is a step toward creating a social network that speeds the adoption of security into software development. One way to begin is to track the people who stand out during training courses or office hours (see [SM2.3 Create or grow a satellite]). In general, a volunteer army may be easier to lead than one that is drafted.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<!--Additional BsimmPractice Objects-->
+			</practices>
+		</BsimmFunction>
+		<BsimmFunction>
+			<functionName>Intelligence</functionName>
+			<practices>
+				<BsimmPractice>
+					<practiceName>Attack Models</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>AM1.1</measureId>
+									<measureTitle>Create a data classification scheme and inventory.</measureTitle>
+									<detailMessage>The organization agrees on a data classification scheme and uses it to inventory its software according to the kinds of data the software handles, regardless of whether the software is on or off premise. This allows applications to be prioritized by their data classification. Many classification schemes are possible—one approach is to focus on PII, for example. Depending on the scheme and the software involved, it could be easiest to first classify data repositories and then derive classifications for applications according to the repositories they use. Other approaches to the problem include data classification according to protection of intellectual property, impact of disclosure, exposure to attack, relevance to GDPR, or geographic boundaries.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM1.2</measureId>
+									<measureTitle>Identify potential attackers.</measureTitle>
+									<detailMessage>The SSG identifies potential attackers in order to understand their motivations and abilities. The outcome of this exercise could be a set of attacker profiles that include generic sketches for categories of attackers and more detailed descriptions for noteworthy individuals. In some cases, a third-party vendor might be contracted to provide this information. Specific and contextual attacker information is almost always more useful than generic information copied from someone else’s list. Moreover, a list that simply divides the world into insiders and outsiders won’t drive useful results.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM1.3</measureId>
+									<measureTitle>Gather and use attack intelligence.</measureTitle>
+									<detailMessage>The SSG stays ahead of the curve by learning about new types of attacks and vulnerabilities. The information comes from attending conferences and workshops, monitoring attacker forums, and reading relevant publications, mailing lists, and blogs. Make Sun Tzu proud by knowing your enemy; engage with the security researchers who are likely to cause you trouble. In many cases, a subscription to a commercial service provides a reasonable way of gathering basic attack intelligence. Regardless of its origin, attack information must be made actionable and useful for software builders and testers.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>AM2.1</measureId>
+									<measureTitle>Build attack patterns and abuse cases tied to potential attackers.</measureTitle>
+									<detailMessage>The SSG prepares for security testing and architecture analysis by building attack patterns and abuse cases tied to potential attackers (see [AM1.3 Identify potential attackers]). These resources don’t have to be built from scratch for every application to be useful. Instead, there could be standard sets for applications with similar profiles. The SSG will add to the pile based on attack stories, for example, a story about an attack against a poorly designed cloud application could lead to a cloud security attack pattern that drives a new type of testing. If a firm tracks fraud and monetary costs associated with particular attacks, this information can be used to prioritize the process of building attack patterns and abuse cases.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM2.2</measureId>
+									<measureTitle>Create technology-specific attack patterns.</measureTitle>
+									<detailMessage>The SSG creates technology-specific attack patterns to capture knowledge about attacks that target particular technologies. For example, if the organization’s cloud software relies on the cloud vendor’s security apparatus (e.g., cryptography), the SSG could catalogue the quirks of the crypto package and how it might be exploited. Attack patterns directly related to the security frontier (e.g., IoT) can be useful as well. Simply republishing a general guideline (e.g., “Ensure data are protected in transit”) and adding “for mobile applications” on the end does not constitute a technology-specific attack pattern.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM2.3</measureId>
+									<measureTitle>Build and maintain a top N possible attacks list.</measureTitle>
+									<detailMessage>The SSG helps the organization understand attack basics by maintaining a living list of important attacks and using it to drive change. This list combines input from multiple sources such as observed attacks, hacker forums, industry trends, new technology stacks or deployment methods in use, etc. It does not need to be updated with great frequency, and attacks can be coarsely sorted. For example, the SSG might brainstorm twice per year to create lists of attacks the organization should be prepared to counter “now,” “soon,” and “someday.” In some cases, attack model information is used in a list-based approach to architecture analysis, helping focus the analysis as in the case of STRIDE. Don’t just build the list; use it.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM2.4</measureId>
+									<measureTitle>Collect and publish attack stories.</measureTitle>
+									<detailMessage>To maximize the benefit from lessons that don’t always come cheap, the SSG collects and publishes stories about attacks against the organization. Both successful and unsuccessful attacks can be noteworthy, and discussing historical information about software attacks has the added effect of grounding software security in a firm’s reality. This is particularly useful in training classes, to help counter a generic approach that’s overly focused on top 10 lists or irrelevant and outdated platform attacks (see [T1.6 Create and use material specific to company history]). Hiding information about attacks from people building new systems does nothing to garner positive benefit from a negative happenstance.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM2.5</measureId>
+									<measureTitle>Build an internal forum to discuss attacks.</measureTitle>
+									<detailMessage>The organization has an internal forum where the SSG, the satellite, and others discuss attacks and attack methods. The forum serves to communicate the attacker perspective. The SSG could also maintain an internal mailing list where subscribers discuss the latest information on publicly known incidents. Dissection of attacks and exploits that are relevant to a firm are particularly helpful when they spur discussion of development mitigations. Simply republishing items from public mailing lists doesn’t achieve the same benefits as active discussion, nor does a closed discussion hidden from those actually creating code. Everyone should feel free to ask questions and learn about vulnerabilities and exploits. Vigilance means never getting too comfortable (see [SR1.2 Create a security portal]).</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>AM3.1</measureId>
+									<measureTitle>Have a science team that develops new attack methods.</measureTitle>
+									<detailMessage>The SSG has a science team that works to identify and defang new classes of attacks before real attackers even know that they exist. Because the security implications of new technologies have not been fully explored in the wild, doing it yourself is sometimes the best way forward. This isn’t a penetration testing team finding new instances of known types of weaknesses—it’s a research group that innovates new types of attacks. A science team may include well-known security researchers who publish their findings at conferences like DEF CON.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AM3.2</measureId>
+									<measureTitle>Create and use automation to mimic attackers.</measureTitle>
+									<detailMessage>The SSG arms testers with automation to mimic what attackers are going to do. For example, a new attack method identified by the science team could require a new tool, so the SSG packages the new tool and distributes it to testers. The idea here is to push attack capability past what typical commercial tools and offerings encompass, and then repurpose that information for others to use. Tailoring these new tools to a firm’s particular technology stacks and potential attackers is a good idea as well. When technology stacks and coding languages are evolving faster than vendors can innovate, creating your own tools might be the best way forward.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Security Features &amp; Design</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SFD1.1</measureId>
+									<measureTitle>Build and publish security features.</measureTitle>
+									<detailMessage>Some problems are best solved only once. Rather than have each project team implement all of their own security features (e.g., authentication, role management, key management, audit/log, cryptography, and protocols), the SSG provides proactive guidance by building and publishing security features for other groups to use. Generic security features often have to be tailored for specific platforms, such as mobile. For example, a mobile crypto feature will need at least two versions to cover Android and iOS if it uses low level system calls. Project teams benefit from implementations that come preapproved by the SSG, and the SSG benefits by not having to repeatedly track down the kinds of subtle errors that often creep into security features. The SSG can identify an implementation that it likes and promote it as the accepted solution.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SFD1.2</measureId>
+									<measureTitle>Engage SSG with architecture.</measureTitle>
+									<detailMessage>Security is a regular topic in the organization’s software architecture discussion, and the architecture group takes responsibility for security the same way in which it takes responsibility for performance, availability, or scalability. One way to keep security from falling out of this discussion is to have an SSG member attend regular architecture meetings. In other cases, enterprise architecture can help the SSG create secure designs that integrate properly into corporate design standards. Proactive engagement by the SSG is key to success. Moving a well-known system to the cloud means reengaging the SSG, for example. Assume nothing.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SFD2.1</measureId>
+									<measureTitle>Build secure-by-design middleware frameworks and common libraries.</measureTitle>
+									<detailMessage>The SSG takes a proactive role in software design by building or providing pointers to secure-by-design middleware frameworks or common libraries. In addition to teaching by example, this middleware aids architecture analysis and code review because the building blocks make it easier to spot errors. For example, the SSG could modify a popular web framework, such as Spring, to make it easy to meet input validation requirements. Eventually, the SSG can tailor code review rules specifically for the components it offers (see [CR3.1 Use automated tools with tailored rules]). When adopting a middleware framework (or any other widely used software), careful vetting for security before publication is important. Encouraging adoption and use of insecure middleware does not help the software security situation. Generic open source software security architectures, including OWASP ESAPI, should not be considered secure by design. Bolting security on at the end by calling a library is not the way to approach secure design.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SFD2.2</measureId>
+									<measureTitle>Create SSG capability to solve difficult design problems.</measureTitle>
+									<detailMessage>When the SSG is involved early in a new project process, it contributes to new architecture and solves difficult design problems, minimizing the negative impact that security has on other constraints (time to market, price, etc.). If a skilled security architect from the SSG is involved in the design of a new protocol, he or she could analyze the security implications of existing protocols and identify elements that should be duplicated or avoided. Likewise, having a security architect understand the security implications of moving a seemingly well-understood application to the cloud saves a lot of headaches later. Designing for security up front is more efficient than analyzing an existing design for security and then refactoring when flaws are uncovered. Of course, even the best expert might not scale to cover the needs of an entire software portfolio. Some design problems will require specific expertise outside of the SSG.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SFD3.1</measureId>
+									<measureTitle>Form a review board or central committee to approve and maintain secure design patterns.</measureTitle>
+									<detailMessage>A review board or central committee formalizes the process for reaching consensus on design needs and security tradeoffs. Unlike the architecture committee, this group is specifically focused on providing security guidance and also periodically reviews already published design standards (especially around cryptography) to ensure that design decisions do not become stale or out of date. Moreover, a review board can help control the chaos often associated with the adoption of new technologies when development groups might otherwise head out into the wild on their own without ever engaging the SSG.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SFD3.2</measureId>
+									<measureTitle>Require use of approved security features and frameworks.</measureTitle>
+									<detailMessage>Implementers take their security features and frameworks from an approved list. There are two benefits to this activity: developers do not spend time reinventing existing capabilities, and review teams do not have to contend with finding the same old defects in brand new projects or when new platforms are adopted. In particular, the more a project uses proven components, the easier the architecture analysis and code review become (see [AA1.1 Perform security feature review]). Reuse is a major advantage of consistent software architecture and is particularly helpful for agile development and velocity maintenance in CI/CD pipelines.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SFD3.3</measureId>
+									<measureTitle>Find and publish mature design patterns from the organization.</measureTitle>
+									<detailMessage>The SSG fosters centralized design reuse by collecting design patterns from across the organization and publishing them for everyone to use. A section of the SSG website could promote positive elements identified during architecture analysis so that good ideas are spread. This process should be formalized: an ad hoc, accidental noticing is not sufficient. In some cases, a central architecture or technology team can facilitate and enhance this activity. Common design patterns make building software faster, such as using secure design patterns for software, not just applications (microservices, APIs, frameworks, infrastructure, and automation).</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Standards &amp; Requirements</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SR1.1</measureId>
+									<measureTitle>Create security standards.</measureTitle>
+									<detailMessage>Software security requires much more than security features, but security features are part of the job as well. The SSG meets the organization’s demand for security guidance by creating standards that explain the accepted way to adhere to policy and carry out specific security-centric operations. A standard might describe how to perform authentication on an Android device or how to determine the authenticity of a software update (see [SFD1.1 Build and publish security features] for one case where the SSG provides a reference implementation of a security standard). Often, software that is not an application requires its own standard. Standards can be deployed in a variety of ways. In some cases, standards and guidelines can be automated in development environments (e.g., worked into an IDE), but in others, guidance can be explicitly linked to code examples or even containers to make them more actionable and relevant. Standards that are not widely adopted and enforced are not really standards.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR1.2</measureId>
+									<measureTitle>Create a security portal.</measureTitle>
+									<detailMessage>The organization has a well-known central location for information about software security. Typically, this is an internal website maintained by the SSG that people refer to for the latest and greatest on security standards and requirements, as well as for other resources provided by the SSG (e.g., training). An interactive wiki is better than a static portal with guideline documents that rarely change. Organizations can supplement these materials with mailing lists and face-to-face meetings.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR1.3</measureId>
+									<measureTitle>Translate compliance constraints to requirements.</measureTitle>
+									<detailMessage>Compliance constraints are translated into software requirements for individual projects. This is a linchpin in the organization’s compliance strategy: by representing compliance constraints explicitly with requirements, the organization demonstrates that compliance is a manageable task. For example, if the organization routinely builds software that processes credit card transactions, PCI DSS compliance could play a role in the SSDL during the requirements phase. In other cases, technology standards built for international interoperability can include security guidance. Representing these standards as requirements helps with traceability and visibility in the event of an audit. It’s particularly useful to codify the requirements in  reusable code or containers.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SR2.1</measureId>
+									<measureTitle>Create a standards review board.</measureTitle>
+									<detailMessage>The organization creates a standards review board to formalize the process used to develop standards and ensure that all stakeholders have a chance to weigh in. The review board could operate by appointing a champion for any proposed standard, putting the onus on the champion to demonstrate that the standard meets its goals and to get approval and buy-in from the review board. Enterprise architecture or enterprise risk groups sometimes take on the responsibility of creating and managing standards review boards.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR2.2</measureId>
+									<measureTitle>Create standards for technology stacks.</measureTitle>
+									<detailMessage>The organization standardizes on specific technology stacks. For the SSG, this means a reduced workload because the group does not have to explore new technology risks for every new project. Ideally, the organization will create a secure base configuration for each technology stack, further reducing the amount of work required to use the stack safely. A stack might include an operating system, a database, an application server, and a runtime environment for a managed language. The security frontier is a good place to find traction. Currently, mobile technology stacks and platforms as well as cloud-based technology stacks are areas where specific attention to security particularly pays off.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR2.3</measureId>
+									<measureTitle>Identify open source.</measureTitle>
+									<detailMessage>The first step toward managing the risk introduced by open source is to identify the open source components in use across the portfolio and really understand the dependencies. It’s not uncommon to discover old versions of components with known vulnerabilities or multiple versions of the same component. Automated tools for finding open source, whether whole components or large chunks of borrowed code, are one way to approach this activity. An informal annual review or a process that relies solely on developers asking for permission does not generate satisfactory results. At the next level of maturity, this activity is subsumed by a policy constraining the use of open source.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR2.4</measureId>
+									<measureTitle>Create SLA boilerplate.</measureTitle>
+									<detailMessage>The SSG works with the legal department to create a standard SLA boilerplate that is used in contracts with vendors and outsource providers (including cloud providers) to require software security efforts. The legal department understands that the boilerplate also helps prevent compliance and privacy problems. Under the agreement, vendors and outsource providers must meet company-mandated software security standards (see [CP2.4 Include software security SLAs in all vendor contracts]). Boilerplate language might call for software security vendor management solutions, such as vBSIMM measurements or BSIMM scores.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SR3.1</measureId>
+									<measureTitle>Control open source risk.</measureTitle>
+									<detailMessage>The organization has control over its exposure to the vulnerabilities that come along with using open source components and their army of dependencies. Use of open source could be restricted to predefined projects or to open source versions that have been through an SSG security screening process, had unacceptable vulnerabilities remediated, and are made available only through internal repositories. The legal department often spearheads additional open source controls due to the “viral” license problem associated with GPL code. In general, getting the legal department to understand security risks can help move an organization to improve its open source practices. Of course, this control must be applied across the software portfolio.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR3.2</measureId>
+									<measureTitle>Communicate standards to vendors.</measureTitle>
+									<detailMessage>The SSG works with vendors to educate them and promote the organization’s security standards. A healthy relationship with a vendor cannot be guaranteed through contract language alone. The SSG engages with vendors, discusses vendor security practices, and explains in concrete terms (rather than legalese) what the organization expects of its vendors. Any time a vendor adopts the organization’s security standards, it’s a clear win. When a firm’s SSDL is available publicly, communication regarding software security expectations is easier. Likewise, sharing internal practices and measures can make expectations clear. Don’t work with a vendor that has worse security policies than you do.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SR3.3</measureId>
+									<measureTitle>Use secure coding standards.</measureTitle>
+									<detailMessage>Secure coding standards help developers avoid the most obvious bugs and provide ground rules for code review. Secure coding standards are necessarily specific to a programming language or platform, and they can address the use of popular frameworks and libraries, but mobile platforms need their own specific coding standards. If the organization already has coding standards for other purposes, the secure coding standards should build upon them. A clear set of secure coding standards is a good way to guide both manual and automated code review, as well as to beef up security training with relevant examples. Remember, guidance does not a standard make.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<!--Additional BsimmPractice Objects-->
+			</practices>
+		</BsimmFunction>
+		<BsimmFunction>
+			<functionName>SSDL Touchpoints</functionName>
+			<practices>
+				<BsimmPractice>
+					<practiceName>Architecture Analysis</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>AA1.1</measureId>
+									<measureTitle>Perform security feature review.</measureTitle>
+									<detailMessage>To get started in architecture analysis, center the process on a review of security features. Security-aware reviewers identify the security features in an application (authentication, access control, use of cryptography, etc.) and then study the design looking for problems that would cause these features to fail at their purpose or otherwise prove insufficient. For example, a system that was subject to escalation of privilege attacks because of broken access control or a mobile application that stashed away PII on local storage would both be identified in this kind of review. At higher levels of maturity, the activity of reviewing features is eclipsed by a more thorough approach to AA. In some cases, use of the firm’s secure-by-design components can streamline this process.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AA1.2</measureId>
+									<measureTitle>Perform design review for high-risk applications.</measureTitle>
+									<detailMessage>The organization learns about the benefits of AA by seeing real results for a few high-risk, high-profile applications. The reviewers must have some experience performing detailed design review and breaking the architecture under consideration, especially for new platforms or environments. In all cases, the design review produces a set of architecture flaws and a plan to mitigate them. If the SSG is not yet equipped to perform an in-depth AA, it uses consultants to do this work. Ad hoc review paradigms that rely heavily on expertise can be used here, although they do not scale in the long run. A review focused only on whether a software project has performed the right process steps will not generate expected results. Note that a sufficiently robust design review process cannot be executed at CI/CD speed.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AA1.3</measureId>
+									<measureTitle>Have SSG lead design review efforts.</measureTitle>
+									<detailMessage>The SSG takes a lead role in AA by performing a design review to uncover flaws. Breaking down an architecture is enough of an art that the SSG must be proficient at it before it can turn the job over to the architects, and proficiency requires practice. The SSG cannot be successful on its own, either; it will likely need help from architects or implementers to understand the design. With a clear design in hand, the SSG might carry out the detailed review with a minimum of interaction with the project team. At higher levels of maturity, the responsibility for leading review efforts shifts toward software architects. Approaches to AA (and threat modeling) evolve over time, so it is wise to not expect to set a process and use it forever.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AA1.4</measureId>
+									<measureTitle>Use a risk questionnaire to rank applications.</measureTitle>
+									<detailMessage>To facilitate security feature and design review processes, the SSG uses a risk questionnaire to collect basic information about each application so that it can determine a risk classification and prioritization scheme. Questions might include, “Which programming languages is the application written in?”, “Who uses the application?”, and “Is the application deployed in a container?” A qualified member of the application team completes the questionnaire, which should be short enough that it can be completed in a matter of hours. The SSG might use the answers to categorize the application as high, medium, or low risk. Because a risk questionnaire can be easy to game, it’s important to put into place some spot-checking for validity and accuracy. An overreliance on self-reporting or automation can render this activity impotent.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>AA2.1</measureId>
+									<measureTitle>Define and use AA process.</measureTitle>
+									<detailMessage>The SSG defines and documents a process for AA and applies it in the design reviews it conducts to find flaws. This process includes a standardized approach for thinking about attacks, security properties, and the associated risk, and it is defined rigorously enough that people outside the SSG can be taught to carry it out. Particular attention should be paid to documentation of both the architecture under review and any security flaws uncovered. Tribal knowledge doesn’t count as a defined process. Microsoft’s STRIDE and Synopsys’ ARA are examples of this process, although even these two methodologies for AA have evolved greatly over time.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AA2.2</measureId>
+									<measureTitle>Standardize architectural descriptions (including data flow).</measureTitle>
+									<detailMessage>Defined AA processes (see [AA2.1 Define and use AA process]) use an agreed-upon format to describe architecture, including a means for representing data flow. This format, combined with an AA process, makes AA tractable for people who are not security experts. In the case of cloud applications, data are likely to flow across the Internet, so a network diagram is useful in this case, but the description should go into detail about how the software itself is structured. A standard architecture description can be enhanced to provide an explicit picture of information assets that require protection. Standardized icons that are consistently used in UML diagrams, Visio templates, and whiteboard squiggles are especially useful, too.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>AA3.1</measureId>
+									<measureTitle>Have software architects lead design review efforts.</measureTitle>
+									<detailMessage>Software architects throughout the organization lead the AA process most of the time. The SSG still might contribute to AA in an advisory capacity or under special circumstances, but this activity requires a well understood and well-documented process (see [AA2.1 Define and use AA process]). Even then, consistency is difficult to attain because breaking architecture requires experience.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AA3.2</measureId>
+									<measureTitle>Drive analysis results into standard architecture patterns.</measureTitle>
+									<detailMessage>Failures identified during AA are fed back to the security design committee so that similar mistakes can be prevented in the future through improved design patterns (see [SFD3.1 Form a review board or central committee to approve and maintain secure design patterns]). Security design patterns can interact in surprising ways that break security. The AA process should be applied even when vetted design patterns are in standard use.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>AA3.3</measureId>
+									<measureTitle>Make the SSG available as an AA resource or mentor.</measureTitle>
+									<detailMessage>To build an AA capability outside of the SSG, the SSG advertises itself as a resource or mentor for teams who ask for help in using the AA process (see [AA2.1 Define and use AA process]) to conduct their own design review. The SSG will answer AA questions during office hours and, in some cases, might assign someone to sit with the architect for the duration of the analysis. In the case of high-risk software, the SSG plays a more active mentorship role in applying the AA process.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Code Review</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CR1.1</measureId>
+									<measureTitle>Have the SSG perform ad hoc review.</measureTitle>
+									<detailMessage>The SSG performs an ad hoc code review for high-risk applications in an opportunistic fashion, such as by following up the design review for high-risk applications with a code review. At higher maturity levels, this informal targeting is replaced with a systematic approach. SSG review could involve the use of specific tools and services, or it might be manual, but it has to be proactive. When new technologies pop up, new approaches to code review might become necessary.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR1.2</measureId>
+									<measureTitle>Use automated tools along with manual review.</measureTitle>
+									<detailMessage>Incorporate static analysis into the code review process to make code review more efficient and more consistent. The automation doesn’t replace human judgment, but it does bring definition to the review process and security expertise to reviewers who are not security experts. Note that a specific tool might not cover an entire portfolio, especially when new languages are involved, but that’s no excuse not to review the code. A firm may use an external service vendor as part of a formal code review process for software security, and this service should be explicitly connected to a larger SSDL applied during software development, not just used to “check the security box” on the path to deployment.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR1.3</measureId>
+									<measureTitle>Make code review mandatory for all projects.</measureTitle>
+									<detailMessage>Code review is a mandatory release gate for all projects under the SSG’s purview. Lack of code review or unacceptable results will stop a release or slow it down. While all projects must undergo code review, the review process might be different for different kinds of projects. The review for low-risk projects might rely more heavily on automation, for example, whereas high-risk projects might have no upper bound on the amount of time spent by reviewers. In most cases, a code review gate with a minimum acceptable standard forces projects that don’t pass to be fixed and reevaluated before they ship. A code review tool with nearly all the rules turned off so it can run at CI/CD automation speeds won’t provide sufficient defect coverage.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR1.4</measureId>
+									<measureTitle>Use centralized reporting to close the knowledge loop and drive training.</measureTitle>
+									<detailMessage>The bugs found during code review are tracked in a centralized repository that makes it possible to do both summary and trend reporting for the organization. Code review information can be incorporated into a CISOlevel dashboard that includes feeds from other parts of the security organization (e.g., penetration tests, security testing, black-box testing, and white-box testing). The SSG can also use the reports to demonstrate progress and drive the training curriculum (see [SM2.5 Identify metrics and use them to drive budgets]). Individual bugs make excellent training examples.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CR2.1</measureId>
+									<measureTitle>Assign tool mentors.</measureTitle>
+									<detailMessage>Mentors are available to show developers how to get the most out of code review tools. If the SSG is most skilled with the tools, it could use office hours to help developers establish the right configuration or get started interpreting results. Alternatively, someone from the SSG might work with a development team for the duration of the first review they perform. Centralized use of a tool can be distributed into the development organization over time through the use of tool mentors. Providing installation instructions and URLs to centralized tools does not count as mentoring.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR2.2</measureId>
+									<measureTitle>Use automated tools with tailored rules.</measureTitle>
+									<detailMessage>Customize static analysis to improve efficiency and reduce false positives. Use custom rules to find errors specific to the organization’s coding standards or custom middleware. Turn off checks that aren’t relevant. The same group that provides tool mentoring will likely spearhead the customization. Tailored rules can be explicitly tied to proper usage of technology stacks in a positive sense and avoidance of errors commonly encountered in a firm’s code base in a negative sense.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR2.3</measureId>
+									<measureTitle>Use a top N bugs list (real data preferred).</measureTitle>
+									<detailMessage>The SSG maintains a list of the most important kinds of bugs that it wants to eliminate from the organization’s code and uses it to drive change. It’s okay to start with a generic list pulled from public sources, but a list is much more valuable if it’s specific to the organization and built from real data gathered from code review, testing, and actual incidents. The SSG can periodically update the list and publish a “most wanted” report. (For another way to use the list, see [T1.6 Create and use material specific to company history]). Some firms use multiple tools and real code base data to build top N lists, not constraining themselves to a particular service or tool. One potential pitfall with a top N list is the problem of “looking for your keys only under the street light”—that is, it only includes known problems. For example, the OWASP Top 10 list rarely reflects an organization’s bug priorities. Simply sorting the day’s bug data by number of occurrences doesn’t produce a satisfactory top N list because these data change so often. A top N bugs list should be used to kill bugs.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CR3.1</measureId>
+									<measureTitle>Build a factory.</measureTitle>
+									<detailMessage>Combine assessment results so that multiple analysis techniques feed into one reporting and remediation process. The SSG might write scripts to invoke multiple detection techniques automatically and combine the results into a format that can be consumed by a single downstream review and reporting solution. Analysis engines may combine static and dynamic analysis, and different review streams, such as mobile versus standard approaches, can be unified with a factory. The tricky part of this activity is normalizing vulnerability information from disparate sources that use conflicting terminology. In some cases, using a standardized taxonomy (perhaps a CWE-like approach) can help with normalization. Combining multiple sources helps drive better-informed risk mitigation decisions.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR3.2</measureId>
+									<measureTitle>Build a capability for eradicating specific bugs from the entire codebase.</measureTitle>
+									<detailMessage>When a new kind of bug is found, the SSG writes rules to find it and uses the rules to identify all occurrences of the new bug throughout the entire codebase. It’s possible to eradicate the bug type entirely without waiting for every project to reach the code review portion of its lifecycle. A firm with only a handful of software applications will have an easier time with this activity than firms with a large number of large applications.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR3.3</measureId>
+									<measureTitle>Automate malicious code detection.</measureTitle>
+									<detailMessage>Automated code review is used to identify dangerous code written by malicious in-house developers or outsource providers. Examples of malicious code that could be targeted include back doors, logic bombs, time bombs, nefarious communication channels, obfuscated program logic, and dynamic code injection. Although out-of-the-box automation might identify some generic malicious-looking constructs, custom rules for static analysis tools used to codify acceptable and unacceptable code patterns in the organization’s codebase will quickly become a necessity. Manual code review for malicious code is a good start, but it is insufficient to complete this activity.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CR3.4</measureId>
+									<measureTitle>Enforce coding standards.</measureTitle>
+									<detailMessage>A violation of the organization’s secure coding standards is sufficient grounds for rejecting a piece of code. Code review is objective—it shouldn’t devolve into a debate about whether or not bad code is exploitable. The enforced portion of the standard could start out being as simple as a list of banned functions. In some cases, coding standards for developers are published specific to technology stacks (for example, guidelines for C++, Spring, or Swift) and then enforced during the code review process or directly in the IDE. Standards can be positive (“do it this way”) or negative (“do not use this API”).</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Security Testing</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>ST1.1</measureId>
+									<measureTitle>Ensure QA supports edge/boundary value condition testing.</measureTitle>
+									<detailMessage>The QA team goes beyond functional testing to perform basic adversarial tests and probe simple edge cases and boundary conditions, no attacker skills required. When QA understands the value of pushing past standard functional testing using acceptable input, it begins to move slowly toward thinking like an adversary. A discussion of boundary value testing leads naturally to the notion of an attacker probing the edges on purpose. What happens when you enter the wrong password over and over?</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>ST1.2</measureId>
+									<measureTitle>Drive tests with security requirements and security features.</measureTitle>
+									<detailMessage>Testers target declarative security mechanisms with tests derived from requirements and security features. A tester could try to access administrative functionality as an unprivileged user, for example, or verify that a user account becomes locked after some number of failed authentication attempts. For the most part, security features can be tested in a fashion similar to other software features; security mechanisms based on requirements such as account lockout, transaction limitations, entitlements, and so on are also tested. Of course, software security is not security software, but getting started with features is easy. New deployment models, such as cloud, might require novel test approaches.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>ST2.1</measureId>
+									<measureTitle>Integrate black-box security tools into the QA process.</measureTitle>
+									<detailMessage>The organization uses one or more black-box security testing tools as part of the QA process. Such tools are valuable because they encapsulate an attacker’s perspective, albeit generically; tools such as IBM Security AppScan or Fortify WebInspect are relevant for web applications, and fuzzing frameworks such as Synopsys Defensics are applicable for most network protocols. In some situations, other groups might collaborate with the SSG to apply the tools, for example, a testing team could run the tool but come to the SSG for help interpreting the results. Because of the way testing is integrated into agile development approaches, black-box tools might be used directly by engineering. Regardless of who runs the black-box tool, the testing should be properly integrated into the QA cycle of the SSDL.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>ST2.2</measureId>
+									<measureTitle>Share security results with QA.</measureTitle>
+									<detailMessage>The SSG routinely shares results from security reviews with the QA department. Using security results to inform and evolve particular testing patterns can be a powerful mechanism leading to better security testing. CI/CD makes this easier because of the way testing is integrated in a cross-functional team. Over time, QA engineers learn the security mindset, and this activity benefits from an engineering-focused QA function that is highly technical.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>ST2.3</measureId>
+									<measureTitle>Include security tests in QA automation.</measureTitle>
+									<detailMessage>Security tests run alongside functional tests as part of automated regression testing. In fact, the same automation framework houses both, and security testing is part of the routine. Security tests can be driven from abuse cases identified earlier in the lifecycle or tests derived from creative tweaks of functional tests.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>ST2.4</measureId>
+									<measureTitle>Perform fuzz testing customized to application APIs.</measureTitle>
+									<detailMessage>Test automation engineers or agile team members customize a fuzzing framework to the organization’s APIs. They could begin from scratch or use an existing fuzzing toolkit, but customization goes beyond creating custom protocol descriptions or file format templates. The fuzzing framework has a built-in understanding of the application interfaces it calls into. Test harnesses developed explicitly for particular applications make good places to integrate fuzz testing.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>ST3.1</measureId>
+									<measureTitle>Drive tests with risk analysis results.</measureTitle>
+									<detailMessage>Testers use architecture analysis results to direct their work. If the architecture analysis concludes that “the security of the system hinges on the transactions being atomic and not being interrupted partway through,” for example, then torn transactions will become a primary target in adversarial testing. Adversarial tests like these can be developed according to risk profile, with high-risk flaws at the top of the list.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>ST3.2</measureId>
+									<measureTitle>Leverage coverage analysis.</measureTitle>
+									<detailMessage>Testers measure the code coverage of their security tests (see [ST2.5 Include security tests in QA automation]) to identify code that isn’t being exercised. Code coverage analysis drives increased security testing depth. Standard-issue black-box testing tools achieve exceptionally low coverage, leaving a majority of the software under test unexplored, which is not a testing best practice. Using standard measurements for coverage such as function coverage, line coverage, or multiple condition coverage is fine.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>ST3.3</measureId>
+									<measureTitle>Begin to build and apply adversarial security tests (abuse cases).</measureTitle>
+									<detailMessage>Testing begins to incorporate test cases based on abuse cases (see [AM2.1 Build attack patterns and abuse cases tied to potential attackers]), and testers move beyond verifying functionality and take on the attacker’s perspective. One way to do this is to systematically attempt to replicate incidents from the organization’s history. Abuse and misuse cases based on the attacker’s perspective can also be driven from security policies, attack intelligence, and standards. This turns the corner from testing features to attempting to break the software under test.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<!--Additional BsimmPractice Objects-->
+			</practices>
+		</BsimmFunction>
+		<BsimmFunction>
+			<functionName>Deployment</functionName>
+			<practices>
+				<BsimmPractice>
+					<practiceName>Penetration Testing</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>PT1.1</measureId>
+									<measureTitle>Use external penetration testers to find problems.</measureTitle>
+									<detailMessage>Many organizations aren’t willing to address software security until there’s unmistakable evidence that the organization isn’t somehow magically immune to the problem. If security has not been a priority, external penetration testers can demonstrate that the organization’s code needs help. Penetration testers could be brought in to break a high-profile application to make the point. Over time, the focus of penetration testing moves from “I told you our stuff was broken” to a smoke test and sanity check done before shipping. External penetration testers bring a new set of eyes to the problem.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>PT1.2</measureId>
+									<measureTitle>Feed results to the defect management and mitigation system.</measureTitle>
+									<detailMessage>Penetration testing results are fed back to development through established defect management or mitigation channels, and development responds via a defect management and release process. Emailing them around doesn’t count. Properly done, the exercise demonstrates the organization’s ability to improve the state of security, and many firms are beginning to emphasize the critical importance of not just identifying but actually fixing security problems. One way to ensure attention is to add a security flag to the bug-tracking and defect management system. Evolving DevOps and integrated team structures do not eliminate the need for formalized defect management systems.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>PT1.3</measureId>
+									<measureTitle>Use penetration testing tools internally.</measureTitle>
+									<detailMessage>The organization creates an internal penetration testing capability that uses tools. This capability can be part of the SSG or part of a specialized team elsewhere in the organization, with the tools improving the efficiency and repeatability of the testing process (and a frequently necessary part of CI/CD environments). Tools can include off-the-shelf products, standard-issue network penetration tools that understand the application layer, and handwritten scripts. Free-time or crisis-driven efforts do not constitute an internal capability.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>PT2.1</measureId>
+									<measureTitle>Provide penetration testers with all available information.</measureTitle>
+									<detailMessage>Penetration testers, whether internal or external, can do deeper analysis and find more interesting problems after they receive source code, design documents, architecture analysis results, and code review results. Penetration testers need everything that is created throughout the SSDL. If your penetration tester doesn’t ask for the code, you need a new penetration tester.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>PT2.2</measureId>
+									<measureTitle>Schedule periodic penetration tests for application coverage.</measureTitle>
+									<detailMessage>The SSG periodically tests all applications in its purview according to an established schedule, which could be tied to a calendar or a release cycle. High-profile applications might get a penetration test at least once a year. This testing serves as a sanity check and helps ensure that yesterday’s software isn’t vulnerable to today’s attacks; it also helps maintain the security of software configurations and environments, especially containers and components in the cloud. One important aspect of periodic testing is to make sure that the problems identified are actually fixed and don’t creep back into the build. New automation created for CI/CD deserves penetration testing as well.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>PT3.1</measureId>
+									<measureTitle>Use external penetration testers to perform deep-dive analysis.</measureTitle>
+									<detailMessage>The organization uses external penetration testers to do deep-dive analysis for critical projects and to introduce fresh thinking into the SSG. These testers are experts and specialists who keep the organization up to speed with the latest version of the attacker’s perspective and have a track record for breaking the type of software being tested. Skilled penetration testers will always break a system, but the question is whether they demonstrate new kinds of thinking about attacks that can be useful when designing, implementing, and hardening new systems. Creating new types of attacks from threat intelligence and abuse cases prevents checklist-driven approaches that only look for known types of problems; it’s pretty much essential when it comes to new technology.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>PT3.2</measureId>
+									<measureTitle>Have the SSG customize penetration testing tools and scripts.</measureTitle>
+									<detailMessage>The SSG either creates penetration testing tools or adapts publicly available ones to more efficiently and comprehensively attack the organization’s systems. Tools improve the efficiency of the penetration testing process without sacrificing the depth of problems that the SSG can identify. Automation can be particularly valuable under agile methodologies because it helps teams go faster. Tools that can be tailored are always preferable to generic tools. This activity considers both the depth of tests and their scope.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Software Environment</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SE1.1</measureId>
+									<measureTitle>Use application input monitoring.</measureTitle>
+									<detailMessage>The organization monitors the input to the software that it runs in order to spot attacks. For web code, a web application firewall (WAF) can do the job; other kinds of software likely require other approaches. The SSG might be responsible for the care and feeding of the system, but incident response is not part of this activity. Defanged WAFs that write log files can be useful if someone periodically reviews the logs. A WAF that’s unmonitored makes no noise when an application falls in the woods.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE1.2</measureId>
+									<measureTitle>Ensure host and network security basics are in place.</measureTitle>
+									<detailMessage>The organization provides a solid foundation for software by ensuring that host and network security basics are in place. Operations security teams are usually responsible for patching operating systems, maintaining firewalls, and properly configuring cloud services, but doing software security before network security is like putting on pants before putting on underwear.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SE2.1</measureId>
+									<measureTitle>Publish installation guides.</measureTitle>
+									<detailMessage>The SSDL requires the creation of an installation guide or a clearly described configuration, such as for a container, to help deployment teams and operators install and configure the software securely. If special steps are required to ensure a deployment is secure, the steps are either outlined in the installation guide or explicitly noted in deployment automation. The guide should include a discussion of COTS components, too. In some cases, installation guides are distributed to customers who buy the software. Make sure that all deployment automation can be understood by smart humans and not just a machine. Evolving DevOps and integrated team structures do not eliminate the need for human-readable guidance. Of course, secure by default is always the best way to go.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE2.2</measureId>
+									<measureTitle>Use code signing.</measureTitle>
+									<detailMessage>The organization uses code signing for software published across trust boundaries. Code signing is particularly useful for protecting the integrity of software that leaves the organization’s control, such as shrink-wrapped applications or thick clients. The fact that some mobile platforms require application code to be signed does not indicate institutional use of code signing.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>SE3.1</measureId>
+									<measureTitle>Use code protection.</measureTitle>
+									<detailMessage>To protect intellectual property and make exploit development harder, the organization erects barriers to reverse engineering. This is particularly important for widely distributed mobile applications. Obfuscation techniques could be applied as part of the production build and release process. Employing platform-specific controls such as Data Execution Prevention (DEP), Safe Structured Error Handling (SafeSEH), and Address Space Layout Randomization (ASLR) can make exploit development more difficult.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE3.2</measureId>
+									<measureTitle>Use application behavior monitoring and diagnostics.</measureTitle>
+									<detailMessage>The organization monitors the behavior of production software to look for misbehavior or signs of attack. This activity goes beyond host and network monitoring to look for software-specific problems, such as indications of malicious behavior. Intrusion detection and anomaly detection systems at the application level may focus on an application’s interaction with the operating system (through system calls) or with the kinds of data that an application consumes, originates, and manipulates.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE3.3</measureId>
+									<measureTitle>Use application containers.</measureTitle>
+									<detailMessage>The organization uses application containers to support its software security goals. The primary drivers for using containers include ease of deployment, a tighter coupling of applications with their dependencies, and isolation without the overhead of deploying a full OS on a virtual machine. Containers provide a convenient place for security controls to be applied and updated consistently. The ones used in development or test environments without reference to security do not count.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE3.4</measureId>
+									<measureTitle>Use orchestration for containers and virtualized environments.</measureTitle>
+									<detailMessage>The organization uses automation to scale container and virtual machine deployments in a disciplined way. Orchestration processes take advantage of built-in and add-on security controls to ensure each deployed container and virtual machine meets predetermined security requirements. Setting security behaviors in aggregate allows for rapid change when the need arises. Of course, orchestration platforms are themselves software that, in turn, requires security patching and configuration. If you use Kubernetes, make sure you patch Kubernetes.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE3.5</measureId>
+									<measureTitle>Enhance application inventory with operations bill of materials.</measureTitle>
+									<detailMessage>A list of applications and their locations in production environments is essential information for any well-run enterprise (see [CMVM2.3 Develop an operations inventory of applications]). In addition, a manifest detailing the components, dependencies, configurations, external services, and so on for all production software allows organizations to secure all the things. That is, to react with agility as attackers and attacks evolve, compliance requirements change, and the number of items to patch grows quite large. Knowing all the components in running software—whether they’re in private data centers, in clouds, or sold as box products—allows for timely response when unfortunate events occur.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>SE3.6</measureId>
+									<measureTitle>Ensure cloud security basics.</measureTitle>
+									<detailMessage>Of course, you already do [SE1.2 Ensure host and network security basics are in place], right? Someone must ensure that basic requirements are met in cloud deployments as well. In the increasingly software-defined world, you must explicitly implement security features and controls (some of which may be built in) at least as good as those built with cables and physical hardware. Nothing is as automatic as it seems.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>Configuration &amp; Vulnerability Management</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CMVM1.1</measureId>
+									<measureTitle>Create or interface with incident response.</measureTitle>
+									<detailMessage>The SSG is prepared to respond to an incident and is regularly included in the incident response process, either by creating its own incident response capability or regularly interfacing with the organization’s existing team. A regular meeting between the SSG and the incident response team can keep information flowing in both directions. Sometimes cloud service providers need to be looped in as well. In many cases, SSIs evolved from incident response teams who began to realize that software vulnerabilities were the bane of their existence.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CMVM1.2</measureId>
+									<measureTitle>Identify software defects found in operations monitoring and feed them back to development.</measureTitle>
+									<detailMessage>Defects identified through operations monitoring are fed back to development and used to change developer behavior. The contents of production logs can be revealing (or can reveal the need for improved logging). In some cases, providing a way to enter incident triage data into an existing bug-tracking system (making use of a special security flag) seems to work. The idea is to close the information loop and make sure that security problems get fixed. In the best of cases, processes in the SSDL can be improved based on operational data.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>2</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CMVM2.1</measureId>
+									<measureTitle>Have emergency codebase response.</measureTitle>
+									<detailMessage>The organization can make quick code changes when an application is under attack. A rapid-response team works in conjunction with the application owners and the SSG to study the code and the attack, find a resolution, and push a patch into production. Often, the emergency response team is the development team itself, especially when agile methodologies are in use. Fire drills don’t count; a well-defined process is required, and a process that has never been used might not actually work.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CMVM2.2</measureId>
+									<measureTitle>Track software bugs found in operations through the fix process.</measureTitle>
+									<detailMessage>Defects found in operations are fed back to development, entered into established defect management systems, and tracked through the fix process. This capability could come in the form of a two-way bridge between the bug finders and the bug fixers. Make sure the loop is closed completely. Setting a security flag in the bug-tracking system can help facilitate tracking.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CMVM2.3</measureId>
+									<measureTitle>Develop an operations inventory of applications.</measureTitle>
+									<detailMessage>The organization has a map of its software deployments. If a piece of code needs to be changed, Operations or DevOps can reliably identify all the places where the change needs to be installed. Common components shared between multiple projects are noted so that, when an error occurs in one application, other applications that share the same components can be fixed as well. Remember, open source components are components, too.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<BsimmLevel>
+							<levelNum>3</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>CMVM3.1</measureId>
+									<measureTitle>Fix all occurrences of software bugs found in operations.</measureTitle>
+									<detailMessage>The organization fixes all instances of each bug found during operations, not just the small number of instances that trigger bug reports. This requires the ability to reexamine the entire codebase when new kinds of bugs come to light (see [CR3.3 Build capability for eradicating specific bugs from entire codebase]). One way to approach this is to create a rule set that generalizes a deployed bug into something that can be scanned for via automated code review.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CMVM3.2</measureId>
+									<measureTitle>Enhance the SSDL to prevent software bugs found in operations.</measureTitle>
+									<detailMessage>Experience from operations leads to changes in the SSDL, which is strengthened to prevent the reintroduction of bugs found during operations. To make this process systematic, each incident response postmortem could include a “feedback to SSDL” step. This works best when root-cause analysis pinpoints where in the SDLC an error could have been introduced or slipped by uncaught. Cross-functional DevOps teams might have an easier time with this because all the players are involved. An ad hoc approach is not sufficient.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CMVM3.3</measureId>
+									<measureTitle>Simulate software crises.</measureTitle>
+									<detailMessage>The SSG simulates high-impact software security crises to ensure software incident response capabilities minimize damage. Simulations could test for the ability to identify and mitigate specific threats or, in other cases, could begin with the assumption that a critical system or service is already compromised and evaluate the organization’s ability to respond. When simulations model successful attacks, an important question to consider is the time required to clean up. Regardless, simulations must focus on security-relevant software failure and not on natural disasters or other types of emergency response drills. If the data center is burning to the ground, the SSG won’t be among the first responders.</detailMessage>
+								</BsimmMeasure>
+								<BsimmMeasure>
+									<measureId>CMVM3.4</measureId>
+									<measureTitle>Operate a bug bounty program.</measureTitle>
+									<detailMessage>The organization solicits vulnerability reports from external researchers and pays a bounty for each verified and accepted vulnerability received. Payouts typically follow a sliding scale linked to multiple factors, such as vulnerability type (e.g., remote code execution is worth $10,000 versus CSRF is worth $750), exploitability (demonstrable exploits command much higher payouts), or specific service and software versions (widely-deployed or critical services warrant higher payouts). Ad hoc or short-duration activities, such as capture- the-flag contests, do not count.</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<!--Additional BsimmPractice Objects-->
+			</practices>
+		</BsimmFunction>
+		<!--Additional BsimmFunction Objects-->
+	</functions>
+	<comparisons>
+		<BsimmComparison>
+			<comparisonTitle>Earth Comparison</comparisonTitle>
+			<functions>
+				<BsimmComparisonFunction>
+					<functionName>Governance</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Strategy &amp; Metrics</practiceName><!-- Must match a practice above -->
+							<value>1.90</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Compliance &amp; Policy</practiceName><!-- Must match a practice above -->
+							<value>1.90</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Training</practiceName><!-- Must match a practice above -->
+							<value>1.30</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>Intelligence</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Attack Models</practiceName><!-- Must match a practice above -->
+							<value>1.20</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Security Features &amp; Design</practiceName><!-- Must match a practice above -->
+							<value>1.60</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Standards &amp; Requirements</practiceName><!-- Must match a practice above -->
+							<value>1.80</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>SSDL Touchpoints</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Architecture Analysis</practiceName><!-- Must match a practice above -->
+							<value>1.20</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Code Review</practiceName><!-- Must match a practice above -->
+							<value>1.40</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Security Testing</practiceName><!-- Must match a practice above -->
+							<value>1.40</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>Deployment</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Penetration Testing</practiceName><!-- Must match a practice above -->
+							<value>1.40</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Software Environment</practiceName><!-- Must match a practice above -->
+							<value>1.60</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Configuration &amp; Vulnerability Management</practiceName><!-- Must match a practice above -->
+							<value>2.00</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<!--Additional BsimmComparisonFunction Objects-->
+			</functions>
+		</BsimmComparison>
+		<BsimmComparison>
+			<comparisonTitle>Healthcare Comparison</comparisonTitle>
+			<functions>
+				<BsimmComparisonFunction>
+					<functionName>Governance</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Strategy &amp; Metrics</practiceName><!-- Must match a practice above -->
+							<value>1.60</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Compliance &amp; Policy</practiceName><!-- Must match a practice above -->
+							<value>1.90</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Training</practiceName><!-- Must match a practice above -->
+							<value>0.90</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>Intelligence</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Attack Models</practiceName><!-- Must match a practice above -->
+							<value>0.90</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Security Features &amp; Design</practiceName><!-- Must match a practice above -->
+							<value>1.40</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Standards &amp; Requirements</practiceName><!-- Must match a practice above -->
+							<value>1.50</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>SSDL Touchpoints</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Architecture Analysis</practiceName><!-- Must match a practice above -->
+							<value>1.00</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Code Review</practiceName><!-- Must match a practice above -->
+							<value>1.00</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Security Testing</practiceName><!-- Must match a practice above -->
+							<value>1.00</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>Deployment</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Penetration Testing</practiceName><!-- Must match a practice above -->
+							<value>1.30</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Software Environment</practiceName><!-- Must match a practice above -->
+							<value>1.30</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Configuration &amp; Vulnerability Management</practiceName><!-- Must match a practice above -->
+							<value>1.70</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<!--Additional BsimmComparisonFunction Objects-->
+			</functions>
+		</BsimmComparison>
+		<BsimmComparison>
+			<comparisonTitle>Cloud Comparison</comparisonTitle>
+			<functions>
+				<BsimmComparisonFunction>
+					<functionName>Governance</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Strategy &amp; Metrics</practiceName><!-- Must match a practice above -->
+							<value>2.30</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Compliance &amp; Policy</practiceName><!-- Must match a practice above -->
+							<value>2.20</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Training</practiceName><!-- Must match a practice above -->
+							<value>2.00</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>Intelligence</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Attack Models</practiceName><!-- Must match a practice above -->
+							<value>1.40</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Security Features &amp; Design</practiceName><!-- Must match a practice above -->
+							<value>1.90</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Standards &amp; Requirements</practiceName><!-- Must match a practice above -->
+							<value>2.1</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>SSDL Touchpoints</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Architecture Analysis</practiceName><!-- Must match a practice above -->
+							<value>1.00</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Code Review</practiceName><!-- Must match a practice above -->
+							<value>1.50</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Security Testing</practiceName><!-- Must match a practice above -->
+							<value>1.30</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>Deployment</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>Penetration Testing</practiceName><!-- Must match a practice above -->
+							<value>1.50</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Software Environment</practiceName><!-- Must match a practice above -->
+							<value>1.80</value>
+						</BsimmComparisonPractice>
+						<BsimmComparisonPractice>
+							<practiceName>Configuration &amp; Vulnerability Management</practiceName><!-- Must match a practice above -->
+							<value>2.30</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<!--Additional BsimmComparisonFunction Objects-->
+			</functions>
+		</BsimmComparison>
+		<!--Additional BsimmComparison Objects-->
+	</comparisons>
+</BsimmSurvey>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Team Info XML.
+  Copyright Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="3.1" targetNamespace="https://analysiscenter.veracode.com/schema/teaminfo/3.0" xmlns:tns="https://analysiscenter.veracode.com/schema/teaminfo/3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="teaminfo">
+    <xs:annotation>
+		<xs:documentation>
+			This is a wrapper for the entire Team Info xml file.
+			
+			Attributes
+    			* account_id - The unique identifier for the account.
+				* teaminfo_version - The version of the api.
+				* team_id - The unique identifier for the team.
+				* team_name - The team name.
+				* creation_date - The date the team was created on.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="users" minOccurs="0" maxOccurs="unbounded">
+		  <xs:annotation>
+    		<xs:documentation>
+    			The users element contains a list of user names.
+    			
+    			Attributes
+    			* usernames - a comma delineated list of user names within the team.
+    		</xs:documentation>
+    	  </xs:annotation>
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="usernames"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+          <xs:element name="user" minOccurs="0" maxOccurs="unbounded" type="tns:UserType"/>
+          <xs:element name="application" minOccurs="0" maxOccurs="unbounded" type="tns:AppType"/>
+      </xs:sequence>
+      <xs:attribute type="xs:integer" name="account_id"/>
+	  <xs:attribute type="xs:decimal" name="teaminfo_version"/>
+      <xs:attribute type="xs:integer" name="team_id"/>
+      <xs:attribute type="xs:string" name="team_name"/>
+      <xs:attribute type="xs:boolean" name="can_view_shared_types"/>
+	  <xs:attribute type="xs:string" name="business_unit"/>
+      <xs:attribute type="xs:string" name="creation_date"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UserType">
+        <xs:annotation>
+            <xs:documentation>
+                The user type element contains the info of a single user of the requested team.
+            </xs:documentation>
+        </xs:annotation>
+		<xs:attribute name="username" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="first_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="last_name" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="email_address" type="tns:Email"/>
+   </xs:complexType>
+   <xs:complexType name="AppType">
+        <xs:annotation>
+            <xs:documentation>
+                The issue type element contains the description of a single issue affecting a module
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="app_id" type="xs:long"/>
+        <xs:attribute name="app_name" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="assessment_type" type="xs:string"/>
+		<xs:attribute name="account_id" type="xs:long"/>
+		<xs:attribute name="business_unit" type="xs:string"/>
+   </xs:complexType>
+   <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+	<xs:simpleType name="Email">
+    	<xs:restriction base="xs:string">
+    		<xs:pattern value="[A-Za-z0-9_]+([-+.'][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*\.[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*"/>
+    	</xs:restriction>
+    </xs:simpleType>
+</xs:schema>

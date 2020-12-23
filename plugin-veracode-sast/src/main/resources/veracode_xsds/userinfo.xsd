@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the User Info XML.
+  Copyright Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="3.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/userinfo/3.0"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/userinfo/3.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="userinfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire User Info xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login_account" minOccurs="1" maxOccurs="1" type="tns:LoginAccount"/>
+            </xs:sequence>
+            <xs:attribute name="username" type="tns:LongRequiredTextType"/>
+			<xs:attribute name="userinfo_version" type="xs:decimal" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="LoginAccount">
+        <xs:annotation>
+            <xs:documentation>
+                The login account element contains all the elements and attributes
+                that reflect the data we store for a user profile.
+
+                Attributes
+                * custom_id - a non-veracode generated custom id provided by create or update user api calls
+                * login_account_id - the unique identifier for the user
+                * first_name - the login account's first name
+                * last_name - the login account's last name
+                * login_account_type - the type of login account, either 'user' or 'api'
+				* username - the username of the user, if different than the email_address (for api users)
+                * email_address - the login account's email_address
+                * title - the job title assigned to this user
+				* phone - the phone number assigned to this user
+                * is_saml_user - (optional) whether this user will be allowed to log in through SAML flow
+                * login_enabled - whether the login account is able to log in, either 'true' or 'false'
+                * requires_token - whether the login account requires an RSA token to log in, either 'true' or 'false'
+                * teams - a comma delineated list of teams that this login account is a member of 
+                * roles - a comma delineated list of roles that this login account has been assigned
+				* allowed_ip_addresses - a comma seperated list of allowed ip addresses with wildcards
+                * is_elearning_manager - (optional) whether this login account with an eLearning role has been listed as a manager
+                * elearning_manager - (optional) which manager this login account with an eLearning role is managed by
+                * elearning_track - (optional) which track this login account with an eLearning role has been assigned
+                * elearning_curriculum - (optional) which curriculum this login account with an eLearning role has been assigned
+                * keep_elearning_active - (optional) does the eLearning subscription roll over at renewal
+                * custom_one - (optional) a custom field provided for general use
+                * custom_two - (optional) a custom field provided for general use
+                * custom_three - (optional) a custom field provided for general use
+                * custom_four - (optional) a custom field provided for general use
+                * custom_five - (optional) a custom field provided for general use
+				* last_successful_login_date - (optional) the last successful login attempt of this user
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="custom_id" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="login_account_id" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="first_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="last_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="login_account_type" type="tns:LoginAccountType"/>
+		<xs:attribute name="username" type="tns:LongTextType"/>
+        <xs:attribute name="email_address" type="tns:Email"/>
+        <xs:attribute name="title" type="tns:LongTextType"/>
+		<xs:attribute name="phone" type="tns:LongTextType"/>
+        <xs:attribute name="is_saml_user" type="xs:boolean"/>
+        <xs:attribute name="login_enabled" type="xs:boolean"/>
+        <xs:attribute name="requires_token" type="xs:boolean"/>
+        <xs:attribute name="teams" type="xs:string"/>
+        <xs:attribute name="roles" type="xs:string"/>
+		<xs:attribute name="allowed_ip_addresses" type="xs:string"/>
+        <xs:attribute name="is_elearning_manager" type="xs:boolean"/>
+        <xs:attribute name="elearning_manager" type="tns:LongTextType"/>
+        <xs:attribute name="elearning_track" type="tns:LongTextType"/>
+        <xs:attribute name="elearning_curriculum" type="tns:LongTextType"/>
+        <xs:attribute name="keep_elearning_active" type="tns:LongTextType"/>
+        <xs:attribute name="custom_one" type="tns:LongTextType"/>
+        <xs:attribute name="custom_two" type="tns:LongTextType"/>
+        <xs:attribute name="custom_three" type="tns:LongTextType"/>
+        <xs:attribute name="custom_four" type="tns:LongTextType"/>
+        <xs:attribute name="custom_five" type="tns:LongTextType"/>
+		<xs:attribute name="last_successful_login_date" type="xs:dateTime"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="Email">
+    	<xs:restriction base="xs:string">
+    		<xs:pattern value="[A-Za-z0-9_]+([-+.'][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*\.[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*"/>
+    	</xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LoginAccountType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="user"/>
+            <xs:enumeration value="api"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

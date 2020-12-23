@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Curriculum List XML.
+  Copyright Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="3.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/curriculumlist/3.0"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/curriculumlist/3.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="curriculumlist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Curriculum List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="curriculums" minOccurs="1" maxOccurs="1" type="tns:CurriculumList"/>
+            </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long"/>
+			<xs:attribute name="curriculumlist_version" type="xs:decimal" />
+            <xs:attribute name="elearning_track" type="tns:LongRequiredTextType"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="CurriculumList">
+    	<xs:annotation>
+    		<xs:documentation>
+    			The curriculum list element contains a list of curriculum names.
+    			
+    			Attributes
+    			* curriculum_names - a comma delineated list of curriculum names from the caller's account
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:attribute name="curriculum_names" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

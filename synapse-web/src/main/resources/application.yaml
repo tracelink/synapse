@@ -1,0 +1,32 @@
+server:
+  display-name: Synapse
+
+spring:
+  profiles:
+    active: prd
+
+  thymeleaf:
+    cache:  false
+    mode: HTML
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        cache:
+          use_second_level_cache: true
+          region:
+            factory_class: jcache
+        javax:
+          cache:
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        web-allow-others: true
+  flyway:
+    locations: classpath:db/core
+    schemas: synapsecore

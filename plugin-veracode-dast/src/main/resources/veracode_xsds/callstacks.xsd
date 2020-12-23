@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Call Stack XML.
+  Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="1.1"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/callstacks"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/callstacks"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="callstacks">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Call Stack xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="callstack" minOccurs="0" maxOccurs="unbounded" type="tns:CallStackType"/>
+            </xs:sequence>
+            <xs:attribute name="callstacks_version" type="xs:string" use="optional"/>
+            <xs:attribute name="build_id" type="xs:long"/>
+			<xs:attribute name="flaw_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+	
+	<xs:complexType name="CallStackType">
+		<xs:annotation>
+			<xs:documentation>
+				The call stack element contains basic information
+				unique to this callstack and the sequence of function
+				calls that makes up the call stack.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="call" minOccurs="0" maxOccurs="unbounded" type="tns:CallType"/>
+		</xs:sequence>
+		<xs:attribute name="module_name" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="steps" type="xs:int"/>
+		<xs:attribute name="local_path" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="function_name" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="line_number" type="xs:long"/>
+	</xs:complexType>
+
+    <xs:complexType name="CallType">
+        <xs:annotation>
+            <xs:documentation>
+                The call element contains the data path number, 
+				file name, function name, and line number of 
+				each call in the call stack.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="data_path" type="xs:long"/>
+		<xs:attribute name="file_name" type="tns:LongTextType"/>
+		<xs:attribute name="file_path" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="function_name" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="line_number" type="xs:long"/>
+		<xs:attribute name="relative_location" type="xs:int" use="optional"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:simpleType name="LongTextType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

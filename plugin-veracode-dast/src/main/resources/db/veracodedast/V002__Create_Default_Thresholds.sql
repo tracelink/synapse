@@ -1,0 +1,1 @@
+INSERT INTO veracode_dast_thresholds (green_yellow, yellow_red) VALUES (90, 75);

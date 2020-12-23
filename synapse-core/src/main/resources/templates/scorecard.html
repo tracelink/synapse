@@ -1,0 +1,82 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+	<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+		<h3 class="page-title">Scorecard</h3>
+	</div>
+</div>
+<!-- End Page Header -->
+<!-- Container to be filled in -->
+<div class="row">
+	<div class="col">
+		<div class="card card-small mb-4">
+			<div class="card-header border-bottom">
+				<div class="d-flex align-items-center">
+					<div class="mr-auto">
+						<h6 class="m-0" th:text="${scorecardType}"></h6>
+					</div>
+					<div>
+						<form class="">
+							<select id="filterpicker" class="selectpicker input-group" title="Filter Scorecard" data-style="rounded border" >
+								<option data-content="Product Line Filter" data-id="productLinepicker"/>
+								<option data-content="Project Filter" data-id="projectpicker"/>
+							</select>
+						</form>
+					</div>
+					<div id="pickerforms">
+						<form id="productLinepicker" method="get">
+							<select name="name" class="selectpicker input-group" title="Product Line Filter" data-style="rounded border" data-live-search="true" >
+								<option th:if="${productLineNames.isEmpty()}" data-content="No Product Lines Configured" disabled/>
+								<th:block th:each="productLine : ${productLineNames}" >
+									<option th:data-content="${productLine}" th:value="${productLine}"/>
+								</th:block>
+							</select>
+							<input type="hidden" name="filterType" value="productLine"/>
+							<button class="btn btn-success" type="submit">
+								Filter
+							</button>
+						</form>
+						<form id="projectpicker" method="get">
+							<select name="name" class="selectpicker input-group" title="Project Filter" data-style="rounded border" data-live-search="true" >
+								<option th:if="${filterNames.isEmpty()}" data-content="No Filters Configured" disabled/>
+								<th:block th:each="filter : ${filterNames}">
+									<option th:data-content="${filter}" th:value="${filter}"/>
+								</th:block>
+							</select>
+							<input type="hidden" name="filterType" value="filter"/>
+							<button class="btn btn-success" type="submit">
+								Filter
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-3 text-center">
+				<h6 th:if="${scorecard.rows.size() == 0}">No Product Lines/Filters/Projects Configured</h6>
+				<div class="table-responsive" th:if="${scorecard.rows.size() > 0}">
+					<table class="table mb-0">
+						<thead class="bg-light">
+							<tr>
+								<th scope="col" class="border-0"></th>
+								<th:block th:each="column : ${scorecard.columns}">
+									<th scope="col" class="border-0">
+										<a th:href="${column.pageLink}" th:text="${column.columnName}"/>
+									</th>
+								</th:block>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="row : ${scorecard.rows}">
+								<tr>
+									<td th:text="${row.rowName}" class="font-weight-bold"></td>
+									<th:block th:each="result : ${row.results}">
+										<td th:text="${result.value}" th:class="${'font-weight-bold '+'traffic-light-'+result.color.getColor()}" ></td>
+									</th:block>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

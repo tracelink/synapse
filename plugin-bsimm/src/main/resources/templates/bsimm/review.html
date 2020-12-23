@@ -1,0 +1,140 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">Review Survey Response</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h6 class="m-0" th:text="${surveyName + ' - ' + productLineName}"/>
+            <h6 class="m-0" th:text="${'Score: ' + score}"/>
+          </div>
+          <div class="col-auto">
+            <form action="/bsimm/survey">
+              <button class="btn btn-primary" type="submit">
+                Back To Surveys
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <th:block th:each="function : ${results}">
+      <div class="card card-small mb-4">
+        <div class="card-header border-bottom">
+          <h6 class="m-0" th:text="${function.key}"/>
+        </div>
+        <div class="card-body pt-0">
+          <th:block th:each="practice : ${function.value}"
+                    th:with="responses=${practice.value}">
+            <div class="border-bottom pt-4">
+              <h6 class="m-0" th:text="${practice.key}"/>
+
+              <div class="table-responsive">
+                <table class="table ">
+                  <thead>
+                  <tr class="d-flex">
+                    <th scope="col" class="col-1">Maturity Level</th>
+                    <th scope="col" class="col-3">Measure</th>
+                    <th scope="col" class="col-1">Status</th>
+                    <th scope="col" class="col-2">Responsible</th>
+                    <th scope="col" class="col">Response</th>
+                    <th sec:authorize="hasAuthority('ADMIN')" scope="col" class="col-1">Edit</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <th:block th:each="response : ${responses}">
+                    <tr class="d-flex" th:id="${'response-' + response.getId()}">
+                      <td class="col-1" th:text="${response.getRelatedMeasure().getLevel()}"></td>
+                      <td class="col-3"
+                          th:text="${response.getRelatedMeasure().getMeasureTitle()}"></td>
+                      <td class="col-1" th:text="${response.getStatus()}"></td>
+                      <td class="col-2" th:text="${response.getResponsibleParty()}"></td>
+                      <td class="col" th:text="${response.getResponseText()}"></td>
+                      <td sec:authorize="hasAuthority('ADMIN')" class="col-1">
+                        <button
+                            class="btn btn-warning" data-toggle="modal"
+                            data-target="#editSurveyModal"
+                            th:data-function="${function.key}" th:data-practice="${practice.key}"
+                            th:data-measure="${response.getRelatedMeasure().getMeasureTitle()}"
+                            th:data-detail="${response.getRelatedMeasure().getDetailMessage()}"
+                            th:data-measureid="${response.getRelatedMeasure().getMeasureId()}"
+                            th:data-status="${response.getStatus()}"
+                            th:data-responsible="${response.getResponsibleParty()}"
+                            th:data-response="${response.getResponseText()}">Edit
+                        </button>
+                      </td>
+                    </tr>
+                  </th:block>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </th:block>
+        </div>
+      </div>
+    </th:block>
+  </div>
+</div>
+<!-- Edit Response -->
+<div class="modal fade" id="editSurveyModal" tabindex="-1" role="dialog"
+     aria-labelledby="editSurveyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="editSurveyModalLabel">Edit Response</h4>
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">×
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 id="editModalFunction">Func</h6>
+        <h6 id="editModalPractice">Prace</h6>
+        <h6 id="editModalMeasure">Mea</h6>
+        <p id="editModalDetail">Details</p>
+
+        <form id="editSurveyModalForm" method="post" class="form"
+              action="/bsimm/survey/review">
+          <input type="hidden" th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}"/>
+          <input type="hidden" name="surveyResponseId" th:value="${surveyResponseId}"/>
+          <input type="hidden" id="editModalMeasureId" name="measure"
+                 value=""/>
+          <div class="form-row w-100">
+            <div class="col-auto">
+              <label for="statusInput">Status</label>
+              <select class="selectpicker form-control"
+                      title="Choose a Status" name="status"
+                      data-style="rounded border" id="editModalStatus">
+                <th:block th:each="status : ${statuses}">
+                  <option th:data-content="${status.getStatusText()}"
+                          th:value="${status.getStatusText()}"/>
+                </th:block>
+              </select>
+            </div>
+            <div class="col">
+              <label for="responsibleInput">Responsible Party</label>
+              <input type="text" class="form-control" id="editModalResponsible"
+                     name="responsible" value="">
+            </div>
+          </div>
+          <div class="form-row w-100">
+            <div class="col">
+              <label for="responseInput">Response Comment</label>
+              <input type="text" class="form-control" id="editModalResponse"
+                     name="response" value="">
+            </div>
+          </div>
+          <button class="btn btn-warning" type="submit">Submit Edit</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

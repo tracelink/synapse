@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Shared Report List XML.
+  Veracode, Inc., 2013.
+-->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/3.0/sharedreportlist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/3.0/sharedreportlist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="sharedreportlist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Shared Report List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sharedreport" minOccurs="0" maxOccurs="unbounded" type="tns:SharedReportType"/>
+            </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long" use="required"/>
+			<xs:attribute name="app_id" type="xs:long" use="required"/>
+			<xs:attribute name="app_name" type="xs:string" use="required"/>
+			<xs:attribute name="vendor_name" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="SharedReportType">
+        <xs:annotation>
+            <xs:documentation>
+                The Shared Report type element contains the key elements and attributes
+                that reflect the data we store for a shared report.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="shared_report_id" type="xs:long" use="required"/>
+        <xs:attribute name="report_name" type="xs:string" use="required"/>
+		<xs:attribute name="shared_date" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>

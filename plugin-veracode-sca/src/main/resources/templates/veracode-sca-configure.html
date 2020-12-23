@@ -1,0 +1,255 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">Configurations</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<div class="row border-bottom mb-4">
+  <!-- API Client -->
+  <div class="col-lg-7 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small text-center">
+      <div class="card-header border-bottom">
+        <h6 class="card-title m-0">API Client Settings</h6>
+      </div>
+      <div class="card-footer">
+        <p class="card-title text-left">Current API Client</p>
+        <div th:switch="${client}">
+          <ul th:case="null" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No client configured.</span>
+            </li>
+          </ul>
+          <div th:case="*" class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">User</th>
+                <th scope="col">Test Connection</th>
+                <th scope="col">Fetch Data</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td th:text="${client.apiId}"></td>
+                <td>
+                  <form method="GET" action="/veracode/sca/configure/test">
+                    <button class="btn btn-outline-secondary btn-xs py-1 px-2" name="Submit"
+                            value="Remove" type="Submit">Test
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <form method="POST" action="/veracode/sca/configure/fetch">
+                    <input type="hidden" th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}"/>
+                    <button class="btn btn-outline-secondary btn-xs py-1 px-2" name="Submit"
+                            value="Remove" type="Submit">Fetch
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer border-top">
+        <p class="card-title text-left">Set API Client</p>
+        <div class="row">
+          <div class="col">
+            <form class="d-inline" action="/veracode/sca/configure/client" method="POST">
+              <div class="form-row">
+                <div class="form-group col">
+                  <input type="text" class="form-control" placeholder="API ID" name="apiId">
+                </div>
+                <div class="form-group col">
+                  <input type="password" class="form-control" placeholder="API Secret Key"
+                         name="apiSecretKey">
+                </div>
+                <div class="form-group col">
+                  <button class="btn btn-success form-control" type="submit">
+                    Set API Client
+                  </button>
+                </div>
+              </div>
+              <input type="hidden" th:name="${_csrf.parameterName}"
+                     th:value="${_csrf.token}"/>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End API Client -->
+  <!-- Risk Score Thresholds -->
+  <div class="col-lg-5 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small text-center">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Risk Score Thresholds</h6>
+      </div>
+      <div class="card-body">
+        <p class="card-title text-left">Current Thresholds</p>
+        <div th:switch="${thresholds}">
+          <ul th:case="null" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No thresholds configured.</span>
+            </li>
+          </ul>
+          <div th:case="*" class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Green/Yellow</th>
+                <th scope="col">Yellow/Red</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td th:text=${thresholds.greenYellow}></td>
+                <td th:text="${thresholds.yellowRed}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer border-top">
+        <p class="card-title text-left">Set Thresholds</p>
+        <div class="row">
+          <div class="col">
+            <form class="d-inline" action="/veracode/sca/configure/thresholds" method="POST">
+              <div class="form-row">
+                <div class="form-group col">
+                  <input type="text" class="form-control"
+                         placeholder="Green/Yellow" name="greenYellow">
+                </div>
+                <div class="form-group col">
+                  <input type="text" class="form-control"
+                         placeholder="Yellow/Red" name="yellowRed">
+                </div>
+                <div class="form-group col">
+                  <button class="btn btn-success form-control" type="submit">
+                    Set Thresholds
+                  </button>
+                </div>
+              </div>
+              <input type="hidden" th:name="${_csrf.parameterName}"
+                     th:value="${_csrf.token}"/>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Risk Score Thresholds -->
+</div>
+<div class="row">
+  <!-- Default Branch Settings -->
+  <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small text-center">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Default Branch Settings</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${projects.size()}">
+          <p th:case="0" class="card-text text-left">No project data.</p>
+          <div th:case="*">
+            <p class="card-title text-left">
+              View or Edit the Default Branch
+              <select id="projectPicker" class="selectpicker input-group mt-2 w-75"
+                      title="Select a Veracode SCA Project"
+                      data-style="rounded border" data-live-search="true">
+                <option th:each="project : ${projects}"
+                        th:data-content="${project.getDisplayName()}"
+                        th:id="${project.id}" th:value="${project.name}"/>
+              </select>
+            </p>
+            <div
+                th:class="${activeProject == null ? 'table-responsive d-none' : 'table-responsive'}"
+                id="branchesTable">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">Veracode SCA Project</th>
+                  <th scope="col">Default Branch</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projects}" th:id="${project.name + '-branches'}"
+                    th:class="${activeProject != null && project.name.equals(activeProject) ? 'branchesRow' : 'branchesRow d-none'}">
+                  <td th:text="${project.getDisplayName()}"></td>
+                  <td>
+                    <form method="POST" action="/veracode/sca/configure/branch"
+                          onchange="this.submit()">
+                      <input type="hidden" th:name="project" th:value="${project.name}"/>
+                      <input type="hidden" th:name="${_csrf.parameterName}"
+                             th:value="${_csrf.token}"/>
+                      <select name="defaultBranch" class="custom-select custom-select-sm">
+                        <option th:each="branch : ${project.branches}"
+                                th:selected="${project.defaultBranch.equals(branch)}"
+                                th:value="${branch}" th:text="${branch}"></option>
+                      </select>
+                    </form>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Default Branch Settings -->
+  <!-- Include Workspace Settings -->
+  <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small h-100 text-center">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Included Workspace Settings</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${workspaces.size()}">
+          <ul th:case="0" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No workspace data.</span>
+            </li>
+          </ul>
+          <div th:case="*">
+            <p class="card-title text-left">Current Workspaces</p>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">Workspace</th>
+                  <th scope="col">Included</th>
+                  <th scope="col">Edit Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="workspace : ${workspaces}">
+                  <td th:text=${workspace.name}></td>
+                  <td th:text="${workspace.included ? 'Yes' : 'No'}"></td>
+                  <td>
+                    <form method="POST" action="/veracode/sca/configure/include">
+                      <input type="hidden" th:name="workspace" th:value="${workspace.name}"/>
+                      <input type="hidden" th:name="included" th:value="${!workspace.included}"/>
+                      <input type="hidden" th:name="${_csrf.parameterName}"
+                             th:value="${_csrf.token}"/>
+                      <button
+                          th:class="'btn btn-' + ${workspace.included ? 'warning' : 'primary'} +  ' btn-xs py-1 px-2'"
+                          th:text="${workspace.included ? 'Exclude' : 'Include'}"
+                          name="Submit" type="Submit"></button>
+                    </form>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Include Workspace Settings -->
+</div>

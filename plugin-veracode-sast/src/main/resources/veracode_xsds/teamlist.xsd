@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Team List XML.
+  Copyright Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="3.0" targetNamespace="https://analysiscenter.veracode.com/schema/teamlist/3.0" xmlns:tns="https://analysiscenter.veracode.com/schema/teamlist/3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="teamlist">
+	<xs:annotation>
+		<xs:documentation>
+			This is a wrapper for the entire Team List xml file.
+			
+			Attributes
+    			* account_id - The unique identifier for the account.
+				* teamlist_version - The version of the api.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="team" maxOccurs="unbounded" minOccurs="0">
+		  <xs:annotation>
+		    <xs:documentation>
+			  The team element contains team infomation.
+			  
+			  Attributes
+				* team_id - The unique identifier for the team.
+				* team_name - The team name.
+				* creation_date - The date the team was created on.
+			</xs:documentation>
+		  </xs:annotation>
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute type="xs:integer" name="team_id"/>
+                <xs:attribute type="xs:string" name="team_name"/>
+                <xs:attribute type="xs:string" name="creation_date"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:integer" name="account_id"/>
+	  <xs:attribute type="xs:decimal" name="teamlist_version"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

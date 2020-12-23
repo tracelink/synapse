@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Sandbox Info XML.
+  Veracode, Inc., 2015.
+-->
+<xs:schema elementFormDefault="qualified" version="1.3"
+   targetNamespace="https://analysiscenter.veracode.com/schema/4.0/sandboxinfo"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/4.0/sandboxinfo"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="sandboxinfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Sandbox Info xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sandbox" minOccurs="1" maxOccurs="1" type="tns:SandboxType"/>
+            </xs:sequence>
+			<xs:attribute name="sandboxinfo_version" type="xs:string" use="required"/>
+            <xs:attribute name="account_id" type="xs:long" use="required"/>
+			<xs:attribute name="app_id" type="xs:long" use="required"/>
+			<xs:attribute name="build_id" type="xs:long" use="optional"/>
+			<xs:attribute name="analysis_id" type="xs:long" use="optional"/>
+			<xs:attribute name="analysis_unit_id" type="xs:long" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="SandboxType">
+        <xs:annotation>
+            <xs:documentation>
+                The sandbox type element contains the key elements and attributes
+                that reflect the data we store for a sandbox.
+            </xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="customfield" minOccurs="0" maxOccurs="unbounded" type="tns:CustomFieldType"/>
+		</xs:sequence>
+        <xs:attribute name="sandbox_id" type="xs:long" use="required"/>
+        <xs:attribute name="sandbox_name" type="tns:LongRequiredTextType" use="optional"/>
+        <xs:attribute name="sandbox_status" type="xs:string" use="optional"/>
+        <xs:attribute name="owner" type="tns:LongRequiredTextType" use="required"/>
+		<xs:attribute name="modified_date" type="xs:string" use="required"/>
+		<xs:attribute name="created_date" type="xs:string" use="required"/>
+		<xs:attribute name="expires" type="xs:string" use="optional"/>
+		<xs:attribute name="auto_recreate" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+	<xs:complexType name="CustomFieldType">
+        <xs:annotation>
+            <xs:documentation>
+				The custom field type element contains a name-value pair
+				of account-specific fields and their assigned values:
+
+                * name: The custom name of the field
+				* value: The value assigned to this field for this sandbox
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="value" type="tns:LongTextType"/>
+   </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

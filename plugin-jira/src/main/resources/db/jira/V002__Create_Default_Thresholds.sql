@@ -1,0 +1,1 @@
+INSERT INTO jira_thresholds (green_yellow, yellow_red) VALUES (10, 20);

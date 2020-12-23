@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  This is represents the response to the Archer report request.
+  Veracode, Inc., 2012
+-->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/1.0/archerapi"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/1.0/archerapi"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="archerreport">
+        <xs:annotation>
+            <xs:documentation>
+                This is represents the response to the Archer report request.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="token" type="xs:string"/>
+            <xs:attribute name="archer_report_version" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

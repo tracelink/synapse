@@ -1,0 +1,108 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <h3 class="page-title"
+      th:text="${report.app.name + ' ' + report.app.modelType.toString() + ' Report - ' + #temporals.format(report.reportDate, 'MMM d, YYYY h:mm a')}"></h3>
+</div>
+<!-- End Page Header -->
+<!-- Flaw Details -->
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card">
+      <div class="card-header border-bottom">
+        <h4 class='my-0'>Summary</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <h5>
+            <span class="font-weight-bold">Policy Score:</span>
+            <span th:text="${report.score +'/100'}"></span>
+          </h5>
+        </div>
+        <div class="row pt-3">
+          <h5 class="font-weight-bold">Violations</h5>
+        </div>
+        <div class="row py-2 border-bottom">
+          <div class="col">
+            <div class="row">
+              <h6>Very High</h6>
+            </div>
+            <div class="row">
+              <span th:text="${report.veryHighVios}"></span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <h6>High</h6>
+            </div>
+            <div class="row">
+              <span th:text="${report.highVios}"></span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <h6>Medium</h6>
+            </div>
+            <div class="row">
+              <span th:text="${report.medVios}"></span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <h6>Low</h6>
+            </div>
+            <div class="row">
+              <span th:text="${report.lowVios}"></span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <h6>Very Low</h6>
+            </div>
+            <div class="row">
+              <span th:text="${report.veryLowVios}"></span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <h6>Info</h6>
+            </div>
+            <div class="row">
+              <span th:text="${report.infoVios}"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-4">
+          <h5 class="font-weight-bold">Flaws</h5>
+        </div>
+        <div class="row py-2">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>CWE ID</th>
+                <th>CWE Name</th>
+                <th>Source File</th>
+                <th>Source Line</th>
+                <th>Severity</th>
+                <th>Remediation Status</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="flaw : ${report.flaws}">
+                <td class="px-3" th:text="${flaw.cweId}"/>
+                <td class="px-3" th:text="${flaw.cweName}"/>
+                <td class="px-3" th:text="${flaw.sourceFile}"/>
+                <td class="px-3" th:text="${flaw.line}"/>
+                <td class="px-3" th:text="${flaw.getSeverityString()}"
+                    th:data-order="${flaw.severity}"/>
+                <td class="px-3" th:text="${flaw.remediationStatus}"/>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Flaw Details -->

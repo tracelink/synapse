@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Shared Report Info XML.
+  Veracode, Inc., 2013.
+-->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/3.0/sharedreportinfo"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/3.0/sharedreportinfo"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="sharedreportinfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire shared report Info xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sharedreport" minOccurs="1" maxOccurs="1" type="tns:SharedReport"/>
+            </xs:sequence>
+			<xs:attribute name="account_id" type="xs:long" use="required"/>
+			<xs:attribute name="app_id" type="xs:long" use="required"/>
+			<xs:attribute name="shared_report_id" type="xs:long" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="SharedReport">
+        <xs:annotation>
+            <xs:documentation>
+                The shared report element contains all the elements and attributes
+                that reflect the data we store for a single shared report.
+                This element contains the following attributes:
+
+                * shared_report_id: The shared report identifier we use internally to retrieve information for the shared report
+                * report_name: The name of the shared report.
+=               * policy_name: The name of the policy assigned to this shared report.
+                * policy_version: The version number of the policy
+                * policy_compliance_status: The status of the shared report relative to the guidelines outlined in the policy.
+                * rule_status: Describes the status of the shared report relative to the guidelines outlined in the policy.
+                * scan_status: Scan requirement status.
+                * shared_date: The date when the report was shared.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="analysis_unit" type="tns:AnalysisUnitType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="shared_report_id" type="xs:long" use="required"/>
+        <xs:attribute name="report_name" type="xs:string" use="required"/>
+        <xs:attribute name="policy_name" type="xs:string" use="required"/>
+        <xs:attribute name="policy_version" type="xs:integer" use="required"/>
+        <xs:attribute name="policy_compliance_status" type="tns:PolicyComplianceType" use="required"/>
+        <xs:attribute name="rule_status" type="tns:PolicyComplianceType" use="required"/>
+        <xs:attribute name="scan_status" type="tns:PolicyComplianceType" use="required"/>
+		<xs:attribute name="shared_date" type="xs:string" use="required"/>
+	</xs:complexType>
+
+    <xs:complexType name="AnalysisUnitType">
+        <xs:attribute name="analysis_type" type="tns:AnalysisType" use="required"/>
+        <xs:attribute name="analysis_name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="AnalysisType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Static"/>
+            <xs:enumeration value="Dynamic"/>
+            <xs:enumeration value="Manual"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PolicyComplianceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Calculating..."/>
+            <xs:enumeration value="Not Assessed"/>
+            <xs:enumeration value="Did Not Pass"/>
+            <xs:enumeration value="Conditional Pass"/>
+            <xs:enumeration value="Pass"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

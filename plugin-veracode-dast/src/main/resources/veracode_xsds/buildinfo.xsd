@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Build Info XML.
+  Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="1.4"
+   targetNamespace="https://analysiscenter.veracode.com/schema/4.0/buildinfo"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/4.0/buildinfo"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="buildinfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Build Info xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="build" minOccurs="1" maxOccurs="1" type="tns:BuildType"/>
+            </xs:sequence>
+            <xs:attribute name="buildinfo_version" type="xs:string" use="required"/>
+			<xs:attribute name="account_id" type="xs:long" use="required"/>
+			<xs:attribute name="app_id" type="xs:long" use="required"/>
+			<xs:attribute name="sandbox_id" type="xs:long" use="optional"/>
+			<xs:attribute name="build_id" type="xs:long" use="required"/>
+			<xs:attribute name="dynamic_scan_type" type="tns:DynamicScanType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="BuildType">
+        <xs:annotation>
+            <xs:documentation>
+                The build type element contains all the elements and attributes
+                that reflect the data we store for a single application build.
+                This element contains the following attributes:
+
+                * version:  The version label for the application.
+                * build_id: The build identifier we use interally to retrieve information for the build
+                * submitter: The name of the account or user who submitted the build.
+                * platform:  The platform type for the application.
+                * origin:  Who developed the application. collapse down to the four classifications ?
+                * lifecycle_stage: Stage this application is in currently
+                * policy_name: The name of the policy assigned to this version of the application.
+                * policy_version: The version number of the policy assigned to this version
+                  of the application.
+                * policy_compliance_status:  The status of the application relative to the 
+                  guidelines outlined in the policy.
+                * policy_updated_date: The last time an action occurred which might have affected policy compliance.
+                * rules_status:  Describes the status of the application relative to the guidelines outlined
+                  in the policy, without regard to scan frequency guidelines or grace period guidelines.
+                * grace_period_expired: If true, indicates that there are outstanding flaws that should 
+                  have been fixed before the current date based on the policy associated with the application.
+                * scan_overdue:  If true, indicates that the amount of time between the most recent analysis
+                  and the current date is greater than the minimum scan frequency associated with the policy
+                  assigned to the app.
+                * legacy_scan_engine: Flag to indication if this scan was run with a legacy scan engine, that is
+                 it used the same engine version as the previous scan of its type. This only applies to static scans.
+                * launch_date: The launch date for the build. 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="analysis_unit" type="tns:AnalysisUnitType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="version" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="build_id" type="xs:long"/>
+        <xs:attribute name="submitter" type="xs:string"/>
+        <xs:attribute name="platform" type="tns:PlatformType"/>
+        <xs:attribute name="lifecycle_stage" type="tns:LifecycleStageType"/>
+        <xs:attribute name="results_ready" type="xs:boolean"/>
+        <xs:attribute name="policy_name" type="xs:string"/>
+        <xs:attribute name="policy_version" type="xs:integer"/>
+        <xs:attribute name="policy_compliance_status" type="tns:PolicyComplianceType"/>
+        <xs:attribute name="policy_updated_date" type="xs:string" use="optional"/>
+        <xs:attribute name="rules_status" type="tns:PolicyComplianceType"/>
+        <xs:attribute name="grace_period_expired" type="xs:boolean"/>
+        <xs:attribute name="scan_overdue" type="xs:boolean"/>
+        <xs:attribute name="legacy_scan_engine" type="xs:boolean" use="optional"/>
+        <xs:attribute name="launch_date" type="xs:dateTime" use="optional" />
+   </xs:complexType>
+
+    <xs:complexType name="AnalysisUnitType">
+        <xs:annotation>
+            <xs:documentation>
+                The analysis unit type element contains all the elements and attributes
+                that reflect the data we store for a single analysis unit.
+                This element contains the following required elements:
+
+                * status: if the build is published, in progress
+                * analysis_type: static, dynamic, manual
+                * published_date: date we published if this analysis unit is published
+                * published_date_sec: date we published, represented as a UNIX timestamp
+                * engine_version: The version of the engine that this scan was run against. Static only. 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence/>
+        <xs:attribute name="analysis_type" type="tns:AnalysisType"/>
+        <xs:attribute name="published_date" type="xs:dateTime"/>
+        <xs:attribute name="published_date_sec" type="xs:integer"/>
+        <xs:attribute name="status" type="tns:StatusType"/>
+        <xs:attribute name="estimated_scan_hours" type="xs:integer"/>
+        <xs:attribute name="estimated_delivery_date" type="xs:dateTime"/>
+        <xs:attribute name="engine_version" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DescTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PlatformType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="Windows"/>
+            <xs:enumeration value="Solaris"/> 
+            <xs:enumeration value="Linux"/> 
+            <xs:enumeration value="Java"/>
+            <xs:enumeration value="Windows Mobile"/>
+            <xs:enumeration value="J2ME"/>
+            <xs:enumeration value="ColdFusion"/>
+            <xs:enumeration value="PHP"/>
+            <xs:enumeration value="Android"/>
+            <xs:enumeration value="iOS"/>
+			<xs:enumeration value="Ruby"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+   <xs:simpleType name="LifecycleStageType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="In Development (pre-Alpha)"/>
+            <xs:enumeration value="Internal or Alpha Testing"/>
+            <xs:enumeration value="External or Beta Testing"/>
+            <xs:enumeration value="Deployed (In production and actively developed)"/>
+            <xs:enumeration value="Maintenance (only bug fixes)"/>
+            <xs:enumeration value="Cannot Disclose"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AnalysisType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Static"/>
+            <xs:enumeration value="Dynamic"/>
+            <xs:enumeration value="Manual"/>
+            <xs:enumeration value="eDAST"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Incomplete"/>
+            <xs:enumeration value="Not Submitted to Engine"/>
+            <xs:enumeration value="Submitted to Engine"/>
+            <xs:enumeration value="Scan Errors"/>
+            <xs:enumeration value="Scan In Process"/>
+            <xs:enumeration value="Scan Cancelled"/>
+            <xs:enumeration value="Scan Internal Error"/>
+            <xs:enumeration value="Pending Internal Review"/>
+            <xs:enumeration value="Results Ready"/>
+            <xs:enumeration value="Pre-Scan Submitted"/>
+            <xs:enumeration value="Pre-Scan Failed"/>
+            <xs:enumeration value="Pre-Scan Success"/>
+            <xs:enumeration value="No Modules Defined"/>
+            <xs:enumeration value="Pending Vendor Confirmation"/>
+			<xs:enumeration value="Vendor Reviewing"/>
+            <xs:enumeration value="Pre-Scan Cancelled"/>
+            <xs:enumeration value="Scan On Hold"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PolicyComplianceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Calculating..."/>
+            <xs:enumeration value="Not Assessed"/>
+            <xs:enumeration value="Did Not Pass"/>
+            <xs:enumeration value="Conditional Pass"/>
+            <xs:enumeration value="Pass"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="DynamicScanType">
+    	<xs:restriction base="xs:string">
+    		<xs:enumeration value="mp"></xs:enumeration>
+    		<xs:enumeration value="ds"></xs:enumeration>
+    	</xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

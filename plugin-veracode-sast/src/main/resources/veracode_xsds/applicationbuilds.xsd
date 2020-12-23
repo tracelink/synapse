@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Application Profile XML.
+  Copyright Veracode, Inc., 2009.
+-->
+<xs:schema elementFormDefault="qualified" version="1.1"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/applicationbuilds"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/applicationbuilds"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="applicationbuilds">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Application Builds xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="application" minOccurs="0" maxOccurs="unbounded" type="tns:ApplicationType"/>
+            </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ApplicationType">
+        <xs:annotation>
+            <xs:documentation>
+                The application type element contains all the elements and attributes
+                that reflect the data we store for an application profile.
+
+                Elements
+                * builds - list of builds for the application
+                * description - for the application
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="description" type="tns:DescTextType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="customfield" type="tns:CustomFieldType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="build" minOccurs="0" maxOccurs="unbounded" type="tns:BuildType"/>
+        </xs:sequence>
+        <xs:attribute name="app_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="app_id" type="xs:long"/>
+        <xs:attribute name="vendor" type="xs:string" use="optional"/>
+        <xs:attribute name="industry_vertical" type="tns:IndustryVerticalType"/>
+        <xs:attribute name="assurance_level" type="tns:BusinessCriticalityType"/>
+        <xs:attribute name="business_criticality" type="tns:BusinessCriticalityType"/>
+        <xs:attribute name="origin" type="tns:OriginType"/>
+        <xs:attribute name="modified_date" type="xs:string"/>
+        <xs:attribute name="cots" type="xs:boolean"/>
+        <xs:attribute name="business_unit" type="xs:string"/>
+        <xs:attribute name="business_owner" type="xs:string"/>
+        <xs:attribute name="tags" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="BuildType">
+        <xs:annotation>
+            <xs:documentation>
+                The build type element contains all the elements and attributes
+                that reflect the data we store for a single application build.
+                This element contains the following attributes:
+
+                * version:  The version label for the application.
+                * build_id: The build identifier we use interally to retrieve information for the build
+                * submitter: The name of the account or user who created the build
+                * platform:  The platform type for the application
+                * origin:  Who developed the application. collapse down to the four classifications ?
+                * lifecycle_stage: Stage this application is in currently
+                * policy_name: The name of the policy assigned to this version of the application.
+                * policy_version: The version number of the policy assigned to this version
+                  of the application.
+                * policy_compliance_status:  The status of the application relative to the 
+                  guidelines outlined in the policy.
+                * rules_status:  Describes the status of the application relative to the guidelines outlined
+                  in the policy, without regard to scan frequency guidelines or grace period guidelines.
+                * grace_period_expired: If true, indicates that there are outstanding flaws that should 
+                  have been fixed before the current date based on the policy associated with the application.
+                * scan_overdue:  If true, indicates that the amount of time between the most recent analysis
+                  and the current date is greater than the minimum scan frequency associated with the policy
+                  assigned to the app.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="analysis_unit" type="tns:AnalysisUnitType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="version" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="build_id" type="xs:long"/>
+        <xs:attribute name="submitter" type="xs:string"/>
+        <xs:attribute name="platform" type="tns:PlatformType"/>
+        <xs:attribute name="lifecycle_stage" type="tns:LifecycleStageType"/>
+        <xs:attribute name="results_ready" type="xs:boolean"/>
+        <xs:attribute name="policy_name" type="xs:string"/>
+        <xs:attribute name="policy_version" type="xs:integer"/>
+        <xs:attribute name="policy_compliance_status" type="tns:PolicyComplianceType"/>
+        <xs:attribute name="rules_status" type="tns:PolicyComplianceType"/>
+        <xs:attribute name="grace_period_expired" type="xs:boolean"/>
+        <xs:attribute name="scan_overdue" type="xs:boolean"/>
+        <xs:attribute name="dynamic_scan_type" type="tns:DynamicScanType" use="optional"/>
+   </xs:complexType>
+
+    <xs:complexType name="AnalysisUnitType">
+        <xs:annotation>
+            <xs:documentation>
+                The analysis unit type element contains all the elements and attributes
+                that reflect the data we store for a single analysis unit.
+                This element contains the following required elements:
+
+                * status: if the build is published, in progress
+                * analysis_type: static, dynamic, manual
+                * published_date: date we published if this analysis unit is published
+                * published_date_sec: date we published, represented as a UNIX timestamp
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence/>
+        <xs:attribute name="analysis_type" type="tns:AnalysisType"/>
+        <xs:attribute name="status" type="tns:StatusType"/>
+        <xs:attribute name="published_date" type="xs:dateTime"/>
+        <xs:attribute name="published_date_sec" type="xs:integer"/>
+    </xs:complexType>
+	
+	<xs:complexType name="CustomFieldType">
+        <xs:annotation>
+            <xs:documentation>
+				The custom field type element contains a name-value pair
+				of account-specific fields and their assigned values:
+
+                * name: The custom name of the field
+				* value: The value assigned to this field for this app
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="value" type="tns:LongTextType"/>
+   </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DescTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PlatformType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="Windows"/>
+            <xs:enumeration value="Solaris"/> 
+            <xs:enumeration value="Linux"/> 
+            <xs:enumeration value="Java"/>
+            <xs:enumeration value="Windows Mobile"/>
+            <xs:enumeration value="J2ME"/>
+            <xs:enumeration value="ColdFusion"/>
+            <xs:enumeration value="PHP"/>
+            <xs:enumeration value="Android"/>
+            <xs:enumeration value="iOS"/>
+			<xs:enumeration value="Ruby"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+   <xs:simpleType name="OriginType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="3rd party library"/>
+            <xs:enumeration value="Purchased Application"/>
+            <xs:enumeration value="Contractor"/>
+            <xs:enumeration value="Internally Developed"/>
+            <xs:enumeration value="Open Source"/>
+            <xs:enumeration value="Outsourced Team"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IndustryVerticalType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="Aerospace"/>
+            <xs:enumeration value="Agriculture"/>
+            <xs:enumeration value="Apparel"/>
+            <xs:enumeration value="Automotive and Transport"/>
+            <xs:enumeration value="Banking"/>
+            <xs:enumeration value="Beverages"/>
+            <xs:enumeration value="Biotechnology"/>
+            <xs:enumeration value="Business Services"/>
+            <xs:enumeration value="Charitable Organizations"/>
+            <xs:enumeration value="Chemicals"/>
+            <xs:enumeration value="Communications"/>
+            <xs:enumeration value="Computer Hardware"/>
+            <xs:enumeration value="Software"/>
+            <xs:enumeration value="Consulting"/>
+            <xs:enumeration value="Construction"/>
+            <xs:enumeration value="Consumer Products Manufacturers"/>
+            <xs:enumeration value="Consumer Services"/>
+            <xs:enumeration value="Cultural Institutions"/>
+            <xs:enumeration value="Education"/>
+            <xs:enumeration value="Electronics"/>
+            <xs:enumeration value="Energy"/>
+            <xs:enumeration value="Engineering"/>
+            <xs:enumeration value="Environmental"/>
+            <xs:enumeration value="Finance"/>
+            <xs:enumeration value="Food &amp; Beverage"/>
+            <xs:enumeration value="Foundations"/>
+            <xs:enumeration value="Government"/>
+            <xs:enumeration value="Healthcare"/>
+            <xs:enumeration value="Hospitality"/>
+            <xs:enumeration value="Manufacturing"/>
+            <xs:enumeration value="Insurance"/>
+            <xs:enumeration value="Recreation"/>
+            <xs:enumeration value="Machinery"/>
+            <xs:enumeration value="Media &amp; Entertainment"/>
+            <xs:enumeration value="Membership Organizations"/>
+            <xs:enumeration value="Metals and Mining"/>
+            <xs:enumeration value="Pharmaceuticals"/>
+            <xs:enumeration value="Real Estate"/>
+            <xs:enumeration value="Retail"/>
+            <xs:enumeration value="Security Products and Services"/>
+            <xs:enumeration value="Technology"/>
+            <xs:enumeration value="Telecommunications Equipment"/>
+            <xs:enumeration value="Telecommunications"/>
+            <xs:enumeration value="Transportation"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Utilities"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+   <xs:simpleType name="BusinessCriticalityType">
+   		<xs:restriction base="xs:string">
+   			<xs:enumeration value="Very High"/>
+   			<xs:enumeration value="High"/>
+   			<xs:enumeration value="Medium"/>
+   			<xs:enumeration value="Low"/>
+   			<xs:enumeration value="Very Low"/>
+   		</xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="LifecycleStageType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="In Development (pre-Alpha)"/>
+            <xs:enumeration value="Internal or Alpha Testing"/>
+            <xs:enumeration value="External or Beta Testing"/>
+            <xs:enumeration value="Deployed (In production and actively developed)"/>
+            <xs:enumeration value="Maintenance (only bug fixes)"/>
+            <xs:enumeration value="Cannot Disclose"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AnalysisType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Static"/>
+            <xs:enumeration value="Dynamic"/>
+            <xs:enumeration value="Manual"/>
+            <xs:enumeration value="eDAST"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Incomplete"/>
+            <xs:enumeration value="Not Submitted to Engine"/>
+            <xs:enumeration value="Submitted to Engine"/>
+            <xs:enumeration value="Scan Errors"/>
+            <xs:enumeration value="Scan In Process"/>
+            <xs:enumeration value="Scan Cancelled"/>
+            <xs:enumeration value="Scan Internal Error"/>
+            <xs:enumeration value="Pending Internal Review"/>
+            <xs:enumeration value="Results Ready"/>
+            <xs:enumeration value="Pre-Scan Submitted"/>
+            <xs:enumeration value="Pre-Scan Failed"/>
+            <xs:enumeration value="Pre-Scan Success"/>
+            <xs:enumeration value="No Modules Defined"/>
+            <xs:enumeration value="Pending Vendor Confirmation"/>
+			<xs:enumeration value="Vendor Reviewing"/>
+            <xs:enumeration value="Pre-Scan Cancelled"/>
+            <xs:enumeration value="Scan On Hold"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PolicyComplianceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Calculating..."/>
+            <xs:enumeration value="Not Assessed"/>
+            <xs:enumeration value="Did Not Pass"/>
+            <xs:enumeration value="Conditional Pass"/>
+            <xs:enumeration value="Pass"/>
+            <xs:enumeration value="Under Vendor Review"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="DynamicScanType">
+    	<xs:restriction base="xs:string">
+    		<xs:enumeration value="mp"></xs:enumeration>
+    		<xs:enumeration value="ds"></xs:enumeration>
+    	</xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

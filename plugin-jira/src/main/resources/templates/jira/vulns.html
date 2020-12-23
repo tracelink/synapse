@@ -1,0 +1,79 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <h3 class="page-title">Vulnerable Metrics</h3>
+    </div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+    <!-- Bar Graph Vuln Issues By Period -->
+    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+        <div class="card card-small">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Issues by Time Period</h6>
+            </div>
+            <div class="timeperiod card-body d-flex py-0">
+                <canvas height="360" id="vuln-bar"></canvas>
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-med__data text-center">
+                        <div id="bar-no-data"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer border-top">
+                <div class="row text-center">
+                    <div class="col border-right">
+                        <p class="card-title">Select a Time Period</p>
+                        <select class="custom-select custom-select-sm" id="bar-period">
+                            <option value="last-week">Last Week</option>
+                            <option selected value="last-four-weeks">Last Four Weeks</option>
+                            <option value="last-six-months">Last Six Months</option>
+                            <option value="all-time">All Time</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Bar Graph Vuln Issues By Period -->
+    <!-- Results Table -->
+    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+        <div class="card card-small">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Open Vulnerabilities</h6>
+            </div>
+            <div class="card-body p-0">
+                <div th:switch="${unresolvedVulns?.size()}">
+                    <ul th:case="0" class="list-group list-group-small list-group-flush">
+                        <li class="list-group-item d-flex px-3">
+                            <span class="text-semibold text-fiord-blue">No data to display.</span>
+                        </li>
+                    </ul>
+                    <table th:case="*" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Issue Key</th>
+                            <th scope="col">Severity</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Days Out of SLA</th>
+                            <th scope="col"> Product Line</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="vuln : ${unresolvedVulns}">
+                            <tr>
+                                <td th:text=${vuln.key}></td>
+                                <td th:text=${vuln.sev}></td>
+                                <td th:text=${vuln.created}></td>
+                                <td th:text=${vuln.slaStatus}></td>
+                                <td th:text=${vuln?.productLine}></td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Results Table -->
+</div>

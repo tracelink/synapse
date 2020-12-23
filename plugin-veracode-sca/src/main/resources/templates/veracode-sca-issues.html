@@ -1,0 +1,120 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">Unresolved Issues</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<!-- Current Mappings -->
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small h-100 text-center">
+      <div class="card-header border-bottom text-left">
+        <h6 class="m-0">View Issues Per Project</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${mappedProjects.size() + unmappedProjects.size()}">
+          <p th:case="0" class="card-text text-left">No project data.</p>
+          <div th:case="*">
+            <p class="card-title text-left">
+              <select id="productLinePicker" class="selectpicker input-group w-25"
+                      title="Select a Product Line"
+                      data-style="rounded border" data-live-search="true">
+                <optgroup label="Product Lines">
+                  <option th:each="productLine : ${productLines}"
+                          th:data-content="${productLine.name}"
+                          th:value="${productLine.id}"></option>
+                </optgroup>
+                <option data-content="Unmapped Projects" value="unmapped"></option>
+              </select>
+            </p>
+            <div th:each="productLine : ${productLines}" class="table-responsive issuesTable d-none"
+                 th:id="${'issuesTable-' + productLine.id}">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">Synapse Project</th>
+                  <th scope="col">Veracode SCA Project</th>
+                  <th scope="col">Last Scan Date</th>
+                  <th scope="col">High</th>
+                  <th scope="col">Medium</th>
+                  <th scope="col">Low</th>
+                  <th scope="col">Vulnerable Methods</th>
+                  <th scope="col">Library</th>
+                  <th scope="col">License</th>
+                  <th scope="col">Vulnerability</th>
+                  <th scope="col">View Issues</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${mappedProjects}"
+                    th:if="${project.synapseProject.getOwningProductLine().equals(productLine)}"
+                    th:with="issues = ${project.getUnresolvedIssuesForDefaultBranch()}">
+                  <td th:text="${project.synapseProject.name}"></td>
+                  <td th:text="${project.name}"></td>
+                  <td th:text="${#temporals.format(project.lastScanDate, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
+                      th:data-order="${#temporals.format(project.lastScanDate, 'YYYYMMddhhmm')} ?: '0'"></td>
+                  <td th:text="${#lists.size(issues.?[getSeverityString().equals('High')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getSeverityString().equals('Medium')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getSeverityString().equals('Low')])}"></td>
+                  <td th:text="${#lists.size(issues.?[isVulnerableMethod()])}"></td>
+                  <td th:text="${#lists.size(issues.?[getIssueType().getValue().equals('Library')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getIssueType().getValue().equals('License')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getIssueType().getValue().equals('Vulnerability')])}"></td>
+                  <td class="py-2">
+                    <a class="btn btn-sm btn-primary" target="_blank"
+                       th:href="${'https://sca.analysiscenter.veracode.com/workspaces/' + project.workspace.siteId + '/projects/' + project.siteId + '/issues'}">
+                      <i class="material-icons">call_made</i>
+                    </a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-responsive issuesTable d-none" id="issuesTable-unmapped">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">Veracode SCA Project</th>
+                  <th scope="col">Last Scan Date</th>
+                  <th scope="col">High</th>
+                  <th scope="col">Medium</th>
+                  <th scope="col">Low</th>
+                  <th scope="col">Vulnerable Methods</th>
+                  <th scope="col">Library</th>
+                  <th scope="col">License</th>
+                  <th scope="col">Vulnerability</th>
+                  <th scope="col">View Issues</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${unmappedProjects}"
+                    th:with="issues = ${project.getUnresolvedIssuesForDefaultBranch()}"
+                    th:id="${project.name + '-issues'}">
+                  <td th:text="${project.getDisplayName()}"></td>
+                  <td th:text="${#temporals.format(project.lastScanDate, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
+                      th:data-order="${#temporals.format(project.lastScanDate, 'YYYYMMddhhmm')} ?: '0'"></td>
+                  <td th:text="${#lists.size(issues.?[getSeverityString().equals('High')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getSeverityString().equals('Medium')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getSeverityString().equals('Low')])}"></td>
+                  <td th:text="${#lists.size(issues.?[isVulnerableMethod()])}"></td>
+                  <td th:text="${#lists.size(issues.?[getIssueType().getValue().equals('Library')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getIssueType().getValue().equals('License')])}"></td>
+                  <td th:text="${#lists.size(issues.?[getIssueType().getValue().equals('Vulnerability')])}"></td>
+                  <td class="py-2">
+                    <a class="btn btn-sm btn-primary" target="_blank"
+                       th:href="${'https://sca.analysiscenter.veracode.com/workspaces/' + project.workspace.siteId + '/projects/' + project.siteId + '/issues'}">
+                      <i class="material-icons">call_made</i>
+                    </a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Current Mappings -->

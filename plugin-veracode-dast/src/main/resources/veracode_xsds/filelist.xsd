@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the File List XML.
+  Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="1.1"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/filelist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/filelist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="filelist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire File List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="file" minOccurs="0" maxOccurs="unbounded" type="tns:FileType"/>
+            </xs:sequence>
+			<xs:attribute name="filelist_version" type="xs:string" use="required"/>
+            <xs:attribute name="account_id" type="xs:long"/>
+			<xs:attribute name="app_id" type="xs:long"/>
+			<xs:attribute name="sandbox_id" type="xs:long" use="optional"/>
+			<xs:attribute name="build_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="FileType">
+        <xs:annotation>
+            <xs:documentation>
+                The file type element contains the key elements and attributes
+                that reflect the data we store for a file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="file_id" type="xs:long"/>
+        <xs:attribute name="file_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="file_status" type="tns:StatusType"/>
+        <xs:attribute name="file_md5" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DescTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Pending Upload"/>
+            <xs:enumeration value="Uploading"/>
+            <xs:enumeration value="Purged"/> 
+            <xs:enumeration value="Uploaded"/> 
+            <xs:enumeration value="Missing"/>
+            <xs:enumeration value="Partial"/>
+            <xs:enumeration value="Invalid Checksum"/>
+            <xs:enumeration value="Invalid Archive"/>
+            <xs:enumeration value="Archive File Within Another Archive"/>
+            <xs:enumeration value="Archive File with Unsupported Compression"/>
+            <xs:enumeration value="Archive File is Password Protected"/>
+       </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

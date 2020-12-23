@@ -1,0 +1,46 @@
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-6 text-center text-sm-left mb-0">
+    <h3 class="page-title">Job Status</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<!-- Content -->
+<div class="row">
+  <div class="col">
+    <div class="card card-small mb-4">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Plug-Ins with Jobs</h6>
+      </div>
+      <div class="card-body p-0 pb-3 text-center">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="bg-light">
+            <tr>
+              <th scope="col" class="border-0">Plugin and Job Title</th>
+              <th scope="col" class="border-0">Start Last Run</th>
+              <th scope="col" class="border-0">Runtime</th>
+              <th scope="col" class="border-0">Start Next Run</th>
+              <th scope="col" class="border-0">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="job : ${jobs}">
+              <tr>
+                <td th:text="${job.pluginJobName}">Plugin and Job</td>
+                <td class="px-3"
+                    th:text="${#temporals.format(job?.start, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
+                    th:data-order="${#temporals.format(job?.start, 'YYYYMMddhhmm')} ?: '0'">Start</td>
+                <td th:text="${job.runtime}">Runtime</td>
+                <td class="px-3"
+                    th:text="${#temporals.format(job?.upcoming, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
+                    th:data-order="${#temporals.format(job?.upcoming, 'YYYYMMddhhmm')} ?: '0'">Upcoming</td>
+                <td th:text="${job.active}">Active</td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

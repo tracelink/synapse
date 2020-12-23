@@ -1,0 +1,1 @@
+INSERT INTO sonatype_thresholds (green_yellow, yellow_red) VALUES (100, 200);

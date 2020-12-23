@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Policy List XML.
+  Copyright Veracode, Inc., 2012.
+-->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/4.0/policylist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/4.0/policylist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="policylist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Policy List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="policies" minOccurs="1" maxOccurs="1" type="tns:PolicyList"/>
+            </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="PolicyList">
+    	<xs:annotation>
+    		<xs:documentation>
+    			The policy list element contains a list of policy names.
+    			
+    			Attributes
+    			* names - a filtered comma delineated list of policy names from the caller's account
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:attribute name="names" type="xs:string"/>
+    </xs:complexType>
+
+</xs:schema>

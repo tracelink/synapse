@@ -1,0 +1,137 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">Veracode SCA Dashboard</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<!-- Small Stats Blocks -->
+<div class="row">
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">Covered Projects</span>
+            <h6 class="stats-small__value count my-3" th:text="${coveredProjects}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">Vulnerable Projects</span>
+            <h6 class="stats-small__value count my-3" th:text="${vulnerableProjects}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">Total Issues</span>
+            <h6 class="stats-small__value count my-3" th:text="${totalIssues}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">High Issues</span>
+            <h6 class="stats-small__value count my-3" th:text="${highIssues}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">Vulnerable Methods
+              <a href="#" data-toggle="tooltip"
+                 title="A vulnerable method (VM) is a line of source code that directly uses the vulnerable part of an open source library. Only some issues have vulnerable methods associated with them. These issues are given higher priority, since the project explicitly invokes vulnerable code.">
+                <i class="material-icons">help_outline</i>
+              </a>
+            </span>
+            <h6 class="stats-small__value count my-3" th:text="${vulnerableMethods}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Small Stats Blocks -->
+<div class="row">
+  <!-- Bar Graph Issues By Period -->
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Issues by Time Period</h6>
+      </div>
+      <div class="timeperiod card-body d-flex py-0">
+        <canvas height="360" id="issues-bar"></canvas>
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-med__data text-center">
+            <div id="bar-no-data"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer border-top">
+        <div class="row text-center">
+          <div class="col border-right">
+            <p class="card-title">Select a Data Set</p>
+            <select class="custom-select custom-select-sm" id="view-by">
+              <option selected value="all">All Data</option>
+              <option value="productLine">Product Line</option>
+              <option value="projectFilter">Project Filter</option>
+              <option value="project">Project</option>
+            </select>
+            <select class="custom-select custom-select-sm" id="productLine">
+              <option th:each="productLine: ${productLines}" th:value="${productLine.name}"
+                      th:text="${productLine.name}"></option>
+            </select>
+            <select class="custom-select custom-select-sm" id="projectFilter">
+              <option th:each="filter: ${filters}" th:value="${filter.name}"
+                      th:text="${filter.name}"></option>
+            </select>
+            <select class="custom-select custom-select-sm" id="project">
+              <option th:each="project : ${projects}" th:value="${project.name}"
+                      th:text="${project.name}"></option>
+            </select>
+          </div>
+          <div class="col border-right">
+            <p class="card-title">Select a Time Period</p>
+            <select class="custom-select custom-select-sm" id="bar-period">
+              <option value="last-week">Last Week</option>
+              <option selected value="last-four-weeks">Last Four Weeks</option>
+              <option value="last-six-months">Last Six Months</option>
+              <option value="all-time">All Time</option>
+            </select>
+          </div>
+          <div class="col">
+            <p class="card-title">Select a Category</p>
+            <select class="custom-select custom-select-sm" id="bar-category">
+              <option selected value="severity">By Severity</option>
+              <option value="vulnerability">By Vulnerability</option>
+              <option value="type">By Issue Type</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Bar Graph Issues By Period -->
+</div>

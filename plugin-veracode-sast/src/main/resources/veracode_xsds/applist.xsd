@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Application List XML.
+  Veracode, Inc., 2014.
+-->
+<xs:schema elementFormDefault="qualified" version="1.2"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/applist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/applist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="applist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Application List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="app" minOccurs="0" maxOccurs="unbounded" type="tns:AppType"/>
+                <xs:element name="user" minOccurs="0" maxOccurs="1" type="tns:UserType"/>
+            </xs:sequence>
+            <xs:attribute name="applist_version" type="xs:string" use="required"/>
+            <xs:attribute name="account_id" type="xs:long"  use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="AppType">
+        <xs:annotation>
+            <xs:documentation>
+                The app type element contains the key elements and attributes
+                that reflect the data we store for an app.
+                
+                * policy_updated_date represents the last time an action occurred which might have affected policy compliance.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="app_id" type="xs:long"/>
+        <xs:attribute name="app_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="vendor_name" type="tns:LongTextType" use="optional"/>
+        <xs:attribute name="policy_updated_date" type="xs:string" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="UserType">
+        <xs:annotation>
+            <xs:documentation>
+                The user info type element contains attributes that reflect information for the current user.
+                
+                * login_account_type - the type of login account of the current user, either 'user' or 'api'
+                * username - the username of the current user  			
+                * create_application_profile - If true, indicates that the current user can create application profiles
+                * create_sandbox - If true, indicates that the current user can create sandboxes
+                * create_new_build - If true, indicates that the current user can create builds/scans
+                * create_policy_scan - If true, indicates that the current user can create policy scans
+                * create_sandbox_scan - If true, indicates that the current user can create sandbox scans
+                * assign_app_to_team - If true, indicates that the current user can assign application profiles to the current user's team
+                * assign_app_to_any_team - If true, indicates that the current user can assign application profiles to any team
+                * view_sandbox - If true, indicates that the current user can view sandboxes
+                * view_results - If true, indicates that the current user can view results
+                * approve_mitigations - If true, indicates that the current user can approve or reject mitigations
+                * submit_static_scan - If true, indicates that the current user can submit static scans
+                * submit_policy_static_scan - If true, indicates that the current user can submit policy static scans
+                * submit_sandbox_static_scan - If true, indicates that the current user can submit sandbox static scans
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="login_account_type" type="tns:LoginAccountType" use="required"/>
+        <xs:attribute name="username" type="tns:LongTextType" use="required"/>
+        <xs:attribute name="create_application_profile" type="xs:boolean" use="required"/>
+        <xs:attribute name="create_sandbox" type="xs:boolean" use="required"/>
+        <xs:attribute name="create_new_build" type="xs:boolean" use="required"/>
+        <xs:attribute name="create_policy_scan" type="xs:boolean" use="required"/>
+        <xs:attribute name="create_sandbox_scan" type="xs:boolean" use="required"/>
+        <xs:attribute name="assign_app_to_team" type="xs:boolean" use="required"/>
+        <xs:attribute name="assign_app_to_any_team" type="xs:boolean" use="required"/>
+        <xs:attribute name="view_sandbox" type="xs:boolean" use="required"/>
+        <xs:attribute name="view_results" type="xs:boolean" use="required"/>
+        <xs:attribute name="approve_mitigations" type="xs:boolean" use="required"/>
+        <xs:attribute name="submit_static_scan" type="xs:boolean" use="required"/>
+        <xs:attribute name="submit_policy_static_scan" type="xs:boolean" use="required"/>
+        <xs:attribute name="submit_sandbox_static_scan" type="xs:boolean" use="required"/>
+    </xs:complexType>
+	
+    <xs:simpleType name="LoginAccountType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="user"/>
+            <xs:enumeration value="api"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DescTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

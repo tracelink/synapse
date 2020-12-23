@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Pre Scan Results XML.
+  Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="1.4"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/prescanresults"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/prescanresults"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="prescanresults">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Pre Scan Results xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="module" minOccurs="0" maxOccurs="unbounded" type="tns:ModuleType"/>
+            </xs:sequence>
+			<xs:attribute name="prescanresults_version" type="xs:string" use="required"/>
+            <xs:attribute name="account_id" type="xs:long"/>
+			<xs:attribute name="app_id" type="xs:long"/>
+			<xs:attribute name="sandbox_id" type="xs:long" use="optional"/>
+			<xs:attribute name="build_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ModuleType">
+        <xs:annotation>
+            <xs:documentation>
+                The module type element contains all the elements and attributes
+                that reflect the data we store for a module.
+
+                Elements
+                * issue - details on issue related to this module
+				* file_issue - details on issue related to an uploaded file
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+			<xs:element name="issue" type="tns:IssueType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="file_issue" type="tns:FileIssueType" minOccurs="0" maxOccurs="unbounded"/>
+			 <xs:element name="sourcefile" minOccurs="0" maxOccurs="1" type="tns:SourceFileType"/>
+        </xs:sequence>
+		<xs:attribute name="id" type="xs:long"/>
+		<xs:attribute name="name" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="app_file_id" type="xs:long"/>
+		<xs:attribute name="checksum" type="xs:string"/>
+		<xs:attribute name="platform" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="size" type="tns:LongRequiredTextType"/>
+		<xs:attribute name="status" type="tns:DescTextType"/>
+		<xs:attribute name="has_fatal_errors" type="xs:boolean"/>
+		<xs:attribute name="is_dependency" type="xs:boolean"/>
+		<xs:attribute name="difference" type="xs:string" default="unmodified"/>
+    </xs:complexType>
+
+    <xs:complexType name="IssueType">
+        <xs:annotation>
+            <xs:documentation>
+                The issue type element contains the description of a single issue affecting a module
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="details" type="tns:LongerRequiredTextType"/>
+    </xs:complexType>
+
+	<xs:complexType name="SourceFileType">
+        <xs:annotation>
+            <xs:documentation>
+                Source file type element contains what changed details
+            </xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="modified" minOccurs="0" maxOccurs="1" type="tns:ModifiedType"/>
+			<xs:element name="new" minOccurs="0" maxOccurs="1" type="tns:NewType"/>
+			<xs:element name="removed" minOccurs="0" maxOccurs="1" type="tns:RemovedType"/>
+		</xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="ModifiedType">
+		<xs:sequence>
+			<xs:element name="file" type="tns:FileType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NewType">
+		<xs:sequence>
+			<xs:element name="file" type="tns:FileType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RemovedType">
+		<xs:sequence>
+			<xs:element name="file" type="tns:FileType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="FileType">
+		<xs:attribute name="path" type="tns:LongRequiredTextType"/>
+	</xs:complexType>
+
+    <xs:complexType name="FileIssueType">
+        <xs:annotation>
+            <xs:documentation>
+                The file issue type element contains the description of a single issue affecting a file
+            </xs:documentation>
+        </xs:annotation>
+		<xs:attribute name="filename" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="details" type="tns:LongRequiredTextType"/>
+   </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="LongerRequiredTextType">
+        <xs:restriction base="xs:string">
+        	<xs:minLength value="1"/>
+            <xs:maxLength value="5000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DescTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

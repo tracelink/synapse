@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Account Custom Field List XML.
+  Veracode, Inc., 2017.
+-->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/accountcustomfieldlist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/accountcustomfieldlist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="account_customfieldlist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Account Custom Fields List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="account_customfield" minOccurs="0" maxOccurs="unbounded" type="tns:AccountCustomFieldType"/>
+            </xs:sequence>
+            <xs:attribute name="account_customfieldlist_version" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="AccountCustomFieldType">
+        <xs:annotation>
+            <xs:documentation>
+                The account custom field type element contains a id-name pair of account-specific fields:
+                
+                * id: represents the unique identified of the custom field
+                * name: The custom name of the field
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:long"/>
+        <xs:attribute name="name" type="tns:LongRequiredTextType"/>
+    </xs:complexType>
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+        <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

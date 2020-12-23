@@ -1,0 +1,98 @@
+<BsimmSurvey>
+	<surveyName>Example BSIMM Survey Name Model</surveyName>
+	<functions>
+		<BsimmFunction>
+			<functionName>BSIMM Example Function 1</functionName>
+			<practices>
+				<BsimmPractice>
+					<practiceName>BSIMM Example Practice 1.1</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>A BSIMM Example Measure #1</measureId>
+									<measureTitle>My Example BSIMM Measure</measureTitle>
+									<detailMessage>A Custom Detail Message with the core question to be answered</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<BsimmPractice>
+					<practiceName>BSIMM Example Practice 1.2</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>A BSIMM Example Measure #2</measureId>
+									<measureTitle>My Example BSIMM Measure</measureTitle>
+									<detailMessage>A Custom Detail Message with the core question to be answered</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<!--Additional BsimmPractice Objects-->
+			</practices>
+		</BsimmFunction>
+		<BsimmFunction>
+			<functionName>BSIMM Example Function 2</functionName>
+			<practices>
+				<BsimmPractice>
+					<practiceName>BSIMM Example Practice 2.1</practiceName>
+					<levels>
+						<BsimmLevel>
+							<levelNum>1</levelNum>
+							<measures>
+								<BsimmMeasure>
+									<measureId>A BSIMM Example Measure #3</measureId>
+									<measureTitle>My Example BSIMM Measure</measureTitle>
+									<detailMessage>A Custom Detail Message with the core question to be answered</detailMessage>
+								</BsimmMeasure>
+								<!--Additional BsimmMeasure Objects-->
+							</measures>
+						</BsimmLevel>
+						<!--Additional BsimmLevel Objects-->
+					</levels>
+				</BsimmPractice>
+				<!--Additional BsimmPractice Objects-->
+			</practices>
+		</BsimmFunction>
+		<!--Additional BsimmFunction Objects-->
+	</functions>
+	<comparisons>
+		<BsimmComparison>
+			<comparisonTitle>An Example BSIMM Comparison</comparisonTitle>
+			<functions>
+				<BsimmComparisonFunction>
+					<functionName>BSIMM Example Function 1</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>BSIMM Example Practice 1.1</practiceName><!-- Must match a practice above -->
+							<value>1.0</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<BsimmComparisonFunction>
+					<functionName>BSIMM Example Function 2</functionName> <!-- Must match a function above -->
+					<practices>
+						<BsimmComparisonPractice>
+							<practiceName>BSIMM Example Practice WRONG</practiceName><!-- Must match a practice above -->
+							<value>1.0</value>
+						</BsimmComparisonPractice>
+						<!--Additional BsimmComparisonPractice Objects-->
+					</practices>
+				</BsimmComparisonFunction>
+				<!--Additional BsimmComparisonFunction Objects-->
+			</functions>
+		</BsimmComparison>
+		<!--Additional BsimmComparison Objects-->
+	</comparisons>
+</BsimmSurvey>

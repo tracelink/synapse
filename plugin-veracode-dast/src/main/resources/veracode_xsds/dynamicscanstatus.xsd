@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Schema definition for dynamic scan status information. Veracode, Inc., 2013. -->
+<xs:schema elementFormDefault="qualified" version="1.0"
+	targetNamespace="https://analysiscenter.veracode.com/schema/4.0/dynamicscanstatus"
+	xmlns:tns="https://analysiscenter.veracode.com/schema/4.0/dynamicscanstatus"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="scan_status_info">
+    <xs:annotation>
+      <xs:documentation>
+         This is a wrapper for dynamic scan status information.
+      </xs:documentation>
+     </xs:annotation>   
+     <xs:complexType>
+       <xs:sequence>        
+         <xs:element name="scan_status" type="tns:StatusType" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="start" type="xs:string" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="duration" type="xs:string" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="state" type="tns:StateType" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="request" type="xs:long" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="responses" type="xs:long" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="bytes_sent" type="xs:string" minOccurs="0" maxOccurs="1"/> 
+         <xs:element name="bytes_received" type="xs:string" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="links" type="xs:long" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="login_failures" type="xs:long" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="logins" type="xs:long" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="network_errors" type="xs:long" minOccurs="0" maxOccurs="1"/>
+         <xs:element name="unreacheble_hosts" type="xs:long" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="account_id" type="xs:long" use="required"/>
+      <xs:attribute name="app_id" type="xs:long" use="required"/>
+      <xs:attribute name="scan_id" type="xs:long" use="required"/>  
+      <xs:attribute name="message" type="xs:string" use="optional"/>    
+    </xs:complexType>   
+  </xs:element>
+  <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Incomplete"/>
+            <xs:enumeration value="Not Submitted to Engine"/>
+            <xs:enumeration value="Submitted to Engine"/>
+            <xs:enumeration value="Scan Errors"/>
+            <xs:enumeration value="Scan In Process"/>
+            <xs:enumeration value="Scan Cancelled"/>
+            <xs:enumeration value="Scan Internal Error"/>
+            <xs:enumeration value="Pending Internal Review"/>
+            <xs:enumeration value="Results Ready"/>
+            <xs:enumeration value="Pre-Scan Submitted"/>
+            <xs:enumeration value="Pre-Scan Failed"/>
+            <xs:enumeration value="Pre-Scan Success"/>
+            <xs:enumeration value="No Modules Defined"/>
+            <xs:enumeration value="Pending Vendor Confirmation"/>
+            <xs:enumeration value="Vendor Reviewing"/>
+            <xs:enumeration value="Pre-Scan Cancelled"/>
+            <xs:enumeration value="Scan On Hold"/>
+        </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="StateType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Initial"/>
+            <xs:enumeration value="In Process"/>
+            <xs:enumeration value="Completed"/>
+            <xs:enumeration value="Killed"/>
+            <xs:enumeration value="Failed"/>
+            <xs:enumeration value="Not Ready"/>
+            <xs:enumeration value="Stopping"/>
+            <xs:enumeration value="Reading Results"/>           
+        </xs:restriction>
+   </xs:simpleType>      
+</xs:schema>

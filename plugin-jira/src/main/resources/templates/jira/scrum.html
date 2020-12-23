@@ -1,0 +1,67 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">ProdSec Scrum Metrics</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+  <!-- Small Stats Blocks -->
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">Unresolved</span>
+            <h6 class="stats-small__value count my-3" th:text="${unres}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg col-md-6 col-sm-6 mb-4">
+    <div class="stats-small stats-small--1 card card-small">
+      <div class="card-body p-0 d-flex">
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-small__data text-center">
+            <span class="stats-small__label text-uppercase">Total</span>
+            <h6 class="stats-small__value count my-3" th:text="${total}"></h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Small Stats Blocks -->
+</div>
+<div class="row">
+  <!-- Scrum Bar Graph Metrics By Period -->
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Issues by Time Period</h6>
+      </div>
+      <div class="timeperiod card-body d-flex py-0">
+        <canvas height="360" id="scrum-bar"></canvas>
+        <div class="d-flex flex-column m-auto">
+          <div class="stats-med__data text-center">
+            <div id="bar-no-data"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer border-top">
+        <div class="row text-center">
+          <div class="col border-right">
+            <p class="card-title">Select a Time Period</p>
+            <select class="custom-select custom-select-sm" id="bar-period">
+              <option value="last-week">Last Week</option>
+              <option selected value="last-four-weeks">Last Four Weeks</option>
+              <option value="last-six-months">Last Six Months</option>
+              <option value="all-time">All Time</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Scrum Bar Graph Metrics By Period -->
+</div>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Schema definition for dynamic scan VSA list. Veracode, Inc., 2013. -->
+<xs:schema elementFormDefault="qualified" version="1.0"
+	targetNamespace="https://analysiscenter.veracode.com/schema/4.0/vsalist"
+	xmlns:tns="https://analysiscenter.veracode.com/schema/4.0/vsalist"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="vsalist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="appliance">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="vsa_id"/>
+                <xs:attribute type="xs:string" name="vsg_id"/>
+                <xs:attribute type="xs:string" name="vsa_status"/>
+                <xs:attribute type="xs:string" name="vsa_status_desc"/>
+                <xs:attribute type="xs:string" name="vsa_name"/>
+                <xs:attribute type="xs:string" name="vsa_desc"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="account_id"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

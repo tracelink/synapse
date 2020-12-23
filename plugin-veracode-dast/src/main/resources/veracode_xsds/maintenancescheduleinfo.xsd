@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="https://analysiscenter.veracode.com/schema/3.0/maintenancescheduleinfo" xmlns:tns="https://analysiscenter.veracode.com/schema/3.0/maintenancescheduleinfo" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="maintenancescheduleinfo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="maintenanceschedule">
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="downtime_start" type="xs:dateTime" minOccurs="1"></xs:element>
+                            <xs:element name="downtime_end" type="xs:dateTime" minOccurs="1"></xs:element>
+                            <xs:element name="title" type="xs:string"></xs:element>
+                            <xs:element name="description" type="xs:string"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ </xs:schema> 

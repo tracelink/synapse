@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the User List XML.
+  Copyright Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="3.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/userlist/3.0"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/userlist/3.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="userlist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire User List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="filters" minOccurs="1" maxOccurs="1" type="tns:Filters"/>
+                <xs:element name="users" minOccurs="1" maxOccurs="1" type="tns:UserList"/>
+            </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long"/>
+			<xs:attribute name="userlist_version" type="xs:decimal" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Filters">
+        <xs:annotation>
+            <xs:documentation>
+                The filter element contains all the elements and attributes
+                that were used to filter the username list.
+
+                Attributes
+                * custom_id - a non-veracode generated custom id provided by create or update user api calls
+                * first_name - the login account's first name
+                * last_name - the login account's last name
+                * login_account_type - the type of login account, either 'user' or 'api'
+				* username - the username of the user, if different than the email_address (for api users)
+                * email_address - the login account's email_address
+                * login_enabled - whether the login account is able to log in, either 'true' or 'false'
+                * requires_token - whether the login account requires an RSA token to log in, either 'true' or 'false'
+                * teams - a comma delineated list of teams that this login account is a member of 
+                * roles - a comma delineated list of roles that this login account has been assigned
+				* allowed_ip_addresses - a comma seperated list of allowed ip addresses with wildcards
+                * is_elearning_manager - whether this login account with an eLearning role has been listed as a manager
+                * elearning_manager - which manager this login account with an eLearning role is managed by
+				* elearning_track - (optional) which track this login account with an eLearning role has been assigned
+                * elearning_curriculum - which curriculum this login account with an eLearning role has been assigned
+                * keep_elearning_active - (optional) does the eLearning subscription roll over at renewal
+                * title - (optional) the login account's title
+                * custom_one - (optional) a custom field provided for general use
+                * custom_two - (optional) a custom field provided for general use
+                * custom_three - (optional) a custom field provided for general use
+                * custom_four - (optional) a custom field provided for general use
+                * custom_five - (optional) a custom field provided for general use
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="custom_id" type="tns:LongTextType"/>
+        <xs:attribute name="first_name" type="tns:LongTextType"/>
+        <xs:attribute name="last_name" type="tns:LongTextType"/>
+        <xs:attribute name="login_account_type" type="tns:LoginAccountType"/>
+		<xs:attribute name="username" type="tns:LongTextType"/>
+        <xs:attribute name="email_address" type="tns:Email"/>
+        <xs:attribute name="login_enabled" type="xs:boolean"/>
+        <xs:attribute name="requires_token" type="xs:boolean"/>
+        <xs:attribute name="teams" type="xs:string"/>
+        <xs:attribute name="roles" type="xs:string"/>
+		<xs:attribute name="allowed_ip_addresses" type="xs:string"/>
+        <xs:attribute name="is_elearning_manager" type="xs:boolean"/>
+        <xs:attribute name="elearning_manager" type="tns:LongTextType"/>
+		<xs:attribute name="elearning_track" type="tns:LongTextType"/>
+        <xs:attribute name="elearning_curriculum" type="tns:LongTextType"/>
+		<xs:attribute name="keep_elearning_active" type="xs:boolean"/>
+		<xs:attribute name="title" type="tns:LongTextType"/>
+		<xs:attribute name="custom_one" type="tns:LongTextType"/>
+		<xs:attribute name="custom_two" type="tns:LongTextType"/>
+		<xs:attribute name="custom_three" type="tns:LongTextType"/>
+		<xs:attribute name="custom_four" type="tns:LongTextType"/>
+		<xs:attribute name="custom_five" type="tns:LongTextType"/>
+    </xs:complexType>
+    
+    <xs:complexType name="UserList">
+    	<xs:annotation>
+    		<xs:documentation>
+    			The user list element contains a list of usernames.
+    			
+    			Attributes
+    			* usernames - a filtered comma delineated list of usernames from the caller's account
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:attribute name="usernames" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="Email">
+    	<xs:restriction base="xs:string">
+    		<xs:pattern value="[A-Za-z0-9_]+([-+.'][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*\.[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*"/>
+    	</xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LoginAccountType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="user"/>
+            <xs:enumeration value="api"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

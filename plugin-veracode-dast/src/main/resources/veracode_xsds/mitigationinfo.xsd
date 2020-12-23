@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Mitigation Info XML.
+  Veracode, Inc., 2012.
+-->
+<xs:schema elementFormDefault="qualified" version="1.1"
+   targetNamespace="https://analysiscenter.veracode.com/schema/mitigationinfo/1.0"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/mitigationinfo/1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="mitigationinfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Mitigation Info xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="issue" minOccurs="0" maxOccurs="unbounded" type="tns:IssueType"/>
+                <xs:element name="error" minOccurs="0" maxOccurs="unbounded" type="tns:ErrorType"/>
+            </xs:sequence>
+            <xs:attribute name="mitigationinfo_version" type="xs:string" use="optional"/>
+            <xs:attribute name="build_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="IssueType">
+        <xs:annotation>
+            <xs:documentation>
+                The issue type element contains the attributes and mitigation action
+                elements stored for a flaw.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="mitigation_action" minOccurs="0" maxOccurs="unbounded" type="tns:MitigationActionType"/>
+        </xs:sequence>
+        <xs:attribute name="flaw_id" type="xs:long"/>
+        <xs:attribute name="category" type="tns:LongRequiredTextType"/>
+    </xs:complexType>
+
+    <xs:complexType name="ErrorType">
+        <xs:annotation>
+            <xs:documentation>
+                The error type element contains the list of ids which could not be processed.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="flaw_id_list" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="MitigationActionType">
+        <xs:attribute name="action" type="tns:ActionTypeType"/>
+        <xs:attribute name="desc" type="xs:string"/>
+        <xs:attribute name="reviewer" type="xs:string"/>
+        <xs:attribute name="date" type="xs:string"/>
+        <xs:attribute name="comment" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+   <xs:simpleType name="ActionTypeType">
+       <xs:restriction base="xs:string">
+         <xs:enumeration value="comment"/>
+         <xs:enumeration value="fp"/>
+		 <xs:enumeration value="library"/>
+         <xs:enumeration value="acceptrisk"/>
+         <xs:enumeration value="appdesign"/>
+         <xs:enumeration value="osenv"/>
+         <xs:enumeration value="netenv"/>
+         <xs:enumeration value="rejected"/>
+         <xs:enumeration value="accepted"/>
+         <xs:enumeration value="remediated"/>
+         <xs:enumeration value="noactiontaken"/>
+         <xs:enumeration value="conforms"/>
+         <xs:enumeration value="deviates"/>
+       </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

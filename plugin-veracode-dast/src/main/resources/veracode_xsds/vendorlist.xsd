@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Vendor List XML.
+  Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/vendorlist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/vendorlist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="vendorlist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Vendor List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="vendor" minOccurs="0" maxOccurs="unbounded" type="tns:VendorType"/>
+            </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="VendorType">
+        <xs:annotation>
+            <xs:documentation>
+                The vendor type element contains the account id and name of a vendor.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="vendor_id" type="xs:long"/>
+        <xs:attribute name="vendor_name" type="tns:LongRequiredTextType"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

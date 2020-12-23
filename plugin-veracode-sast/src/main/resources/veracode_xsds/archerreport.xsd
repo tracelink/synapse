@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Schema definition for the Archer report version two XML.
+  Copyright Veracode, Inc., 2013.
+-->
+<xs:schema elementFormDefault="qualified" version="1.3" targetNamespace="http://www.archer-tech.com/"
+ xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/archerapi"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="Records">
+<xs:complexType>
+<xs:sequence>
+	<xs:element name="Record" maxOccurs="unbounded" minOccurs="0">
+	<xs:complexType>
+	<xs:sequence>
+		<xs:element type="xs:string" name="app_name" minOccurs="1"/>
+		<xs:element type="xs:string" name="app_description" minOccurs="0"/>
+		<xs:element type="xs:string" name="app_id" minOccurs="0"/>
+		<xs:element type="xs:string" name="archer_app_name" minOccurs="0"/>
+		<xs:element type="xs:string" name="vendor" minOccurs="0"/>
+		<xs:element type="xs:string" name="assurance_level" minOccurs="1"/>
+		<xs:element type="xs:string" name="teams" minOccurs="1"/>
+		<xs:element type="xs:string" name="platform" minOccurs="1"/>
+		<xs:element type="xs:string" name="version" minOccurs="1"/>
+		<xs:element type="xs:string" name="lifecycle_stage" minOccurs="1"/>
+		<xs:element type="xs:string" name="rating" minOccurs="1"/>
+		<xs:element type="xs:string" name="mitigated_rating" minOccurs="0"/>
+		<xs:element type="xs:integer" name="static_score" minOccurs="1"/>
+		<xs:element type="xs:integer" name="dynamic_score" minOccurs="1"/>
+		<xs:element type="xs:integer" name="manual_score" minOccurs="1"/>
+		<xs:element type="xs:integer" name="static_mitigated_score" minOccurs="1"/>
+		<xs:element type="xs:integer" name="dynamic_mitigated_score" minOccurs="1"/>
+		<xs:element type="xs:integer" name="manual_mitigated_score" minOccurs="1"/>
+		<xs:element type="xs:string" name="app_origin" minOccurs="1"/>
+		<xs:element type="xs:string" name="generation_date" minOccurs="1"/>
+		<xs:element type="xs:string" name="planned_deployment_date" minOccurs="1"/>
+		<xs:element type="xs:string" name="last_update_date" minOccurs="1"/>
+		<xs:element type="xs:string" name="submitted_date" minOccurs="1"/>
+		<xs:element type="xs:string" name="policy_name" minOccurs="1"/>
+		<xs:element type="xs:integer" name="policy_version" minOccurs="1"/>
+		<xs:element type="xs:string" name="policy_compliance_status" minOccurs="1"/>
+		<xs:element type="xs:string" name="policy_rules_passed" minOccurs="1"/> <!-- Values are "true", "false", or "" for indeterminate. -->
+		<xs:element type="xs:boolean" name="grace_period_expired" minOccurs="1"/>
+		<xs:element type="xs:boolean" name="scan_overdue" minOccurs="1"/>
+		<xs:element type="xs:string" name="business_owner" minOccurs="1"/>
+		<xs:element type="xs:string" name="business_unit" minOccurs="1"/>
+		<xs:element type="xs:string" name="business_owner_email" minOccurs="0"/>
+		<xs:element type="xs:string" name="application_purpose" minOccurs="0"/>
+		<xs:element type="xs:string" name="deployment_method" minOccurs="0"/>
+		<xs:element type="xs:string" name="tags" minOccurs="1"/>
+		<xs:element type="xs:string" name="custom0" minOccurs="0"/>
+		<xs:element type="xs:string" name="custom1" minOccurs="0"/>
+		<xs:element type="xs:string" name="custom2" minOccurs="0"/>
+		<xs:element type="xs:string" name="custom3" minOccurs="0"/>
+		<xs:element type="xs:string" name="custom4" minOccurs="0"/>
+		<xs:element type="xs:string" name="custom5" minOccurs="0"/>
+		<xs:element name="customfield" maxOccurs="unbounded" minOccurs="0">
+	        <xs:complexType>
+				<xs:attribute type="xs:string" name="name"/>
+				<xs:attribute type="xs:string" name="value"/>
+	        </xs:complexType>
+        </xs:element>
+		<xs:element type="xs:string" name="any_scan_due_date" minOccurs="0"/>
+		<xs:element name="modules" minOccurs="0">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Record" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="module" minOccurs="1"/>
+						<xs:element type="xs:string" name="analysis_type" minOccurs="0"/>
+						<xs:element type="xs:string" name="compiler" minOccurs="1"/>
+						<xs:element type="xs:string" name="os" minOccurs="1"/>
+						<xs:element type="xs:string" name="architecture" minOccurs="1"/>
+						<xs:element type="xs:string" name="target_url" minOccurs="0"/>
+						<xs:element type="xs:string" name="next_scan_due" minOccurs="0"/>
+						<xs:element type="xs:string" name="domain" minOccurs="0"/>
+						<xs:element name="dynamic_scan_type" minOccurs="0" maxOccurs="1">
+							<xs:simpleType>
+    							<xs:restriction base="xs:string">
+    								<xs:enumeration value="mp"></xs:enumeration>
+    								<xs:enumeration value="ds"></xs:enumeration>
+    							</xs:restriction>
+    						</xs:simpleType>
+						</xs:element>
+						<xs:element type="xs:integer" name="scan_exit_status_id" minOccurs="0"/>
+						<xs:element type="xs:string" name="scan_exit_status_desc" minOccurs="0"/>
+					</xs:sequence>
+					</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="flaws">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Record" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="app_name" minOccurs="1"/>
+						<xs:element type="xs:string" name="app_id" minOccurs="0"/>
+						<xs:element type="xs:string" name="archer_app_name" minOccurs="0"/>
+						<xs:element type="xs:string" name="version" minOccurs="1"/>
+						<xs:element type="xs:string" name="platform" minOccurs="1"/>
+						<xs:element type="xs:integer" name="flaw_issue_id" minOccurs="0"/>
+						<xs:element type="xs:string" name="module" minOccurs="0"/>
+						<xs:element type="xs:integer" name="severity" minOccurs="1"/>
+						<xs:element type="xs:string" name="type" minOccurs="0"/>
+						<xs:element type="xs:string" name="flaw_description" minOccurs="0"/>
+						<xs:element type="xs:string" name="note" minOccurs="0"/>
+						<xs:element type="xs:integer" name="cweid" minOccurs="0"/>
+						<xs:element type="xs:integer" name="remediationeffort" minOccurs="0"/>
+						<xs:element type="xs:string" name="exploitLevel" minOccurs="0"/>
+						<xs:element type="xs:string" name="sourcefile" minOccurs="0"/>
+						<xs:element type="xs:integer" name="line" minOccurs="0"/>
+						<xs:element type="xs:string" name="sourcefilepath" minOccurs="0"/>
+						<xs:element type="xs:string" name="scope" minOccurs="0"/>
+						<xs:element type="xs:string" name="functionprototype" minOccurs="0"/>
+						<xs:element type="xs:integer" name="functionrelativelocation" minOccurs="0"/>
+						<xs:element type="xs:string" name="url" minOccurs="0"/>
+						<xs:element type="xs:string" name="vuln_parameter" minOccurs="0"/>
+						<xs:element type="xs:integer" name="categoryid" minOccurs="0"/>
+						<xs:element type="xs:string" name="categoryname" minOccurs="0"/>
+						<xs:element type="xs:boolean" name="pcirelated" minOccurs="0"/>
+						<xs:element type="xs:string" name="cwe_description" minOccurs="0"/>
+						<xs:element type="xs:integer" name="count" minOccurs="0"/>
+						<xs:element type="xs:integer" name="capecid" minOccurs="0"/>
+						<xs:element type="xs:integer" name="exploitdifficulty" minOccurs="0"/>
+						<xs:element type="xs:string" name="exploit_desc" minOccurs="0"/>
+						<xs:element type="xs:string" name="severity_desc" minOccurs="0"/>
+						<xs:element type="xs:string" name="remediation_desc" minOccurs="0"/>
+						<xs:element type="xs:string" name="date_first_occurance" minOccurs="0"/> <!-- Deprecated -->
+						<xs:element type="xs:string" name="date_first_occurrence" minOccurs="0"/>
+						<xs:element type="xs:string" name="remediation_status" minOccurs="0"/>
+						<xs:element type="xs:string" name="cia_impact" minOccurs="1"/>
+						<xs:element type="xs:boolean" name="is_latest_build" minOccurs="1"/>
+						<xs:element type="xs:string" name="published_date" minOccurs="1"/>
+						<xs:element type="xs:boolean" name="affects_policy_compliance" minOccurs="0"/>
+						<xs:element type="xs:string" name="mitigation_status" minOccurs="0"/>
+						<xs:element type="xs:string" name="mitigation_status_desc" minOccurs="0"/>
+						<xs:element type="xs:string" name="instancecount" minOccurs="0"/>
+						<xs:element name="mitigations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Record" maxOccurs="unbounded" minOccurs="0">
+									<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="action" minOccurs="0"/>
+										<xs:element type="xs:string" name="description" minOccurs="0"/>
+										<xs:element type="xs:string" name="user" minOccurs="0"/>
+										<xs:element type="xs:string" name="date" minOccurs="0"/>
+									</xs:sequence>
+									</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="recommendations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="para" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element type="xs:string" name="text" maxOccurs="unbounded" minOccurs="0"/>
+												<xs:element type="xs:string" name="bulletitem" maxOccurs="unbounded" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					</xs:complexType>
+					</xs:element>		
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for Dynamic Scan Info XML.
+  Veracode, Inc., 2013.
+ -->
+<xs:schema elementFormDefault="qualified" version="1.0"
+   targetNamespace="https://analysiscenter.veracode.com/schema/4.0/dynamicscaninfo"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/4.0/dynamicscaninfo"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="dynamic_scan_info">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Dynamic Scan Info xml file. This element contains
+                the following attributes:
+
+                * account_id: The unique identifier of the account for which the scan was created.
+                * app_id: The unique identifier of the application for which the scan was created.
+                * scan_id: The unique identifier used internally to store and retrieve information
+                  about the scan.
+                * error_message: A human readable message which is included when this API encounters
+                  a failure after creating applying part of the configuration.
+
+            </xs:documentation>
+        </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+          <xs:element name="dynamic_scan" minOccurs="1" maxOccurs="1" type="tns:DynamicScanType"/>
+      </xs:sequence>
+            <xs:attribute name="account_id" type="xs:long" use="required"/>
+            <xs:attribute name="app_id" type="xs:long" use="required"/>
+            <xs:attribute name="scan_id" type="xs:long" use="required"/>
+            <xs:attribute name="error_message" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+    <xs:complexType name="DynamicScanType">
+        <xs:annotation>
+            <xs:documentation>
+                The dynamic scan element contains all the elements and attributes that reflect
+                the data we store for a single dynamic scan. This element contains the following
+                attributes:
+
+                * scan_id: The build identifier we use interally to retrieve information for the build
+                * scan_name:  The version label for the application.
+                * scan_status: Numeric identifier for the current status of the scan.
+                * target_url: The URL to scan.
+                * directory_restriction_policy:  Directory-level scan restrictions.
+                * https_http_inclusion: Directs whether scan should include both HTTP and HTTPS protocols.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="contact_information" type="tns:ContactInformationType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="allowed_hosts" type="tns:AllowedHostsType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="exclude_urls" type="tns:ExcludeUrlsType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="login" type="tns:LoginType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="crawl_script" type="tns:CrawlScriptType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="scan_schedule" type="tns:ScanScheduleType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="scan_id" type="xs:long"/>
+        <xs:attribute name="scan_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="scan_status" type="tns:StatusType"/>
+        <xs:attribute name="target_url" type="xs:string"/>
+        <xs:attribute name="directory_restriction_policy" type="xs:string"/>
+        <xs:attribute name="https_http_inclusion" type="xs:string"/>
+        <xs:attribute name="vsg_id" type="xs:long" use="optional"/>
+        <xs:attribute name="vsa_id" type="xs:long" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="ContactInformationType">
+        <xs:annotation>
+            <xs:documentation>
+                The contact information element contains contact information for the scan.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="first_name" type="tns:LongRequiredTextType" use="required"/>
+        <xs:attribute name="last_name" type="tns:LongRequiredTextType" use="required"/>
+        <xs:attribute name="email" type="tns:EmailType" use="required"/>
+        <xs:attribute name="telephone" type="tns:LongRequiredTextType" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="AllowedHostsType">
+        <xs:annotation>
+            <xs:documentation>
+                The allowed hosts element contains a list of allowed hosts to scan.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="allowed_host" type="tns:AllowedHostType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+            <xs:attribute type="xs:integer" name="vsg_id" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="AllowedHostType">
+        <xs:annotation>
+            <xs:documentation>
+                The allowed host element contains details regarding a host to scan.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="host" type="xs:string" use="required"/>
+        <xs:attribute name="directory_restriction_policy" type="xs:string" use="required"/>
+        <xs:attribute name="https_http_inclusion" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="ExcludeUrlsType">
+      <xs:annotation>
+         <xs:documentation>
+                The exclude URLs element contains a list of urls to exclude from the scan.
+         </xs:documentation>
+      </xs:annotation>
+        <xs:sequence>
+            <xs:element name="exclude_url" type="tns:ExcludeUrlType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ExcludeUrlType">
+      <xs:annotation>
+         <xs:documentation>
+                The exclude URL element contains details regarding a URL to exclude from the scan.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="host"  type="xs:string" use="required"/>
+      <xs:attribute name="directory_restriction_policy" type="xs:string" use="required"/>
+      <xs:attribute name="https_http_inclusion" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="LoginType">
+        <xs:annotation>
+            <xs:documentation>
+                The login type element contains login details for the scan.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="script_based_login" type="tns:ScriptBasedLoginType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="browser_based_login" type="tns:BrowserBasedLoginType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BrowserBasedLoginType">
+        <xs:annotation>
+            <xs:documentation>
+                The login type element contains browser-based login details for the scan.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="username" type="xs:string"/>
+        <xs:attribute name="password" type="xs:string"/>
+        <xs:attribute name="windows_domain" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ScriptBasedLoginType">
+      <xs:annotation>
+         <xs:documentation>
+            This element contains the following attributes:
+
+            *
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="login_sequence" type="xs:string"/>
+      <xs:attribute name="verify_url" type="xs:string"/>
+      <xs:attribute name="verify_string" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="CrawlScriptType">
+      <xs:annotation>
+         <xs:documentation>
+            This element contains the following attributes:
+
+            *
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="required" type="xs:string"/>
+      <xs:attribute name="crawl_sequence" type="xs:string"/>
+      <xs:attribute name="disabled_automated_website_crawler" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ScanScheduleType">
+      <xs:annotation>
+         <xs:documentation>
+            This element contains the following attributes:
+
+            *
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="start_date" type="xs:string" use="required"/>
+      <xs:attribute name="start_time" type="xs:time" use="required"/>
+      <xs:attribute name="end_date" type="xs:string" use="required"/>
+      <xs:attribute name="end_time" type="xs:time" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Incomplete"/>
+            <xs:enumeration value="Not Submitted to Engine"/>
+            <xs:enumeration value="Submitted to Engine"/>
+            <xs:enumeration value="Scan Errors"/>
+            <xs:enumeration value="Scan In Process"/>
+            <xs:enumeration value="Scan Cancelled"/>
+            <xs:enumeration value="Scan Internal Error"/>
+            <xs:enumeration value="Pending Internal Review"/>
+            <xs:enumeration value="Results Ready"/>
+            <xs:enumeration value="Pre-Scan Submitted"/>
+            <xs:enumeration value="Pre-Scan Failed"/>
+            <xs:enumeration value="Pre-Scan Success"/>
+            <xs:enumeration value="No Modules Defined"/>
+            <xs:enumeration value="Pending Vendor Confirmation"/>
+            <xs:enumeration value="Vendor Reviewing"/>
+            <xs:enumeration value="Pre-Scan Cancelled"/>
+            <xs:enumeration value="Scan On Hold"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EmailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z0-9_]+([-+.'][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*\.[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

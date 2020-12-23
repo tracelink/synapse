@@ -1,0 +1,97 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">Project Mappings</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<!-- Create Mapping -->
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Create Mapping</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${synapseProjects.size() > 0 && unmappedProjects.size() > 0}">
+          <p th:case="false" class="card-text">No project data available to map.</p>
+          <div class="row" th:case="*">
+            <div class="col">
+              <form class="d-inline"
+                    action="/veracode/sca/mappings/create" method="POST">
+                <select name="synapseProject" class="selectpicker input-group"
+                        title="Choose a Synapse Project"
+                        data-style="rounded border" data-live-search="true">
+                  <th:block th:each="synapseProject : ${synapseProjects}">
+                    <option th:data-content="${synapseProject.owningProductLine.name + ' - ' + synapseProject.name}"
+                            th:value="${synapseProject.name}"/>
+                  </th:block>
+                </select>
+                <select name="veracodeScaProject" class="selectpicker input-group"
+                        title="Choose a Veracode SCA Project"
+                        data-style="rounded border" data-live-search="true">
+                  <th:block th:each="unmappedProject : ${unmappedProjects}">
+                    <option
+                        th:data-content="${unmappedProject.getDisplayName()}"
+                        th:value="${unmappedProject.name}"/>
+                  </th:block>
+                </select>
+                <input type="hidden" th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}"/>
+                <button class="btn btn-success" type="submit">
+                  Create Project Mapping
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Create Mapping -->
+<!-- Current Mappings -->
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small h-100">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Current Mappings</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${mappedProjects.size()}">
+          <p th:case="0" class="card-text">No project mappings configured.</p>
+          <div th:case="*" class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Synapse Product Line</th>
+                <th scope="col">Synapse Project</th>
+                <th scope="col">Veracode SCA Project</th>
+                <th scope="col">Remove Mapping</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="project : ${mappedProjects}">
+                <td th:text=${project.synapseProject.owningProductLine.name}></td>
+                <td th:text=${project.synapseProject.name}></td>
+                <td th:text="${project.getDisplayName()}"></td>
+                <td>
+                  <form method="POST" action="/veracode/sca/mappings/delete">
+                    <input type="hidden" name="project" th:value="${project.name}"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}"/>
+                    <button class="btn btn-outline-danger btn-xs py-1 px-2" name="Submit"
+                            value="Remove" type="Submit">Remove
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Current Mappings -->

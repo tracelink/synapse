@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Application Info XML.
+  Veracode, Inc., 2011.
+-->
+<xs:schema elementFormDefault="qualified" version="1.1"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/appinfo"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/appinfo"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="appinfo">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Application Info xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="application" minOccurs="0" maxOccurs="unbounded" type="tns:ApplicationType"/>
+            </xs:sequence>
+            <xs:attribute name="appinfo_version" type="xs:string" use="required"/>
+            <xs:attribute name="account_id" type="xs:long" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ApplicationType">
+        <xs:annotation>
+            <xs:documentation>
+                The application type element contains all the elements and attributes
+                that reflect the data we store for an application profile.
+                
+                * policy_updated_date represents the last time an action occurred which might have affected policy compliance.
+                * modified_date represents the last time an action changed the application profile.
+            </xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="customfield" minOccurs="0" maxOccurs="unbounded" type="tns:CustomFieldType"/>
+		</xs:sequence>
+        <xs:attribute name="app_id" type="xs:long"/>
+        <xs:attribute name="app_name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="vendor" type="xs:string"/>
+        <xs:attribute name="description" type="xs:string"/>
+        <xs:attribute name="business_criticality" type="tns:BusinessCriticalityType"/>
+        <xs:attribute name="policy" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="policy_updated_date" type="xs:string" use="optional"/>
+        <xs:attribute name="teams" type="xs:string"/>
+        <xs:attribute name="origin" type="tns:OriginType"/>
+        <xs:attribute name="industry_vertical" type="tns:IndustryVerticalType"/>
+        <xs:attribute name="app_type" type="tns:AppTypeType"/>
+        <xs:attribute name="deployment_method" type="tns:DeploymentMethodType"/>
+        <xs:attribute name="is_web_application" type="xs:boolean"/>
+        <xs:attribute name="archer_app_name" type="tns:LongTextType"/>
+        <xs:attribute name="modified_date" type="xs:string"/>
+        <xs:attribute name="cots" type="xs:boolean"/>
+        <xs:attribute name="vast" type="xs:boolean"/>
+        <xs:attribute name="vendor_id" type="xs:long"/>
+        <xs:attribute name="business_unit" type="xs:string"/>
+        <xs:attribute name="business_owner" type="xs:string"/>
+        <xs:attribute name="business_owner_email" type="xs:string"/>
+        <xs:attribute name="tags" type="xs:string"/>
+    </xs:complexType>
+	
+	<xs:complexType name="CustomFieldType">
+        <xs:annotation>
+            <xs:documentation>
+				The custom field type element contains a name-value pair
+				of account-specific fields and their assigned values:
+
+                * name: The custom name of the field
+				* value: The value assigned to this field for this app
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="value" type="tns:LongTextType"/>
+   </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+   <xs:simpleType name="OriginType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="3rd party library"/>
+            <xs:enumeration value="Purchased Application"/>
+            <xs:enumeration value="Contractor"/>
+            <xs:enumeration value="Internally Developed"/>
+            <xs:enumeration value="Open Source"/>
+            <xs:enumeration value="Outsourced Team"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IndustryVerticalType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Not Specified"/>
+            <xs:enumeration value="Aerospace"/>
+            <xs:enumeration value="Agriculture"/>
+            <xs:enumeration value="Apparel"/>
+            <xs:enumeration value="Automotive and Transport"/>
+            <xs:enumeration value="Banking"/>
+            <xs:enumeration value="Beverages"/>
+            <xs:enumeration value="Biotechnology"/>
+            <xs:enumeration value="Business Services"/>
+            <xs:enumeration value="Charitable Organizations"/>
+            <xs:enumeration value="Chemicals"/>
+            <xs:enumeration value="Communications"/>
+            <xs:enumeration value="Computer Hardware"/>
+            <xs:enumeration value="Software"/>
+            <xs:enumeration value="Consulting"/>
+            <xs:enumeration value="Construction"/>
+            <xs:enumeration value="Consumer Products Manufacturers"/>
+            <xs:enumeration value="Consumer Services"/>
+            <xs:enumeration value="Cultural Institutions"/>
+            <xs:enumeration value="Education"/>
+            <xs:enumeration value="Electronics"/>
+            <xs:enumeration value="Energy"/>
+            <xs:enumeration value="Engineering"/>
+            <xs:enumeration value="Environmental"/>
+            <xs:enumeration value="Finance"/>
+            <xs:enumeration value="Food &amp; Beverage"/>
+            <xs:enumeration value="Foundations"/>
+            <xs:enumeration value="Government"/>
+            <xs:enumeration value="Healthcare"/>
+            <xs:enumeration value="Hospitality"/>
+            <xs:enumeration value="Manufacturing"/>
+            <xs:enumeration value="Insurance"/>
+            <xs:enumeration value="Recreation"/>
+            <xs:enumeration value="Machinery"/>
+            <xs:enumeration value="Media &amp; Entertainment"/>
+            <xs:enumeration value="Membership Organizations"/>
+            <xs:enumeration value="Metals and Mining"/>
+            <xs:enumeration value="Pharmaceuticals"/>
+            <xs:enumeration value="Real Estate"/>
+            <xs:enumeration value="Retail"/>
+            <xs:enumeration value="Security Products and Services"/>
+            <xs:enumeration value="Technology"/>
+            <xs:enumeration value="Telecommunications Equipment"/>
+            <xs:enumeration value="Telecommunications"/>
+            <xs:enumeration value="Transportation"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Utilities"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+   <xs:simpleType name="BusinessCriticalityType">
+   		<xs:restriction base="xs:string">
+   			<xs:enumeration value="Very High"/>
+   			<xs:enumeration value="High"/>
+   			<xs:enumeration value="Medium"/>
+   			<xs:enumeration value="Low"/>
+   			<xs:enumeration value="Very Low"/>
+   		</xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="AppTypeType">
+   		<xs:restriction base="xs:string">
+   			<xs:enumeration value="Not Specified"/>
+   			<xs:enumeration value="Application Design/Construction/IDE/Analysis"/>
+   			<xs:enumeration value="Application Life-Cycle Management"/>
+   			<xs:enumeration value="Application Server/Integration Server"/>
+   			<xs:enumeration value="Back-Office Enterprise"/>
+   			<xs:enumeration value="CRM"/>
+   			<xs:enumeration value="Collaboration/Groupware/Messaging"/>
+   			<xs:enumeration value="Consumer"/>
+   			<xs:enumeration value="Content Management/Authoring"/>
+   			<xs:enumeration value="Engineering"/>
+   			<xs:enumeration value="Enterprise Resource Planning"/>
+   			<xs:enumeration value="Information Access/Delivery/Mining/Portal"/>
+   			<xs:enumeration value="Information/Data Management/Database"/>
+   			<xs:enumeration value="Middleware/Message-oriented/Transaction"/>
+   			<xs:enumeration value="Network Management"/>
+   			<xs:enumeration value="Networking"/>
+   			<xs:enumeration value="Other"/>
+   			<xs:enumeration value="Other Development Tools"/>
+   			<xs:enumeration value="Security"/>
+   			<xs:enumeration value="ServerWare/Clustering/Web/VM"/>
+   			<xs:enumeration value="Storage"/>
+   			<xs:enumeration value="System-Level Software"/>
+   			<xs:enumeration value="Systems Management"/>
+   			<xs:enumeration value="Testing Tools"/>
+   		</xs:restriction>
+   </xs:simpleType>
+   
+   <xs:simpleType name="DeploymentMethodType">
+   		<xs:restriction base="xs:string">
+   			<xs:enumeration value="Not Specified"/>
+   			<xs:enumeration value="Web Based"/>
+   			<xs:enumeration value="Enterprise Application Enhancement"/>
+   			<xs:enumeration value="Client/Server"/>
+   			<xs:enumeration value="Mobile"/>
+   			<xs:enumeration value="Stand Alone"/>
+   		</xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

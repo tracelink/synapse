@@ -1,0 +1,11 @@
+.traffic-light-green { 
+	background-color:rgba(172, 236, 213, 1);
+}
+
+.traffic-light-yellow { 
+	background-color:rgba(255, 249, 170, 1);
+}
+
+.traffic-light-red { 
+	background-color:rgba(255, 185, 179, 1);
+}

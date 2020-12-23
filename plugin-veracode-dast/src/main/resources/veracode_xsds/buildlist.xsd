@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Schema definition for the Build List XML.
+  Copyright Veracode, Inc., 2009.
+-->
+<xs:schema elementFormDefault="qualified" version="1.3"
+   targetNamespace="https://analysiscenter.veracode.com/schema/2.0/buildlist"
+   xmlns:tns="https://analysiscenter.veracode.com/schema/2.0/buildlist"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="buildlist">
+        <xs:annotation>
+            <xs:documentation>
+                This is a wrapper for the entire Build List xml file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="build" minOccurs="0" maxOccurs="unbounded" type="tns:BuildType"/>
+            </xs:sequence>
+            <xs:attribute name="buildlist_version" type="xs:string" use="required"/>
+            <xs:attribute name="account_id" type="xs:long" use="required"/>
+			<xs:attribute name="app_id" type="xs:long" use="required"/>
+			<xs:attribute name="sandbox_id" type="xs:long" use="optional"/>
+			<xs:attribute name="app_name" type="tns:LongRequiredTextType" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="BuildType">
+        <xs:annotation>
+            <xs:documentation>
+                The build type element contains the key elements and attributes
+                that reflect the data we store for a build.
+                
+                * policy_updated_date represents the last time an action
+                occurred which might have affected policy compliance.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="build_id" type="xs:long"/>
+        <xs:attribute name="version" type="tns:LongRequiredTextType"/>
+        <xs:attribute name="policy_updated_date" type="xs:string" use="optional" />
+    	<xs:attribute name="dynamic_scan_type" type="tns:DynamicScanType" use="optional"/>
+   </xs:complexType>
+
+    <xs:simpleType name="LongTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongRequiredTextType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1024"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DescTextType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:simpleType name="DynamicScanType">
+    	<xs:restriction base="xs:string">
+    		<xs:enumeration value="mp"></xs:enumeration>
+    		<xs:enumeration value="ds"></xs:enumeration>
+    	</xs:restriction>
+    </xs:simpleType>
+</xs:schema>

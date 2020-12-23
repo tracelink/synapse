@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin

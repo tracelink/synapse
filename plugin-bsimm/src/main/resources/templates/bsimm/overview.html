@@ -1,0 +1,99 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+	<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+		<h3 class="page-title">BSIMM Overview</h3>
+	</div>
+</div>
+<!-- End Page Header -->
+<!-- Small Stats Blocks -->
+<div class="row">
+	<div class="col-lg col-md-6 col-sm-6 mb-4">
+		<div class="stats-small stats-small--1 card card-small">
+			<div class="card-body p-0 d-flex">
+				<div class="d-flex flex-column m-auto">
+					<div class="stats-small__data text-center">
+						<span class="stats-small__label text-uppercase">Product
+							Lines Reviewed</span>
+						<h6 class="stats-small__value count my-3"
+							th:text="${productLinesReviewed}"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg col-md-6 col-sm-6 mb-4">
+		<div class="stats-small stats-small--1 card card-small">
+			<div class="card-body p-0 d-flex">
+				<div class="d-flex flex-column m-auto">
+					<div class="stats-small__data text-center">
+						<span class="stats-small__label text-uppercase">Average
+							Maturity</span>
+						<h6 class="stats-small__value count my-3" th:text="${avgMaturity}"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg col-md-6 col-sm-6 mb-4">
+		<div class="stats-small stats-small--1 card card-small">
+			<div class="card-body p-0 d-flex">
+				<div class="d-flex flex-column m-auto">
+					<div class="stats-small__data text-center">
+						<span class="stats-small__label text-uppercase">Lowest Maturity</span>
+						<h6 class="stats-small__value count my-3"
+							th:text="${lowestMaturity}"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg col-md-6 col-sm-6 mb-4">
+		<div class="stats-small stats-small--1 card card-small">
+			<div class="card-body p-0 d-flex">
+				<div class="d-flex flex-column m-auto">
+					<div class="stats-small__data text-center">
+						<span class="stats-small__label text-uppercase">Highest Maturity</span>
+						<h6 class="stats-small__value count my-3"
+							th:text="${highestMaturity}"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Small Stats Blocks -->
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+		<div class="card card-small ">
+			<div class="card-header border-bottom">
+				<h6 class="m-0">Maturity Chart</h6>
+			</div>
+			<div class="card-body py-0">
+				<canvas id="radar-graph"></canvas>
+			</div>
+			<div class="card-footer border-top">
+				<div class="d-flex justify-content-center align-items-center">
+					<div>
+						<select class="selectpicker" id="response" title="Select a Survey Response" data-style="rounded border" multiple>
+							<option th:if="${responses.size() == 0}" disabled>
+								No Surveys Done
+							</option>
+							<option th:if="${responses.size() > 0}" th:each="response: ${responses}"
+								th:value="${response.id}" th:text="${response.getTitle()}"></option>
+						</select>
+					</div>
+				 	<div class="form-check ml-2">
+					   <select class="selectpicker" id="comparison" title="Select a Comparison" data-style="rounded border" multiple>
+							<option th:if="${comparisons.size() == 0}" disabled>
+								No Comparisons Found
+							</option>
+							<option th:if="${comparisons.size() > 0}" th:each="comparison: ${comparisons}"
+								th:value="${comparison.id}" th:text="${comparison.getTitle()}"></option>
+						</select>
+				 	</div>
+				 	<button class="btn btn-success ml-2" id="showchart">Show</button>
+			 	</div>
+			</div>
+		</div>
+	</div>
+</div>
