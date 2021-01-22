@@ -75,4 +75,12 @@ public class FlawListType {
 		return this.flaw;
 	}
 
+	/**
+	 * Sets the value of the flaw property.
+	 *
+	 * @param flaw value to set for the flaw property
+	 */
+	public void setFlaw(List<FlawType> flaw) {
+		this.flaw = flaw;
+	}
 }

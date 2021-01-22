@@ -268,6 +268,15 @@ public class Detailedreport {
 	}
 
 	/**
+	 * Sets the value of the severity property.
+	 *
+	 * @param severity value to set for the severity property
+	 */
+	public void setSeverity(List<SeverityType> severity) {
+		this.severity = severity;
+	}
+
+	/**
 	 * Gets the value of the flawStatus property.
 	 *
 	 * @return possible object is

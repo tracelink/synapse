@@ -7,14 +7,22 @@ import com.tracelink.prodsec.plugin.veracode.dast.api.data.applist.AppType;
 import com.tracelink.prodsec.plugin.veracode.dast.api.data.applist.Applist;
 import com.tracelink.prodsec.plugin.veracode.dast.api.data.buildlist.BuildType;
 import com.tracelink.prodsec.plugin.veracode.dast.api.data.buildlist.Buildlist;
+import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.CategoryType;
+import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.CweType;
 import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.Detailedreport;
+import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.FlawListType;
+import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.FlawType;
+import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.SeverityType;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.veracode.apiwrapper.AbstractAPIWrapper;
 import com.veracode.http.WebClient;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import org.junit.Assert;
@@ -176,6 +184,45 @@ public class ApiClientTest {
 
 		Detailedreport returnedReport = client.getDetailedReport("");
 		Assert.assertEquals(analysisId, returnedReport.getAnalysisId());
+	}
+
+	@Test
+	public void testGetDetailedReportTooManyFlaws() throws Exception {
+		ApiClient client = makeDefaultTestClient();
+
+		long analysisId = 157;
+		Detailedreport report = new Detailedreport();
+		report.setAnalysisId(analysisId);
+		// Add 501 flaws to the report
+		List<FlawType> flaws = IntStream.range(0, 501).mapToObj(i -> {
+			FlawType flaw = new FlawType();
+			flaw.setCount(1);
+			return flaw;
+		}).collect(Collectors.toList());
+
+		FlawListType flawList = new FlawListType();
+		flawList.setFlaw(flaws);
+		CweType cwe = new CweType();
+		cwe.setDynamicflaws(flawList);
+		CategoryType category = new CategoryType();
+		category.setCwe(Collections.singletonList(cwe));
+		SeverityType severity = new SeverityType();
+		severity.setCategory(Collections.singletonList(category));
+		report.setSeverity(Collections.singletonList(severity));
+
+		String reportXml = toXML(report, Detailedreport.class);
+		WireMock.stubFor(
+				WireMock.post(DETAILEDREPORT)
+						.willReturn(WireMock.aResponse().withStatus(200).withBody(reportXml)));
+
+		try {
+			client.getDetailedReport("12345678");
+			Assert.fail("Should have thrown exception");
+		} catch (VeracodeClientException e) {
+			Assert.assertEquals(
+					"Cannot parse detailed report for buildid 12345678 because it contains 501 flaws",
+					e.getMessage());
+		}
 	}
 
 	@Test
