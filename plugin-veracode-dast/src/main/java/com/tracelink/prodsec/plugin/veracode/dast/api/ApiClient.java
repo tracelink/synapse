@@ -18,6 +18,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * A client implementation to wrap the Veracode API and produce reasonable
@@ -27,6 +28,7 @@ import org.springframework.util.Assert;
  */
 public class ApiClient {
 
+	private static final String FLAW_XML_STRING = "<flaw ";
 	private final UploadAPIWrapper uploadWrapper = new UploadAPIWrapper();
 	private final SandboxAPIWrapper sandboxWrapper = new SandboxAPIWrapper();
 	private final ResultsAPIWrapper resultsWrapper = new ResultsAPIWrapper();
@@ -90,6 +92,12 @@ public class ApiClient {
 		String message;
 		try {
 			message = this.resultsWrapper.detailedReport(buildId);
+			int numFlaws = StringUtils.countOccurrencesOf(message, FLAW_XML_STRING);
+			if (numFlaws > 500) {
+				throw new VeracodeClientException(String.format(
+						"Cannot parse detailed report for buildid %s because it contains %d flaws",
+						buildId, numFlaws));
+			}
 			report = translate(message, Detailedreport.class);
 		} catch (JAXBException | IOException | XMLStreamException e) {
 			throw new VeracodeClientException(

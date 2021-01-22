@@ -85,6 +85,15 @@ public class SeverityType {
 	}
 
 	/**
+	 * Sets the value of the category property.
+	 *
+	 * @param category value to set for the category property
+	 */
+	public void setCategory(List<CategoryType> category) {
+		this.category = category;
+	}
+
+	/**
 	 * Gets the value of the level property.
 	 *
 	 * @return value of the level property

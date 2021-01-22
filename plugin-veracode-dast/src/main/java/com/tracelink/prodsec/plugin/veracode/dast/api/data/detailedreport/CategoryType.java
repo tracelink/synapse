@@ -145,6 +145,15 @@ public class CategoryType {
 	}
 
 	/**
+	 * Sets the value of the cwe property.
+	 *
+	 * @param cwe value to set for the cwe property
+	 */
+	public void setCwe(List<CweType> cwe) {
+		this.cwe = cwe;
+	}
+
+	/**
 	 * Gets the value of the categoryid property.
 	 *
 	 * @return possible object is
