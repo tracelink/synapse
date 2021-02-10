@@ -1,7 +1,6 @@
 package com.tracelink.prodsec.synapse.web.configuration;
 
 import java.util.concurrent.Executors;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
@@ -18,7 +17,7 @@ public class SynapseConfiguration {
 
 	@Bean
 	public ConcurrentTaskScheduler scheduler() {
-		return new ConcurrentTaskScheduler(Executors.newScheduledThreadPool(2));
+		return new ConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor());
 	}
 
 }
