@@ -82,7 +82,7 @@ public class VeracodeScaConfigurationsController {
 		}
 		List<VeracodeScaWorkspace> workspaces = workspaceService.getWorkspaces();
 		workspaces.sort(Comparator.comparing(VeracodeScaWorkspace::getName));
-		List<VeracodeScaProject> projects = projectService.getProjects();
+		List<VeracodeScaProject> projects = projectService.getIncludedProjects();
 		projects.sort(Comparator.comparing(VeracodeScaProject::getDisplayName));
 		mv.addObject("workspaces", workspaces);
 		mv.addObject("projects", projects);
@@ -199,30 +199,5 @@ public class VeracodeScaConfigurationsController {
 					"Cannot set default branch for " + project + ". " + e.getMessage());
 		}
 		return CONFIGURATIONS_REDIRECT + "?project=" + project;
-	}
-
-	/**
-	 * Includes or excludes the given Veracode SCA workspace. If a workspace is excluded, any
-	 * projects or issues associated with it will not be displayed or factored into Synapse stats.
-	 *
-	 * @param workspace          name of the Veracode SCA workspace to include or exclude, if it
-	 *                           exists
-	 * @param included           whether to include or exclude the workspace
-	 * @param redirectAttributes redirect attributes to render Flash attributes for success
-	 * @return string redirecting to the configurations page
-	 */
-	@PostMapping("include")
-	public String setIncluded(@RequestParam String workspace, @RequestParam boolean included,
-			RedirectAttributes redirectAttributes) {
-		try {
-			workspaceService.setIncluded(workspace, included);
-			redirectAttributes
-					.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
-							included ? "Included workspace." : "Excluded workspace.");
-		} catch (VeracodeScaProductException e) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
-					"Cannot update workspace inclusion status. " + e.getMessage());
-		}
-		return CONFIGURATIONS_REDIRECT;
 	}
 }

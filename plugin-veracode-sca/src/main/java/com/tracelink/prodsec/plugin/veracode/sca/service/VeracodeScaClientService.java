@@ -2,6 +2,7 @@ package com.tracelink.prodsec.plugin.veracode.sca.service;
 
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
 import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaClientRepository;
 import com.tracelink.prodsec.plugin.veracode.sca.util.api.VeracodeScaApiWrapper;
@@ -14,6 +15,7 @@ import com.tracelink.prodsec.plugin.veracode.sca.util.model.Project;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.Workspace;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +104,10 @@ public class VeracodeScaClientService {
 					// Get all issues for this workspace, one page at a time
 					while (issuesIterator.hasNext()) {
 						List<IssueSummary> issues = issuesIterator.next().getEmbedded().getIssues();
-						issueService.updateIssues(issues);
+						List<VeracodeScaProject> projects = projectService.getProjects(
+								issues.stream().map(IssueSummary::getProjectId).distinct()
+										.collect(Collectors.toList()));
+						issueService.updateIssues(issues, projects);
 					}
 				}
 			}

@@ -27,6 +27,10 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -35,15 +39,19 @@ public class VeracodeScaProjectServiceTest {
 	@MockBean
 	private VeracodeScaProjectRepository projectRepository;
 
+	@MockBean
+	private VeracodeScaIssueService issueService;
+
 	private VeracodeScaProjectService projectService;
 	private VeracodeScaWorkspace workspace;
 	private VeracodeScaProject project;
 	private VeracodeScaIssue issue;
 	private Project baseApiProject;
+	private UUID uuid;
 
 	@Before
 	public void setup() {
-		projectService = new VeracodeScaProjectService(projectRepository);
+		projectService = new VeracodeScaProjectService(projectRepository, issueService);
 		project = VeracodeScaMocks.mockProject();
 
 		issue = VeracodeScaMocks.mockVulnerabilityIssue();
@@ -56,25 +64,48 @@ public class VeracodeScaProjectServiceTest {
 
 		workspace = new VeracodeScaWorkspace();
 		workspace.setName("Mock Workspace");
-		workspace.setSiteId("ABCzyx");
+		project.setSiteId("ABCzyx");
 		project.setWorkspace(workspace);
+
+		uuid = UUID.randomUUID();
 	}
 
 	@Test
 	public void testGetProjects() {
-		BDDMockito.when(projectRepository.findAll()).thenReturn(Collections.emptyList());
+		BDDMockito.when(projectRepository.findAll())
+				.thenReturn(Collections.singletonList(project));
+
 		List<VeracodeScaProject> returnedProjects = projectService.getProjects();
+		Assert.assertEquals(1, returnedProjects.size());
+		Assert.assertTrue(returnedProjects.contains(project));
+	}
+
+	@Test
+	public void testGetProjectsIdsList() {
+		BDDMockito.when(projectRepository.findByIdIn(BDDMockito.anyList()))
+				.thenReturn(Collections.singletonList(project));
+
+		List<VeracodeScaProject> returnedProjects = projectService
+				.getProjects(Collections.singletonList(uuid));
+		Assert.assertEquals(1, returnedProjects.size());
+		Assert.assertTrue(returnedProjects.contains(project));
+	}
+
+	@Test
+	public void testGetIncludedProjects() {
+		BDDMockito.when(projectRepository.findAll()).thenReturn(Collections.emptyList());
+		List<VeracodeScaProject> returnedProjects = projectService.getIncludedProjects();
 		Assert.assertTrue(returnedProjects.isEmpty());
 
 		BDDMockito.when(projectRepository.findAll())
 				.thenReturn(Collections.singletonList(project));
 
-		returnedProjects = projectService.getProjects();
+		returnedProjects = projectService.getIncludedProjects();
 		Assert.assertEquals(1, returnedProjects.size());
 		Assert.assertTrue(returnedProjects.contains(project));
 
-		workspace.setIncluded(false);
-		returnedProjects = projectService.getProjects();
+		project.setIncluded(false);
+		returnedProjects = projectService.getIncludedProjects();
 		Assert.assertEquals(0, returnedProjects.size());
 		Assert.assertTrue(returnedProjects.isEmpty());
 	}
@@ -94,7 +125,7 @@ public class VeracodeScaProjectServiceTest {
 		Assert.assertEquals(1, returnedProjects.size());
 		Assert.assertTrue(returnedProjects.contains(project));
 
-		workspace.setIncluded(false);
+		project.setIncluded(false);
 		returnedProjects = projectService.getMappedProjects();
 		Assert.assertTrue(returnedProjects.isEmpty());
 	}
@@ -114,7 +145,7 @@ public class VeracodeScaProjectServiceTest {
 		Assert.assertEquals(1, returnedProjects.size());
 		Assert.assertTrue(returnedProjects.contains(project));
 
-		workspace.setIncluded(false);
+		project.setIncluded(false);
 		returnedProjects = projectService.getUnmappedProjects();
 		Assert.assertEquals(0, returnedProjects.size());
 		Assert.assertTrue(returnedProjects.isEmpty());
@@ -439,5 +470,144 @@ public class VeracodeScaProjectServiceTest {
 		projectService.setDefaultBranch(project.getName(), "master");
 		Assert.assertEquals("master", project.getDefaultBranch());
 		BDDMockito.verify(projectRepository, times(1)).saveAndFlush(project);
+	}
+
+	@Test
+	public void testSetIncludedProjectsNull() {
+		try {
+			projectService.setIncluded(null);
+			Assert.fail("Exception should have been thrown");
+		} catch (IllegalArgumentException e) {
+			Assert.assertEquals("Please provide non-null project IDs to include", e.getMessage());
+		}
+
+		try {
+			projectService.setIncluded(Collections.singletonList(null));
+			Assert.fail("Exception should have been thrown");
+		} catch (IllegalArgumentException e) {
+			Assert.assertEquals("Please provide non-null project IDs to include", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testSetIncluded() {
+		VeracodeScaProject project1 = new VeracodeScaProject();
+		project1.setId(uuid);
+		project1.setIncluded(false);
+		VeracodeScaProject project2 = new VeracodeScaProject();
+		project2.setId(UUID.randomUUID());
+		Page<VeracodeScaProject> page = new PageImpl<>(Arrays.asList(project1, project2));
+		BDDMockito.when(projectRepository.findAll(BDDMockito.any(Pageable.class)))
+				.thenReturn(page);
+
+		projectService.setIncluded(Collections.singletonList(uuid));
+		Assert.assertTrue(project1.isIncluded());
+		Assert.assertFalse(project2.isIncluded());
+		BDDMockito.verify(projectRepository).saveAll(BDDMockito.anyIterable());
+		BDDMockito.verify(projectRepository).flush();
+	}
+
+	@Test
+	public void testSetIncludedMultiplePages() {
+		VeracodeScaProject project1 = new VeracodeScaProject();
+		project1.setId(uuid);
+		project1.setIncluded(false);
+		VeracodeScaProject project2 = new VeracodeScaProject();
+		project2.setId(UUID.randomUUID());
+		Pageable pageable1 = PageRequest.of(0, 1);
+		Page<VeracodeScaProject> page1 = new PageImpl<>(Collections.singletonList(project1),
+				pageable1, 2);
+		Pageable pageable2 = PageRequest.of(1, 1);
+		Page<VeracodeScaProject> page2 = new PageImpl<>(Collections.singletonList(project2),
+				pageable2, 2);
+		BDDMockito.when(projectRepository.findAll(PageRequest.of(0, 50)))
+				.thenReturn(page1);
+		BDDMockito.when(projectRepository.findAll(page1.nextPageable()))
+				.thenReturn(page2);
+
+		projectService.setIncluded(Collections.singletonList(uuid));
+		Assert.assertTrue(project1.isIncluded());
+		Assert.assertFalse(project2.isIncluded());
+		BDDMockito.verify(projectRepository, times(2)).saveAll(BDDMockito.anyIterable());
+		BDDMockito.verify(projectRepository).flush();
+	}
+
+	@Test
+	public void testDeleteProject() {
+		BDDMockito.when(projectRepository.findById(uuid)).thenReturn(Optional.of(project));
+		projectService.deleteProject(uuid);
+		BDDMockito.when(projectRepository.findById(uuid)).thenReturn(Optional.of(project));
+		BDDMockito.verify(issueService).deleteIssuesByProject(project);
+		BDDMockito.verify(projectRepository).delete(project);
+		BDDMockito.verify(projectRepository).flush();
+	}
+
+	@Test
+	public void testDeleteProjectDoesNotExist() {
+		try {
+			projectService.deleteProject(uuid);
+			Assert.fail("Exception should have been thrown");
+		} catch (VeracodeScaProductException e) {
+			Assert.assertEquals("No project with the given ID exists", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteProjectNullId() {
+		try {
+			projectService.deleteProject(null);
+			Assert.fail("Exception should have been thrown");
+		} catch (IllegalArgumentException e) {
+			Assert.assertEquals("Please provide a non-null project ID to delete", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteProjectsByWorkspaceNull() {
+		try {
+			projectService.deleteProjectsByWorkspace(null);
+			Assert.fail("Exception should have been thrown");
+		} catch (IllegalArgumentException e) {
+			Assert.assertEquals("Cannot delete projects for a null workspace", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDeleteProjectsByWorkspace() {
+		VeracodeScaProject project1 = new VeracodeScaProject();
+		VeracodeScaProject project2 = new VeracodeScaProject();
+		Page<VeracodeScaProject> page = new PageImpl<>(Arrays.asList(project1, project2));
+		BDDMockito.when(projectRepository
+				.findAllByWorkspace(BDDMockito.any(VeracodeScaWorkspace.class),
+						BDDMockito.any(Pageable.class)))
+				.thenReturn(page);
+
+		projectService.deleteProjectsByWorkspace(workspace);
+		BDDMockito.verify(issueService).deleteIssuesByProject(project1);
+		BDDMockito.verify(issueService).deleteIssuesByProject(project2);
+		BDDMockito.verify(projectRepository).deleteAll(BDDMockito.anyIterable());
+		BDDMockito.verify(projectRepository).flush();
+	}
+
+	@Test
+	public void testDeleteProjectsByWorkspaceMultiplePages() {
+		VeracodeScaProject project1 = new VeracodeScaProject();
+		VeracodeScaProject project2 = new VeracodeScaProject();
+		Pageable pageable1 = PageRequest.of(0, 1);
+		Page<VeracodeScaProject> page1 = new PageImpl<>(Collections.singletonList(project1),
+				pageable1, 2);
+		Pageable pageable2 = PageRequest.of(1, 1);
+		Page<VeracodeScaProject> page2 = new PageImpl<>(Collections.singletonList(project2),
+				pageable2, 2);
+		BDDMockito.when(projectRepository.findAllByWorkspace(workspace, PageRequest.of(0, 100)))
+				.thenReturn(page1);
+		BDDMockito.when(projectRepository.findAllByWorkspace(workspace, page1.nextPageable()))
+				.thenReturn(page2);
+
+		projectService.deleteProjectsByWorkspace(workspace);
+		BDDMockito.verify(issueService).deleteIssuesByProject(project1);
+		BDDMockito.verify(issueService).deleteIssuesByProject(project2);
+		BDDMockito.verify(projectRepository, times(2)).deleteAll(BDDMockito.anyIterable());
+		BDDMockito.verify(projectRepository).flush();
 	}
 }

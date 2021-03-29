@@ -217,7 +217,7 @@ public class VeracodeScaClientServiceTest {
 		BDDMockito.verify(projectService, Mockito.times(1))
 				.updateProjects(BDDMockito.anyList(), BDDMockito.any(VeracodeScaWorkspace.class));
 		BDDMockito.verify(issueService, Mockito.times(0))
-				.updateIssues(BDDMockito.anyList());
+				.updateIssues(BDDMockito.anyList(), BDDMockito.anyList());
 	}
 
 	@Test
@@ -283,7 +283,7 @@ public class VeracodeScaClientServiceTest {
 		BDDMockito.verify(projectService, Mockito.times(1))
 				.updateProjects(projectsCaptor.capture(), workspaceCaptor.capture());
 		BDDMockito.verify(issueService, Mockito.times(1))
-				.updateIssues(issuesCaptor.capture());
+				.updateIssues(issuesCaptor.capture(), BDDMockito.anyList());
 
 		Assert.assertEquals(project.getId(), projectsCaptor.getValue().get(0).getId());
 		Assert.assertEquals(workspaceModel, workspaceCaptor.getValue());

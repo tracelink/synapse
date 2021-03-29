@@ -247,44 +247,4 @@ public class VeracodeScaConfigurationsControllerTest {
 						.attribute(SynapseModelAndView.SUCCESS_FLASH,
 								"Set default branch for Mock Project."));
 	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetIncludedProductException() throws Exception {
-		BDDMockito.doThrow(VeracodeScaProductException.class).when(workspaceService)
-				.setIncluded("Mock Workspace", true);
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/include")
-						.param("workspace", "Mock Workspace").param("included", "true")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.FAILURE_FLASH,
-								Matchers.containsString(
-										"Cannot update workspace inclusion status.")));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetIncluded() throws Exception {
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/include")
-						.param("workspace", "Mock Workspace").param("included", "true")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.SUCCESS_FLASH, "Included workspace."));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetExcluded() throws Exception {
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/include")
-						.param("workspace", "Mock Workspace").param("included", "false")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.SUCCESS_FLASH, "Excluded workspace."));
-	}
 }

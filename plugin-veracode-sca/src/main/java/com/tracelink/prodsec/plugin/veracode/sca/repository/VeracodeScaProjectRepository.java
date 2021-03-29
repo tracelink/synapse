@@ -1,9 +1,12 @@
 package com.tracelink.prodsec.plugin.veracode.sca.repository;
 
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
 import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -47,4 +50,21 @@ public interface VeracodeScaProjectRepository extends JpaRepository<VeracodeScaP
 	 * @return the Veracode SCA project with the given name, or null
 	 */
 	VeracodeScaProject findByName(String name);
+
+	/**
+	 * Gets the list of {@link VeracodeScaProject}s whose IDs are in the given list.
+	 *
+	 * @param ids list of IDs of projects to get
+	 * @return list of projects with the given IDs
+	 */
+	List<VeracodeScaProject> findByIdIn(List<UUID> ids);
+
+	/**
+	 * Gets a page of {@link VeracodeScaProject}s that are associated with the given {@link
+	 * VeracodeScaWorkspace}.
+	 *
+	 * @param workspace workspace for which to get projects
+	 * @return page of projects associated with the given workspace
+	 */
+	Page<VeracodeScaProject> findAllByWorkspace(VeracodeScaWorkspace workspace, Pageable pageable);
 }

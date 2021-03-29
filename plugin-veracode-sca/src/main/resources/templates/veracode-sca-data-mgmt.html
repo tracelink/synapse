@@ -1,0 +1,203 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+    <h3 class="page-title">Data Management</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+  <!-- Include Workspace/Project Settings -->
+  <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Included Workspace and Project Settings
+          <a href="#" data-toggle="tooltip" th:title="${help}">
+            <i class="material-icons">help_outline</i>
+          </a>
+        </h6>
+      </div>
+      <div class="card-body border-bottom">
+        <div th:switch="${workspaces.size()}">
+          <ul th:case="0" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No workspace data.</span>
+            </li>
+          </ul>
+          <div th:case="*">
+            <p class="card-title">Set Included Workspaces</p>
+            <div class="row">
+              <div class="col">
+                <form class="d-inline"
+                      action="/veracode/sca/data/workspaces/include" method="POST">
+                  <select name="workspaceIds" class="selectpicker input-group"
+                          title="Select projects to include in metrics" data-width="85%"
+                          data-style="rounded border" data-live-search="true" multiple>
+                    <th:block th:each="workspace : ${workspaces}">
+                      <option th:data-content="${workspace.name}" th:value="${workspace.id}"
+                              th:selected="${workspace.included}"></option>
+                    </th:block>
+                  </select>
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                  <button class="btn btn-primary" type="submit">
+                    Apply
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${projects.size()}">
+          <ul th:case="0" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No project data.</span>
+            </li>
+          </ul>
+          <div th:case="*">
+            <p class="card-title">Set Included Projects</p>
+            <div class="row">
+              <div class="col">
+                <form class="d-inline" action="/veracode/sca/data/projects/include" method="POST">
+                  <select name="projectIds" class="selectpicker input-group"
+                          title="Select projects to include in metrics" data-width="85%"
+                          data-style="rounded border" data-live-search="true" multiple>
+                    <th:block th:each="project : ${projects}">
+                      <option th:data-content="${project.displayName}" th:value="${project.id}"
+                              th:selected="${project.included}"></option>
+                    </th:block>
+                  </select>
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                  <button class="btn btn-primary" type="submit">
+                    Apply
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Include Workspace/Project Settings -->
+  <!-- Workspaces -->
+  <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small h-100">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Workspaces</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${workspaces.size()}">
+          <ul th:case="0" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No workspace data.</span>
+            </li>
+          </ul>
+          <div th:case="*" class="table-responsive">
+            <table class="table table-striped text-center">
+              <thead>
+              <tr>
+                <th scope="col">Workspace</th>
+                <th scope="col">Included?</th>
+                <th scope="col">Delete Workspace</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="workspace : ${workspaces}">
+                <td th:text=${workspace.name}></td>
+                <td th:text="${workspace.included ? 'Yes' : 'No'}"></td>
+                <td>
+                  <button class="btn btn-outline-danger btn-xs py-1 px-2" data-toggle="modal"
+                          data-target="#deleteModal" data-item="Workspace"
+                          data-action="/veracode/sca/data/workspace/delete"
+                          data-input="workspaceId" th:data-id="${workspace.id}"
+                          th:data-name="${workspace.name}">Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Workspaces -->
+</div>
+<!-- Projects -->
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+    <div class="card card-small h-100">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Projects</h6>
+      </div>
+      <div class="card-footer">
+        <div th:switch="${projects.size()}">
+          <ul th:case="0" class="list-group list-group-small list-group-flush">
+            <li class="list-group-item d-flex px-3">
+              <span class="text-semibold text-fiord-blue">No project data.</span>
+            </li>
+          </ul>
+          <div th:case="*" class="table-responsive">
+            <table class="table table-striped text-center">
+              <thead>
+              <tr>
+                <th scope="col">Veracode SCA Workspace</th>
+                <th scope="col">Veracode SCA Project</th>
+                <th scope="col">Default Branch</th>
+                <th scope="col">Included?</th>
+                <th scope="col">Delete Project</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="project : ${projects}">
+                <td th:text=${project.workspace.name}></td>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.defaultBranch}"></td>
+                <td th:text="${project.included ? 'Yes' : 'No'}"></td>
+                <td>
+                  <button class="btn btn-outline-danger btn-xs py-1 px-2" data-toggle="modal"
+                          data-target="#deleteModal" data-item="Project"
+                          data-action="/veracode/sca/data/project/delete"
+                          data-input="projectId" th:data-id="${project.id}"
+                          th:data-name="${project.name}">Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Projects -->
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+     aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="deleteModalLabel">
+          <i class="material-icons">warning</i> Delete <label id="deleteModalItem"></label>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <label id="deleteModalName"></label>? All associated data
+        will be deleted.
+      </div>
+      <div class="modal-footer">
+        <form class="form-inline" id="deleteModalForm" method="POST" action="#">
+          <div class="input-group pb-2">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input id="deleteModalInput" type="hidden" name="#" value="#"/>
+            <button class="btn btn-danger px-2" type="submit">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Delete Modal -->

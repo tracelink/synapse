@@ -61,26 +61,29 @@ public class VeracodeScaDashboardControllerTest {
 		project.setSynapseProject(synapseProject);
 		project.setIssues(Arrays.asList(issue1, issue2));
 
-		BDDMockito.when(projectService.getProjects())
-			.thenReturn(Collections.singletonList(project));
+		BDDMockito.when(projectService.getIncludedProjects())
+				.thenReturn(Collections.singletonList(project));
 		BDDMockito.when(productsService.getAllProductLines())
-			.thenReturn(Collections.singletonList(productLine));
+				.thenReturn(Collections.singletonList(productLine));
 		BDDMockito.when(productsService.getAllProjectFilters())
-			.thenReturn(Collections.singletonList(projectFilter));
+				.thenReturn(Collections.singletonList(projectFilter));
 		BDDMockito.when(productsService.getAllProjects())
-			.thenReturn(Collections.singletonList(synapseProject));
+				.thenReturn(Collections.singletonList(synapseProject));
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeScaPlugin.DASHBOARD_PAGE))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(
-				MockMvcResultMatchers.content().string(Matchers.containsString("Product Line")))
-			.andExpect(
-				MockMvcResultMatchers.content().string(Matchers.containsString("Project Filter")))
-			.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Project")))
-			.andExpect(MockMvcResultMatchers.model().attribute("coveredProjects", 1))
-			.andExpect(MockMvcResultMatchers.model().attribute("vulnerableProjects", 1L))
-			.andExpect(MockMvcResultMatchers.model().attribute("totalIssues", 2L))
-			.andExpect(MockMvcResultMatchers.model().attribute("highIssues", 1L))
-			.andExpect(MockMvcResultMatchers.model().attribute("vulnerableMethods", 1L));
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andExpect(
+						MockMvcResultMatchers.content()
+								.string(Matchers.containsString("Product Line")))
+				.andExpect(
+						MockMvcResultMatchers.content()
+								.string(Matchers.containsString("Project Filter")))
+				.andExpect(
+						MockMvcResultMatchers.content().string(Matchers.containsString("Project")))
+				.andExpect(MockMvcResultMatchers.model().attribute("coveredProjects", 1))
+				.andExpect(MockMvcResultMatchers.model().attribute("vulnerableProjects", 1L))
+				.andExpect(MockMvcResultMatchers.model().attribute("totalIssues", 2L))
+				.andExpect(MockMvcResultMatchers.model().attribute("highIssues", 1L))
+				.andExpect(MockMvcResultMatchers.model().attribute("vulnerableMethods", 1L));
 	}
 }

@@ -55,7 +55,7 @@ public class VeracodeScaRestController {
 	public ResponseEntity<Map<String, List<?>>> getIssues(@RequestParam String period,
 			@RequestParam String category) {
 		// Get all Veracode SCA projects
-		List<VeracodeScaProject> projects = projectService.getProjects();
+		List<VeracodeScaProject> projects = projectService.getIncludedProjects();
 		return getIssuesHelper(projects, period, category);
 	}
 

@@ -242,7 +242,7 @@ public class VeracodeScaRestControllerTest {
 		issue.setProject(project);
 		project.setIssues(Collections.singletonList(issue));
 
-		BDDMockito.when(projectService.getProjects())
+		BDDMockito.when(projectService.getIncludedProjects())
 				.thenReturn(Collections.singletonList(project));
 		BDDMockito.when(issueService.getEarliestIssueDate()).thenReturn(LocalDateTime.now());
 

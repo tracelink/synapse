@@ -87,6 +87,15 @@ public class VeracodeScaProject {
 	private VeracodeScaWorkspace workspace;
 
 	/**
+	 * Whether the issues associated with this project should be included by Synapse. If excluded,
+	 * this project and the issues associated with it will not be displayed in graphs, summary
+	 * statistics, or the issues page. Note that even if this value is true, this project will be
+	 * excluded if the workspace it is associated with is excluded.
+	 */
+	@Column(name = "included")
+	private boolean included = true;
+
+	/**
 	 * The list of {@link VeracodeScaIssue}s associated with this project. May contain issues from
 	 * more than one project branch.
 	 */
@@ -138,7 +147,7 @@ public class VeracodeScaProject {
 	public Set<String> getBranches() {
 		Set<String> encodedBranches = GSON.fromJson(branches, SET_TYPE_TOKEN.getType());
 		return encodedBranches.stream().map(VeracodeScaProject::decodeField)
-			.collect(Collectors.toSet());
+				.collect(Collectors.toSet());
 	}
 
 	public void addBranches(Set<String> branches) {
@@ -146,7 +155,7 @@ public class VeracodeScaProject {
 		Set<String> newBranches = getBranches();
 		newBranches.addAll(branches);
 		this.branches = newBranches.stream().map(VeracodeScaProject::encodeField)
-			.collect(Collectors.toSet()).toString();
+				.collect(Collectors.toSet()).toString();
 	}
 
 	public String getDefaultBranch() {
@@ -163,6 +172,14 @@ public class VeracodeScaProject {
 
 	public void setWorkspace(VeracodeScaWorkspace workspace) {
 		this.workspace = workspace;
+	}
+
+	public boolean isIncluded() {
+		return included;
+	}
+
+	public void setIncluded(boolean included) {
+		this.included = included;
 	}
 
 	public List<VeracodeScaIssue> getIssues() {
@@ -190,11 +207,11 @@ public class VeracodeScaProject {
 	public List<VeracodeScaIssue> getIssuesForDefaultBranch() {
 		if (defaultBranch == null) {
 			return Collections
-				.emptyList();
+					.emptyList();
 		}
 		return getIssues().stream()
-			.filter(i -> i.getProjectBranch().equals(defaultBranch))
-			.collect(Collectors.toList());
+				.filter(i -> i.getProjectBranch().equals(defaultBranch))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -205,7 +222,7 @@ public class VeracodeScaProject {
 	 */
 	public List<VeracodeScaIssue> getUnresolvedIssuesForDefaultBranch() {
 		return getIssuesForDefaultBranch().stream().filter(i -> !i.isResolved())
-			.collect(Collectors.toList());
+				.collect(Collectors.toList());
 	}
 
 	/**
