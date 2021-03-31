@@ -153,7 +153,7 @@ public class VeracodeScaRestController {
 
 		// Get all issues for the projects and place them in buckets
 		List<List<VeracodeScaIssue>> issues = bucketer.putItemsInBuckets(
-				projects.stream().map(VeracodeScaProject::getIssuesForDefaultBranch)
+				projects.stream().map(VeracodeScaProject::getIssuesForVisibleBranch)
 						.flatMap(List::stream).collect(Collectors.toList()));
 
 		// Get datasets according to category

@@ -32,9 +32,8 @@ public class VeracodeScaDashboardController {
 	}
 
 	/**
-	 * Returns necessary model objects, content view, and scripts in a
-	 * {@link SynapseModelAndView} object to render the Veracode SCA dashboard
-	 * statistics and main graph.
+	 * Returns necessary model objects, content view, and scripts in a {@link SynapseModelAndView}
+	 * object to render the Veracode SCA dashboard statistics and main graph.
 	 *
 	 * @return {@link SynapseModelAndView} containing all info to render the
 	 * Veracode SCA dashboard page
@@ -49,13 +48,13 @@ public class VeracodeScaDashboardController {
 		mv.addObject("vulnerableProjects",
 				projects.stream().filter(VeracodeScaProject::isVulnerable).count());
 		mv.addObject("totalIssues", projects.stream()
-				.map(VeracodeScaProject::getUnresolvedIssuesForDefaultBranch).mapToLong(List::size)
+				.map(VeracodeScaProject::getUnresolvedIssuesForVisibleBranch).mapToLong(List::size)
 				.sum());
 		mv.addObject("highIssues", projects.stream()
-				.map(VeracodeScaProject::getUnresolvedIssuesForDefaultBranch).flatMap(List::stream)
+				.map(VeracodeScaProject::getUnresolvedIssuesForVisibleBranch).flatMap(List::stream)
 				.filter(i -> i.getSeverityString().equals(VeracodeScaIssue.SEVERITY_HIGH)).count());
 		mv.addObject("vulnerableMethods", projects.stream()
-				.map(VeracodeScaProject::getUnresolvedIssuesForDefaultBranch).flatMap(List::stream)
+				.map(VeracodeScaProject::getUnresolvedIssuesForVisibleBranch).flatMap(List::stream)
 				.filter(VeracodeScaIssue::isVulnerableMethod).count());
 		// Product lines, project filters and projects for the graph dropdown menus
 		mv.addObject("productLines", productsService.getAllProductLines());

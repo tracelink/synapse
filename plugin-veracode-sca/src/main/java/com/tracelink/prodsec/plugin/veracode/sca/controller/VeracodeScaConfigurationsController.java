@@ -2,20 +2,13 @@ package com.tracelink.prodsec.plugin.veracode.sca.controller;
 
 import com.tracelink.prodsec.plugin.veracode.sca.VeracodeScaPlugin;
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
 import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaClientService;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaProjectService;
 import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsService;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaWorkspaceService;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import java.util.Comparator;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * The Veracode SCA configurations controller handles requests to the page for viewing and editing
- * configurations for connections to the Veracode SCA server and the risk tolerance. It also
- * handles requests to configure the default branch for a {@link VeracodeScaProject}.
+ * configurations for connections to the Veracode SCA server and the risk tolerance.
  *
  * @author mcool
  */
@@ -42,29 +34,22 @@ public class VeracodeScaConfigurationsController {
 			"redirect:" + VeracodeScaPlugin.CONFIGURATIONS_PAGE;
 	private final VeracodeScaClientService clientService;
 	private final VeracodeScaThresholdsService thresholdsService;
-	private final VeracodeScaWorkspaceService workspaceService;
-	private final VeracodeScaProjectService projectService;
 
 	public VeracodeScaConfigurationsController(@Autowired VeracodeScaClientService clientService,
-			@Autowired VeracodeScaThresholdsService thresholdsService,
-			@Autowired VeracodeScaWorkspaceService workspaceService,
-			@Autowired VeracodeScaProjectService projectService) {
+			@Autowired VeracodeScaThresholdsService thresholdsService) {
 		this.clientService = clientService;
 		this.thresholdsService = thresholdsService;
-		this.workspaceService = workspaceService;
-		this.projectService = projectService;
 	}
 
 	/**
 	 * Returns necessary model objects and content view in a {@link SynapseModelAndView} object to
 	 * render the Veracode SCA configurations page.
 	 *
-	 * @param project name of the project to highlight as selected on the configurations page
 	 * @return {@link SynapseModelAndView} containing all info to render the Veracode SCA
 	 * configurations page
 	 */
 	@GetMapping("")
-	public SynapseModelAndView getConfigurations(@RequestParam(required = false) String project) {
+	public SynapseModelAndView getConfigurations() {
 		SynapseModelAndView mv = new SynapseModelAndView("veracode-sca-configure");
 		// Veracode SCA client
 		try {
@@ -80,14 +65,6 @@ public class VeracodeScaConfigurationsController {
 		} catch (VeracodeScaThresholdsException e) {
 			// Do nothing
 		}
-		List<VeracodeScaWorkspace> workspaces = workspaceService.getWorkspaces();
-		workspaces.sort(Comparator.comparing(VeracodeScaWorkspace::getName));
-		List<VeracodeScaProject> projects = projectService.getIncludedProjects();
-		projects.sort(Comparator.comparing(VeracodeScaProject::getDisplayName));
-		mv.addObject("workspaces", workspaces);
-		mv.addObject("projects", projects);
-		mv.addObject("activeProject", project);
-		mv.addScriptReference("/scripts/veracode/sca/configurations.js");
 		return mv;
 	}
 
@@ -176,28 +153,5 @@ public class VeracodeScaConfigurationsController {
 					"Configured risk score thresholds.");
 		}
 		return CONFIGURATIONS_REDIRECT;
-	}
-
-	/**
-	 * Sets the default branch for the given Veracode SCA project.
-	 *
-	 * @param project            name of the Veracode SCA project to set branch for, if it exists
-	 * @param defaultBranch      name of the branch to set as the project's default
-	 * @param redirectAttributes redirect attributes to render Flash attributes for success
-	 * @return string redirecting to the configurations page
-	 */
-	@PostMapping("branch")
-	public String setDefaultBranch(@RequestParam String project, @RequestParam String defaultBranch,
-			RedirectAttributes redirectAttributes) {
-		try {
-			projectService.setDefaultBranch(project, defaultBranch);
-			redirectAttributes
-					.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
-							"Set default branch for " + project + ".");
-		} catch (VeracodeScaProductException e) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
-					"Cannot set default branch for " + project + ". " + e.getMessage());
-		}
-		return CONFIGURATIONS_REDIRECT + "?project=" + project;
 	}
 }

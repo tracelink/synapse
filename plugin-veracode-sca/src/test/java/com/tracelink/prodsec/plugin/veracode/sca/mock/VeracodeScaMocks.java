@@ -5,12 +5,11 @@ import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
 import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueType;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.UUID;
 
 public class VeracodeScaMocks {
 
-	private static final String DEVELOP = "develop";
+	private static final String MAIN = "main";
 
 	public static VeracodeScaIssue mockVulnerabilityIssue() {
 		VeracodeScaIssue issue = mockBaseIssue();
@@ -28,7 +27,7 @@ public class VeracodeScaMocks {
 		VeracodeScaIssue issue = new VeracodeScaIssue();
 		issue.setId(UUID.randomUUID());
 		issue.setLastUpdatedDate(LocalDateTime.now());
-		issue.setProjectBranch(DEVELOP);
+		issue.setProjectBranch(MAIN);
 		issue.setIssueStatus(IssueStatus.OPEN);
 		return issue;
 	}
@@ -37,8 +36,7 @@ public class VeracodeScaMocks {
 		VeracodeScaProject project = new VeracodeScaProject();
 		project.setId(UUID.randomUUID());
 		project.setName("Mock Project");
-		project.addBranches(Collections.singleton(DEVELOP));
-		project.setDefaultBranch(DEVELOP);
+		project.setVisibleBranch(MAIN);
 		return project;
 	}
 

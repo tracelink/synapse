@@ -108,9 +108,8 @@ public class DataEncryptionService {
 	 * server goes down in the middle of a data encryption key rotation.
 	 * <p>
 	 * If decryption with the previous and/or current key fails, and the data encryption key is in
-	 * the middle of a key rotation, this method will return the database data unchanged.
-	 * Otherwise, an exception will be thrown. Any decryption failures with the previous or current
-	 * key will be logged.
+	 * the middle of a key rotation, this method will return the database data unchanged. Any
+	 * decryption failures with the previous or current key will be logged.
 	 *
 	 * @param dbData         the database data to be decrypted
 	 * @param converterClass the attribute converter class used to identify the appropriate {@link

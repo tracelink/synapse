@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -165,13 +164,13 @@ public class VeracodeScaProjectServiceTest {
 	}
 
 	@Test
-	public void testUpdateProjectsNewProjectDefaultDevelop() {
-		baseApiProject.setBranches(Collections.singletonList("develop"));
+	public void testUpdateProjectsNewProjectVisibleMain() {
 
 		BDDMockito.when(projectRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.empty());
 
-		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace);
+		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace,
+				Collections.singletonMap(baseApiProject.getId(), "main"));
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Collection<VeracodeScaProject>> projectCaptor = ArgumentCaptor
@@ -185,21 +184,19 @@ public class VeracodeScaProjectServiceTest {
 		Assert.assertEquals(baseApiProject.getSiteId(), storedProject.getSiteId());
 		Assert.assertEquals("2020-06-11", storedProject.getLastScanDate().format(
 				DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		Assert
-				.assertEquals(new HashSet<>(baseApiProject.getBranches()),
-						storedProject.getBranches());
-		Assert.assertEquals("develop", storedProject.getDefaultBranch());
+		Assert.assertEquals("main", storedProject.getVisibleBranch());
 		Assert.assertEquals(workspace, storedProject.getWorkspace());
 	}
 
 	@Test
-	public void testUpdateProjectsNewProjectDefaultMaster() {
+	public void testUpdateProjectsNewProjectVisibleNull() {
 		baseApiProject.setBranches(Collections.singletonList("master"));
 
 		BDDMockito.when(projectRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.empty());
 
-		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace);
+		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace,
+				Collections.emptyMap());
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Collection<VeracodeScaProject>> projectCaptor = ArgumentCaptor
@@ -208,59 +205,16 @@ public class VeracodeScaProjectServiceTest {
 
 		Assert.assertFalse(projectCaptor.getValue().isEmpty());
 		VeracodeScaProject storedProject = projectCaptor.getValue().iterator().next();
-		Assert
-				.assertEquals(new HashSet<>(baseApiProject.getBranches()),
-						storedProject.getBranches());
-		Assert.assertEquals("master", storedProject.getDefaultBranch());
-	}
-
-	@Test
-	public void testUpdateProjectsNewProjectDefaultOther() {
-		baseApiProject.setBranches(Collections.singletonList("beta"));
-
-		BDDMockito.when(projectRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
-				Optional.empty());
-
-		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace);
-
-		@SuppressWarnings("unchecked")
-		ArgumentCaptor<Collection<VeracodeScaProject>> projectCaptor = ArgumentCaptor
-				.forClass(Collection.class);
-		BDDMockito.verify(projectRepository, times(1)).saveAll(projectCaptor.capture());
-
-		Assert.assertFalse(projectCaptor.getValue().isEmpty());
-		VeracodeScaProject storedProject = projectCaptor.getValue().iterator().next();
-		Assert
-				.assertEquals(new HashSet<>(baseApiProject.getBranches()),
-						storedProject.getBranches());
-		Assert.assertEquals("beta", storedProject.getDefaultBranch());
-	}
-
-	@Test
-	public void testUpdateProjectsNewProjectNoBranches() {
-		baseApiProject.setBranches(Collections.emptyList());
-
-		BDDMockito.when(projectRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
-				Optional.empty());
-
-		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace);
-
-		@SuppressWarnings("unchecked")
-		ArgumentCaptor<Collection<VeracodeScaProject>> projectCaptor = ArgumentCaptor
-				.forClass(Collection.class);
-		BDDMockito.verify(projectRepository, times(1)).saveAll(projectCaptor.capture());
-
-		Assert.assertTrue(projectCaptor.getValue().isEmpty());
+		Assert.assertNull("", storedProject.getVisibleBranch());
 	}
 
 	@Test
 	public void testUpdateProjectsExistingProject() {
-		baseApiProject.setBranches(Collections.singletonList("master"));
-
 		BDDMockito.when(projectRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.of(project));
 
-		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace);
+		projectService.updateProjects(Collections.singletonList(baseApiProject), workspace,
+				Collections.singletonMap(baseApiProject.getId(), "main"));
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Collection<VeracodeScaProject>> projectCaptor = ArgumentCaptor
@@ -270,9 +224,7 @@ public class VeracodeScaProjectServiceTest {
 		Assert.assertFalse(projectCaptor.getValue().isEmpty());
 		VeracodeScaProject storedProject = projectCaptor.getValue().iterator().next();
 		Assert.assertEquals(project, storedProject);
-		Assert.assertTrue(project.getBranches().contains("develop"));
-		Assert.assertTrue(project.getBranches().contains("master"));
-		Assert.assertEquals("develop", project.getDefaultBranch());
+		Assert.assertEquals("main", project.getVisibleBranch());
 	}
 
 	@Test
@@ -438,38 +390,6 @@ public class VeracodeScaProjectServiceTest {
 		projectService.deleteMapping(project.getName());
 		BDDMockito.verify(projectRepository, times(1)).saveAndFlush(BDDMockito.any());
 		Assert.assertNull(project.getSynapseProject());
-	}
-
-	@Test
-	public void testSetDefaultProjectNull() {
-		BDDMockito.when(projectRepository.findByName(BDDMockito.anyString())).thenReturn(null);
-		try {
-			projectService.setDefaultBranch(project.getName(), project.getDefaultBranch());
-			Assert.fail("Exception should have been thrown");
-		} catch (VeracodeScaProductException e) {
-			Assert.assertEquals("No project found with the name: Mock Project", e.getMessage());
-		}
-	}
-
-	@Test
-	public void testSetDefaultProjectInvalidBranch() {
-		BDDMockito.when(projectRepository.findByName(BDDMockito.anyString())).thenReturn(project);
-		try {
-			projectService.setDefaultBranch(project.getName(), "foo");
-			Assert.fail("Exception should have been thrown");
-		} catch (VeracodeScaProductException e) {
-			Assert.assertEquals("No branch found with the name: foo", e.getMessage());
-		}
-	}
-
-	@Test
-	public void testSetDefaultProject() {
-		project.addBranches(new HashSet<>(Arrays.asList("develop", "master")));
-		BDDMockito.when(projectRepository.findByName(BDDMockito.anyString())).thenReturn(project);
-		Assert.assertEquals("develop", project.getDefaultBranch());
-		projectService.setDefaultBranch(project.getName(), "master");
-		Assert.assertEquals("master", project.getDefaultBranch());
-		BDDMockito.verify(projectRepository, times(1)).saveAndFlush(project);
 	}
 
 	@Test

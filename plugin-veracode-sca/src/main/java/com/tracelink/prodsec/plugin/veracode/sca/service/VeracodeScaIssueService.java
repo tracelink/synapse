@@ -48,20 +48,19 @@ public class VeracodeScaIssueService {
 	/**
 	 * Updates the issue data stored in {@link VeracodeScaIssue} entities in the database. If there
 	 * already exists an issue in the database associated with the given issue ID, updates that
-	 * entity. Otherwise, it creates a new issue object and links it to a {@link
+	 * entity. Otherwise, it creates a new issue object and links it to the given {@link
 	 * VeracodeScaProject}.
 	 *
-	 * @param issues the list of current issues from the Veracode SCA server
+	 * @param issues  the list of current issues from the Veracode SCA server
+	 * @param project the project the issues are associated with
 	 */
-	public void updateIssues(List<IssueSummary> issues, List<VeracodeScaProject> projects) {
+	public void updateIssues(List<IssueSummary> issues, VeracodeScaProject project) {
+		// If arguments are null, return
+		if (issues == null || project == null) {
+			return;
+		}
 		Set<VeracodeScaIssue> issueModels = new HashSet<>();
 		issues.forEach(issue -> {
-			// If issue is not associated with a project we know about, skip it
-			VeracodeScaProject project = projects.stream()
-					.filter(p -> p.getId() == issue.getProjectId()).findFirst().orElse(null);
-			if (project == null) {
-				return;
-			}
 			// Get issue model with matching ID, or create a new one
 			VeracodeScaIssue issueModel;
 			Optional<VeracodeScaIssue> optionalIssueModel = issueRepository.findById(issue.getId());

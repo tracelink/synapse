@@ -50,7 +50,7 @@ public class VeracodeScaRestControllerTest {
 
 	private VeracodeScaProject project;
 	private static final String ISSUES_REST_ENDPOINT = "/veracode/sca/rest/issues";
-	private static final String DEVELOP = "develop";
+	private static final String MAIN = "main";
 
 	@Before
 	public void setup() {
@@ -69,7 +69,7 @@ public class VeracodeScaRestControllerTest {
 
 		VeracodeScaIssue issue = new VeracodeScaIssue();
 		issue.setSeverity(7.5f);
-		issue.setProjectBranch(DEVELOP);
+		issue.setProjectBranch(MAIN);
 		issue.setIssueStatus(IssueStatus.OPEN);
 		issue.setCreatedDate(LocalDateTime.now());
 		issue.setLastUpdatedDate(LocalDateTime.now());
@@ -82,7 +82,7 @@ public class VeracodeScaRestControllerTest {
 
 		VeracodeScaIssue issue2 = new VeracodeScaIssue();
 		issue2.setSeverity(8.5f);
-		issue2.setProjectBranch(DEVELOP);
+		issue2.setProjectBranch(MAIN);
 		issue2.setIssueStatus(IssueStatus.OPEN);
 		issue2.setCreatedDate(LocalDateTime.now());
 		issue2.setLastUpdatedDate(LocalDateTime.now());
@@ -91,7 +91,7 @@ public class VeracodeScaRestControllerTest {
 		VeracodeScaProject project2 = new VeracodeScaProject();
 		project2.setName("Project2");
 		project2.setSynapseProject(synapseProject2);
-		project2.setDefaultBranch(DEVELOP);
+		project2.setVisibleBranch(MAIN);
 		project2.setIssues(Collections.singletonList(issue2));
 		issue2.setProject(project2);
 
@@ -126,7 +126,7 @@ public class VeracodeScaRestControllerTest {
 
 		VeracodeScaIssue issue = new VeracodeScaIssue();
 		issue.setVulnerability("XXE");
-		issue.setProjectBranch(DEVELOP);
+		issue.setProjectBranch(MAIN);
 		issue.setCreatedDate(LocalDateTime.now().minusDays(10));
 		issue.setLastUpdatedDate(LocalDateTime.now().minusDays(3));
 		issue.setIssueStatus(IssueStatus.OPEN);
@@ -135,7 +135,7 @@ public class VeracodeScaRestControllerTest {
 
 		// Second issue is same but of type library
 		VeracodeScaIssue issue2 = new VeracodeScaIssue();
-		issue2.setProjectBranch(DEVELOP);
+		issue2.setProjectBranch(MAIN);
 		issue2.setCreatedDate(LocalDateTime.now().minusDays(10));
 		issue2.setLastUpdatedDate(LocalDateTime.now().minusDays(3));
 		issue2.setIssueStatus(IssueStatus.OPEN);
@@ -196,7 +196,7 @@ public class VeracodeScaRestControllerTest {
 		issue.setFixedDate(LocalDateTime.now().minusMonths(1));
 		issue.setCreatedDate(LocalDateTime.now().minusMonths(3));
 		issue.setLastUpdatedDate(LocalDateTime.now());
-		issue.setProjectBranch(DEVELOP);
+		issue.setProjectBranch(MAIN);
 		issue.setProject(project);
 		project.setIssues(Collections.singletonList(issue));
 
@@ -238,7 +238,7 @@ public class VeracodeScaRestControllerTest {
 		issue.setIssueStatus(IssueStatus.OPEN);
 		issue.setIgnored(true);
 		issue.setIgnoredDate(LocalDateTime.now().minusWeeks(1));
-		issue.setProjectBranch(DEVELOP);
+		issue.setProjectBranch(MAIN);
 		issue.setProject(project);
 		project.setIssues(Collections.singletonList(issue));
 

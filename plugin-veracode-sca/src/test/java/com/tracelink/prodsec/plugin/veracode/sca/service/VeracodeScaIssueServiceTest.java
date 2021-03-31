@@ -77,8 +77,7 @@ public class VeracodeScaIssueServiceTest {
 		BDDMockito.when(issueRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.empty());
 
-		issueService.updateIssues(Collections.singletonList(baseIssueSummary),
-				Collections.singletonList(project));
+		issueService.updateIssues(Collections.singletonList(baseIssueSummary), project);
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Set<VeracodeScaIssue>> issuesCaptor = ArgumentCaptor.forClass(Set.class);
@@ -108,8 +107,7 @@ public class VeracodeScaIssueServiceTest {
 		BDDMockito.when(issueRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.of(issueModel));
 
-		issueService.updateIssues(Collections.singletonList(baseIssueSummary),
-				Collections.singletonList(project));
+		issueService.updateIssues(Collections.singletonList(baseIssueSummary), project);
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Set<VeracodeScaIssue>> issuesCaptor = ArgumentCaptor.forClass(Set.class);
@@ -134,8 +132,7 @@ public class VeracodeScaIssueServiceTest {
 		BDDMockito.when(issueRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.of(issueModel));
 
-		issueService.updateIssues(Collections.singletonList(baseIssueSummary),
-				Collections.singletonList(project));
+		issueService.updateIssues(Collections.singletonList(baseIssueSummary), project);
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Set<VeracodeScaIssue>> issuesCaptor = ArgumentCaptor.forClass(Set.class);
@@ -166,8 +163,7 @@ public class VeracodeScaIssueServiceTest {
 		BDDMockito.when(issueRepository.findById(BDDMockito.any(UUID.class))).thenReturn(
 				Optional.of(issueModel));
 
-		issueService.updateIssues(Collections.singletonList(baseIssueSummary),
-				Collections.singletonList(project));
+		issueService.updateIssues(Collections.singletonList(baseIssueSummary), project);
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Set<VeracodeScaIssue>> issuesCaptor = ArgumentCaptor.forClass(Set.class);
@@ -184,26 +180,24 @@ public class VeracodeScaIssueServiceTest {
 	}
 
 	@Test
-	public void testUpdateIssuesUnknownProject() {
+	public void testUpdateIssuesNullIssues() {
+		issueService.updateIssues(null, project);
+		BDDMockito.verify(issueRepository, times(0)).saveAll(BDDMockito.anyIterable());
+	}
+
+	@Test
+	public void testUpdateIssuesNullProject() {
 		IssueSummary issueSummary = new IssueSummary();
-		issueSummary.setId(UUID.randomUUID());
-		issueSummary.setProjectId(project.getId());
 
-		issueService.updateIssues(Collections.singletonList(issueSummary), Collections.emptyList());
-
-		@SuppressWarnings("unchecked")
-		ArgumentCaptor<Set<VeracodeScaIssue>> issuesCaptor = ArgumentCaptor.forClass(Set.class);
-		BDDMockito.verify(issueRepository, times(1)).saveAll(issuesCaptor.capture());
-
-		Assert.assertTrue(issuesCaptor.getValue().isEmpty());
+		issueService.updateIssues(Collections.singletonList(issueSummary), null);
+		BDDMockito.verify(issueRepository, times(0)).saveAll(BDDMockito.anyIterable());
 	}
 
 	@Test
 	public void testUpdateIssuesException() {
 		baseIssueSummary.setIssueType(null);
 
-		issueService.updateIssues(Collections.singletonList(baseIssueSummary),
-				Collections.singletonList(project));
+		issueService.updateIssues(Collections.singletonList(baseIssueSummary), project);
 
 		@SuppressWarnings("unchecked")
 		ArgumentCaptor<Set<VeracodeScaIssue>> issuesCaptor = ArgumentCaptor.forClass(Set.class);
