@@ -73,7 +73,7 @@ public class VeracodeScaPluginTest {
 	@Test
 	public void testGetLinksForSidebar() {
 		List<SidebarLink> links = veracodeScaPlugin.getLinksForSidebar();
-		Assert.assertEquals(4, links.size());
+		Assert.assertEquals(5, links.size());
 
 		SidebarLink dashboard = links.get(0);
 		Assert.assertEquals("Dashboard", dashboard.getDisplayName());
@@ -85,27 +85,34 @@ public class VeracodeScaPluginTest {
 		Assert.assertEquals("report", issues.getMaterialIcon());
 		Assert.assertEquals(VeracodeScaPlugin.ISSUES_PAGE, issues.getPageLink());
 		Assert.assertEquals(VeracodeScaPlugin.VIEW_ISSUES_PRIV,
-			issues.getAuthorizePrivileges().toArray()[0]);
+				issues.getAuthorizePrivileges().toArray()[0]);
 
 		SidebarLink configurations = links.get(2);
 		Assert.assertEquals("Configurations", configurations.getDisplayName());
 		Assert.assertEquals("settings_applications", configurations.getMaterialIcon());
 		Assert.assertEquals(VeracodeScaPlugin.CONFIGURATIONS_PAGE, configurations.getPageLink());
 		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV,
-			configurations.getAuthorizePrivileges().toArray()[0]);
+				configurations.getAuthorizePrivileges().toArray()[0]);
 
-		SidebarLink mappings = links.get(3);
+		SidebarLink dataMgmt = links.get(3);
+		Assert.assertEquals("Manage Data", dataMgmt.getDisplayName());
+		Assert.assertEquals("visibility", dataMgmt.getMaterialIcon());
+		Assert.assertEquals(VeracodeScaPlugin.DATA_MGMT_PAGE, dataMgmt.getPageLink());
+		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV,
+				dataMgmt.getAuthorizePrivileges().toArray()[0]);
+
+		SidebarLink mappings = links.get(4);
 		Assert.assertEquals("Mappings", mappings.getDisplayName());
 		Assert.assertEquals("swap_horiz", mappings.getMaterialIcon());
 		Assert.assertEquals(VeracodeScaPlugin.MAPPINGS_PAGE, mappings.getPageLink());
 		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV,
-			mappings.getAuthorizePrivileges().toArray()[0]);
+				mappings.getAuthorizePrivileges().toArray()[0]);
 	}
 
 	@Test
 	public void testGetPrivileges() {
 		Assert.assertEquals(1, veracodeScaPlugin.getPrivileges().size());
 		Assert.assertEquals(VeracodeScaPlugin.VIEW_ISSUES_PRIV,
-			veracodeScaPlugin.getPrivileges().get(0));
+				veracodeScaPlugin.getPrivileges().get(0));
 	}
 }

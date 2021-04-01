@@ -49,7 +49,7 @@
                 <tbody>
                 <tr th:each="project : ${mappedProjects}"
                     th:if="${project.synapseProject.getOwningProductLine().equals(productLine)}"
-                    th:with="issues = ${project.getUnresolvedIssuesForDefaultBranch()}">
+                    th:with="issues = ${project.getUnresolvedIssuesForVisibleBranch()}">
                   <td th:text="${project.synapseProject.name}"></td>
                   <td th:text="${project.name}"></td>
                   <td th:text="${#temporals.format(project.lastScanDate, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
@@ -89,7 +89,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="project : ${unmappedProjects}"
-                    th:with="issues = ${project.getUnresolvedIssuesForDefaultBranch()}"
+                    th:with="issues = ${project.getUnresolvedIssuesForVisibleBranch()}"
                     th:id="${project.name + '-issues'}">
                   <td th:text="${project.getDisplayName()}"></td>
                   <td th:text="${#temporals.format(project.lastScanDate, 'MMM d, YYYY h:mm a')} ?: 'N/A'"

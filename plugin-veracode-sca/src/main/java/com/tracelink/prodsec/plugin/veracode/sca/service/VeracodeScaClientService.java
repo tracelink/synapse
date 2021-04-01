@@ -2,6 +2,7 @@ package com.tracelink.prodsec.plugin.veracode.sca.service;
 
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
 import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaClientRepository;
 import com.tracelink.prodsec.plugin.veracode.sca.util.api.VeracodeScaApiWrapper;
@@ -12,8 +13,10 @@ import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesProjec
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesWorkspace;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.Project;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.Workspace;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +68,8 @@ public class VeracodeScaClientService {
 	}
 
 	/**
-	 * Fetches current issues data from the Veracode SCA server. Stores Veracode SCA projects and
-	 * issues in the database.
+	 * Fetches current issues data from the Veracode SCA server. Stores Veracode SCA workspaces,
+	 * projects and issues in the database.
 	 */
 	public void fetchData() {
 		VeracodeScaClient client;
@@ -74,38 +77,12 @@ public class VeracodeScaClientService {
 			client = getClient();
 			apiWrapper.setClient(client);
 		} catch (VeracodeScaClientException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.info(e.getMessage());
 			return;
 		}
 
 		try {
-			VeracodeScaPagedResourcesIterator<PagedResourcesWorkspace> workspacesIterator = new VeracodeScaPagedResourcesIterator<>(
-					apiWrapper::getWorkspaces);
-			// Get all workspaces, one page at a time
-			while (workspacesIterator.hasNext()) {
-				List<Workspace> workspaces = workspacesIterator.next().getEmbedded()
-						.getWorkspaces();
-				List<VeracodeScaWorkspace> workspaceModels = workspaceService
-						.updateWorkspaces(workspaces);
-				for (VeracodeScaWorkspace workspaceModel : workspaceModels) {
-					VeracodeScaPagedResourcesIterator<PagedResourcesProject> projectsIterator = new VeracodeScaPagedResourcesIterator<>(
-							page -> apiWrapper
-									.getProjects(workspaceModel.getId().toString(), page));
-					// Get all projects for this workspace, one page at a time
-					while (projectsIterator.hasNext()) {
-						List<Project> projects = projectsIterator.next().getEmbedded()
-								.getProjects();
-						projectService.updateProjects(projects, workspaceModel);
-					}
-					VeracodeScaPagedResourcesIterator<PagedResourcesIssueSummary> issuesIterator = new VeracodeScaPagedResourcesIterator<>(
-							page -> apiWrapper.getIssues(workspaceModel.getId().toString(), page));
-					// Get all issues for this workspace, one page at a time
-					while (issuesIterator.hasNext()) {
-						List<IssueSummary> issues = issuesIterator.next().getEmbedded().getIssues();
-						issueService.updateIssues(issues);
-					}
-				}
-			}
+			fetchWorkspaceData();
 		} catch (Exception e) {
 			LOGGER.error("An error occurred while fetching Veracode SCA data: " + e.getMessage());
 		}
@@ -118,19 +95,7 @@ public class VeracodeScaClientService {
 	 * @throws VeracodeScaClientException if no API client is configured
 	 */
 	public VeracodeScaClient getClient() throws VeracodeScaClientException {
-		List<VeracodeScaClient> clients;
-		try {
-			clients = clientRepository.findAll();
-			/* Exception is transformed by the Spring exception handling logic, so we have to catch
-			 * a generic RuntimeException here
-			 */
-		} catch (RuntimeException e) {
-			/*
-			 * This allows us to at least render the UI, but we still cannot save a new value to
-			 * the client via the UI.
-			 */
-			clients = Collections.emptyList();
-		}
+		List<VeracodeScaClient> clients = clientRepository.findAll();
 		if (clients.isEmpty()) {
 			throw new VeracodeScaClientException("No Veracode SCA client configured.");
 		}
@@ -161,5 +126,93 @@ public class VeracodeScaClientService {
 		client.setApiSecretKey(apiSecretKey);
 		clientRepository.saveAndFlush(client);
 		return true;
+	}
+
+	/**
+	 * Helper for the {@link VeracodeScaClientService#fetchData()} method. Gets workspaces from the
+	 * Veracode SCA API and fetches project data for each workspace.
+	 */
+	private void fetchWorkspaceData() {
+		VeracodeScaPagedResourcesIterator<PagedResourcesWorkspace> workspacesIterator = new VeracodeScaPagedResourcesIterator<>(
+				apiWrapper::getWorkspaces);
+		// Get all workspaces, one page at a time
+		while (workspacesIterator.hasNext()) {
+			List<Workspace> workspaces = workspacesIterator.next().getEmbedded()
+					.getWorkspaces();
+			List<VeracodeScaWorkspace> workspaceModels = workspaceService
+					.updateWorkspaces(workspaces);
+			fetchProjectData(workspaceModels);
+		}
+	}
+
+	/**
+	 * Helper for the {@link VeracodeScaClientService#fetchData()} method. Gets projects from the
+	 * Veracode SCA API and fetches issue and branch data for each project.
+	 *
+	 * @param workspaceModels the list of workspaces for which to fetch projects
+	 */
+	private void fetchProjectData(List<VeracodeScaWorkspace> workspaceModels) {
+		for (VeracodeScaWorkspace workspaceModel : workspaceModels) {
+			VeracodeScaPagedResourcesIterator<PagedResourcesProject> projectsIterator = new VeracodeScaPagedResourcesIterator<>(
+					page -> apiWrapper
+							.getProjects(workspaceModel.getId().toString(), page));
+			// Get all projects for this workspace, one page at a time
+			while (projectsIterator.hasNext()) {
+				List<Project> projects = projectsIterator.next().getEmbedded()
+						.getProjects();
+				Map<UUID, String> branches = getVisibleBranches(workspaceModel, projects);
+				List<VeracodeScaProject> projectModels = projectService
+						.updateProjects(projects, workspaceModel, branches);
+				fetchIssuesData(workspaceModel, projectModels);
+			}
+		}
+	}
+
+	/**
+	 * Helper for the {@link VeracodeScaClientService#fetchData()} method. Gets a single issue for
+	 * each project in the given list to determine the visible branch for each project.
+	 *
+	 * @param workspaceModel the workspace of the projects
+	 * @param projects       the list of projects for which to determine the visible branch
+	 * @return map from project ID to visible branch
+	 */
+	private Map<UUID, String> getVisibleBranches(VeracodeScaWorkspace workspaceModel,
+			List<Project> projects) {
+		Map<UUID, String> branches = new HashMap<>();
+		for (Project project : projects) {
+			PagedResourcesIssueSummary pagedResourcesIssueSummary = apiWrapper
+					.getIssue(workspaceModel.getId().toString(), project.getId().toString());
+			List<IssueSummary> issues = pagedResourcesIssueSummary.getEmbedded().getIssues();
+			if (issues.isEmpty()) {
+				LOGGER.debug("No issues associated with visible branch for project " + project
+						.getName());
+			} else {
+				String branch = issues.get(0).getProjectBranch();
+				branches.put(project.getId(), branch);
+			}
+		}
+		return branches;
+	}
+
+	/**
+	 * Helper for the {@link VeracodeScaClientService#fetchData()} method. Gets issues from the
+	 * Veracode SCA API for the given workspace and projects.
+	 *
+	 * @param workspaceModel the workspace of the projects
+	 * @param projectModels  the list of projects for which to fetch issues
+	 */
+	private void fetchIssuesData(VeracodeScaWorkspace workspaceModel,
+			List<VeracodeScaProject> projectModels) {
+		for (VeracodeScaProject projectModel : projectModels) {
+			VeracodeScaPagedResourcesIterator<PagedResourcesIssueSummary> issuesIterator = new VeracodeScaPagedResourcesIterator<>(
+					page -> apiWrapper.getIssues(workspaceModel.getId().toString(),
+							projectModel.getId().toString(), projectModel.getVisibleBranch(),
+							page));
+			// Get all issues for this project and branch combo, one page at a time
+			while (issuesIterator.hasNext()) {
+				List<IssueSummary> issues = issuesIterator.next().getEmbedded().getIssues();
+				issueService.updateIssues(issues, projectModel);
+			}
+		}
 	}
 }

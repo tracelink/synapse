@@ -23,14 +23,11 @@ import org.springframework.stereotype.Service;
 public class VeracodeScaIssueService {
 
 	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-		.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 	private final VeracodeScaIssueRepository issueRepository;
-	private final VeracodeScaProjectService projectService;
 
-	public VeracodeScaIssueService(@Autowired VeracodeScaProjectService projectService,
-		@Autowired VeracodeScaIssueRepository issueRepository) {
-		this.projectService = projectService;
+	public VeracodeScaIssueService(@Autowired VeracodeScaIssueRepository issueRepository) {
 		this.issueRepository = issueRepository;
 	}
 
@@ -51,19 +48,19 @@ public class VeracodeScaIssueService {
 	/**
 	 * Updates the issue data stored in {@link VeracodeScaIssue} entities in the database. If there
 	 * already exists an issue in the database associated with the given issue ID, updates that
-	 * entity. Otherwise, it creates a new issue object and links it to a {@link
+	 * entity. Otherwise, it creates a new issue object and links it to the given {@link
 	 * VeracodeScaProject}.
 	 *
-	 * @param issues the list of current issues from the Veracode SCA server
+	 * @param issues  the list of current issues from the Veracode SCA server
+	 * @param project the project the issues are associated with
 	 */
-	public void updateIssues(List<IssueSummary> issues) {
+	public void updateIssues(List<IssueSummary> issues, VeracodeScaProject project) {
+		// If arguments are null, return
+		if (issues == null || project == null) {
+			return;
+		}
 		Set<VeracodeScaIssue> issueModels = new HashSet<>();
 		issues.forEach(issue -> {
-			// If issue is not associated with a project we know about, skip it
-			VeracodeScaProject project = projectService.getProject(issue.getProjectId());
-			if (project == null) {
-				return;
-			}
 			// Get issue model with matching ID, or create a new one
 			VeracodeScaIssue issueModel;
 			Optional<VeracodeScaIssue> optionalIssueModel = issueRepository.findById(issue.getId());
@@ -86,6 +83,23 @@ public class VeracodeScaIssueService {
 	}
 
 	/**
+	 * Deletes any {@link VeracodeScaIssue} associated with the given project.
+	 *
+	 * @param project the project for which to delete all associated issues
+	 * @throws IllegalArgumentException if the project is null
+	 */
+	public void deleteIssuesByProject(VeracodeScaProject project) {
+		// Make sure project is not null
+		if (project == null) {
+			throw new IllegalArgumentException("Cannot delete issues for a null project");
+		}
+		// Delete all issues with the given project
+		issueRepository.deleteByProject(project);
+		// Flush before returning
+		issueRepository.flush();
+	}
+
+	/**
 	 * Populates the given {@link VeracodeScaIssue} with data from the given {@link IssueSummary}
 	 * retrieved from the Veracode SCA server. Links the issue model with the given {@link
 	 * VeracodeScaProject}.
@@ -96,7 +110,7 @@ public class VeracodeScaIssueService {
 	 *                   given issue
 	 */
 	private void populateIssueModel(VeracodeScaIssue issueModel, IssueSummary issue,
-		VeracodeScaProject project) {
+			VeracodeScaProject project) {
 		// Set issue type for the issue model and any fields specific to the issue type
 		IssueType issueType;
 		switch (issue.getIssueType()) {
@@ -161,7 +175,7 @@ public class VeracodeScaIssueService {
 
 		// If there is no issue status for the model or if there is an update to the issue status
 		if (issueModel.getIssueStatus() == null || !issueModel.getIssueStatus()
-			.equals(issueStatus)) {
+				.equals(issueStatus)) {
 			switch (issueStatus) {
 				// Set fixed date to now if the issue is newly fixed
 				case FIXED:

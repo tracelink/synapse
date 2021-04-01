@@ -55,7 +55,7 @@ public class VeracodeScaRestController {
 	public ResponseEntity<Map<String, List<?>>> getIssues(@RequestParam String period,
 			@RequestParam String category) {
 		// Get all Veracode SCA projects
-		List<VeracodeScaProject> projects = projectService.getProjects();
+		List<VeracodeScaProject> projects = projectService.getIncludedProjects();
 		return getIssuesHelper(projects, period, category);
 	}
 
@@ -153,7 +153,7 @@ public class VeracodeScaRestController {
 
 		// Get all issues for the projects and place them in buckets
 		List<List<VeracodeScaIssue>> issues = bucketer.putItemsInBuckets(
-				projects.stream().map(VeracodeScaProject::getIssuesForDefaultBranch)
+				projects.stream().map(VeracodeScaProject::getIssuesForVisibleBranch)
 						.flatMap(List::stream).collect(Collectors.toList()));
 
 		// Get datasets according to category

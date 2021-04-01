@@ -2822,7 +2822,8 @@ button.list-group-item-dark {
 
 .modal-body {
   padding: 1.875rem 2.1875rem;
-  word-break: break-all; }
+  word-break: normal;
+  overflow-wrap: break-word; }
 
 .modal-footer {
   padding: 0.9375rem 2.1875rem;

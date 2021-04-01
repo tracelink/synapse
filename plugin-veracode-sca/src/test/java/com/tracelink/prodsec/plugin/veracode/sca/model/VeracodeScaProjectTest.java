@@ -6,8 +6,8 @@ import org.junit.Test;
 public class VeracodeScaProjectTest {
 
 	@Test
-	public void testGetIssuesForDefaultBranchNoDefaultSet() {
+	public void testGetIssuesForVisibleBranchNoneSet() {
 		VeracodeScaProject project = new VeracodeScaProject();
-		Assert.assertTrue(project.getIssuesForDefaultBranch().isEmpty());
+		Assert.assertTrue(project.getIssuesForVisibleBranch().isEmpty());
 	}
 }

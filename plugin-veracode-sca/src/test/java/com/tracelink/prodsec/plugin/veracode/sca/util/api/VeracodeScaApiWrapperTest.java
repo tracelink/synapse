@@ -81,11 +81,26 @@ public class VeracodeScaApiWrapperTest {
 
 		try {
 			apiWrapper.getWorkspaces(0);
-			Assert.fail("Exception should have been  thrown");
+			Assert.fail("Exception should have been thrown");
 		} catch (VeracodeScaApiException e) {
 			Assert.assertFalse(loggerRule.getMessages().isEmpty());
 			Assert.assertTrue(loggerRule.getMessages().get(0)
 					.contains("Error sending request to Veracode SCA API: "));
+			Assert.assertEquals("Could not obtain response from Veracode SCA API", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetRequestNullResponse() {
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces"))
+				.withQueryParams(queryParams1)
+				.willReturn(null));
+		client.setApiId("foo");
+		client.setApiSecretKey("bar");
+		try {
+			apiWrapper.getWorkspaces(0);
+			Assert.fail("Exception should have been thrown");
+		} catch (VeracodeScaApiException e) {
 			Assert.assertEquals("Could not obtain response from Veracode SCA API", e.getMessage());
 		}
 	}
@@ -98,9 +113,10 @@ public class VeracodeScaApiWrapperTest {
 
 		try {
 			apiWrapper.getWorkspaces(0);
-			Assert.fail("Exception should have been  thrown");
+			Assert.fail("Exception should have been thrown");
 		} catch (VeracodeScaApiException e) {
-			Assert.assertEquals("Could not obtain response from Veracode SCA API", e.getMessage());
+			Assert.assertTrue(e.getMessage().contains(
+					"Received status code 400 from Veracode SCA API while sending request to "));
 		}
 	}
 
@@ -184,6 +200,7 @@ public class VeracodeScaApiWrapperTest {
 	@Test
 	public void testGetIssuesMultiplePages() {
 		UUID workspaceId = UUID.randomUUID();
+		UUID projectId = UUID.randomUUID();
 
 		IssueSummary issue1 = new IssueSummary();
 		issue1.setId(UUID.randomUUID());
@@ -212,11 +229,13 @@ public class VeracodeScaApiWrapperTest {
 						.withQueryParams(queryParams2)
 						.willReturn(WireMock.okJson(GSON.toJson(pagedIssues2))));
 
-		List<IssueSummary> issues = apiWrapper.getIssues(workspaceId.toString(), 0).getEmbedded()
+		List<IssueSummary> issues = apiWrapper
+				.getIssues(workspaceId.toString(), projectId.toString(), null, 0).getEmbedded()
 				.getIssues();
 		Assert.assertEquals(1, issues.size());
 		Assert.assertEquals(issue1.getId(), issues.get(0).getId());
-		issues = apiWrapper.getIssues(workspaceId.toString(), 1).getEmbedded().getIssues();
+		issues = apiWrapper.getIssues(workspaceId.toString(), projectId.toString(), null, 1)
+				.getEmbedded().getIssues();
 		Assert.assertEquals(1, issues.size());
 		Assert.assertEquals(issue2.getId(), issues.get(0).getId());
 	}

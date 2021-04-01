@@ -2,7 +2,6 @@ package com.tracelink.prodsec.plugin.veracode.sca.controller;
 
 import com.tracelink.prodsec.plugin.veracode.sca.VeracodeScaPlugin;
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
@@ -217,74 +216,5 @@ public class VeracodeScaConfigurationsControllerTest {
 				.andExpect(MockMvcResultMatchers.flash()
 						.attribute(SynapseModelAndView.SUCCESS_FLASH,
 								"Configured risk score thresholds."));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetDefaultBranchProductException() throws Exception {
-		BDDMockito.doThrow(VeracodeScaProductException.class).when(projectService)
-				.setDefaultBranch("Mock Project", "master");
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/branch")
-						.param("project", "Mock Project").param("defaultBranch", "master")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.FAILURE_FLASH,
-								Matchers.containsString(
-										"Cannot set default branch for Mock Project.")));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetDefaultBranch() throws Exception {
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/branch")
-						.param("project", "Mock Project").param("defaultBranch", "master")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.SUCCESS_FLASH,
-								"Set default branch for Mock Project."));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetIncludedProductException() throws Exception {
-		BDDMockito.doThrow(VeracodeScaProductException.class).when(workspaceService)
-				.setIncluded("Mock Workspace", true);
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/include")
-						.param("workspace", "Mock Workspace").param("included", "true")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.FAILURE_FLASH,
-								Matchers.containsString(
-										"Cannot update workspace inclusion status.")));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetIncluded() throws Exception {
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/include")
-						.param("workspace", "Mock Workspace").param("included", "true")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.SUCCESS_FLASH, "Included workspace."));
-	}
-
-	@Test
-	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
-	public void testSetExcluded() throws Exception {
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/include")
-						.param("workspace", "Mock Workspace").param("included", "false")
-						.with(SecurityMockMvcRequestPostProcessors.csrf()))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.SUCCESS_FLASH, "Excluded workspace."));
 	}
 }

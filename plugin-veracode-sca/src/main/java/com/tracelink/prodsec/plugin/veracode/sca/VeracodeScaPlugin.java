@@ -46,6 +46,8 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 
 	public static final String CONFIGURATIONS_PAGE = DASHBOARD_PAGE + "/configure";
 
+	public static final String DATA_MGMT_PAGE = DASHBOARD_PAGE + "/data";
+
 	public static final String MAPPINGS_PAGE = DASHBOARD_PAGE + "/mappings";
 
 	public static final String ISSUES_PAGE = DASHBOARD_PAGE + "/issues";
@@ -134,11 +136,17 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 				.withPageLink(CONFIGURATIONS_PAGE)
 				.withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
 
+		// Projects page
+		SidebarLink dataMgmt = new SimpleSidebarLink("Manage Data")
+				.withMaterialIcon("visibility")
+				.withPageLink(DATA_MGMT_PAGE)
+				.withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
+
 		// Mappings page
 		SidebarLink mappings = new SimpleSidebarLink("Mappings").withMaterialIcon("swap_horiz")
 				.withPageLink(MAPPINGS_PAGE).withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
 
-		return Arrays.asList(dashboard, issues, configurations, mappings);
+		return Arrays.asList(dashboard, issues, configurations, dataMgmt, mappings);
 	}
 
 	/**
