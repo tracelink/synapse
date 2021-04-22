@@ -1,5 +1,6 @@
 package com.tracelink.prodsec.plugin.veracode.sca.controller;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
@@ -227,6 +228,9 @@ public class VeracodeScaRestController {
 					continue;
 				}
 				String vuln = issue.getVulnerability();
+				if (StringUtils.isBlank(vuln)) {
+					vuln = "Not Specified";
+				}
 				if (datasets.containsKey(vuln)) {
 					List<Long> counts = datasets.get(vuln);
 					counts.set(i, counts.get(i) + 1);
