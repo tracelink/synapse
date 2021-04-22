@@ -1,5 +1,6 @@
 package com.tracelink.prodsec.synapse.auth.model;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import java.util.Collection;
 import java.util.HashSet;
@@ -103,6 +104,16 @@ public class UserModel {
 
 	public boolean hasRole(String roleName) {
 		return roles.stream().anyMatch(r -> r.getRoleName().equals(roleName));
+	}
+
+	/**
+	 * Determines whether this user is an SSO user. If this user is not an SSO user, they are a
+	 * local user.
+	 *
+	 * @return true if the user is an SSO user, false if the user is a local user
+	 */
+	public boolean isSsoUser() {
+		return StringUtils.isNotBlank(getSsoId());
 	}
 
 }
