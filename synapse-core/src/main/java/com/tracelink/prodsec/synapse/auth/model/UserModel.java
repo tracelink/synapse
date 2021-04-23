@@ -1,6 +1,5 @@
 package com.tracelink.prodsec.synapse.auth.model;
 
-import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * User Model/Entity. Defined by email and id. Both must be unique
