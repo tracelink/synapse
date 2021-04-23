@@ -142,7 +142,16 @@ public class VeracodeScaRestControllerTest {
 		issue2.setIssueType(IssueType.LIBRARY);
 		issue2.setProject(project);
 
-		project.setIssues(Arrays.asList(issue, issue2));
+		// Third issue is same but null vuln
+		VeracodeScaIssue issue3 = new VeracodeScaIssue();
+		issue3.setProjectBranch(MAIN);
+		issue3.setCreatedDate(LocalDateTime.now().minusDays(1));
+		issue3.setLastUpdatedDate(LocalDateTime.now());
+		issue3.setIssueStatus(IssueStatus.OPEN);
+		issue3.setIssueType(IssueType.VULNERABILITY);
+		issue3.setProject(project);
+
+		project.setIssues(Arrays.asList(issue, issue2, issue3));
 
 		BDDMockito.when(projectService.getMappedProjects())
 				.thenReturn(Collections.singletonList(project));
@@ -179,7 +188,9 @@ public class VeracodeScaRestControllerTest {
 				.andExpect(MockMvcResultMatchers.content()
 						.string(Matchers.stringContainsInOrder(days)))
 				.andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("\"XXE\":[1,1,1,1,0,0,0]")));
+						.string(Matchers.containsString("\"XXE\":[1,1,1,1,0,0,0]")))
+				.andExpect(MockMvcResultMatchers.content()
+						.string(Matchers.containsString("\"Not Specified\":[0,0,0,0,0,1,1]")));
 	}
 
 	@Test

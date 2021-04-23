@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -227,6 +228,9 @@ public class VeracodeScaRestController {
 					continue;
 				}
 				String vuln = issue.getVulnerability();
+				if (StringUtils.isBlank(vuln)) {
+					vuln = "Not Specified";
+				}
 				if (datasets.containsKey(vuln)) {
 					List<Long> counts = datasets.get(vuln);
 					counts.set(i, counts.get(i) + 1);
