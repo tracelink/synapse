@@ -17,6 +17,7 @@
             <thead class="bg-light">
             <tr>
               <th scope="col" class="border-0">Username</th>
+              <th scope="col" class="border-0">User Type</th>
               <th scope="col" class="border-0">Role</th>
               <th scope="col" class="border-0">Enabled</th>
               <th scope="col" class="border-0">Actions</th>
@@ -26,6 +27,7 @@
             <th:block th:each="user : ${users}">
               <tr>
                 <td th:text="${user.username}">Username</td>
+                <td th:text="${user.isSsoUser()} ? 'SSO' : 'Local'">User Type</td>
                 <td th:text="${user.getRolesAsString()}">Roles</td>
                 <td>
                   <div th:if="${user.enabled}">

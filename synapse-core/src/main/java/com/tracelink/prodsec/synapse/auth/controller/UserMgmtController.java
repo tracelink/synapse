@@ -91,8 +91,7 @@ public class UserMgmtController {
 						.convert(parameters.get(param), Boolean.class);
 
 				// Update roles if the user should have the role
-				if (!user.getRoles().contains(desiredRole) && desiredState != null
-						&& desiredState) {
+				if (desiredState != null && desiredState) {
 					roles.add(desiredRole);
 				}
 			}

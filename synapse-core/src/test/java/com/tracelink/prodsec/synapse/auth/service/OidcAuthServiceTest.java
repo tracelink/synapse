@@ -78,6 +78,7 @@ public class OidcAuthServiceTest {
 
 		Assert.assertEquals(sub, userCaptor.getValue().getSsoId());
 		Assert.assertEquals(email, userCaptor.getValue().getUsername());
+		Assert.assertTrue(userCaptor.getValue().isSsoUser());
 		Assert.assertTrue(userCaptor.getValue().getRoles().isEmpty());
 		Assert.assertTrue(userCaptor.getValue().isEnabled());
 		Assert.assertNull(userCaptor.getValue().getPassword());
@@ -93,7 +94,7 @@ public class OidcAuthServiceTest {
 	}
 
 	@Test
-	public void testLoadUserExistingLocalUser() {
+	public void testLoadUserExistingSsoUser() {
 		UserModel user = new UserModel();
 		user.setUsername(email);
 		user.setSsoId(sub);
@@ -114,7 +115,7 @@ public class OidcAuthServiceTest {
 		idToken = new OidcIdToken("1234567890ABCDEF", Instant.now().minusSeconds(10),
 				Instant.now().plusSeconds(10), claims);
 		BDDMockito.when(oidcUserRequest.getIdToken()).thenReturn(idToken);
-		
+
 		try {
 			oidcAuthService.loadUser(oidcUserRequest);
 			Assert.fail("Exception should have been thrown");
@@ -141,7 +142,7 @@ public class OidcAuthServiceTest {
 	}
 
 	@Test
-	public void testLoadUserExistingSsoUser() {
+	public void testLoadUserExistingSsoUserUpdateEmail() {
 		UserModel user = new UserModel();
 		user.setUsername("oldemail@example.com");
 		user.setSsoId(sub);
