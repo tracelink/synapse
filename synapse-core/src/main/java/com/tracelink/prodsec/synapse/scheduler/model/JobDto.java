@@ -5,6 +5,13 @@ import java.util.Date;
 
 import org.springframework.scheduling.TriggerContext;
 
+/**
+ * Class to manage the state of a job including its next execution time.
+ * Implements the {@linkplain TriggerContext} to help manage the job state
+ * 
+ * @author csmith
+ *
+ */
 public class JobDto implements TriggerContext {
 	private String pluginName;
 
@@ -55,6 +62,13 @@ public class JobDto implements TriggerContext {
 		this.lastEndTime = lastEndTime;
 	}
 
+	/**
+	 * Get the duration of the last job run in milliseconds, or -1 if the job hasn't
+	 * run or completed yet
+	 * 
+	 * @return the milliseconds of duration, or -1 if the job hasn't run or
+	 *         completed
+	 */
 	public long getDurationMs() {
 		if (getLastStartTime() == null || getLastEndTime() == null) {
 			return -1;
@@ -62,6 +76,12 @@ public class JobDto implements TriggerContext {
 		return Duration.between(getLastStartTime().toInstant(), getLastEndTime().toInstant()).toMillis();
 	}
 
+	/**
+	 * Report the duration of the last job run.
+	 * 
+	 * @return a friendly string describing the duration of the last run in
+	 *         minutes:seconds.milliseconds, or 'N/A' if the job hasn't run
+	 */
 	public String getDurationString() {
 		long totalMs = getDurationMs();
 		if (totalMs == -1L) {
