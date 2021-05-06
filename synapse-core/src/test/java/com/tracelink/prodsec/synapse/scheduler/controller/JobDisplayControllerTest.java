@@ -1,9 +1,7 @@
 package com.tracelink.prodsec.synapse.scheduler.controller;
 
-import com.tracelink.prodsec.synapse.scheduler.model.JobsModel;
-import com.tracelink.prodsec.synapse.scheduler.service.JobsService;
-import com.tracelink.prodsec.synapse.test.TestSynapseBootApplicationCore;
 import java.util.Collections;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
@@ -17,6 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.tracelink.prodsec.synapse.scheduler.model.JobDto;
+import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
+import com.tracelink.prodsec.synapse.test.TestSynapseBootApplicationCore;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplicationCore.class)
 @AutoConfigureMockMvc
@@ -26,13 +28,13 @@ public class JobDisplayControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private JobsService jobsService;
+	private SchedulerService schedulerService;
 
 	@Test
 	@WithMockUser
 	public void testJobDisplay() throws Exception {
-		JobsModel mockJob = BDDMockito.mock(JobsModel.class);
-		BDDMockito.when(jobsService.getAllJobs()).thenReturn(Collections.singletonList(mockJob));
+		JobDto mockJob = BDDMockito.mock(JobDto.class);
+		BDDMockito.when(schedulerService.getAllJobs()).thenReturn(Collections.singletonList(mockJob));
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/jobs"))
 				.andExpect(MockMvcResultMatchers.model().attribute("jobs", Collections.singletonList(mockJob)));

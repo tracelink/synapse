@@ -1,57 +1,52 @@
 package com.tracelink.prodsec.synapse.scheduler.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 public class JobsModelTest {
 
 	@Test
-	public void testGetActive() {
-		JobsModel job = new JobsModel();
-		Assert.assertTrue(job.getActive());
-
-		job.setStart(LocalDateTime.now().minusMinutes(5));
-		Assert.assertTrue(job.getActive());
-
-		job.setFinish(LocalDateTime.now().minusMinutes(1));
-		Assert.assertFalse(job.getActive());
-
-		job.setStart(LocalDateTime.now());
-		Assert.assertTrue(job.getActive());
-	}
-
-	@Test
-	public void testGetRuntime() {
-		JobsModel job = new JobsModel();
-		LocalDateTime currTime = LocalDateTime.now();
-		Assert.assertEquals("N/A", job.getRuntime());
-
-		job.setStart(currTime.minusMinutes(5));
-		Assert.assertEquals("N/A", job.getRuntime());
-
-		job.setFinish(currTime.minusMinutes(1));
-		Assert.assertEquals("0:04:00.00", job.getRuntime());
-
-		job.setStart(currTime);
-		job.setFinish(currTime);
-		Assert.assertEquals("0:00:00.00", job.getRuntime());
-
-		job.setStart(currTime.minusDays(1));
-		job.setFinish(currTime.minusMinutes(1));
-		Assert.assertEquals("23:59:00.00", job.getRuntime());
-	}
-
-	@Test
 	public void testDAO() {
-		JobsModel job = new JobsModel();
-		job.setPluginJobName("Job");
-		LocalDateTime currTime = LocalDateTime.now();
-		job.setStart(currTime.minusMinutes(5));
-		job.setFinish(currTime);
+		String pluginName = "plugin";
+		String jobName = "job";
 
-		Assert.assertEquals("Job", job.getPluginJobName());
-		Assert.assertEquals(currTime.minusMinutes(5), job.getStart());
-		Assert.assertEquals(currTime, job.getFinish());
+		JobDto job = new JobDto(pluginName, jobName);
+
+		Assert.assertFalse(job.isActive());
+		job.setActive(true);
+		Assert.assertTrue(job.isActive());
+
+		Date start = new Date(1234);
+		Date finish = new Date(2345);
+		Date next = new Date(3456);
+
+		job.setLastStartTime(start);
+		job.setLastEndTime(finish);
+		job.setNextStartTime(next);
+
+		Assert.assertEquals(start, job.getLastStartTime());
+		Assert.assertEquals(start, job.lastActualExecutionTime());
+		Assert.assertEquals(finish, job.getLastEndTime());
+		Assert.assertEquals(finish, job.lastCompletionTime());
+		Assert.assertEquals(next, job.getNextStartTime());
+		Assert.assertEquals(next, job.lastScheduledExecutionTime());
+	}
+
+	@Test
+	public void testDurations() {
+		String pluginName = "plugin";
+		String jobName = "job";
+
+		JobDto job = new JobDto(pluginName, jobName);
+		Date start = new Date(1234);
+		Date finish = new Date(2345);
+		job.setLastStartTime(start);
+		job.setLastEndTime(finish);
+		
+		Assert.assertEquals(finish.getTime()-start.getTime(), job.getDurationMs());
+		Assert.assertEquals("0:01.111", job.getDurationString());
 	}
 }

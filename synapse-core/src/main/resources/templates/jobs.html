@@ -26,14 +26,15 @@
             <tbody>
             <th:block th:each="job : ${jobs}">
               <tr>
-                <td th:text="${job.pluginJobName}">Plugin and Job</td>
+                <td th:text="${job.pluginName + ' : ' + job.jobName}">Plugin and Job</td>
                 <td class="px-3"
-                    th:text="${#temporals.format(job?.start, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
-                    th:data-order="${#temporals.format(job?.start, 'YYYYMMddhhmm')} ?: '0'">Start</td>
-                <td th:text="${job.runtime}">Runtime</td>
+                    th:text="${#dates.format(job?.lastStartTime, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
+                    th:data-order="${#dates.format(job?.lastStartTime, 'YYYYMMddhhmm')} ?: '0'">Start</td>
+                <td th:text="${job.getDurationString()}"
+                    th:data-order="${job.getDurationMs()}">Runtime</td>
                 <td class="px-3"
-                    th:text="${#temporals.format(job?.upcoming, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
-                    th:data-order="${#temporals.format(job?.upcoming, 'YYYYMMddhhmm')} ?: '0'">Upcoming</td>
+                    th:text="${#dates.format(job?.nextStartTime, 'MMM d, YYYY h:mm a')} ?: 'N/A'"
+                    th:data-order="${#dates.format(job?.nextStartTime, 'YYYYMMddhhmm')} ?: '0'">Upcoming</td>
                 <td th:text="${job.active}">Active</td>
               </tr>
             </th:block>
