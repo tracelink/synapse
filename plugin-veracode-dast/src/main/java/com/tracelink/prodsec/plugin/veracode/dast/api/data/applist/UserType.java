@@ -74,35 +74,35 @@ import javax.xml.bind.annotation.XmlType;
 public class UserType {
 
 	@XmlAttribute(name = "login_account_type", required = true)
-	protected LoginAccountType loginAccountType;
+	private LoginAccountType loginAccountType;
 	@XmlAttribute(name = "username", required = true)
-	protected String username;
+	private String username;
 	@XmlAttribute(name = "create_application_profile", required = true)
-	protected boolean createApplicationProfile;
+	private boolean createApplicationProfile;
 	@XmlAttribute(name = "create_sandbox", required = true)
-	protected boolean createSandbox;
+	private boolean createSandbox;
 	@XmlAttribute(name = "create_new_build", required = true)
-	protected boolean createNewBuild;
+	private boolean createNewBuild;
 	@XmlAttribute(name = "create_policy_scan", required = true)
-	protected boolean createPolicyScan;
+	private boolean createPolicyScan;
 	@XmlAttribute(name = "create_sandbox_scan", required = true)
-	protected boolean createSandboxScan;
+	private boolean createSandboxScan;
 	@XmlAttribute(name = "assign_app_to_team", required = true)
-	protected boolean assignAppToTeam;
+	private boolean assignAppToTeam;
 	@XmlAttribute(name = "assign_app_to_any_team", required = true)
-	protected boolean assignAppToAnyTeam;
+	private boolean assignAppToAnyTeam;
 	@XmlAttribute(name = "view_sandbox", required = true)
-	protected boolean viewSandbox;
+	private boolean viewSandbox;
 	@XmlAttribute(name = "view_results", required = true)
-	protected boolean viewResults;
+	private boolean viewResults;
 	@XmlAttribute(name = "approve_mitigations", required = true)
-	protected boolean approveMitigations;
+	private boolean approveMitigations;
 	@XmlAttribute(name = "submit_static_scan", required = true)
-	protected boolean submitStaticScan;
+	private boolean submitStaticScan;
 	@XmlAttribute(name = "submit_policy_static_scan", required = true)
-	protected boolean submitPolicyStaticScan;
+	private boolean submitPolicyStaticScan;
 	@XmlAttribute(name = "submit_sandbox_static_scan", required = true)
-	protected boolean submitSandboxStaticScan;
+	private boolean submitSandboxStaticScan;
 
 	/**
 	 * Gets the value of the loginAccountType property.

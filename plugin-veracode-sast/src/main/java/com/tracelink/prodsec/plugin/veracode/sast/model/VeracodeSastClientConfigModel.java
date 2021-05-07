@@ -59,8 +59,7 @@ public class VeracodeSastClientConfigModel {
 	 */
 	static class VeracodeSastClientConfigConverter extends StringEncryptedAttributeConverter {
 
-		public VeracodeSastClientConfigConverter(
-				@Lazy DataEncryptionService dataEncryptionService) {
+		VeracodeSastClientConfigConverter(@Lazy DataEncryptionService dataEncryptionService) {
 			super(dataEncryptionService);
 		}
 	}

@@ -160,100 +160,100 @@ import javax.xml.bind.annotation.XmlType;
 public class FlawType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected MitigationListType mitigations;
+	private MitigationListType mitigations;
 	@XmlElement(name = "exploitability_adjustments", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected ExploitAdjustmentListType exploitabilityAdjustments;
+	private ExploitAdjustmentListType exploitabilityAdjustments;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected AnnotationListType annotations;
+	private AnnotationListType annotations;
 	@XmlElement(name = "exploit_desc", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected String exploitDesc;
+	private String exploitDesc;
 	@XmlElement(name = "severity_desc", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected String severityDesc;
+	private String severityDesc;
 	@XmlElement(name = "remediation_desc", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected String remediationDesc;
+	private String remediationDesc;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected AppendixType appendix;
+	private AppendixType appendix;
 	@XmlAttribute(name = "severity", required = true)
-	protected int severity;
+	private int severity;
 	@XmlAttribute(name = "categoryname", required = true)
-	protected String categoryname;
+	private String categoryname;
 	@XmlAttribute(name = "count")
-	protected Integer count;
+	private Integer count;
 	@XmlAttribute(name = "issueid", required = true)
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger issueid;
+	private BigInteger issueid;
 	@XmlAttribute(name = "module", required = true)
-	protected String module;
+	private String module;
 	@XmlAttribute(name = "type", required = true)
-	protected String type;
+	private String type;
 	@XmlAttribute(name = "description", required = true)
-	protected String description;
+	private String description;
 	@XmlAttribute(name = "note", required = true)
-	protected String note;
+	private String note;
 	@XmlAttribute(name = "cweid", required = true)
-	protected BigInteger cweid;
+	private BigInteger cweid;
 	@XmlAttribute(name = "remediationeffort", required = true)
-	protected int remediationeffort;
+	private int remediationeffort;
 	@XmlAttribute(name = "exploitLevel")
-	protected Integer exploitLevel;
+	private Integer exploitLevel;
 	@XmlAttribute(name = "categoryid", required = true)
-	protected BigInteger categoryid;
+	private BigInteger categoryid;
 	@XmlAttribute(name = "pcirelated")
-	protected Boolean pcirelated;
+	private Boolean pcirelated;
 	@XmlAttribute(name = "date_first_occurrence", required = true)
-	protected String dateFirstOccurrence;
+	private String dateFirstOccurrence;
 	@XmlAttribute(name = "remediation_status", required = true)
-	protected String remediationStatus;
+	private String remediationStatus;
 	@XmlAttribute(name = "sourcefile")
-	protected String sourcefile;
+	private String sourcefile;
 	@XmlAttribute(name = "line")
-	protected BigInteger line;
+	private BigInteger line;
 	@XmlAttribute(name = "sourcefilepath")
-	protected String sourcefilepath;
+	private String sourcefilepath;
 	@XmlAttribute(name = "scope")
-	protected String scope;
+	private String scope;
 	@XmlAttribute(name = "functionprototype")
-	protected String functionprototype;
+	private String functionprototype;
 	@XmlAttribute(name = "functionrelativelocation")
-	protected BigInteger functionrelativelocation;
+	private BigInteger functionrelativelocation;
 	@XmlAttribute(name = "url")
-	protected String url;
+	private String url;
 	@XmlAttribute(name = "vuln_parameter")
-	protected String vulnParameter;
+	private String vulnParameter;
 	@XmlAttribute(name = "procedure_name")
-	protected String procedureName;
+	private String procedureName;
 	@XmlAttribute(name = "procedure_hash")
-	protected String procedureHash;
+	private String procedureHash;
 	@XmlAttribute(name = "prototype_hash")
-	protected String prototypeHash;
+	private String prototypeHash;
 	@XmlAttribute(name = "statement_hash")
-	protected String statementHash;
+	private String statementHash;
 	@XmlAttribute(name = "statement_hash_count")
-	protected BigInteger statementHashCount;
+	private BigInteger statementHashCount;
 	@XmlAttribute(name = "statement_hash_ordinal")
-	protected BigInteger statementHashOrdinal;
+	private BigInteger statementHashOrdinal;
 	@XmlAttribute(name = "location")
-	protected String location;
+	private String location;
 	@XmlAttribute(name = "cvss")
-	protected BigDecimal cvss;
+	private BigDecimal cvss;
 	@XmlAttribute(name = "capecid")
-	protected Integer capecid;
+	private Integer capecid;
 	@XmlAttribute(name = "exploitdifficulty")
-	protected Integer exploitdifficulty;
+	private Integer exploitdifficulty;
 	@XmlAttribute(name = "inputvector")
-	protected String inputvector;
+	private String inputvector;
 	@XmlAttribute(name = "cia_impact", required = true)
-	protected String ciaImpact;
+	private String ciaImpact;
 	@XmlAttribute(name = "grace_period_expires", required = true)
-	protected String gracePeriodExpires;
+	private String gracePeriodExpires;
 	@XmlAttribute(name = "affects_policy_compliance", required = true)
-	protected boolean affectsPolicyCompliance;
+	private boolean affectsPolicyCompliance;
 	@XmlAttribute(name = "mitigation_status")
-	protected String mitigationStatus;
+	private String mitigationStatus;
 	@XmlAttribute(name = "mitigation_status_desc")
-	protected String mitigationStatusDesc;
+	private String mitigationStatusDesc;
 	@XmlAttribute(name = "tag")
-	protected String tag;
+	private String tag;
 
 	/**
 	 * Gets the value of the mitigations property.

@@ -30,11 +30,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
 public class RoleMgmtController {
 
-	@Autowired
-	private AuthService authService;
+	private final AuthService authService;
+	private final ConversionService conversionService;
 
-	@Autowired
-	private ConversionService conversionService;
+	public RoleMgmtController(@Autowired AuthService authService,
+			@Autowired ConversionService conversionService) {
+		this.authService = authService;
+		this.conversionService = conversionService;
+	}
 
 	@GetMapping("/rolemgmt")
 	public SynapseModelAndView rolemgmt() {

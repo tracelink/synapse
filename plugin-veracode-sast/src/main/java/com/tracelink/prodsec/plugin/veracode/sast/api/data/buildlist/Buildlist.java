@@ -41,24 +41,22 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-		"build"
-})
+@XmlType(name = "", propOrder = {"build"})
 @XmlRootElement(name = "buildlist", namespace = "https://analysiscenter.veracode.com/schema/2.0/buildlist")
 public class Buildlist {
 
 	@XmlElement(namespace = "https://analysiscenter.veracode.com/schema/2.0/buildlist")
-	protected List<BuildType> build;
+	private List<BuildType> build;
 	@XmlAttribute(name = "buildlist_version", required = true)
-	protected String buildlistVersion;
+	private String buildlistVersion;
 	@XmlAttribute(name = "account_id", required = true)
-	protected long accountId;
+	private long accountId;
 	@XmlAttribute(name = "app_id", required = true)
-	protected long appId;
+	private long appId;
 	@XmlAttribute(name = "sandbox_id")
-	protected Long sandboxId;
+	private Long sandboxId;
 	@XmlAttribute(name = "app_name", required = true)
-	protected String appName;
+	private String appName;
 
 	/**
 	 * Gets the value of the build property.

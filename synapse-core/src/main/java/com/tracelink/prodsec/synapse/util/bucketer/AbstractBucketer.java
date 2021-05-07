@@ -12,8 +12,8 @@ import java.util.stream.IntStream;
  * BucketIntervals}. Items are added to buckets according to the {@link
  * AbstractBucketer#itemBelongsInBucket(Object, LocalDateTime, LocalDateTime)} method.
  *
- * @param <T> type of the items to be put into buckets
  * @author mcool
+ * @param <T> type of the items to be put into buckets
  */
 public abstract class AbstractBucketer<T> {
 

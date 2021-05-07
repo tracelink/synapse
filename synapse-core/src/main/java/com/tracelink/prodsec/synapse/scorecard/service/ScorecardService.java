@@ -30,6 +30,11 @@ public class ScorecardService {
 		this.productsService = productsService;
 	}
 
+	/**
+	 * Adds a column to the Synapse Scorecard.
+	 *
+	 * @param column the column to add
+	 */
 	public void addColumn(ScorecardColumn column) {
 		scorecardColumnDefs.add(column);
 	}

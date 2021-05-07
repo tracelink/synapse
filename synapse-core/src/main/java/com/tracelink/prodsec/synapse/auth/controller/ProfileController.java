@@ -22,11 +22,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @PreAuthorize("isAuthenticated()")
 public class ProfileController {
 
-	@Autowired
-	private AuthService authService;
+	private final AuthService authService;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	public ProfileController(@Autowired AuthService authService,
+			@Autowired PasswordEncoder passwordEncoder) {
+		this.authService = authService;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@GetMapping("/profile")
 	public SynapseModelAndView profile(Principal authenticatedUser) {

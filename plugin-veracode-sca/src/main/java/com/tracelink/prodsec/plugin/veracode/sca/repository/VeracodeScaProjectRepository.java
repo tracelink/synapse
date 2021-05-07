@@ -64,6 +64,7 @@ public interface VeracodeScaProjectRepository extends JpaRepository<VeracodeScaP
 	 * VeracodeScaWorkspace}.
 	 *
 	 * @param workspace workspace for which to get projects
+	 * @param pageable  the page information for the database request
 	 * @return page of projects associated with the given workspace
 	 */
 	Page<VeracodeScaProject> findAllByWorkspace(VeracodeScaWorkspace workspace, Pageable pageable);

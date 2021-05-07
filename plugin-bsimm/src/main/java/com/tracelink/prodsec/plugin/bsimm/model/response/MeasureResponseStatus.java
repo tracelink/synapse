@@ -2,9 +2,8 @@ package com.tracelink.prodsec.plugin.bsimm.model.response;
 
 /**
  * Holds the scoring for each response status
- * 
- * @author csmith
  *
+ * @author csmith
  */
 public enum MeasureResponseStatus {
 	NOT_STARTED("Not Started", 0), //
@@ -37,6 +36,7 @@ public enum MeasureResponseStatus {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		return this.statusText;
 	}

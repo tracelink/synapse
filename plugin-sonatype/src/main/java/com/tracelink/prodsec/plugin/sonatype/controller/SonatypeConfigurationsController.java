@@ -84,7 +84,7 @@ public class SonatypeConfigurationsController {
 	public String setApiClient(@RequestParam String apiUrl, @RequestParam String user,
 			@RequestParam String auth,
 			RedirectAttributes redirectAttributes) {
-		if (apiUrl.equals("") || user.equals("") || auth.equals("")) {
+		if ("".equals(apiUrl) || "".equals(user) || "".equals(auth)) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Please provide all inputs.");
 			return REDIRECT;

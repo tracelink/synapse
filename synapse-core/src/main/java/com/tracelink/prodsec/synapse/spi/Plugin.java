@@ -142,6 +142,9 @@ public abstract class Plugin {
 	 */
 	protected abstract List<String> getPrivileges();
 
+	/**
+	 * Performs all actions to build and register this plugin with Synapse.
+	 */
 	@PostConstruct
 	protected void buildPlugin() {
 		String name = null;
@@ -164,6 +167,11 @@ public abstract class Plugin {
 		registerWithSidebar();
 	}
 
+	/**
+	 * Schedules jobs for this plugin with Synapse after Synapse has been fully initialized.
+	 *
+	 * @param event the refresh event signaling that Synapse is initialized
+	 */
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		String name = null;

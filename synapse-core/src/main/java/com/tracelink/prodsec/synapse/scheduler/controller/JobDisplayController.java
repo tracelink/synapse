@@ -1,13 +1,12 @@
 package com.tracelink.prodsec.synapse.scheduler.controller;
 
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
 
 /**
  * Controller for displaying plugin job information, including last run
@@ -19,8 +18,11 @@ import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
 @PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
 public class JobDisplayController {
 
-	@Autowired
-	private SchedulerService jobsService;
+	private final SchedulerService jobsService;
+
+	public JobDisplayController(@Autowired SchedulerService jobsService) {
+		this.jobsService = jobsService;
+	}
 
 	@GetMapping("/jobs")
 	public SynapseModelAndView jobs() {

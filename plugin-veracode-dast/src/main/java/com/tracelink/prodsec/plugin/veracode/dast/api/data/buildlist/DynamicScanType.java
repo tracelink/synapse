@@ -31,20 +31,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum DynamicScanType {
 
-	@XmlEnumValue("mp")
-	MP("mp"),
-	@XmlEnumValue("ds")
-	DS("ds");
+	@XmlEnumValue("mp") MP("mp"), @XmlEnumValue("ds") DS("ds");
 	private final String value;
 
 	DynamicScanType(String v) {
 		value = v;
 	}
 
+	/**
+	 * Gets the value of this scan type
+	 *
+	 * @return the scan type value
+	 */
 	public String value() {
 		return value;
 	}
 
+	/**
+	 * Returns the {@link DynamicScanType} that matches the given value
+	 *
+	 * @param v the value to get the scan type for
+	 * @return the matching scan type
+	 */
 	public static DynamicScanType fromValue(String v) {
 		for (DynamicScanType c : DynamicScanType.values()) {
 			if (c.value.equals(v)) {

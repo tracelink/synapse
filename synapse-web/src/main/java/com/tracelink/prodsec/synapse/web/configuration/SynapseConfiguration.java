@@ -7,6 +7,11 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Configuration class for basic Synapse Spring beans.
+ *
+ * @author csmith
+ */
 @Configuration
 public class SynapseConfiguration {
 

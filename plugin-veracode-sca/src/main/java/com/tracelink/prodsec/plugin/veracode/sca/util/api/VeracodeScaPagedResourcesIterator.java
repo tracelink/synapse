@@ -9,8 +9,8 @@ import java.util.function.Function;
  * Iterator to fetch all pages of results for an {@link AbstractPagedResources} from the Veracode
  * SCA server.
  *
- * @param <T> type of the paged resources to fetch from Veracode
  * @author mcool
+ * @param <T> type of the paged resources to fetch from Veracode
  */
 public class VeracodeScaPagedResourcesIterator<T extends AbstractPagedResources> implements
 	Iterator<T> {

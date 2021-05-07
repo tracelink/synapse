@@ -54,9 +54,8 @@ public class JiraConfigurationsController {
 	private final JiraAllowedSlaService allowedSlaService;
 
 	// Accepted values to describe vulnerability type
-	private static final List<String> acceptedStrings = (Arrays
-			.asList("Critical", "High", "Medium", "Low",
-					"Informational", "Unknown"));
+	private static final List<String> ACCEPTED_STRINGS = (Arrays
+			.asList("Critical", "High", "Medium", "Low", "Informational", "Unknown"));
 
 	public JiraConfigurationsController(@Autowired JiraClientConfigService clientService,
 			@Autowired JiraThresholdsService thresholdsService,
@@ -275,7 +274,7 @@ public class JiraConfigurationsController {
 		if (allowedSlaInput != null && allowedSlaInput < 0) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Please provide a number of days that is greater than zero");
-		} else if (acceptedStrings.contains(severity)) {
+		} else if (ACCEPTED_STRINGS.contains(severity)) {
 			allowedSlaService.setAllowedSla(severity, allowedSlaInput);
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
 					"Allowed days in SLA updated successfully for severity " + severity);

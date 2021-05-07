@@ -16,17 +16,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- *       The element describes a screen shot for a flaw. There is a
- *       format element to describe the file type, and the code
- *       element will contain a base64 encoding of the actual binary
- *       file.
- *     
- * 
+ * The element describes a screen shot for a flaw. There is a
+ * format element to describe the file type, and the code
+ * element will contain a base64 encoding of the actual binary
+ * file.
+ *
+ *
  * <p>Java class for ScreenshotType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="ScreenshotType"&gt;
  *   &lt;complexContent&gt;
@@ -39,64 +38,56 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScreenshotType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-    "data"
+		"data"
 })
 public class ScreenshotType {
 
-    @XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-    protected byte[] data;
-    @XmlAttribute(name = "format", required = true)
-    protected ScreenshotFormatType format;
+	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
+	private byte[] data;
+	@XmlAttribute(name = "format", required = true)
+	private ScreenshotFormatType format;
 
-    /**
-     * Gets the value of the data property.
-     * 
-     * @return
-     *     possible object is
-     *     byte[]
-     */
-    public byte[] getData() {
-        return data;
-    }
+	/**
+	 * Gets the value of the data property.
+	 *
+	 * @return possible object is
+	 * byte[]
+	 */
+	public byte[] getData() {
+		return data;
+	}
 
-    /**
-     * Sets the value of the data property.
-     * 
-     * @param value
-     *     allowed object is
-     *     byte[]
-     */
-    public void setData(byte[] value) {
-        this.data = value;
-    }
+	/**
+	 * Sets the value of the data property.
+	 *
+	 * @param value allowed object is
+	 *              byte[]
+	 */
+	public void setData(byte[] value) {
+		this.data = value;
+	}
 
-    /**
-     * Gets the value of the format property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ScreenshotFormatType }
-     *     
-     */
-    public ScreenshotFormatType getFormat() {
-        return format;
-    }
+	/**
+	 * Gets the value of the format property.
+	 *
+	 * @return possible object is
+	 * {@link ScreenshotFormatType }
+	 */
+	public ScreenshotFormatType getFormat() {
+		return format;
+	}
 
-    /**
-     * Sets the value of the format property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ScreenshotFormatType }
-     *     
-     */
-    public void setFormat(ScreenshotFormatType value) {
-        this.format = value;
-    }
+	/**
+	 * Sets the value of the format property.
+	 *
+	 * @param value allowed object is
+	 *              {@link ScreenshotFormatType }
+	 */
+	public void setFormat(ScreenshotFormatType value) {
+		this.format = value;
+	}
 
 }

@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class FlawListType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<FlawType> flaw;
+	private List<FlawType> flaw;
 
 	/**
 	 * Gets the value of the flaw property.

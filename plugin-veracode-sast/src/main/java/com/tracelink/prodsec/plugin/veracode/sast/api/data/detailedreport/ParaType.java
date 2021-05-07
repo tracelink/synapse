@@ -48,9 +48,9 @@ import javax.xml.bind.annotation.XmlType;
 public class ParaType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<BulletItemType> bulletitem;
+	private List<BulletItemType> bulletitem;
 	@XmlAttribute(name = "text", required = true)
-	protected String text;
+	private String text;
 
 	/**
 	 * Gets the value of the bulletitem property.

@@ -76,8 +76,7 @@ public class KeyEncryptionService {
 	/**
 	 * Initializes environment variable keys, if configured.
 	 *
-	 * @throws IllegalArgumentException if an unknown encryption type is provided
-	 * @throws Exception                if an error occurs while loading a key from a KeyStore
+	 * @throws Exception if an error occurs while loading a key from a KeyStore
 	 */
 	@PostConstruct
 	public void init() throws Exception {

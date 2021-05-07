@@ -1,7 +1,11 @@
 package com.tracelink.prodsec.synapse.products.controller;
 
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.products.BadProductNameException;
+import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
+import com.tracelink.prodsec.synapse.products.service.ProductsService;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -11,23 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
-import com.tracelink.prodsec.synapse.products.service.ProductsService;
-import com.tracelink.prodsec.synapse.products.BadProductNameException;
-
 /**
  * Handles CRUD operations for Project Filters. Does not handle operations for
  * the underlying project(s)
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @Controller
 public class ProjectFilterController {
-	@Autowired
-	private ProductsService productsService;
+
+	private final ProductsService productsService;
+
+	public ProjectFilterController(@Autowired ProductsService productsService) {
+		this.productsService = productsService;
+	}
 
 	private SynapseModelAndView projectFilterMAV() {
 		SynapseModelAndView mav = new SynapseModelAndView("projectfilter");
@@ -57,7 +58,8 @@ public class ProjectFilterController {
 
 	@PostMapping("/projectfilter/createfilter")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
-	public String createFilter(@RequestParam String filterName, RedirectAttributes redirectAttributes) {
+	public String createFilter(@RequestParam String filterName,
+			RedirectAttributes redirectAttributes) {
 		try {
 			productsService.createProjectFilter(filterName);
 		} catch (BadProductNameException e) {
@@ -86,7 +88,8 @@ public class ProjectFilterController {
 	@PostMapping("/projectfilter/{filter}/setprojects")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
 	public String setProjectsForFilter(@PathVariable String filter,
-			@RequestParam(required = false) List<String> projectNames, RedirectAttributes redirectAttributes) {
+			@RequestParam(required = false) List<String> projectNames,
+			RedirectAttributes redirectAttributes) {
 		try {
 			productsService.setProjectsForFilter(projectNames, filter);
 		} catch (BadProductNameException | ProductsNotFoundException e) {
@@ -97,7 +100,8 @@ public class ProjectFilterController {
 
 	@PostMapping("/projectfilter/{filter}/removeproject")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
-	public String removeProjectFromFilter(@PathVariable String filter, @RequestParam String projectName,
+	public String removeProjectFromFilter(@PathVariable String filter,
+			@RequestParam String projectName,
 			RedirectAttributes redirectAttributes) {
 		try {
 			productsService.removeProjectFromFilter(projectName, filter);

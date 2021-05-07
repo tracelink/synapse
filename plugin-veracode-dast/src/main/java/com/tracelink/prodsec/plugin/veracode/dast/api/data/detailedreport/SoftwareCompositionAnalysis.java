@@ -55,17 +55,17 @@ import javax.xml.bind.annotation.XmlType;
 public class SoftwareCompositionAnalysis {
 
 	@XmlElement(name = "vulnerable_components", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected VulnerableComponentList vulnerableComponents;
+	private VulnerableComponentList vulnerableComponents;
 	@XmlAttribute(name = "third_party_components", required = true)
-	protected BigInteger thirdPartyComponents;
+	private BigInteger thirdPartyComponents;
 	@XmlAttribute(name = "violate_policy", required = true)
-	protected boolean violatePolicy;
+	private boolean violatePolicy;
 	@XmlAttribute(name = "components_violated_policy", required = true)
-	protected BigInteger componentsViolatedPolicy;
+	private BigInteger componentsViolatedPolicy;
 	@XmlAttribute(name = "blacklisted_components")
-	protected BigInteger blacklistedComponents;
+	private BigInteger blacklistedComponents;
 	@XmlAttribute(name = "sca_service_available")
-	protected Boolean scaServiceAvailable;
+	private Boolean scaServiceAvailable;
 
 	/**
 	 * Gets the value of the vulnerableComponents property.

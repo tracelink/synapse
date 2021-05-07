@@ -37,6 +37,11 @@ public class SidebarDropdown {
 		return this.display.getMaterialIcon();
 	}
 
+	/**
+	 * Add a collection of required authorizations for this sidebar link.
+	 *
+	 * @param linkAuthorizations the authorizations to require
+	 */
 	public void addAuthorization(Collection<String> linkAuthorizations) {
 		if (linkAuthorizations == null) {
 			return;

@@ -1,5 +1,11 @@
 package com.tracelink.prodsec.synapse.products.controller;
 
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.products.BadProductNameException;
+import com.tracelink.prodsec.synapse.products.OrphanedException;
+import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
+import com.tracelink.prodsec.synapse.products.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -9,23 +15,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
-import com.tracelink.prodsec.synapse.products.service.ProductsService;
-import com.tracelink.prodsec.synapse.products.BadProductNameException;
-import com.tracelink.prodsec.synapse.products.OrphanedException;
-
 /**
  * Handles CRUD operations on product lines and projects
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @Controller
 public class ProductLineController {
-	@Autowired
-	private ProductsService productsService;
+
+	private final ProductsService productsService;
+
+	public ProductLineController(@Autowired ProductsService productsService) {
+		this.productsService = productsService;
+	}
 
 	private SynapseModelAndView productsMAV() {
 		SynapseModelAndView mav = new SynapseModelAndView("products");
@@ -54,7 +56,8 @@ public class ProductLineController {
 	/////////////////
 	@PostMapping("/products/createproductline")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
-	public String createProductLine(@RequestParam String productLineName, RedirectAttributes redirectAttributes) {
+	public String createProductLine(@RequestParam String productLineName,
+			RedirectAttributes redirectAttributes) {
 		try {
 			productsService.createProductLine(productLineName);
 		} catch (BadProductNameException e) {
@@ -80,7 +83,8 @@ public class ProductLineController {
 	/////////////////
 	@PostMapping("/products/{productLine}/renameproductline")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
-	public String renameProductLine(@PathVariable String productLine, @RequestParam String productLineName,
+	public String renameProductLine(@PathVariable String productLine,
+			@RequestParam String productLineName,
 			RedirectAttributes redirectAttributes) {
 		try {
 			productsService.renameProductLine(productLine, productLineName);
@@ -95,7 +99,8 @@ public class ProductLineController {
 
 	@PostMapping("/products/{productLine}/renameproject")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
-	public String renameProject(@PathVariable String productLine, @RequestParam String oldProjectName,
+	public String renameProject(@PathVariable String productLine,
+			@RequestParam String oldProjectName,
 			@RequestParam String projectName, RedirectAttributes redirectAttributes) {
 		try {
 			productsService.renameProject(oldProjectName, projectName);
@@ -127,7 +132,8 @@ public class ProductLineController {
 	/////////////////
 	@PostMapping("/products/{productLine}/deleteproductline")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
-	public String deleteProductLine(@PathVariable String productLine, RedirectAttributes redirectAttributes) {
+	public String deleteProductLine(@PathVariable String productLine,
+			RedirectAttributes redirectAttributes) {
 		try {
 			productsService.deleteProductLine(productLine);
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,

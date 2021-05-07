@@ -1,18 +1,21 @@
 package com.tracelink.prodsec.plugin.bsimm.repo;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.tracelink.prodsec.plugin.bsimm.model.response.SurveyResponseEntity;
 import com.tracelink.prodsec.plugin.bsimm.model.survey.SurveyEntity;
 import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * Repository to store BSIMM survey responses.
+ *
+ * @author csmith
+ */
 public interface BsimmSurveyResponseRepo extends JpaRepository<SurveyResponseEntity, Long> {
 
 	/**
 	 * Find Responses for a Product Line sorted recent to oldest
-	 * 
+	 *
 	 * @param productLine the product line to search against
 	 * @return a List of responses for the given product line
 	 */
@@ -20,7 +23,7 @@ public interface BsimmSurveyResponseRepo extends JpaRepository<SurveyResponseEnt
 
 	/**
 	 * Find Responses for a given Survey
-	 * 
+	 *
 	 * @param survey the original survey
 	 * @return a list of responses for that survey
 	 */
@@ -28,7 +31,7 @@ public interface BsimmSurveyResponseRepo extends JpaRepository<SurveyResponseEnt
 
 	/**
 	 * Find the most recent 50 responses
-	 * 
+	 *
 	 * @return a list of the most recent 0-50 responses
 	 */
 	List<SurveyResponseEntity> findTop50ByOrderByDateFiledDesc();

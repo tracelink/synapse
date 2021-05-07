@@ -1,17 +1,16 @@
 package com.tracelink.prodsec.synapse.scorecard.model;
 
-import java.util.function.Function;
-
 import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
 import com.tracelink.prodsec.synapse.products.model.ProjectModel;
+import java.util.function.Function;
 
 /**
  * A simple DAO implementation of the {@link ScorecardColumn}
- * 
- * @author csmith
  *
+ * @author csmith
  */
 public class SimpleScorecardColumn implements ScorecardColumn {
+
 	private String pageLink;
 	private final String columnName;
 	private Function<ProjectModel, ScorecardValue> projectCallback;
@@ -25,6 +24,12 @@ public class SimpleScorecardColumn implements ScorecardColumn {
 		return this.columnName;
 	}
 
+	/**
+	 * Sets the page link for this column and returns this.
+	 *
+	 * @param pageLink the page link to set
+	 * @return this scorecard column
+	 */
 	public SimpleScorecardColumn withPageLink(String pageLink) {
 		this.pageLink = pageLink;
 		return this;
@@ -34,7 +39,14 @@ public class SimpleScorecardColumn implements ScorecardColumn {
 		return pageLink;
 	}
 
-	public SimpleScorecardColumn withProjectCallback(Function<ProjectModel, ScorecardValue> projectCallback) {
+	/**
+	 * Sets the project callback function for this column and returns this.
+	 *
+	 * @param projectCallback the project callback function to set
+	 * @return this scorecard column
+	 */
+	public SimpleScorecardColumn withProjectCallback(
+			Function<ProjectModel, ScorecardValue> projectCallback) {
 		this.projectCallback = projectCallback;
 		return this;
 	}
@@ -43,6 +55,12 @@ public class SimpleScorecardColumn implements ScorecardColumn {
 		return this.projectCallback;
 	}
 
+	/**
+	 * Sets the product line callback function for this column and returns this.
+	 *
+	 * @param productLineCallback the product line callback function to set
+	 * @return this scorecard column
+	 */
 	public SimpleScorecardColumn withProductLineCallback(
 			Function<ProductLineModel, ScorecardValue> productLineCallback) {
 		this.productLineCallback = productLineCallback;

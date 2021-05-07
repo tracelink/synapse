@@ -2,6 +2,12 @@ package com.tracelink.prodsec.plugin.bsimm.model.imports;
 
 import java.util.Collection;
 
+/**
+ * DTO to store function information for a BSIMM survey. Maintains a collection of associated
+ * levels.
+ *
+ * @author csmith
+ */
 public class BsimmPractice {
 
 	private String practiceName;

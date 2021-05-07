@@ -31,14 +31,19 @@ public class BsimmComparison {
 		this.functions = functions;
 	}
 
+	/**
+	 * Validates that the given BSIMM survey has the appropriate number of comparison functions
+	 * and that the comparison functions appear in the correct order for display.
+	 *
+	 * @param bsimmSurvey the BSIMM survey to validate against this BSIMM comparison
+	 * @throws SurveyImportException if the given BSIMM survey is invalid
+	 */
 	public void validate(BsimmSurvey bsimmSurvey) throws SurveyImportException {
 		List<BsimmFunction> surveyFunctions = new ArrayList<>(bsimmSurvey.getFunctions());
 		int surveySize = surveyFunctions.size();
 
 		if (surveySize != functions.size()) {
-			throw new SurveyImportException(
-					"Survey Functions Comparisons don't match number of Functions for the Function: "
-							+ this.comparisonTitle);
+			throw new SurveyImportException("Survey Functions Comparisons don't match number of Functions for the Function: " + this.comparisonTitle);
 		}
 
 		for (int i = 0; i < surveySize; i++) {
@@ -47,9 +52,7 @@ public class BsimmComparison {
 			if (func.getFunctionName().equals(compareFunc.getFunctionName())) {
 				compareFunc.validate(func);
 			} else {
-				throw new SurveyImportException("No matching Comparison Function for Function: "
-						+ func.getFunctionName()
-						+ ". These must be in the same order as the survey");
+				throw new SurveyImportException("No matching Comparison Function for Function: " + func.getFunctionName() + ". These must be in the same order as the survey");
 			}
 		}
 	}

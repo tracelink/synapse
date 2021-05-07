@@ -12,15 +12,37 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
+/**
+ * Test harness to test basic functionality of a Synapse database plugin.
+ */
 public abstract class PluginTestHarness {
 
+	/**
+	 * Builds the plugin under test.
+	 *
+	 * @return the built plugin
+	 */
 	protected abstract Plugin buildPlugin();
 
+	/**
+	 * Configures the test builder for a basic plugin.
+	 *
+	 * @param testPlan the test plan to configure the tester
+	 */
 	protected abstract void configurePluginTester(PluginTestBuilder<?> testPlan);
 
 	private PluginTestBuilder<?> pluginTester;
-	Plugin pluginUnderTest;
+	private Plugin pluginUnderTest;
 
+	public Plugin getPluginUnderTest() {
+		return pluginUnderTest;
+	}
+
+	/**
+	 * Creates a test plan for basic plugin features and returns the tester.
+	 *
+	 * @return the database plugin tester
+	 */
 	public PluginTestBuilder<?> createTestPlanForPlugin() {
 		PluginTestBuilder<?> pt = new PluginTestBuilder<>();
 		pluginTester = pt;
@@ -38,7 +60,7 @@ public abstract class PluginTestHarness {
 	public void testGetPluginDisplayGroup() {
 		PluginDisplayGroup pdgActual = (PluginDisplayGroup) ReflectionTestUtils
 				.invokeGetterMethod(pluginUnderTest, "getPluginDisplayGroup");
-		PluginDisplayGroup pdgExpect = pluginTester.pdg;
+		PluginDisplayGroup pdgExpect = pluginTester.getPdg();
 
 		Assert.assertEquals(pdgExpect.getDisplayName(), pdgActual.getDisplayName());
 		Assert.assertEquals(pdgExpect.getMaterialIcon(), pdgActual.getMaterialIcon());
@@ -49,7 +71,7 @@ public abstract class PluginTestHarness {
 	public void testGetJobsForScheduler() {
 		List<SchedulerJob> sjActuals = (List<SchedulerJob>) ReflectionTestUtils
 				.invokeGetterMethod(pluginUnderTest, "getJobsForScheduler");
-		List<SchedulerJob> sjExpects = pluginTester.sjs;
+		List<SchedulerJob> sjExpects = pluginTester.getSjs();
 		if (sjActuals == null) {
 			sjActuals = new ArrayList<>();
 		}
@@ -70,7 +92,7 @@ public abstract class PluginTestHarness {
 	public void testGetColumnsForScorecard() {
 		List<ScorecardColumn> scActuals = (List<ScorecardColumn>) ReflectionTestUtils
 				.invokeGetterMethod(pluginUnderTest, "getColumnsForScorecard");
-		List<ScorecardColumn> scExpects = pluginTester.scs;
+		List<ScorecardColumn> scExpects = pluginTester.getScs();
 		if (scActuals == null) {
 			scActuals = new ArrayList<>();
 		}
@@ -93,7 +115,7 @@ public abstract class PluginTestHarness {
 	public void testGetLinksForSidebar() {
 		List<SidebarLink> slActuals = (List<SidebarLink>) ReflectionTestUtils
 				.invokeGetterMethod(pluginUnderTest, "getLinksForSidebar");
-		List<SidebarLink> slExpects = pluginTester.sls;
+		List<SidebarLink> slExpects = pluginTester.getSls();
 		if (slActuals == null) {
 			slActuals = new ArrayList<>();
 		}
@@ -115,7 +137,7 @@ public abstract class PluginTestHarness {
 	public void testGetPrivileges() {
 		List<String> privActuals = (List<String>) ReflectionTestUtils
 				.invokeGetterMethod(pluginUnderTest, "getPrivileges");
-		List<String> privExpects = pluginTester.privs;
+		List<String> privExpects = pluginTester.getPrivs();
 		if (privActuals == null) {
 			privActuals = new ArrayList<>();
 		}

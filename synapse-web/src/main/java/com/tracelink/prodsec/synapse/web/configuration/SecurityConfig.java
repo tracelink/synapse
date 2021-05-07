@@ -16,20 +16,29 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Spring configuration class to handle security settings for authorization and authentication.
+ *
+ * @author csmith, mcool
+ */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 @Order
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private SynapsePublicRequestMatcherService matcherService;
+	private final SynapsePublicRequestMatcherService matcherService;
+	private final OidcAuthService oidcAuthService;
+	private final ClientRegistrationRepository clientRegistrationRepository;
 
-	@Autowired
-	private OidcAuthService oidcAuthService;
-
-	@Autowired(required = false)
-	private ClientRegistrationRepository clientRegistrationRepository;
+	public SecurityConfig(@Autowired SynapsePublicRequestMatcherService matcherService,
+			@Autowired OidcAuthService oidcAuthService,
+			@Autowired(required = false) ClientRegistrationRepository clientRegistrationRepository) {
+		super();
+		this.matcherService = matcherService;
+		this.oidcAuthService = oidcAuthService;
+		this.clientRegistrationRepository = clientRegistrationRepository;
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

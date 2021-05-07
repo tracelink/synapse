@@ -1,18 +1,15 @@
 package com.tracelink.prodsec.plugin.veracode.dast.service;
 
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
+import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastFlawRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
-import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastFlawRepository;
-
 /**
  * Handles business logic for storing flaws
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @Service
 public class VeracodeDastFlawService {
@@ -23,6 +20,11 @@ public class VeracodeDastFlawService {
 		this.flawRepo = flawRepo;
 	}
 
+	/**
+	 * Saves all flaws in the given list to the {@link VeracodeDastFlawRepository}.
+	 *
+	 * @param flawModels flaws to save
+	 */
 	public void saveFlaws(List<VeracodeDastFlawModel> flawModels) {
 		flawRepo.saveAll(flawModels);
 		flawRepo.flush();

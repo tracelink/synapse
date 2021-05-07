@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ViolatedRuleList {
 
 	@XmlElement(name = "policy_rule", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<PolicyRule> policyRule;
+	private List<PolicyRule> policyRule;
 
 	/**
 	 * Gets the value of the policyRule property.

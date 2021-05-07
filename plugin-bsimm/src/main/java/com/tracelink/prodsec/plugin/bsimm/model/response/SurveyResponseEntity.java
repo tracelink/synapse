@@ -69,7 +69,7 @@ public class SurveyResponseEntity {
 	@OrderBy(value = "measure_response_id")
 	private List<MeasureResponseEntity> measureResponses;
 
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+	private static final SimpleDateFormat SDF = new SimpleDateFormat("MMM dd, yyyy");
 
 	public long getId() {
 		return id;
@@ -80,7 +80,7 @@ public class SurveyResponseEntity {
 	}
 
 	public String getDateString() {
-		return sdf.format(dateFiled);
+		return SDF.format(dateFiled);
 	}
 
 	public void setDateFiled(Date dateFiled) {

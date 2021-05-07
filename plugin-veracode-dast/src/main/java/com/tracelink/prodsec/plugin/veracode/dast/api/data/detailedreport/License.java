@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for License complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="License"&gt;
  *   &lt;complexContent&gt;
@@ -31,116 +31,98 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "License", namespace = "https://www.veracode.com/schema/reports/export/1.0")
 public class License {
 
-    @XmlAttribute(name = "name", required = true)
-    protected String name;
-    @XmlAttribute(name = "spdx_id", required = true)
-    protected String spdxId;
-    @XmlAttribute(name = "license_url", required = true)
-    protected String licenseUrl;
-    @XmlAttribute(name = "risk_rating", required = true)
-    protected String riskRating;
+	@XmlAttribute(name = "name", required = true)
+	private String name;
+	@XmlAttribute(name = "spdx_id", required = true)
+	private String spdxId;
+	@XmlAttribute(name = "license_url", required = true)
+	private String licenseUrl;
+	@XmlAttribute(name = "risk_rating", required = true)
+	private String riskRating;
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Gets the value of the name property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the value of the name property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
 
-    /**
-     * Gets the value of the spdxId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSpdxId() {
-        return spdxId;
-    }
+	/**
+	 * Gets the value of the spdxId property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getSpdxId() {
+		return spdxId;
+	}
 
-    /**
-     * Sets the value of the spdxId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSpdxId(String value) {
-        this.spdxId = value;
-    }
+	/**
+	 * Sets the value of the spdxId property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setSpdxId(String value) {
+		this.spdxId = value;
+	}
 
-    /**
-     * Gets the value of the licenseUrl property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLicenseUrl() {
-        return licenseUrl;
-    }
+	/**
+	 * Gets the value of the licenseUrl property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getLicenseUrl() {
+		return licenseUrl;
+	}
 
-    /**
-     * Sets the value of the licenseUrl property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLicenseUrl(String value) {
-        this.licenseUrl = value;
-    }
+	/**
+	 * Sets the value of the licenseUrl property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setLicenseUrl(String value) {
+		this.licenseUrl = value;
+	}
 
-    /**
-     * Gets the value of the riskRating property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRiskRating() {
-        return riskRating;
-    }
+	/**
+	 * Gets the value of the riskRating property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getRiskRating() {
+		return riskRating;
+	}
 
-    /**
-     * Sets the value of the riskRating property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRiskRating(String value) {
-        this.riskRating = value;
-    }
+	/**
+	 * Sets the value of the riskRating property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setRiskRating(String value) {
+		this.riskRating = value;
+	}
 
 }

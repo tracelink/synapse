@@ -2,6 +2,9 @@ package com.tracelink.prodsec.plugin.sonatype.util.client;
 
 import java.util.List;
 
+/**
+ * DTO to store ConstraintViolation info from the Sonatype Nexus IQ API.
+ */
 public class ConstraintViolation {
 
 	private String constraintId;

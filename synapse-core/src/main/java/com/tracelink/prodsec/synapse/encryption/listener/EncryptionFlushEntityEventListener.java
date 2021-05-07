@@ -97,30 +97,9 @@ public class EncryptionFlushEntityEventListener extends DefaultFlushEntityEventL
 				// Get all the @Convert annotations
 				Field field = entity.getClass().getDeclaredField(propertyNames[i]);
 				Convert[] convertAnnotations = field.getAnnotationsByType(Convert.class);
-				for (Convert convertAnnotation : convertAnnotations) {
-					// If it is an encrypted attribute converter...
-					if (AbstractEncryptedAttributeConverter.class
-							.isAssignableFrom(convertAnnotation.converter())) {
-						// And if the associated DEK is being rotated, mark as dirty
-						Optional<DataEncryptionKey> dataEncryptionKey = dataEncryptionKeyRepository
-								.findByConverterClassName(convertAnnotation.converter().getName());
-						if (dataEncryptionKey.isPresent() && dataEncryptionKey.get()
-								.isRotationInProgress()) {
-							LOGGER.trace(StringHelper.qualify(entry.getEntityName(),
-									propertyNames[i]) + " is dirty");
-							results[count++] = i;
-						}
-						// If it is a DEK converter...
-					} else if (DataEncryptionKeyConverter.class
-							.isAssignableFrom(convertAnnotation.converter())) {
-						// And if the KEK is being rotated, mark as dirty
-						if (keyEncryptionService.keyRotationInProgress()) {
-							LOGGER.trace(StringHelper.qualify(entry.getEntityName(),
-									propertyNames[i]) + " is dirty");
-							results[count++] = i;
-						}
-					}
-				}
+				count += markConvertAnnotationPropertyAsDirty(convertAnnotations, results,
+						propertyNames, i,
+						entry.getEntityName());
 			} catch (NoSuchFieldException e) {
 				LOGGER.debug("Unable to find field " + StringHelper
 						.qualify(entry.getEntityName(), propertyNames[i]));
@@ -130,5 +109,45 @@ public class EncryptionFlushEntityEventListener extends DefaultFlushEntityEventL
 		if (count > 0) {
 			event.setDirtyProperties(ArrayHelper.trim(results, count));
 		}
+	}
+
+	/**
+	 * Helper function to mark a property with a convert annotation as dirty.
+	 *
+	 * @param convertAnnotations list of convert annotations for an entity
+	 * @param results            the array of dirty property indices
+	 * @param propertyNames      array of all entity property names
+	 * @param propertyIndex      index of the property name
+	 * @param entityName         the name of the entity that the property belongs to
+	 * @return the number of dirty encryption convert annotations
+	 */
+	private int markConvertAnnotationPropertyAsDirty(Convert[] convertAnnotations, int[] results,
+			String[] propertyNames, int propertyIndex, String entityName) {
+		int count = 0;
+		for (Convert convertAnnotation : convertAnnotations) {
+			// If it is an encrypted attribute converter...
+			if (AbstractEncryptedAttributeConverter.class
+					.isAssignableFrom(convertAnnotation.converter())) {
+				// And if the associated DEK is being rotated, mark as dirty
+				Optional<DataEncryptionKey> dataEncryptionKey = dataEncryptionKeyRepository
+						.findByConverterClassName(convertAnnotation.converter().getName());
+				if (dataEncryptionKey.isPresent() && dataEncryptionKey.get()
+						.isRotationInProgress()) {
+					LOGGER.trace(StringHelper.qualify(entityName, propertyNames[propertyIndex])
+							+ " is dirty");
+					results[count++] = propertyIndex;
+				}
+				// If it is a DEK converter...
+			} else if (DataEncryptionKeyConverter.class
+					.isAssignableFrom(convertAnnotation.converter())) {
+				// And if the KEK is being rotated, mark as dirty
+				if (keyEncryptionService.keyRotationInProgress()) {
+					LOGGER.trace(StringHelper.qualify(entityName, propertyNames[propertyIndex])
+							+ " is dirty");
+					results[count++] = propertyIndex;
+				}
+			}
+		}
+		return count;
 	}
 }

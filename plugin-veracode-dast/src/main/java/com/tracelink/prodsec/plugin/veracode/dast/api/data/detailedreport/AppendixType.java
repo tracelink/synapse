@@ -41,19 +41,15 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AppendixType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-		"description",
-		"screenshot",
-		"code"
-})
+@XmlType(name = "AppendixType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"description", "screenshot", "code"})
 public class AppendixType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected String description;
+	private String description;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<ScreenshotType> screenshot;
+	private List<ScreenshotType> screenshot;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<String> code;
+	private List<String> code;
 
 	/**
 	 * Gets the value of the description property.

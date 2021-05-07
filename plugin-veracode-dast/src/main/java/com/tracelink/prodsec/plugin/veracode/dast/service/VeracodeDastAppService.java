@@ -60,11 +60,24 @@ public class VeracodeDastAppService {
 		return appRepo.findByName(appName);
 	}
 
+	/**
+	 * Saves the given app in the {@link VeracodeDastAppRepository}.
+	 *
+	 * @param appModel the app to save
+	 * @return the updated app
+	 */
 	public VeracodeDastAppModel save(VeracodeDastAppModel appModel) {
 		return appRepo.saveAndFlush(appModel);
 	}
 
 	// Mapping Apps methods
+
+	/**
+	 * Creates a mapping between the given product line and app
+	 *
+	 * @param productLine the product line to map
+	 * @param appName     the name of the app to map
+	 */
 	public void createMapping(ProductLineModel productLine, String appName) {
 		VeracodeDastAppModel app = appRepo.findByName(appName);
 		if (productLine != null && app != null) {
@@ -73,6 +86,11 @@ public class VeracodeDastAppService {
 		}
 	}
 
+	/**
+	 * Deletes the mapping from the given app
+	 *
+	 * @param appName the name of the app for which to remove the mapping
+	 */
 	public void deleteMapping(String appName) {
 		VeracodeDastAppModel app = appRepo.findByName(appName);
 		if (app != null) {

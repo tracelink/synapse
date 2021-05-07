@@ -47,10 +47,21 @@ public enum PolicyRuleType {
 		value = v;
 	}
 
+	/**
+	 * Gets the value for this policy rule type.
+	 *
+	 * @return the policy rule type value
+	 */
 	public String value() {
 		return value;
 	}
 
+	/**
+	 * Gets the {@link PolicyRuleType} associated with the given value.
+	 *
+	 * @param v the value to get a policy rule type for
+	 * @return the policy rule type
+	 */
 	public static PolicyRuleType fromValue(String v) {
 		for (PolicyRuleType c : PolicyRuleType.values()) {
 			if (c.value.equals(v)) {

@@ -17,31 +17,30 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- * 	      The element describe the details of vulnerable component.
- * 	      * file_paths: File paths of the component.
- * 	      * vulnerabilities : Vulnerabilities of the component.
- * 	      * violated_policy_rules: Violated policy rules of the component.
- * 	      * component_id: The id of the component.
- * 	      * file_name: File name of the component.
- * 	      * vulnerabilities: Number of vulnerabilities available in the component.
- * 	      * max_cvss_score: Max cvss_score of the component.
- * 	      * library: Library name of the component.
- * 	      * version: Version of the component.
- * 	      * vendor: Vendor name of the component.
- * 	      * description: Description about component.
- * 	      * blacklisted: Component's blacklisted status.
- * 	      * new: Component added newly.
- * 	      * added_date: Component's added_date.
- * 	      * component_affects_policy_compliance: COmponent's policy violation status.
- * 	      * licenses: Contains license details of the component.
- * 	      
- * 	   
- * 
+ * The element describe the details of vulnerable component.
+ * * file_paths: File paths of the component.
+ * * vulnerabilities : Vulnerabilities of the component.
+ * * violated_policy_rules: Violated policy rules of the component.
+ * * component_id: The id of the component.
+ * * file_name: File name of the component.
+ * * vulnerabilities: Number of vulnerabilities available in the component.
+ * * max_cvss_score: Max cvss_score of the component.
+ * * library: Library name of the component.
+ * * version: Version of the component.
+ * * vendor: Vendor name of the component.
+ * * description: Description about component.
+ * * blacklisted: Component's blacklisted status.
+ * * new: Component added newly.
+ * * added_date: Component's added_date.
+ * * component_affects_policy_compliance: COmponent's policy violation status.
+ * * licenses: Contains license details of the component.
+ *
+ *
+ *
  * <p>Java class for Component complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="Component"&gt;
  *   &lt;complexContent&gt;
@@ -69,459 +68,384 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Component", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-    "filePaths",
-    "licenses",
-    "vulnerabilitiesList",
-    "violatedPolicyRules"
-})
+@XmlType(name = "Component", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"filePaths", "licenses", "vulnerabilitiesList", "violatedPolicyRules"})
 public class Component {
 
-    @XmlElement(name = "file_paths", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-    protected FilePathList filePaths;
-    @XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-    protected LicenseList licenses;
-    @XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-    protected VulnerabilityList vulnerabilitiesList;
-    @XmlElement(name = "violated_policy_rules", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-    protected ViolatedRuleList violatedPolicyRules;
-    @XmlAttribute(name = "component_id", required = true)
-    protected String componentId;
-    @XmlAttribute(name = "file_name", required = true)
-    protected String fileName;
-    @XmlAttribute(name = "sha1", required = true)
-    protected String sha1;
-    @XmlAttribute(name = "vulnerabilities", required = true)
-    protected BigInteger vulnerabilities;
-    @XmlAttribute(name = "max_cvss_score", required = true)
-    protected String maxCvssScore;
-    @XmlAttribute(name = "library", required = true)
-    protected String library;
-    @XmlAttribute(name = "version", required = true)
-    protected String version;
-    @XmlAttribute(name = "vendor", required = true)
-    protected String vendor;
-    @XmlAttribute(name = "description", required = true)
-    protected String description;
-    @XmlAttribute(name = "blacklisted")
-    protected String blacklisted;
-    @XmlAttribute(name = "new")
-    protected String _new;
-    @XmlAttribute(name = "added_date")
-    protected String addedDate;
-    @XmlAttribute(name = "component_affects_policy_compliance")
-    protected String componentAffectsPolicyCompliance;
+	@XmlElement(name = "file_paths", namespace = "https://www.veracode.com/schema/reports/export/1.0")
+	private FilePathList filePaths;
+	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
+	private LicenseList licenses;
+	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
+	private VulnerabilityList vulnerabilitiesList;
+	@XmlElement(name = "violated_policy_rules", namespace = "https://www.veracode.com/schema/reports/export/1.0")
+	private ViolatedRuleList violatedPolicyRules;
+	@XmlAttribute(name = "component_id", required = true)
+	private String componentId;
+	@XmlAttribute(name = "file_name", required = true)
+	private String fileName;
+	@XmlAttribute(name = "sha1", required = true)
+	private String sha1;
+	@XmlAttribute(name = "vulnerabilities", required = true)
+	private BigInteger vulnerabilities;
+	@XmlAttribute(name = "max_cvss_score", required = true)
+	private String maxCvssScore;
+	@XmlAttribute(name = "library", required = true)
+	private String library;
+	@XmlAttribute(name = "version", required = true)
+	private String version;
+	@XmlAttribute(name = "vendor", required = true)
+	private String vendor;
+	@XmlAttribute(name = "description", required = true)
+	private String description;
+	@XmlAttribute(name = "blacklisted")
+	private String blacklisted;
+	@XmlAttribute(name = "new")
+	private String _new;
+	@XmlAttribute(name = "added_date")
+	private String addedDate;
+	@XmlAttribute(name = "component_affects_policy_compliance")
+	private String componentAffectsPolicyCompliance;
 
-    /**
-     * Gets the value of the filePaths property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link FilePathList }
-     *     
-     */
-    public FilePathList getFilePaths() {
-        return filePaths;
-    }
+	/**
+	 * Gets the value of the filePaths property.
+	 *
+	 * @return possible object is
+	 * {@link FilePathList }
+	 */
+	public FilePathList getFilePaths() {
+		return filePaths;
+	}
 
-    /**
-     * Sets the value of the filePaths property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link FilePathList }
-     *     
-     */
-    public void setFilePaths(FilePathList value) {
-        this.filePaths = value;
-    }
+	/**
+	 * Sets the value of the filePaths property.
+	 *
+	 * @param value allowed object is
+	 *              {@link FilePathList }
+	 */
+	public void setFilePaths(FilePathList value) {
+		this.filePaths = value;
+	}
 
-    /**
-     * Gets the value of the licenses property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link LicenseList }
-     *     
-     */
-    public LicenseList getLicenses() {
-        return licenses;
-    }
+	/**
+	 * Gets the value of the licenses property.
+	 *
+	 * @return possible object is
+	 * {@link LicenseList }
+	 */
+	public LicenseList getLicenses() {
+		return licenses;
+	}
 
-    /**
-     * Sets the value of the licenses property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link LicenseList }
-     *     
-     */
-    public void setLicenses(LicenseList value) {
-        this.licenses = value;
-    }
+	/**
+	 * Sets the value of the licenses property.
+	 *
+	 * @param value allowed object is
+	 *              {@link LicenseList }
+	 */
+	public void setLicenses(LicenseList value) {
+		this.licenses = value;
+	}
 
-    /**
-     * Gets the value of the vulnerabilitiesList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link VulnerabilityList }
-     *     
-     */
-    public VulnerabilityList getVulnerabilitiesList() {
-        return vulnerabilitiesList;
-    }
+	/**
+	 * Gets the value of the vulnerabilitiesList property.
+	 *
+	 * @return possible object is
+	 * {@link VulnerabilityList }
+	 */
+	public VulnerabilityList getVulnerabilitiesList() {
+		return vulnerabilitiesList;
+	}
 
-    /**
-     * Sets the value of the vulnerabilitiesList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link VulnerabilityList }
-     *     
-     */
-    public void setVulnerabilitiesList(VulnerabilityList value) {
-        this.vulnerabilitiesList = value;
-    }
+	/**
+	 * Sets the value of the vulnerabilitiesList property.
+	 *
+	 * @param value allowed object is
+	 *              {@link VulnerabilityList }
+	 */
+	public void setVulnerabilitiesList(VulnerabilityList value) {
+		this.vulnerabilitiesList = value;
+	}
 
-    /**
-     * Gets the value of the violatedPolicyRules property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ViolatedRuleList }
-     *     
-     */
-    public ViolatedRuleList getViolatedPolicyRules() {
-        return violatedPolicyRules;
-    }
+	/**
+	 * Gets the value of the violatedPolicyRules property.
+	 *
+	 * @return possible object is
+	 * {@link ViolatedRuleList }
+	 */
+	public ViolatedRuleList getViolatedPolicyRules() {
+		return violatedPolicyRules;
+	}
 
-    /**
-     * Sets the value of the violatedPolicyRules property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ViolatedRuleList }
-     *     
-     */
-    public void setViolatedPolicyRules(ViolatedRuleList value) {
-        this.violatedPolicyRules = value;
-    }
+	/**
+	 * Sets the value of the violatedPolicyRules property.
+	 *
+	 * @param value allowed object is
+	 *              {@link ViolatedRuleList }
+	 */
+	public void setViolatedPolicyRules(ViolatedRuleList value) {
+		this.violatedPolicyRules = value;
+	}
 
-    /**
-     * Gets the value of the componentId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getComponentId() {
-        return componentId;
-    }
+	/**
+	 * Gets the value of the componentId property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getComponentId() {
+		return componentId;
+	}
 
-    /**
-     * Sets the value of the componentId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setComponentId(String value) {
-        this.componentId = value;
-    }
+	/**
+	 * Sets the value of the componentId property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setComponentId(String value) {
+		this.componentId = value;
+	}
 
-    /**
-     * Gets the value of the fileName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFileName() {
-        return fileName;
-    }
+	/**
+	 * Gets the value of the fileName property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getFileName() {
+		return fileName;
+	}
 
-    /**
-     * Sets the value of the fileName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFileName(String value) {
-        this.fileName = value;
-    }
+	/**
+	 * Sets the value of the fileName property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setFileName(String value) {
+		this.fileName = value;
+	}
 
-    /**
-     * Gets the value of the sha1 property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSha1() {
-        return sha1;
-    }
+	/**
+	 * Gets the value of the sha1 property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getSha1() {
+		return sha1;
+	}
 
-    /**
-     * Sets the value of the sha1 property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSha1(String value) {
-        this.sha1 = value;
-    }
+	/**
+	 * Sets the value of the sha1 property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setSha1(String value) {
+		this.sha1 = value;
+	}
 
-    /**
-     * Gets the value of the vulnerabilities property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getVulnerabilities() {
-        return vulnerabilities;
-    }
+	/**
+	 * Gets the value of the vulnerabilities property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getVulnerabilities() {
+		return vulnerabilities;
+	}
 
-    /**
-     * Sets the value of the vulnerabilities property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setVulnerabilities(BigInteger value) {
-        this.vulnerabilities = value;
-    }
+	/**
+	 * Sets the value of the vulnerabilities property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setVulnerabilities(BigInteger value) {
+		this.vulnerabilities = value;
+	}
 
-    /**
-     * Gets the value of the maxCvssScore property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMaxCvssScore() {
-        return maxCvssScore;
-    }
+	/**
+	 * Gets the value of the maxCvssScore property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getMaxCvssScore() {
+		return maxCvssScore;
+	}
 
-    /**
-     * Sets the value of the maxCvssScore property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMaxCvssScore(String value) {
-        this.maxCvssScore = value;
-    }
+	/**
+	 * Sets the value of the maxCvssScore property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setMaxCvssScore(String value) {
+		this.maxCvssScore = value;
+	}
 
-    /**
-     * Gets the value of the library property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLibrary() {
-        return library;
-    }
+	/**
+	 * Gets the value of the library property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getLibrary() {
+		return library;
+	}
 
-    /**
-     * Sets the value of the library property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLibrary(String value) {
-        this.library = value;
-    }
+	/**
+	 * Sets the value of the library property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setLibrary(String value) {
+		this.library = value;
+	}
 
-    /**
-     * Gets the value of the version property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVersion() {
-        return version;
-    }
+	/**
+	 * Gets the value of the version property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getVersion() {
+		return version;
+	}
 
-    /**
-     * Sets the value of the version property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVersion(String value) {
-        this.version = value;
-    }
+	/**
+	 * Sets the value of the version property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setVersion(String value) {
+		this.version = value;
+	}
 
-    /**
-     * Gets the value of the vendor property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVendor() {
-        return vendor;
-    }
+	/**
+	 * Gets the value of the vendor property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getVendor() {
+		return vendor;
+	}
 
-    /**
-     * Sets the value of the vendor property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVendor(String value) {
-        this.vendor = value;
-    }
+	/**
+	 * Sets the value of the vendor property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setVendor(String value) {
+		this.vendor = value;
+	}
 
-    /**
-     * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * Gets the value of the description property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
+	/**
+	 * Sets the value of the description property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-    /**
-     * Gets the value of the blacklisted property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBlacklisted() {
-        return blacklisted;
-    }
+	/**
+	 * Gets the value of the blacklisted property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getBlacklisted() {
+		return blacklisted;
+	}
 
-    /**
-     * Sets the value of the blacklisted property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBlacklisted(String value) {
-        this.blacklisted = value;
-    }
+	/**
+	 * Sets the value of the blacklisted property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setBlacklisted(String value) {
+		this.blacklisted = value;
+	}
 
-    /**
-     * Gets the value of the new property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNew() {
-        return _new;
-    }
+	/**
+	 * Gets the value of the new property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getNew() {
+		return _new;
+	}
 
-    /**
-     * Sets the value of the new property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNew(String value) {
-        this._new = value;
-    }
+	/**
+	 * Sets the value of the new property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setNew(String value) {
+		this._new = value;
+	}
 
-    /**
-     * Gets the value of the addedDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAddedDate() {
-        return addedDate;
-    }
+	/**
+	 * Gets the value of the addedDate property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getAddedDate() {
+		return addedDate;
+	}
 
-    /**
-     * Sets the value of the addedDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAddedDate(String value) {
-        this.addedDate = value;
-    }
+	/**
+	 * Sets the value of the addedDate property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setAddedDate(String value) {
+		this.addedDate = value;
+	}
 
-    /**
-     * Gets the value of the componentAffectsPolicyCompliance property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getComponentAffectsPolicyCompliance() {
-        return componentAffectsPolicyCompliance;
-    }
+	/**
+	 * Gets the value of the componentAffectsPolicyCompliance property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getComponentAffectsPolicyCompliance() {
+		return componentAffectsPolicyCompliance;
+	}
 
-    /**
-     * Sets the value of the componentAffectsPolicyCompliance property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setComponentAffectsPolicyCompliance(String value) {
-        this.componentAffectsPolicyCompliance = value;
-    }
+	/**
+	 * Sets the value of the componentAffectsPolicyCompliance property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setComponentAffectsPolicyCompliance(String value) {
+		this.componentAffectsPolicyCompliance = value;
+	}
 
 }

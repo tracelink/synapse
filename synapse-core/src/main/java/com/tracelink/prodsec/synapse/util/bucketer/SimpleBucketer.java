@@ -10,8 +10,8 @@ import java.util.function.Supplier;
  * AbstractBucketer#itemBelongsInBucket(Object, LocalDateTime, LocalDateTime)} using a simple
  * function from an item to a {@link LocalDateTime}.
  *
- * @param <T> type of the items to be put into buckets
  * @author mcool
+ * @param <T> type of the items to be put into buckets
  */
 public class SimpleBucketer<T> extends StandardIntervalBucketer<T> {
 

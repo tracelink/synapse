@@ -81,7 +81,7 @@ public class VeracodeScaConfigurationsController {
 	@PostMapping("client")
 	public String setApiClient(@RequestParam String apiId, @RequestParam String apiSecretKey,
 			RedirectAttributes redirectAttributes) {
-		if (apiId.equals("") || apiSecretKey.equals("")) {
+		if ("".equals(apiId) || "".equals(apiSecretKey)) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Please provide all inputs.");
 			return CONFIGURATIONS_REDIRECT;

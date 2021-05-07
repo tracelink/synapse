@@ -48,6 +48,11 @@ public class LoggingService {
 		this.registerLogger(coreLogger);
 	}
 
+	/**
+	 * Registers the given plugin logger with this service. The logger name is used as a key.
+	 *
+	 * @param logger the logger to register
+	 */
 	public void registerLogger(PluginLogger logger) {
 		this.loggers.put(logger.getName(), logger);
 	}

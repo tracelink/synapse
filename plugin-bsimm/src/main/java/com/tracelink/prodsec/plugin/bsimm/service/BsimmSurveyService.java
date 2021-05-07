@@ -40,10 +40,7 @@ public class BsimmSurveyService {
 	private final BsimmComparisonRepo comparisonRepo;
 	private final BsimmComparisonPracticeRepo practiceRepo;
 
-	public BsimmSurveyService(@Autowired BsimmSurveyRepo surveyRepo,
-			@Autowired BsimmMeasureRepo measureRepo,
-			@Autowired BsimmComparisonRepo comparisonRepo,
-			@Autowired BsimmComparisonPracticeRepo practiceRepo) {
+	public BsimmSurveyService(@Autowired BsimmSurveyRepo surveyRepo, @Autowired BsimmMeasureRepo measureRepo, @Autowired BsimmComparisonRepo comparisonRepo, @Autowired BsimmComparisonPracticeRepo practiceRepo) {
 		this.surveyRepo = surveyRepo;
 		this.measureRepo = measureRepo;
 		this.comparisonRepo = comparisonRepo;
@@ -53,8 +50,7 @@ public class BsimmSurveyService {
 	/////////////
 	// Survey Import Functionality
 	/////////////
-	private BsimmSurvey importFromFile(MultipartFile surveyXML)
-			throws IOException, SurveyImportException {
+	private BsimmSurvey importFromFile(MultipartFile surveyXML) throws IOException, SurveyImportException {
 		BsimmSurvey survey;
 		try (InputStream is = surveyXML.getInputStream()) {
 			XmlMapper xmlmapper = new XmlMapper();
@@ -74,9 +70,7 @@ public class BsimmSurveyService {
 	 * @throws SurveyImportException if the survey cannot be imported due to an
 	 *                               error
 	 */
-	public Pair<SurveyEntity, List<SurveyComparisonEntity>> createBsimmSurveyFromFile(
-			MultipartFile surveyXML)
-			throws IOException, SurveyImportException {
+	public Pair<SurveyEntity, List<SurveyComparisonEntity>> createBsimmSurveyFromFile(MultipartFile surveyXML) throws IOException, SurveyImportException {
 		BsimmSurvey survey = importFromFile(surveyXML);
 
 		// create so that the entity exists to be joined on
@@ -129,8 +123,7 @@ public class BsimmSurveyService {
 	 * @param surveyEntity the imported survey's top level entity
 	 * @return a list of comparisons (top level comparisons, not practice scores)
 	 */
-	public List<SurveyComparisonEntity> saveComparisons(BsimmSurvey survey,
-			SurveyEntity surveyEntity) {
+	public List<SurveyComparisonEntity> saveComparisons(BsimmSurvey survey, SurveyEntity surveyEntity) {
 		List<SurveyComparisonEntity> comparisons = new ArrayList<>();
 		for (BsimmComparison compare : survey.getComparisons()) {
 			SurveyComparisonEntity sce = new SurveyComparisonEntity();
@@ -162,6 +155,12 @@ public class BsimmSurveyService {
 		return comparisonRepo.findById(id).orElse(null);
 	}
 
+	/**
+	 * Deletes the {@link SurveyComparisonEntity} for the given survey, including all associated
+	 * {@link SurveyComparisonPracticeEntity} objects.
+	 *
+	 * @param survey the survey to delete comparisons for
+	 */
 	public void deleteComparisonForSurvey(SurveyEntity survey) {
 		List<SurveyComparisonEntity> comparisons = comparisonRepo.findAllByOriginalSurvey(survey);
 		for (SurveyComparisonEntity comparison : comparisons) {
@@ -182,6 +181,13 @@ public class BsimmSurveyService {
 		return surveyRepo.findBySurveyName(surveyName);
 	}
 
+	/**
+	 * Deletes the given survey from the {@link BsimmSurveyRepo}. Also deletes associated
+	 * measures and survey comparisons.
+	 *
+	 * @param survey the survey to delete
+	 * @return the survey database object that was deleted
+	 */
 	public SurveyEntity deleteSurvey(SurveyEntity survey) {
 		deleteComparisonForSurvey(survey);
 		measureRepo.deleteAll(survey.getMeasures());

@@ -41,10 +41,21 @@ public enum LoginAccountType {
 		value = v;
 	}
 
+	/**
+	 * Gets the value of the login account type.
+	 *
+	 * @return login account type value
+	 */
 	public String value() {
 		return value;
 	}
 
+	/**
+	 * Gets the login account type associated with the given value
+	 *
+	 * @param v the value to lookup the login account type
+	 * @return the login account type
+	 */
 	public static LoginAccountType fromValue(String v) {
 		for (LoginAccountType c : LoginAccountType.values()) {
 			if (c.value.equals(v)) {

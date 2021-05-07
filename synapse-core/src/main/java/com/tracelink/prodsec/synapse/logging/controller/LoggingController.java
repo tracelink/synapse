@@ -35,8 +35,11 @@ public class LoggingController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LoggingController.class);
 
-	@Autowired
-	private LoggingService logsService;
+	private final LoggingService logsService;
+
+	public LoggingController(@Autowired LoggingService logsService) {
+		this.logsService = logsService;
+	}
 
 	@GetMapping("/logging")
 	public SynapseModelAndView loggerView(

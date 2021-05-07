@@ -15,17 +15,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- *                 The app type element contains the key elements and attributes
- *                 that reflect the data we store for an app.
- *                 
- *                 * policy_updated_date represents the last time an action occurred which might have affected policy compliance.
- *             
- * 
+ * The app type element contains the key elements and attributes
+ * that reflect the data we store for an app.
+ * <p>
+ * * policy_updated_date represents the last time an action occurred which might have affected policy compliance.
+ *
+ *
  * <p>Java class for AppType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="AppType"&gt;
  *   &lt;complexContent&gt;
@@ -38,116 +37,98 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppType", namespace = "https://analysiscenter.veracode.com/schema/2.0/applist")
 public class AppType {
 
-    @XmlAttribute(name = "app_id")
-    protected Long appId;
-    @XmlAttribute(name = "app_name")
-    protected String appName;
-    @XmlAttribute(name = "vendor_name")
-    protected String vendorName;
-    @XmlAttribute(name = "policy_updated_date")
-    protected String policyUpdatedDate;
+	@XmlAttribute(name = "app_id")
+	private Long appId;
+	@XmlAttribute(name = "app_name")
+	private String appName;
+	@XmlAttribute(name = "vendor_name")
+	private String vendorName;
+	@XmlAttribute(name = "policy_updated_date")
+	private String policyUpdatedDate;
 
-    /**
-     * Gets the value of the appId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getAppId() {
-        return appId;
-    }
+	/**
+	 * Gets the value of the appId property.
+	 *
+	 * @return possible object is
+	 * {@link Long }
+	 */
+	public Long getAppId() {
+		return appId;
+	}
 
-    /**
-     * Sets the value of the appId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setAppId(Long value) {
-        this.appId = value;
-    }
+	/**
+	 * Sets the value of the appId property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Long }
+	 */
+	public void setAppId(Long value) {
+		this.appId = value;
+	}
 
-    /**
-     * Gets the value of the appName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAppName() {
-        return appName;
-    }
+	/**
+	 * Gets the value of the appName property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getAppName() {
+		return appName;
+	}
 
-    /**
-     * Sets the value of the appName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAppName(String value) {
-        this.appName = value;
-    }
+	/**
+	 * Sets the value of the appName property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setAppName(String value) {
+		this.appName = value;
+	}
 
-    /**
-     * Gets the value of the vendorName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVendorName() {
-        return vendorName;
-    }
+	/**
+	 * Gets the value of the vendorName property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getVendorName() {
+		return vendorName;
+	}
 
-    /**
-     * Sets the value of the vendorName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVendorName(String value) {
-        this.vendorName = value;
-    }
+	/**
+	 * Sets the value of the vendorName property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setVendorName(String value) {
+		this.vendorName = value;
+	}
 
-    /**
-     * Gets the value of the policyUpdatedDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPolicyUpdatedDate() {
-        return policyUpdatedDate;
-    }
+	/**
+	 * Gets the value of the policyUpdatedDate property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getPolicyUpdatedDate() {
+		return policyUpdatedDate;
+	}
 
-    /**
-     * Sets the value of the policyUpdatedDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPolicyUpdatedDate(String value) {
-        this.policyUpdatedDate = value;
-    }
+	/**
+	 * Sets the value of the policyUpdatedDate property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setPolicyUpdatedDate(String value) {
+		this.policyUpdatedDate = value;
+	}
 
 }

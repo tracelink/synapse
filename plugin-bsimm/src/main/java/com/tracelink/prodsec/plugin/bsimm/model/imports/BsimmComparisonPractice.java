@@ -1,5 +1,10 @@
 package com.tracelink.prodsec.plugin.bsimm.model.imports;
 
+/**
+ * Comparison for a BSIMM practice, containing a name and value.
+ *
+ * @author csmith
+ */
 public class BsimmComparisonPractice {
 	private String practiceName;
 	private Double value;

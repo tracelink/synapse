@@ -34,7 +34,7 @@ public class VeracodeScaProjectService {
 
 	private static final String DEVELOP_BRANCH = "develop";
 	private static final String MASTER_BRANCH = "master";
-	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
 			.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 	private final VeracodeScaProjectRepository projectRepository;
@@ -233,7 +233,7 @@ public class VeracodeScaProjectService {
 		projectModel.setName(project.getName());
 		projectModel.setSiteId(project.getSiteId());
 		projectModel.setLastScanDate(LocalDateTime.parse(project.getLastScanDate(),
-				dateTimeFormatter));
+				DATE_TIME_FORMATTER));
 		projectModel.setVisibleBranch(visibleBranch);
 		projectModel.setWorkspace(workspace);
 	}

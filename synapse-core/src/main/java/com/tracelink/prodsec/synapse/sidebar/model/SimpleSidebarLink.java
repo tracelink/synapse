@@ -30,6 +30,12 @@ public class SimpleSidebarLink implements SidebarLink {
 		return this.displayName;
 	}
 
+	/**
+	 * Sets the required privileges for this sidebar link and returns this.
+	 *
+	 * @param privileges the privileges to set
+	 * @return this sidebar link
+	 */
 	public SimpleSidebarLink withPrivileges(String... privileges) {
 		if (privileges == null) {
 			return this;
@@ -62,6 +68,12 @@ public class SimpleSidebarLink implements SidebarLink {
 		return privs;
 	}
 
+	/**
+	 * Sets the page link for this sidebar link and returns this.
+	 *
+	 * @param pageLink the page link to set
+	 * @return this sidebar link
+	 */
 	public SimpleSidebarLink withPageLink(String pageLink) {
 		this.pageLink = pageLink;
 		return this;
@@ -71,6 +83,12 @@ public class SimpleSidebarLink implements SidebarLink {
 		return pageLink;
 	}
 
+	/**
+	 * Sets the material icon for this sidebar link and returns this.
+	 *
+	 * @param materialIcon the material icon to set
+	 * @return this sidebar link
+	 */
 	public SimpleSidebarLink withMaterialIcon(String materialIcon) {
 		this.materialIcon = materialIcon;
 		return this;

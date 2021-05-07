@@ -1,10 +1,5 @@
 package com.tracelink.prodsec.plugin.bsimm;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.tracelink.prodsec.plugin.bsimm.service.BsimmResponseService;
 import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
@@ -14,23 +9,29 @@ import com.tracelink.prodsec.synapse.sidebar.model.SimpleSidebarLink;
 import com.tracelink.prodsec.synapse.spi.PluginDisplayGroup;
 import com.tracelink.prodsec.synapse.spi.PluginWithDatabase;
 import com.tracelink.prodsec.synapse.spi.annotation.SynapsePluginDatabaseEnabled;
+import java.util.Arrays;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * The BSIMM Plugin allows for uploading BSIMM surveys, completing them per
  * ProductLine, reviewing the results, and showing a Radar graph showing the
  * results
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @SynapsePluginDatabaseEnabled
 public class BSIMMPlugin extends PluginWithDatabase {
+
 	public static final String SCHEMA = "bsimm";
 	public static final String PAGELINK = "/bsimm";
 	public static final String PRIV = "BSIMMResponder";
 
-	@Autowired
-	private BsimmResponseService bsimmService;
+	private final BsimmResponseService bsimmService;
+
+	public BSIMMPlugin(@Autowired BsimmResponseService bsimmService) {
+		this.bsimmService = bsimmService;
+	}
 
 	@Override
 	protected String getSchemaName() {
@@ -55,8 +56,10 @@ public class BSIMMPlugin extends PluginWithDatabase {
 
 	@Override
 	protected List<SidebarLink> getLinksForSidebar() {
-		return Arrays.asList(new SimpleSidebarLink("Overview").withMaterialIcon("dashboard").withPageLink(PAGELINK),
-				new SimpleSidebarLink("Surveys").withMaterialIcon("assignment").withPageLink(PAGELINK + "/survey"));
+		return Arrays.asList(new SimpleSidebarLink("Overview").withMaterialIcon("dashboard")
+						.withPageLink(PAGELINK),
+				new SimpleSidebarLink("Surveys").withMaterialIcon("assignment")
+						.withPageLink(PAGELINK + "/survey"));
 	}
 
 	@Override

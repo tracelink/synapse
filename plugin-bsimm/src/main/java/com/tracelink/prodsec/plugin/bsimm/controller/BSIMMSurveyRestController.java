@@ -1,14 +1,17 @@
 package com.tracelink.prodsec.plugin.bsimm.controller;
 
+import com.google.gson.JsonObject;
+import com.tracelink.prodsec.plugin.bsimm.BSIMMPlugin;
+import com.tracelink.prodsec.plugin.bsimm.service.BsimmResponseService;
+import com.tracelink.prodsec.plugin.bsimm.service.SurveyException;
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
-import com.tracelink.prodsec.plugin.bsimm.BSIMMPlugin;
-import com.tracelink.prodsec.plugin.bsimm.service.BsimmResponseService;
-import com.tracelink.prodsec.plugin.bsimm.service.SurveyException;
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-
+/**
+ * REST controller to get BSIMM response data and download survey models.
+ *
+ * @author csmith
+ */
 @RestController
 @RequestMapping(BSIMMPlugin.PAGELINK + "/rest")
 public class BSIMMSurveyRestController {
@@ -42,8 +44,7 @@ public class BSIMMSurveyRestController {
 	@PostMapping("/downloadSurveyModel")
 	@PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
 	public void downloadModel(HttpServletResponse response) {
-		try (InputStream is = new FileInputStream(
-				Paths.get(getClass().getResource("/xmlmodel/surveymodel.xml").toURI()).toFile())) {
+		try (InputStream is = new FileInputStream(Paths.get(getClass().getResource("/xmlmodel/surveymodel.xml").toURI()).toFile())) {
 			// copy it to response's OutputStream
 			response.addHeader("Content-Disposition", "attachment; filename=\"surveymodel.xml\"");
 			response.setContentType(MediaType.APPLICATION_XML_VALUE);

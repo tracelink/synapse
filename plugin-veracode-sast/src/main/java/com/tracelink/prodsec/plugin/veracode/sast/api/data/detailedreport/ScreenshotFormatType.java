@@ -35,10 +35,21 @@ public enum ScreenshotFormatType {
 	JPG,
 	PNG;
 
+	/**
+	 * Gets the value of this screenshot format type
+	 *
+	 * @return the screenshot format type
+	 */
 	public String value() {
 		return name();
 	}
 
+	/**
+	 * Gets the {@link ScreenshotFormatType} for the given value.
+	 *
+	 * @param v the value to get the screenshot format type for
+	 * @return the screenshot format type
+	 */
 	public static ScreenshotFormatType fromValue(String v) {
 		return valueOf(v);
 	}
