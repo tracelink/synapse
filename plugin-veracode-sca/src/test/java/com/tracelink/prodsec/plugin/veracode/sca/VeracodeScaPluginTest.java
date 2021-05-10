@@ -49,7 +49,7 @@ public class VeracodeScaPluginTest {
 	public void testGetPluginDisplayGroup() {
 		PluginDisplayGroup displayGroup = veracodeScaPlugin.getPluginDisplayGroup();
 		Assert.assertEquals("Veracode SCA", displayGroup.getDisplayName());
-		Assert.assertEquals("layers", displayGroup.getMaterialIcon());
+		Assert.assertEquals("foo", displayGroup.getMaterialIcon());
 	}
 
 	@Test
