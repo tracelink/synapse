@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run check style
-        uses: dbelyaev/action-checkstyle@master
+        uses: nikitasavinov/checkstyle-action@master
         with:
           checkstyle_config: build_configs/TL_ProdSec_Checkstyle.xml
           checkstyle_version: 8.42
