@@ -27,5 +27,5 @@ jobs:
         uses: dbelyaev/action-checkstyle@master
         with:
           checkstyle_config: build_configs/TL_ProdSec_Checkstyle.xml
-          checkstyle_version: 8.18
+          checkstyle_version: 8.42
           level: warning

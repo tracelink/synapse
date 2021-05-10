@@ -11,14 +11,19 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
-    <module name="JavadocMethod">
+    <module name="MissingJavadocMethod">
       <property name="minLineCount" value="0"/>
       <property name="allowedAnnotations" value="GetMapping, PostMapping, Before, Test, Override, Bean"/>
-      <property name="validateThrows" value="true"/>
       <property name="scope" value="protected"/>
-      <property name="suppressLoadErrors" value="true"/>
       <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="ignoreMethodNamesRegex" value="(get|set|put|is|has).*|find[^\s]*By.*"/>
+    </module>
+    <module name="JavadocMethod">
+      <property name="allowedAnnotations" value="GetMapping, PostMapping, Before, Test, Override, Bean"/>
+      <property name="validateThrows" value="true"/>
+      <property name="accessModifiers" value="protected, public"/>
+      <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
     </module>
     <module name="MissingDeprecated"/>
     <module name="MissingOverride"/>
