@@ -1,0 +1,35 @@
+name: Feature Branch
+
+on:
+  pull_request:
+    branches-ignore:
+      - 'main'
+      - 'release*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+  checkstyle:
+    name: Checkstyle Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run check style
+        uses: dbelyaev/action-checkstyle@master
+        with:
+          checkstyle_config: build_configs/TL_ProdSec_Checkstyle.xml
+          checkstyle_version: 8.18
+          level: warning
