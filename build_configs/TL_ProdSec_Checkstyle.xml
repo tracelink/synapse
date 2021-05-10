@@ -22,7 +22,7 @@
     <module name="JavadocMethod">
       <property name="allowedAnnotations" value="GetMapping, PostMapping, Before, Test, Override, Bean"/>
       <property name="validateThrows" value="true"/>
-      <property name="accessModifiers" value="protected, public"/>
+      <property name="scope" value="protected"/>
       <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
     </module>
     <module name="MissingDeprecated"/>
