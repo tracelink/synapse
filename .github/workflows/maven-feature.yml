@@ -31,7 +31,7 @@ jobs:
             plugin-veracode-sast/target/site/jacoco/jacoco.csv
             plugin-veracode-sca/target/site/jacoco/jacoco.csv
             synapse-core/target/site/jacoco/jacoco.csv
-          fail-if-coverage-less-than: 0.90
+          # fail-if-coverage-less-than: 0.90
 
   checkstyle:
     name: Checkstyle Job
