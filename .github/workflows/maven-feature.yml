@@ -16,6 +16,22 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-coverage-badge: true
+          jacoco-csv-file: >
+            plugin-bsimm/target/site/jacoco/jacoco.csv
+            plugin-demo/target/site/jacoco/jacoco.csv
+            plugin-jira/target/site/jacoco/jacoco.csv
+            plugin-owasp-risk/target/site/jacoco/jacoco.csv
+            plugin-sme/target/site/jacoco/jacoco.csv
+            plugin-sonatype/target/site/jacoco/jacoco.csv
+            plugin-veracode-dast/target/site/jacoco/jacoco.csv
+            plugin-veracode-sast/target/site/jacoco/jacoco.csv
+            plugin-veracode-sca/target/site/jacoco/jacoco.csv
+            synapse-core/target/site/jacoco/jacoco.csv
+          fail-if-coverage-less-than: 0.90
 
   checkstyle:
     name: Checkstyle Job
@@ -29,3 +45,4 @@ jobs:
           checkstyle_config: build_configs/TL_ProdSec_Checkstyle.xml
           checkstyle_version: 8.37
           level: warning
+          fail_on_error: true

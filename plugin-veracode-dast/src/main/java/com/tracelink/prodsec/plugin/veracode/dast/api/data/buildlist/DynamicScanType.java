@@ -31,7 +31,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum DynamicScanType {
 
-	@XmlEnumValue("mp") MP("mp"), @XmlEnumValue("ds") DS("ds");
+	@XmlEnumValue("mp")
+	MP("mp"),
+	@XmlEnumValue("ds")
+	DS("ds");
 	private final String value;
 
 	DynamicScanType(String v) {

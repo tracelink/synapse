@@ -86,6 +86,7 @@ public class VeracodeScaIssueService {
 	 * Deletes any {@link VeracodeScaIssue} associated with the given project.
 	 *
 	 * @param project the project for which to delete all associated issues
+	 * @throws IllegalArgumentException if the project is null
 	 */
 	public void deleteIssuesByProject(VeracodeScaProject project) {
 		// Make sure project is not null
