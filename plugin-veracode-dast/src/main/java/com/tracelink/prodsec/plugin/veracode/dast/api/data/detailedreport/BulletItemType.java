@@ -15,16 +15,15 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- *       This represents a bullet item within a paragraph.  This has one child 
- *       element:  
- *       * text:  The text of the bullet item.
- *     
- * 
+ * This represents a bullet item within a paragraph.  This has one child
+ * element:
+ * * text:  The text of the bullet item.
+ *
+ *
  * <p>Java class for BulletItemType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="BulletItemType"&gt;
  *   &lt;complexContent&gt;
@@ -34,38 +33,32 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BulletItemType", namespace = "https://www.veracode.com/schema/reports/export/1.0")
 public class BulletItemType {
 
-    @XmlAttribute(name = "text", required = true)
-    protected String text;
+	@XmlAttribute(name = "text", required = true)
+	private String text;
 
-    /**
-     * Gets the value of the text property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getText() {
-        return text;
-    }
+	/**
+	 * Gets the value of the text property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getText() {
+		return text;
+	}
 
-    /**
-     * Sets the value of the text property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setText(String value) {
-        this.text = value;
-    }
+	/**
+	 * Sets the value of the text property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setText(String value) {
+		this.text = value;
+	}
 
 }

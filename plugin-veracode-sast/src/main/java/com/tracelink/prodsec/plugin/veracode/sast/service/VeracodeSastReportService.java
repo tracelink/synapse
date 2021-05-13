@@ -1,18 +1,15 @@
 package com.tracelink.prodsec.plugin.veracode.sast.service;
 
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastReportModel;
+import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastReportRepository;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastReportModel;
-import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastReportRepository;
-
 /**
  * Handles business logic for saving and retrieving reports
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @Service
 public class VeracodeSastReportService {
@@ -24,6 +21,13 @@ public class VeracodeSastReportService {
 	}
 
 	// Report Methods
+
+	/**
+	 * Saves the given report in the {@link VeracodeSastReportRepository}.
+	 *
+	 * @param report the report to save
+	 * @return the updated report
+	 */
 	public VeracodeSastReportModel save(VeracodeSastReportModel report) {
 		return reportRepo.saveAndFlush(report);
 	}

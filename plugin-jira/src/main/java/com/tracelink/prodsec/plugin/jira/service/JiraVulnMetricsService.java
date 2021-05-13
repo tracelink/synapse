@@ -59,6 +59,11 @@ public class JiraVulnMetricsService {
 		this.jiraPhraseService = jiraPhraseService;
 	}
 
+	/**
+	 * Gets vulnerability metrics from Jira and stores them in the database.
+	 *
+	 * @throws Exception if there ar problems with the Jira REST client
+	 */
 	public void storeVulnMetrics() throws Exception {
 		String vulnsJqlSearch = jiraPhraseService.getPhraseForData(JiraPhraseDataFormat.VULN);
 		JiraRestClient restClient = clientService.createRestClient();
@@ -147,6 +152,14 @@ public class JiraVulnMetricsService {
 		return unresolvedVulns;
 	}
 
+	/**
+	 * Creates a mapping between a Synapse product line and a Jira vulnerability to correctly
+	 * display metrics.
+	 *
+	 * @param synapseProduct the {@link ProductLineModel} to map the vulnerability to
+	 * @param id             the ID of the Jira vulnerability
+	 * @throws JiraMappingsException if there is no such Jira vulnerability
+	 */
 	public void createMapping(ProductLineModel synapseProduct, long id)
 			throws JiraMappingsException {
 		Optional<JiraVuln> vulnEntity = jiraVulnMetricsRepo.findById(id);
@@ -160,6 +173,12 @@ public class JiraVulnMetricsService {
 		}
 	}
 
+	/**
+	 * Deletes a mapping between a Synapse product line and a Jira vulnerability.
+	 *
+	 * @param id ID of the Jira vulnerability to unmap
+	 * @throws JiraMappingsException if there is no such Jira vulnerability
+	 */
 	public void deleteMapping(long id) throws JiraMappingsException {
 		Optional<JiraVuln> vulnEntity = jiraVulnMetricsRepo.findById(id);
 		if (vulnEntity.isPresent()) {

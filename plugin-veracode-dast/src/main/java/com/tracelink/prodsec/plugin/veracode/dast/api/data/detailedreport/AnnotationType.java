@@ -15,21 +15,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- * 	  A reviewer can add a note to a flaw, or they can mark a flaw as a 
- * 	  potential false positive by creating an Annotation. Annotations 
- * 	  have the following attributes:
- * 	  * action: The purpose of this annotation (Comment, or marking a flaw as)
- * 	    a possible false positive
- * 	  * description: The note created by the reviewer for the annotation
- * 	  * user: The user who mitigated the flaw
- * 	  * date: The date and time the annotation was created
- *     
- * 
+ * A reviewer can add a note to a flaw, or they can mark a flaw as a
+ * potential false positive by creating an Annotation. Annotations
+ * have the following attributes:
+ * * action: The purpose of this annotation (Comment, or marking a flaw as)
+ * a possible false positive
+ * * description: The note created by the reviewer for the annotation
+ * * user: The user who mitigated the flaw
+ * * date: The date and time the annotation was created
+ *
+ *
  * <p>Java class for AnnotationType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="AnnotationType"&gt;
  *   &lt;complexContent&gt;
@@ -42,116 +41,98 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AnnotationType", namespace = "https://www.veracode.com/schema/reports/export/1.0")
 public class AnnotationType {
 
-    @XmlAttribute(name = "action", required = true)
-    protected String action;
-    @XmlAttribute(name = "description", required = true)
-    protected String description;
-    @XmlAttribute(name = "user", required = true)
-    protected String user;
-    @XmlAttribute(name = "date", required = true)
-    protected String date;
+	@XmlAttribute(name = "action", required = true)
+	private String action;
+	@XmlAttribute(name = "description", required = true)
+	private String description;
+	@XmlAttribute(name = "user", required = true)
+	private String user;
+	@XmlAttribute(name = "date", required = true)
+	private String date;
 
-    /**
-     * Gets the value of the action property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAction() {
-        return action;
-    }
+	/**
+	 * Gets the value of the action property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getAction() {
+		return action;
+	}
 
-    /**
-     * Sets the value of the action property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAction(String value) {
-        this.action = value;
-    }
+	/**
+	 * Sets the value of the action property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setAction(String value) {
+		this.action = value;
+	}
 
-    /**
-     * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * Gets the value of the description property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
+	/**
+	 * Sets the value of the description property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-    /**
-     * Gets the value of the user property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUser() {
-        return user;
-    }
+	/**
+	 * Gets the value of the user property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getUser() {
+		return user;
+	}
 
-    /**
-     * Sets the value of the user property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUser(String value) {
-        this.user = value;
-    }
+	/**
+	 * Sets the value of the user property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setUser(String value) {
+		this.user = value;
+	}
 
-    /**
-     * Gets the value of the date property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDate() {
-        return date;
-    }
+	/**
+	 * Gets the value of the date property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getDate() {
+		return date;
+	}
 
-    /**
-     * Sets the value of the date property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDate(String value) {
-        this.date = value;
-    }
+	/**
+	 * Sets the value of the date property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setDate(String value) {
+		this.date = value;
+	}
 
 }

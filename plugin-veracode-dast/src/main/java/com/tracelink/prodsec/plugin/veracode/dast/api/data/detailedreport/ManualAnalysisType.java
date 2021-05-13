@@ -82,27 +82,27 @@ public class ManualAnalysisType {
 
 	@XmlElement(name = "cia_adjustment", namespace = "https://www.veracode.com/schema/reports/export/1.0")
 	@XmlSchemaType(name = "nonPositiveInteger")
-	protected Integer ciaAdjustment;
+	private Integer ciaAdjustment;
 	@XmlElement(name = "delivery_consultant", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<String> deliveryConsultant;
+	private List<String> deliveryConsultant;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected ManualAnalysisType.Modules modules;
+	private ManualAnalysisType.Modules modules;
 	@XmlAttribute(name = "rating", required = true)
-	protected String rating;
+	private String rating;
 	@XmlAttribute(name = "score", required = true)
-	protected BigInteger score;
+	private BigInteger score;
 	@XmlAttribute(name = "mitigated_rating")
-	protected String mitigatedRating;
+	private String mitigatedRating;
 	@XmlAttribute(name = "mitigated_score")
-	protected BigInteger mitigatedScore;
+	private BigInteger mitigatedScore;
 	@XmlAttribute(name = "submitted_date", required = true)
-	protected String submittedDate;
+	private String submittedDate;
 	@XmlAttribute(name = "published_date")
-	protected String publishedDate;
+	private String publishedDate;
 	@XmlAttribute(name = "next_scan_due")
-	protected String nextScanDue;
+	private String nextScanDue;
 	@XmlAttribute(name = "version")
-	protected String version;
+	private String version;
 
 	/**
 	 * Gets the value of the ciaAdjustment property.
@@ -359,7 +359,7 @@ public class ManualAnalysisType {
 	public static class Modules {
 
 		@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-		protected List<ModuleType> module;
+		private List<ModuleType> module;
 
 		/**
 		 * Gets the value of the module property.

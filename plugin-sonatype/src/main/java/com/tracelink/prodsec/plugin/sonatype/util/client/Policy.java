@@ -1,5 +1,8 @@
 package com.tracelink.prodsec.plugin.sonatype.util.client;
 
+/**
+ * DTO to store Policy info from the Sonatype Nexus IQ API.
+ */
 public class Policy {
 
 	private String id;

@@ -1,5 +1,6 @@
 package com.tracelink.prodsec.plugin.veracode.sast.model;
 
+import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,18 +11,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
-
 /**
  * A Flaw stores problems found in a report and a link back to its originating
  * report
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @Entity
 @Table(schema = VeracodeSastPlugin.SCHEMA, name = "veracode_sast_flaws")
 public class VeracodeSastFlawModel {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "flaw_id")
@@ -115,23 +114,24 @@ public class VeracodeSastFlawModel {
 	public void setSeverity(int severity) {
 		this.severity = severity;
 	}
-	
+
 	public String getSeverityString() {
 		switch (severity) {
-		case 0:
-			return "Info";
-		case 1:
-			return "Very Low";
-		case 2:
-			return "Low";
-		case 3:
-			return "Medium";
-		case 4:
-			return "High";
-		case 5:
-			return "Very High";
+			case 0:
+				return "Info";
+			case 1:
+				return "Very Low";
+			case 2:
+				return "Low";
+			case 3:
+				return "Medium";
+			case 4:
+				return "High";
+			case 5:
+				return "Very High";
+			default:
+				return "";
 		}
-		return "";
 	}
 
 	public int getCount() {
@@ -186,14 +186,15 @@ public class VeracodeSastFlawModel {
 	 * These are the options for the remediation status: Cannot Reproduce, Fixed,
 	 * Mitigated, Potential False Positive, Remediated by User, New, Open, Reopened
 	 * (Re-Open for V4 of the API and earlier), Reviewed - No Action Taken
-	 * 
+	 * <p>
 	 * The first 5 count as a remediation of the issue.
-	 * 
+	 *
 	 * @return true if the flaw has been remediated, false otherwise
 	 */
 	public boolean isRemediated() {
 		String lower = this.remediationStatus.toLowerCase();
-		return lower.startsWith("cannot") || lower.startsWith("fixed") || lower.startsWith("mitigated")
+		return lower.startsWith("cannot") || lower.startsWith("fixed") || lower
+				.startsWith("mitigated")
 				|| lower.startsWith("potential") || lower.startsWith("remediated");
 
 	}

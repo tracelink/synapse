@@ -16,50 +16,49 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- *       The element describes summary data for the flaws in the build.
- *       Each adjustment will have the following attributes:
- *       * new:  The number of flaws first found in this build of the application.
- *       * reopen:  The number of flaws found in a prior build of the application 
- *         that were not new, but were not found in the build immediately prior to
- *         this build.
- *       * open:  The number of flaws found in this build that were also found in the
- *         build immediately prior to this build.
- *       * cannot-reproduce: The number of dynamic vulnerabilities reported in a previous 
- *       	dynamic scan that could not be verified as fixed.
- *       * fixed:  The number of flaws found in the prior build that were not found 
- *       	in the current build. Dynamic vulnerabilities are verified as fixed.
- *       * total:  The total number of flaws found in this build.
- *       * not_mitigated:  The total number of flaws found in this build that are 
- *         not mitigated.
- *       * sev-1-change: The number of Severity 1 flaws found in this build, 
- *         minus the number of Severity 1 flaws found in the build immediately prior
- *         to this build.
- *       * sev-2-change: The number of Severity 2 flaws found in this build, 
- *         minus the number of Severity 2 flaws found in the build immediately prior
- *         to this build.
- *       * sev-3-change: The number of Severity 3 flaws found in this build, 
- *         minus the number of Severity 3 flaws found in the build immediately prior
- *         to this build.
- *       * sev-4-change: The number of Severity 4 flaws found in this build, 
- *         minus the number of Severity 4 flaws found in the build immediately prior
- *         to this build.
- *       * sev-5-change: The number of Severity 5 flaws found in this build, 
- *         minus the number of Severity 5 flaws found in the build immediately prior
- *         to this build.
- *       * conforms-to-guidelines: The total number of mitigations reviewed by Veracode 
- *         that adhere to the risk tolerance guidelines you established.
- *       * deviates-from-guidelines: The total number of mitigations reviewed by Veracode
- *         that either do not provide enough information, or do not adhere to the risk
- *         tolerance guidelines you established.
- *       * total-reviewed-mitigations: The total number of mitigations reviewed by Veracode.
- *         This may not add up to the total number of all proposed or accepted mitigations.
- *     
- * 
+ * The element describes summary data for the flaws in the build.
+ * Each adjustment will have the following attributes:
+ * * new:  The number of flaws first found in this build of the application.
+ * * reopen:  The number of flaws found in a prior build of the application
+ * that were not new, but were not found in the build immediately prior to
+ * this build.
+ * * open:  The number of flaws found in this build that were also found in the
+ * build immediately prior to this build.
+ * * cannot-reproduce: The number of dynamic vulnerabilities reported in a previous
+ * dynamic scan that could not be verified as fixed.
+ * * fixed:  The number of flaws found in the prior build that were not found
+ * in the current build. Dynamic vulnerabilities are verified as fixed.
+ * * total:  The total number of flaws found in this build.
+ * * not_mitigated:  The total number of flaws found in this build that are
+ * not mitigated.
+ * * sev-1-change: The number of Severity 1 flaws found in this build,
+ * minus the number of Severity 1 flaws found in the build immediately prior
+ * to this build.
+ * * sev-2-change: The number of Severity 2 flaws found in this build,
+ * minus the number of Severity 2 flaws found in the build immediately prior
+ * to this build.
+ * * sev-3-change: The number of Severity 3 flaws found in this build,
+ * minus the number of Severity 3 flaws found in the build immediately prior
+ * to this build.
+ * * sev-4-change: The number of Severity 4 flaws found in this build,
+ * minus the number of Severity 4 flaws found in the build immediately prior
+ * to this build.
+ * * sev-5-change: The number of Severity 5 flaws found in this build,
+ * minus the number of Severity 5 flaws found in the build immediately prior
+ * to this build.
+ * * conforms-to-guidelines: The total number of mitigations reviewed by Veracode
+ * that adhere to the risk tolerance guidelines you established.
+ * * deviates-from-guidelines: The total number of mitigations reviewed by Veracode
+ * that either do not provide enough information, or do not adhere to the risk
+ * tolerance guidelines you established.
+ * * total-reviewed-mitigations: The total number of mitigations reviewed by Veracode.
+ * This may not add up to the total number of all proposed or accepted mitigations.
+ *
+ *
  * <p>Java class for FlawStatusType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="FlawStatusType"&gt;
  *   &lt;complexContent&gt;
@@ -83,402 +82,340 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FlawStatusType", namespace = "https://www.veracode.com/schema/reports/export/1.0")
 public class FlawStatusType {
 
-    @XmlAttribute(name = "new", required = true)
-    protected BigInteger _new;
-    @XmlAttribute(name = "reopen", required = true)
-    protected BigInteger reopen;
-    @XmlAttribute(name = "open", required = true)
-    protected BigInteger open;
-    @XmlAttribute(name = "cannot-reproduce")
-    protected BigInteger cannotReproduce;
-    @XmlAttribute(name = "fixed", required = true)
-    protected BigInteger fixed;
-    @XmlAttribute(name = "total", required = true)
-    protected BigInteger total;
-    @XmlAttribute(name = "not_mitigated", required = true)
-    protected BigInteger notMitigated;
-    @XmlAttribute(name = "sev-1-change", required = true)
-    protected BigInteger sev1Change;
-    @XmlAttribute(name = "sev-2-change", required = true)
-    protected BigInteger sev2Change;
-    @XmlAttribute(name = "sev-3-change", required = true)
-    protected BigInteger sev3Change;
-    @XmlAttribute(name = "sev-4-change", required = true)
-    protected BigInteger sev4Change;
-    @XmlAttribute(name = "sev-5-change", required = true)
-    protected BigInteger sev5Change;
-    @XmlAttribute(name = "conforms-to-guidelines")
-    protected BigInteger conformsToGuidelines;
-    @XmlAttribute(name = "deviates-from-guidelines")
-    protected BigInteger deviatesFromGuidelines;
-    @XmlAttribute(name = "total-reviewed-mitigations")
-    protected BigInteger totalReviewedMitigations;
+	@XmlAttribute(name = "new", required = true)
+	private BigInteger _new;
+	@XmlAttribute(name = "reopen", required = true)
+	private BigInteger reopen;
+	@XmlAttribute(name = "open", required = true)
+	private BigInteger open;
+	@XmlAttribute(name = "cannot-reproduce")
+	private BigInteger cannotReproduce;
+	@XmlAttribute(name = "fixed", required = true)
+	private BigInteger fixed;
+	@XmlAttribute(name = "total", required = true)
+	private BigInteger total;
+	@XmlAttribute(name = "not_mitigated", required = true)
+	private BigInteger notMitigated;
+	@XmlAttribute(name = "sev-1-change", required = true)
+	private BigInteger sev1Change;
+	@XmlAttribute(name = "sev-2-change", required = true)
+	private BigInteger sev2Change;
+	@XmlAttribute(name = "sev-3-change", required = true)
+	private BigInteger sev3Change;
+	@XmlAttribute(name = "sev-4-change", required = true)
+	private BigInteger sev4Change;
+	@XmlAttribute(name = "sev-5-change", required = true)
+	private BigInteger sev5Change;
+	@XmlAttribute(name = "conforms-to-guidelines")
+	private BigInteger conformsToGuidelines;
+	@XmlAttribute(name = "deviates-from-guidelines")
+	private BigInteger deviatesFromGuidelines;
+	@XmlAttribute(name = "total-reviewed-mitigations")
+	private BigInteger totalReviewedMitigations;
 
-    /**
-     * Gets the value of the new property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getNew() {
-        return _new;
-    }
+	/**
+	 * Gets the value of the new property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getNew() {
+		return _new;
+	}
 
-    /**
-     * Sets the value of the new property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setNew(BigInteger value) {
-        this._new = value;
-    }
+	/**
+	 * Sets the value of the new property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setNew(BigInteger value) {
+		this._new = value;
+	}
 
-    /**
-     * Gets the value of the reopen property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getReopen() {
-        return reopen;
-    }
+	/**
+	 * Gets the value of the reopen property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getReopen() {
+		return reopen;
+	}
 
-    /**
-     * Sets the value of the reopen property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setReopen(BigInteger value) {
-        this.reopen = value;
-    }
+	/**
+	 * Sets the value of the reopen property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setReopen(BigInteger value) {
+		this.reopen = value;
+	}
 
-    /**
-     * Gets the value of the open property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getOpen() {
-        return open;
-    }
+	/**
+	 * Gets the value of the open property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getOpen() {
+		return open;
+	}
 
-    /**
-     * Sets the value of the open property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setOpen(BigInteger value) {
-        this.open = value;
-    }
+	/**
+	 * Sets the value of the open property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setOpen(BigInteger value) {
+		this.open = value;
+	}
 
-    /**
-     * Gets the value of the cannotReproduce property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getCannotReproduce() {
-        return cannotReproduce;
-    }
+	/**
+	 * Gets the value of the cannotReproduce property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getCannotReproduce() {
+		return cannotReproduce;
+	}
 
-    /**
-     * Sets the value of the cannotReproduce property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setCannotReproduce(BigInteger value) {
-        this.cannotReproduce = value;
-    }
+	/**
+	 * Sets the value of the cannotReproduce property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setCannotReproduce(BigInteger value) {
+		this.cannotReproduce = value;
+	}
 
-    /**
-     * Gets the value of the fixed property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getFixed() {
-        return fixed;
-    }
+	/**
+	 * Gets the value of the fixed property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getFixed() {
+		return fixed;
+	}
 
-    /**
-     * Sets the value of the fixed property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setFixed(BigInteger value) {
-        this.fixed = value;
-    }
+	/**
+	 * Sets the value of the fixed property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setFixed(BigInteger value) {
+		this.fixed = value;
+	}
 
-    /**
-     * Gets the value of the total property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getTotal() {
-        return total;
-    }
+	/**
+	 * Gets the value of the total property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getTotal() {
+		return total;
+	}
 
-    /**
-     * Sets the value of the total property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setTotal(BigInteger value) {
-        this.total = value;
-    }
+	/**
+	 * Sets the value of the total property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setTotal(BigInteger value) {
+		this.total = value;
+	}
 
-    /**
-     * Gets the value of the notMitigated property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getNotMitigated() {
-        return notMitigated;
-    }
+	/**
+	 * Gets the value of the notMitigated property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getNotMitigated() {
+		return notMitigated;
+	}
 
-    /**
-     * Sets the value of the notMitigated property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setNotMitigated(BigInteger value) {
-        this.notMitigated = value;
-    }
+	/**
+	 * Sets the value of the notMitigated property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setNotMitigated(BigInteger value) {
+		this.notMitigated = value;
+	}
 
-    /**
-     * Gets the value of the sev1Change property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSev1Change() {
-        return sev1Change;
-    }
+	/**
+	 * Gets the value of the sev1Change property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getSev1Change() {
+		return sev1Change;
+	}
 
-    /**
-     * Sets the value of the sev1Change property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSev1Change(BigInteger value) {
-        this.sev1Change = value;
-    }
+	/**
+	 * Sets the value of the sev1Change property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setSev1Change(BigInteger value) {
+		this.sev1Change = value;
+	}
 
-    /**
-     * Gets the value of the sev2Change property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSev2Change() {
-        return sev2Change;
-    }
+	/**
+	 * Gets the value of the sev2Change property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getSev2Change() {
+		return sev2Change;
+	}
 
-    /**
-     * Sets the value of the sev2Change property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSev2Change(BigInteger value) {
-        this.sev2Change = value;
-    }
+	/**
+	 * Sets the value of the sev2Change property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setSev2Change(BigInteger value) {
+		this.sev2Change = value;
+	}
 
-    /**
-     * Gets the value of the sev3Change property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSev3Change() {
-        return sev3Change;
-    }
+	/**
+	 * Gets the value of the sev3Change property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getSev3Change() {
+		return sev3Change;
+	}
 
-    /**
-     * Sets the value of the sev3Change property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSev3Change(BigInteger value) {
-        this.sev3Change = value;
-    }
+	/**
+	 * Sets the value of the sev3Change property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setSev3Change(BigInteger value) {
+		this.sev3Change = value;
+	}
 
-    /**
-     * Gets the value of the sev4Change property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSev4Change() {
-        return sev4Change;
-    }
+	/**
+	 * Gets the value of the sev4Change property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getSev4Change() {
+		return sev4Change;
+	}
 
-    /**
-     * Sets the value of the sev4Change property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSev4Change(BigInteger value) {
-        this.sev4Change = value;
-    }
+	/**
+	 * Sets the value of the sev4Change property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setSev4Change(BigInteger value) {
+		this.sev4Change = value;
+	}
 
-    /**
-     * Gets the value of the sev5Change property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSev5Change() {
-        return sev5Change;
-    }
+	/**
+	 * Gets the value of the sev5Change property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getSev5Change() {
+		return sev5Change;
+	}
 
-    /**
-     * Sets the value of the sev5Change property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSev5Change(BigInteger value) {
-        this.sev5Change = value;
-    }
+	/**
+	 * Sets the value of the sev5Change property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setSev5Change(BigInteger value) {
+		this.sev5Change = value;
+	}
 
-    /**
-     * Gets the value of the conformsToGuidelines property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getConformsToGuidelines() {
-        return conformsToGuidelines;
-    }
+	/**
+	 * Gets the value of the conformsToGuidelines property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getConformsToGuidelines() {
+		return conformsToGuidelines;
+	}
 
-    /**
-     * Sets the value of the conformsToGuidelines property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setConformsToGuidelines(BigInteger value) {
-        this.conformsToGuidelines = value;
-    }
+	/**
+	 * Sets the value of the conformsToGuidelines property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setConformsToGuidelines(BigInteger value) {
+		this.conformsToGuidelines = value;
+	}
 
-    /**
-     * Gets the value of the deviatesFromGuidelines property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getDeviatesFromGuidelines() {
-        return deviatesFromGuidelines;
-    }
+	/**
+	 * Gets the value of the deviatesFromGuidelines property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getDeviatesFromGuidelines() {
+		return deviatesFromGuidelines;
+	}
 
-    /**
-     * Sets the value of the deviatesFromGuidelines property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setDeviatesFromGuidelines(BigInteger value) {
-        this.deviatesFromGuidelines = value;
-    }
+	/**
+	 * Sets the value of the deviatesFromGuidelines property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setDeviatesFromGuidelines(BigInteger value) {
+		this.deviatesFromGuidelines = value;
+	}
 
-    /**
-     * Gets the value of the totalReviewedMitigations property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getTotalReviewedMitigations() {
-        return totalReviewedMitigations;
-    }
+	/**
+	 * Gets the value of the totalReviewedMitigations property.
+	 *
+	 * @return possible object is
+	 * {@link BigInteger }
+	 */
+	public BigInteger getTotalReviewedMitigations() {
+		return totalReviewedMitigations;
+	}
 
-    /**
-     * Sets the value of the totalReviewedMitigations property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setTotalReviewedMitigations(BigInteger value) {
-        this.totalReviewedMitigations = value;
-    }
+	/**
+	 * Sets the value of the totalReviewedMitigations property.
+	 *
+	 * @param value allowed object is
+	 *              {@link BigInteger }
+	 */
+	public void setTotalReviewedMitigations(BigInteger value) {
+		this.totalReviewedMitigations = value;
+	}
 
 }

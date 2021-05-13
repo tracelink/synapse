@@ -69,7 +69,7 @@ public class SonatypeClient {
 	 */
 	static class SonatypeClientConverter extends StringEncryptedAttributeConverter {
 
-		public SonatypeClientConverter(@Lazy DataEncryptionService dataEncryptionService) {
+		SonatypeClientConverter(@Lazy DataEncryptionService dataEncryptionService) {
 			super(dataEncryptionService);
 		}
 	}

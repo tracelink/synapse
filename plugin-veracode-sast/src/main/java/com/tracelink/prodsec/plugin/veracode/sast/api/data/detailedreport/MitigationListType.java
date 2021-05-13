@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class MitigationListType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<MitigationType> mitigation;
+	private List<MitigationType> mitigation;
 
 	/**
 	 * Gets the value of the mitigation property.

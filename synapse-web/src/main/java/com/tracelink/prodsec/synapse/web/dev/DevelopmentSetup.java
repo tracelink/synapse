@@ -11,23 +11,33 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 
+/**
+ * Sets up product lines and projects to populate data for testing during development.
+ */
 @Component
 @Profile("dev")
 public class DevelopmentSetup {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DevelopmentSetup.class);
 
-	@Autowired
-	private Environment environment;
+	private final Environment environment;
+	private final ProductsService productsService;
 
-	@Autowired
-	private ProductsService productsService;
+	public DevelopmentSetup(@Autowired Environment environment, @Autowired ProductsService productsService) {
+		this.environment = environment;
+		this.productsService = productsService;
+	}
 
 	private static final String PRIMARY_PRODUCT = "Primary Product";
 	private static final String SECONDARY_PRODUCT = "Secondary Product";
 	private static final String CORPORATE_PRODUCT = "Corporate Product";
 	private static final String MOBILE_PRODUCT = "Mobile Product";
 
+	/**
+	 * Set up product lines and projects for development testing after Synapse has started up.
+	 *
+	 * @param event the refresh event signaling that Synapse is up
+	 */
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// being extra-sure that this is called correctly

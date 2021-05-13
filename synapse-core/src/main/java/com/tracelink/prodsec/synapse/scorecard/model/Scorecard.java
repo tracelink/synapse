@@ -15,10 +15,20 @@ public class Scorecard {
 	private final List<ScorecardColumn> columns = new ArrayList<>();
 	private final List<ScorecardRow> rows = new ArrayList<>();
 
+	/**
+	 * Adds a column to the Synapse Scorecard.
+	 *
+	 * @param column the column to add
+	 */
 	public void addColumn(ScorecardColumn column) {
 		this.columns.add(column);
 	}
 
+	/**
+	 * Adds a row to the Synapse Scorecard.
+	 *
+	 * @param row the row to add
+	 */
 	public void addRow(ScorecardRow row) {
 		this.rows.add(row);
 	}

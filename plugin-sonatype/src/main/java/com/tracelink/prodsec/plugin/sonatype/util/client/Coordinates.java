@@ -1,5 +1,8 @@
 package com.tracelink.prodsec.plugin.sonatype.util.client;
 
+/**
+ * DTO to store Coordinates info from the Sonatype Nexus IQ API.
+ */
 public class Coordinates {
 
 	private String artifactId;

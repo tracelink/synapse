@@ -88,50 +88,45 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CweType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-		"description",
-		"staticflaws",
-		"dynamicflaws",
-		"manualflaws"
-})
+@XmlType(name = "CweType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"description", "staticflaws", "dynamicflaws", "manualflaws"})
 public class CweType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected CweType.Description description;
+	private CweType.Description description;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected FlawListType staticflaws;
+	private FlawListType staticflaws;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected FlawListType dynamicflaws;
+	private FlawListType dynamicflaws;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected FlawListType manualflaws;
+	private FlawListType manualflaws;
 	@XmlAttribute(name = "cweid", required = true)
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger cweid;
+	private BigInteger cweid;
 	@XmlAttribute(name = "cwename", required = true)
-	protected String cwename;
+	private String cwename;
 	@XmlAttribute(name = "pcirelated")
-	protected Boolean pcirelated;
+	private Boolean pcirelated;
 	@XmlAttribute(name = "owasp")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger owasp;
+	private BigInteger owasp;
 	@XmlAttribute(name = "owasp2013")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger owasp2013;
+	private BigInteger owasp2013;
 	@XmlAttribute(name = "sans")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger sans;
+	private BigInteger sans;
 	@XmlAttribute(name = "certc")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger certc;
+	private BigInteger certc;
 	@XmlAttribute(name = "certcpp")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger certcpp;
+	private BigInteger certcpp;
 	@XmlAttribute(name = "certjava")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger certjava;
+	private BigInteger certjava;
 	@XmlAttribute(name = "owaspmobile")
 	@XmlSchemaType(name = "positiveInteger")
-	protected BigInteger owaspmobile;
+	private BigInteger owaspmobile;
 
 	/**
 	 * Gets the value of the description property.
@@ -440,13 +435,11 @@ public class CweType {
 	 * </pre>
 	 */
 	@XmlAccessorType(XmlAccessType.FIELD)
-	@XmlType(name = "", propOrder = {
-			"text"
-	})
+	@XmlType(name = "", propOrder = {"text"})
 	public static class Description {
 
 		@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-		protected List<CweType.Description.Text> text;
+		private List<CweType.Description.Text> text;
 
 		/**
 		 * Gets the value of the text property.
@@ -499,7 +492,7 @@ public class CweType {
 		public static class Text {
 
 			@XmlAttribute(name = "text", required = true)
-			protected String text;
+			private String text;
 
 			/**
 			 * Gets the value of the text property.

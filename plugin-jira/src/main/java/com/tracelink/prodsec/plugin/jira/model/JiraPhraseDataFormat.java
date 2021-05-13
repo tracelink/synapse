@@ -7,7 +7,6 @@ import javax.persistence.AttributeConverter;
  * formats within the plug-in. A data format is a value used to identify which service should use
  * a certain JQL Phrase when parsing data pulled from the Jira Server.
  */
-
 public enum JiraPhraseDataFormat {
 	SCRUM("Scrum"),
 	VULN("Vulnerabilities");
@@ -22,6 +21,13 @@ public enum JiraPhraseDataFormat {
 		return displayName;
 	}
 
+	/**
+	 * Gets the {@link JiraPhraseDataFormat} associated with the given name, or null if there is no
+	 * such enum value.
+	 *
+	 * @param dataFormatName the name to compare against the display name
+	 * @return the phrase data format
+	 */
 	public static JiraPhraseDataFormat ofFormat(String dataFormatName) {
 		for (JiraPhraseDataFormat format : JiraPhraseDataFormat.values()) {
 			if (format.getDisplayName().equals(dataFormatName)) {
@@ -31,6 +37,9 @@ public enum JiraPhraseDataFormat {
 		return null;
 	}
 
+	/**
+	 * Converter for the {@link JiraPhraseDataFormat} to store the enum in the database.
+	 */
 	public static class JiraPhraseDataFormatConverter implements
 			AttributeConverter<JiraPhraseDataFormat, String> {
 

@@ -1,7 +1,12 @@
 package com.tracelink.prodsec.synapse.scorecard.controller;
 
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import com.tracelink.prodsec.synapse.products.model.ProjectFilterModel;
+import com.tracelink.prodsec.synapse.products.service.ProductsService;
+import com.tracelink.prodsec.synapse.scorecard.service.ScorecardService;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -9,35 +14,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
-import com.tracelink.prodsec.synapse.products.model.ProjectFilterModel;
-import com.tracelink.prodsec.synapse.products.service.ProductsService;
-import com.tracelink.prodsec.synapse.scorecard.service.ScorecardService;
-
 /**
  * Handles url operations for the scorecard and outputting the correctly
  * organized data for the scorecard
- * 
- * @author csmith
  *
+ * @author csmith
  */
 @Controller
 public class ScorecardController {
 
-	@Autowired
-	private ScorecardService scorecardService;
+	private final ScorecardService scorecardService;
+	private final ProductsService productsService;
 
-	@Autowired
-	private ProductsService productsService;
+	public ScorecardController(@Autowired ScorecardService scorecardService,
+			@Autowired ProductsService productsService) {
+		this.scorecardService = scorecardService;
+		this.productsService = productsService;
+	}
 
 	private SynapseModelAndView makeScorecardMav() {
 		SynapseModelAndView mav = new SynapseModelAndView("scorecard");
-		mav.addObject("productLineNames", productsService.getAllProductLines().stream().map(ProductLineModel::getName)
-				.collect(Collectors.toList()));
-		mav.addObject("filterNames", productsService.getAllProjectFilters().stream().map(ProjectFilterModel::getName)
-				.collect(Collectors.toList()));
+		mav.addObject("productLineNames",
+				productsService.getAllProductLines().stream().map(ProductLineModel::getName)
+						.collect(Collectors.toList()));
+		mav.addObject("filterNames",
+				productsService.getAllProjectFilters().stream().map(ProjectFilterModel::getName)
+						.collect(Collectors.toList()));
 		mav.addScriptReference("/scripts/scorecard.js");
 		mav.addStyleReference("/styles/scorecard.css");
 		return mav;
@@ -67,12 +69,14 @@ public class ScorecardController {
 
 		// error conditions for filtering misconfigs
 		if (StringUtils.isEmpty(filterType)) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "You must include a filter type");
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
+					"You must include a filter type");
 			mav.setViewName("redirect:/");
 			return;
 		}
 		if (StringUtils.isEmpty(name)) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "You must include a filter name");
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
+					"You must include a filter name");
 			mav.setViewName("redirect:/");
 			return;
 		}
@@ -80,22 +84,23 @@ public class ScorecardController {
 		// do the correct filtering
 		try {
 			switch (filterType.toLowerCase()) {
-			case "productline":
-				mav.addObject("scorecard", scorecardService.getScorecardForProductLine(name));
-				mav.addObject("scorecardType", "Product Line View: " + name);
-				break;
-			case "filter":
-				mav.addObject("scorecard", scorecardService.getScorecardForFilter(name));
-				mav.addObject("scorecardType", "Filter View: " + name);
-				break;
-			case "project":
-				mav.addObject("scorecard", scorecardService.getScorecardForProject(name));
-				mav.addObject("scorecardType", "Project View: " + name);
-				break;
-			default:
-				redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "Unknown filter type");
-				mav.setViewName("redirect:/");
-				break;
+				case "productline":
+					mav.addObject("scorecard", scorecardService.getScorecardForProductLine(name));
+					mav.addObject("scorecardType", "Product Line View: " + name);
+					break;
+				case "filter":
+					mav.addObject("scorecard", scorecardService.getScorecardForFilter(name));
+					mav.addObject("scorecardType", "Filter View: " + name);
+					break;
+				case "project":
+					mav.addObject("scorecard", scorecardService.getScorecardForProject(name));
+					mav.addObject("scorecardType", "Project View: " + name);
+					break;
+				default:
+					redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
+							"Unknown filter type");
+					mav.setViewName("redirect:/");
+					break;
 			}
 		} catch (ProductsNotFoundException e) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,

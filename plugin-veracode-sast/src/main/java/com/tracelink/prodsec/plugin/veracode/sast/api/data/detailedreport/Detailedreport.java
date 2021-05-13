@@ -79,104 +79,96 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-		"staticAnalysis",
-		"dynamicAnalysis",
-		"manualAnalysis",
-		"severity",
-		"flawStatus",
-		"customfields",
-		"softwareCompositionAnalysis"
-})
+@XmlType(name = "", propOrder = {"staticAnalysis", "dynamicAnalysis", "manualAnalysis", "severity", "flawStatus", "customfields", "softwareCompositionAnalysis"})
 @XmlRootElement(name = "detailedreport", namespace = "https://www.veracode.com/schema/reports/export/1.0")
 public class Detailedreport {
 
 	@XmlElement(name = "static-analysis", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected AnalysisType staticAnalysis;
+	private AnalysisType staticAnalysis;
 	@XmlElement(name = "dynamic-analysis", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected AnalysisType dynamicAnalysis;
+	private AnalysisType dynamicAnalysis;
 	@XmlElement(name = "manual-analysis", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected ManualAnalysisType manualAnalysis;
+	private ManualAnalysisType manualAnalysis;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected List<SeverityType> severity;
+	private List<SeverityType> severity;
 	@XmlElement(name = "flaw-status", namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected FlawStatusType flawStatus;
+	private FlawStatusType flawStatus;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected CustomFieldsType customfields;
+	private CustomFieldsType customfields;
 	@XmlElement(name = "software_composition_analysis", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected SoftwareCompositionAnalysis softwareCompositionAnalysis;
+	private SoftwareCompositionAnalysis softwareCompositionAnalysis;
 	@XmlAttribute(name = "report_format_version", required = true)
-	protected String reportFormatVersion;
+	private String reportFormatVersion;
 	@XmlAttribute(name = "account_id", required = true)
-	protected long accountId;
+	private long accountId;
 	@XmlAttribute(name = "app_name", required = true)
-	protected String appName;
+	private String appName;
 	@XmlAttribute(name = "app_id", required = true)
-	protected long appId;
+	private long appId;
 	@XmlAttribute(name = "analysis_id", required = true)
-	protected long analysisId;
+	private long analysisId;
 	@XmlAttribute(name = "static_analysis_unit_id", required = true)
-	protected long staticAnalysisUnitId;
+	private long staticAnalysisUnitId;
 	@XmlAttribute(name = "sandbox_name")
-	protected String sandboxName;
+	private String sandboxName;
 	@XmlAttribute(name = "sandbox_id", required = true)
-	protected long sandboxId;
+	private long sandboxId;
 	@XmlAttribute(name = "first_build_submitted_date")
-	protected String firstBuildSubmittedDate;
+	private String firstBuildSubmittedDate;
 	@XmlAttribute(name = "version", required = true)
-	protected String version;
+	private String version;
 	@XmlAttribute(name = "build_id", required = true)
-	protected long buildId;
+	private long buildId;
 	@XmlAttribute(name = "vendor")
-	protected String vendor;
+	private String vendor;
 	@XmlAttribute(name = "submitter", required = true)
-	protected String submitter;
+	private String submitter;
 	@XmlAttribute(name = "platform", required = true)
-	protected String platform;
+	private String platform;
 	@XmlAttribute(name = "assurance_level")
-	protected BigInteger assuranceLevel;
+	private BigInteger assuranceLevel;
 	@XmlAttribute(name = "business_criticality")
-	protected BigInteger businessCriticality;
+	private BigInteger businessCriticality;
 	@XmlAttribute(name = "generation_date", required = true)
-	protected String generationDate;
+	private String generationDate;
 	@XmlAttribute(name = "veracode_level", required = true)
-	protected String veracodeLevel;
+	private String veracodeLevel;
 	@XmlAttribute(name = "total_flaws")
-	protected BigInteger totalFlaws;
+	private BigInteger totalFlaws;
 	@XmlAttribute(name = "flaws_not_mitigated")
-	protected BigInteger flawsNotMitigated;
+	private BigInteger flawsNotMitigated;
 	@XmlAttribute(name = "teams", required = true)
-	protected String teams;
+	private String teams;
 	@XmlAttribute(name = "life_cycle_stage", required = true)
-	protected String lifeCycleStage;
+	private String lifeCycleStage;
 	@XmlAttribute(name = "planned_deployment_date")
-	protected String plannedDeploymentDate;
+	private String plannedDeploymentDate;
 	@XmlAttribute(name = "last_update_time", required = true)
-	protected String lastUpdateTime;
+	private String lastUpdateTime;
 	@XmlAttribute(name = "is_latest_build", required = true)
-	protected boolean isLatestBuild;
+	private boolean isLatestBuild;
 	@XmlAttribute(name = "policy_name", required = true)
-	protected String policyName;
+	private String policyName;
 	@XmlAttribute(name = "policy_version", required = true)
-	protected BigInteger policyVersion;
+	private BigInteger policyVersion;
 	@XmlAttribute(name = "policy_compliance_status", required = true)
-	protected String policyComplianceStatus;
+	private String policyComplianceStatus;
 	@XmlAttribute(name = "policy_rules_status", required = true)
-	protected String policyRulesStatus;
+	private String policyRulesStatus;
 	@XmlAttribute(name = "grace_period_expired", required = true)
-	protected boolean gracePeriodExpired;
+	private boolean gracePeriodExpired;
 	@XmlAttribute(name = "scan_overdue", required = true)
-	protected String scanOverdue;
+	private String scanOverdue;
 	@XmlAttribute(name = "any_type_scan_due")
-	protected String anyTypeScanDue;
+	private String anyTypeScanDue;
 	@XmlAttribute(name = "business_owner")
-	protected String businessOwner;
+	private String businessOwner;
 	@XmlAttribute(name = "business_unit")
-	protected String businessUnit;
+	private String businessUnit;
 	@XmlAttribute(name = "tags")
-	protected String tags;
+	private String tags;
 	@XmlAttribute(name = "legacy_scan_engine")
-	protected Boolean legacyScanEngine;
+	private Boolean legacyScanEngine;
 
 	/**
 	 * Gets the value of the staticAnalysis property.

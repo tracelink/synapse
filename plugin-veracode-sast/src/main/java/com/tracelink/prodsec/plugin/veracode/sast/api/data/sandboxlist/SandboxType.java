@@ -51,19 +51,19 @@ import javax.xml.bind.annotation.XmlType;
 public class SandboxType {
 
 	@XmlElement(namespace = "https://analysiscenter.veracode.com/schema/4.0/sandboxlist")
-	protected List<CustomFieldType> customfield;
+	private List<CustomFieldType> customfield;
 	@XmlAttribute(name = "sandbox_id", required = true)
-	protected long sandboxId;
+	private long sandboxId;
 	@XmlAttribute(name = "sandbox_name", required = true)
-	protected String sandboxName;
+	private String sandboxName;
 	@XmlAttribute(name = "owner", required = true)
-	protected String owner;
+	private String owner;
 	@XmlAttribute(name = "last_modified", required = true)
-	protected String lastModified;
+	private String lastModified;
 	@XmlAttribute(name = "expires")
-	protected String expires;
+	private String expires;
 	@XmlAttribute(name = "auto_recreate", required = true)
-	protected boolean autoRecreate;
+	private boolean autoRecreate;
 
 	/**
 	 * Gets the value of the customfield property.

@@ -81,39 +81,37 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AnalysisType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-		"modules"
-})
+@XmlType(name = "AnalysisType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"modules"})
 public class AnalysisType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected AnalysisType.Modules modules;
+	private AnalysisType.Modules modules;
 	@XmlAttribute(name = "rating", required = true)
-	protected String rating;
+	private String rating;
 	@XmlAttribute(name = "score", required = true)
-	protected BigInteger score;
+	private BigInteger score;
 	@XmlAttribute(name = "mitigated_rating")
-	protected String mitigatedRating;
+	private String mitigatedRating;
 	@XmlAttribute(name = "mitigated_score")
-	protected BigInteger mitigatedScore;
+	private BigInteger mitigatedScore;
 	@XmlAttribute(name = "submitted_date", required = true)
-	protected String submittedDate;
+	private String submittedDate;
 	@XmlAttribute(name = "published_date")
-	protected String publishedDate;
+	private String publishedDate;
 	@XmlAttribute(name = "next_scan_due")
-	protected String nextScanDue;
+	private String nextScanDue;
 	@XmlAttribute(name = "analysis_size_bytes")
-	protected Long analysisSizeBytes;
+	private Long analysisSizeBytes;
 	@XmlAttribute(name = "engine_version")
-	protected String engineVersion;
+	private String engineVersion;
 	@XmlAttribute(name = "dynamic_scan_type")
-	protected DynamicScanType dynamicScanType;
+	private DynamicScanType dynamicScanType;
 	@XmlAttribute(name = "scan_exit_status_id")
-	protected BigInteger scanExitStatusId;
+	private BigInteger scanExitStatusId;
 	@XmlAttribute(name = "scan_exit_status_desc")
-	protected String scanExitStatusDesc;
+	private String scanExitStatusDesc;
 	@XmlAttribute(name = "version")
-	protected String version;
+	private String version;
 
 	/**
 	 * Gets the value of the modules property.
@@ -414,13 +412,11 @@ public class AnalysisType {
 	 * </pre>
 	 */
 	@XmlAccessorType(XmlAccessType.FIELD)
-	@XmlType(name = "", propOrder = {
-			"module"
-	})
+	@XmlType(name = "", propOrder = {"module"})
 	public static class Modules {
 
 		@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-		protected List<ModuleType> module;
+		private List<ModuleType> module;
 
 		/**
 		 * Gets the value of the module property.

@@ -18,11 +18,23 @@ public class SimpleSchedulerJob implements SchedulerJob {
 		this.jobName = jobName;
 	}
 
+	/**
+	 * Sets the {@link Runnable} for this job and returns this.
+	 *
+	 * @param job the runnable to set
+	 * @return this scheduler job
+	 */
 	public SimpleSchedulerJob withJob(Runnable job) {
 		this.job = job;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link ISchedule} for this job and returns this.
+	 *
+	 * @param schedule the schedule to set
+	 * @return this scheduler job
+	 */
 	public SimpleSchedulerJob onSchedule(ISchedule schedule) {
 		this.schedule = schedule;
 		return this;

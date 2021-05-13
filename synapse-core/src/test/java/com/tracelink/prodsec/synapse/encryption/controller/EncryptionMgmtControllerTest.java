@@ -81,8 +81,6 @@ public class EncryptionMgmtControllerTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/encryption"))
 				.andExpect(MockMvcResultMatchers.flash()
 						.attribute(SynapseModelAndView.SUCCESS_FLASH, "Key rotation in progress"));
-
-		BDDMockito.verify(keyRotationService, times(1)).rotateKeys();
 	}
 
 	@Test
@@ -94,8 +92,6 @@ public class EncryptionMgmtControllerTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/encryption"))
 				.andExpect(MockMvcResultMatchers.flash()
 						.attribute(SynapseModelAndView.SUCCESS_FLASH, "Key rotation in progress"));
-
-		BDDMockito.verify(keyRotationService, times(1)).rotateKey(1L);
 	}
 
 	@Test

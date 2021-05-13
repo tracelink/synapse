@@ -38,13 +38,11 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AnnotationListType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-		"annotation"
-})
+@XmlType(name = "AnnotationListType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"annotation"})
 public class AnnotationListType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<AnnotationType> annotation;
+	private List<AnnotationType> annotation;
 
 	/**
 	 * Gets the value of the annotation property.

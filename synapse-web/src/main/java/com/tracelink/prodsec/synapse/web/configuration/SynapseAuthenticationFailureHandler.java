@@ -9,6 +9,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+/**
+ * Handler for Synapse authentication failure events. Redirects to login page with an error.
+ *
+ * @author csmith, mcool
+ */
 public class SynapseAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	@Override

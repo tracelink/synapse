@@ -46,13 +46,13 @@ import javax.xml.bind.annotation.XmlType;
 public class Sandboxlist {
 
 	@XmlElement(namespace = "https://analysiscenter.veracode.com/schema/4.0/sandboxlist")
-	protected List<SandboxType> sandbox;
+	private List<SandboxType> sandbox;
 	@XmlAttribute(name = "sandboxlist_version", required = true)
-	protected String sandboxlistVersion;
+	private String sandboxlistVersion;
 	@XmlAttribute(name = "account_id", required = true)
-	protected long accountId;
+	private long accountId;
 	@XmlAttribute(name = "app_id", required = true)
-	protected long appId;
+	private long appId;
 
 	/**
 	 * Gets the value of the sandbox property.

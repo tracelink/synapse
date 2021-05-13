@@ -20,11 +20,10 @@ import org.springframework.context.annotation.Lazy;
  * encryption or decryption. There is a one-to-one relationship between classes that extend this
  * abstract converter and data encryption keys stored in the database.
  *
- * @param <T> type of the entity attribute
  * @author mcool
+ * @param <T> type of the entity attribute
  */
-public abstract class AbstractEncryptedAttributeConverter<T> implements
-		AttributeConverter<T, String> {
+public abstract class AbstractEncryptedAttributeConverter<T> implements AttributeConverter<T, String> {
 
 	private final DataEncryptionService dataEncryptionService;
 
@@ -37,8 +36,7 @@ public abstract class AbstractEncryptedAttributeConverter<T> implements
 	 */
 	@Override
 	public String convertToDatabaseColumn(T attribute) {
-		return dataEncryptionService
-				.encryptString(convertEntityAttributeToString(attribute), this.getClass());
+		return dataEncryptionService.encryptString(convertEntityAttributeToString(attribute), this.getClass());
 	}
 
 	/**
@@ -46,8 +44,7 @@ public abstract class AbstractEncryptedAttributeConverter<T> implements
 	 */
 	@Override
 	public T convertToEntityAttribute(String dbData) {
-		return convertStringToEntityAttribute(
-				dataEncryptionService.decryptString(dbData, this.getClass()));
+		return convertStringToEntityAttribute(dataEncryptionService.decryptString(dbData, this.getClass()));
 	}
 
 	/**

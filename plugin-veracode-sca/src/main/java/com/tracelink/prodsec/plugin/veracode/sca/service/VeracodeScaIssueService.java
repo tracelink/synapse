@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VeracodeScaIssueService {
 
-	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
 			.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 	private final VeracodeScaIssueRepository issueRepository;
@@ -131,7 +131,7 @@ public class VeracodeScaIssueService {
 		issueModel.setIssueType(issueType);
 
 		handleIssueResolution(issueModel, issue);
-		issueModel.setCreatedDate(LocalDateTime.parse(issue.getCreatedDate(), dateTimeFormatter));
+		issueModel.setCreatedDate(LocalDateTime.parse(issue.getCreatedDate(), DATE_TIME_FORMATTER));
 		issueModel.setLastUpdatedDate(LocalDateTime.now());
 		issueModel.setProject(project);
 		issueModel.setProjectBranch(issue.getProjectBranch());
@@ -183,7 +183,9 @@ public class VeracodeScaIssueService {
 					break;
 				// Set fixed date to null if the issue is newly re-opened
 				case OPEN:
+				default:
 					issueModel.setFixedDate(null);
+					break;
 			}
 		}
 		// Set the issue status of the issue model

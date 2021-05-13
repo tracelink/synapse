@@ -15,18 +15,17 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
- *                 The build type element contains the key elements and attributes
- *                 that reflect the data we store for a build.
- *                 
- *                 * policy_updated_date represents the last time an action
- *                 occurred which might have affected policy compliance.
- *             
- * 
+ * The build type element contains the key elements and attributes
+ * that reflect the data we store for a build.
+ * <p>
+ * * policy_updated_date represents the last time an action
+ * occurred which might have affected policy compliance.
+ *
+ *
  * <p>Java class for BuildType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="BuildType"&gt;
  *   &lt;complexContent&gt;
@@ -39,116 +38,98 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BuildType", namespace = "https://analysiscenter.veracode.com/schema/2.0/buildlist")
 public class BuildType {
 
-    @XmlAttribute(name = "build_id")
-    protected Long buildId;
-    @XmlAttribute(name = "version")
-    protected String version;
-    @XmlAttribute(name = "policy_updated_date")
-    protected String policyUpdatedDate;
-    @XmlAttribute(name = "dynamic_scan_type")
-    protected DynamicScanType dynamicScanType;
+	@XmlAttribute(name = "build_id")
+	private Long buildId;
+	@XmlAttribute(name = "version")
+	private String version;
+	@XmlAttribute(name = "policy_updated_date")
+	private String policyUpdatedDate;
+	@XmlAttribute(name = "dynamic_scan_type")
+	private DynamicScanType dynamicScanType;
 
-    /**
-     * Gets the value of the buildId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getBuildId() {
-        return buildId;
-    }
+	/**
+	 * Gets the value of the buildId property.
+	 *
+	 * @return possible object is
+	 * {@link Long }
+	 */
+	public Long getBuildId() {
+		return buildId;
+	}
 
-    /**
-     * Sets the value of the buildId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setBuildId(Long value) {
-        this.buildId = value;
-    }
+	/**
+	 * Sets the value of the buildId property.
+	 *
+	 * @param value allowed object is
+	 *              {@link Long }
+	 */
+	public void setBuildId(Long value) {
+		this.buildId = value;
+	}
 
-    /**
-     * Gets the value of the version property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVersion() {
-        return version;
-    }
+	/**
+	 * Gets the value of the version property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getVersion() {
+		return version;
+	}
 
-    /**
-     * Sets the value of the version property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVersion(String value) {
-        this.version = value;
-    }
+	/**
+	 * Sets the value of the version property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setVersion(String value) {
+		this.version = value;
+	}
 
-    /**
-     * Gets the value of the policyUpdatedDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPolicyUpdatedDate() {
-        return policyUpdatedDate;
-    }
+	/**
+	 * Gets the value of the policyUpdatedDate property.
+	 *
+	 * @return possible object is
+	 * {@link String }
+	 */
+	public String getPolicyUpdatedDate() {
+		return policyUpdatedDate;
+	}
 
-    /**
-     * Sets the value of the policyUpdatedDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPolicyUpdatedDate(String value) {
-        this.policyUpdatedDate = value;
-    }
+	/**
+	 * Sets the value of the policyUpdatedDate property.
+	 *
+	 * @param value allowed object is
+	 *              {@link String }
+	 */
+	public void setPolicyUpdatedDate(String value) {
+		this.policyUpdatedDate = value;
+	}
 
-    /**
-     * Gets the value of the dynamicScanType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DynamicScanType }
-     *     
-     */
-    public DynamicScanType getDynamicScanType() {
-        return dynamicScanType;
-    }
+	/**
+	 * Gets the value of the dynamicScanType property.
+	 *
+	 * @return possible object is
+	 * {@link DynamicScanType }
+	 */
+	public DynamicScanType getDynamicScanType() {
+		return dynamicScanType;
+	}
 
-    /**
-     * Sets the value of the dynamicScanType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DynamicScanType }
-     *     
-     */
-    public void setDynamicScanType(DynamicScanType value) {
-        this.dynamicScanType = value;
-    }
+	/**
+	 * Sets the value of the dynamicScanType property.
+	 *
+	 * @param value allowed object is
+	 *              {@link DynamicScanType }
+	 */
+	public void setDynamicScanType(DynamicScanType value) {
+		this.dynamicScanType = value;
+	}
 
 }

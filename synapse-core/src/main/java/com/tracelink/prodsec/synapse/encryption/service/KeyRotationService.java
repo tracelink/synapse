@@ -121,6 +121,12 @@ public class KeyRotationService {
 		}
 	}
 
+	/**
+	 * Performs final tasks for the key rotation service before Synapse shuts down depending on the
+	 * {@link EncryptionType}.
+	 *
+	 * @throws IllegalArgumentException if an unknown encryption type is provided
+	 */
 	@PreDestroy
 	public void preDestroy() {
 		switch (encryptionType) {
@@ -142,7 +148,7 @@ public class KeyRotationService {
 	 * The actions performed depend on the {@link EncryptionType}.
 	 *
 	 * @param event context refreshed event that occurs after all plugins have been loaded
-	 * @throws IllegalArgumentException if an unknown encryption type is provided.
+	 * @throws IllegalArgumentException if an unknown encryption type is provided
 	 */
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -525,7 +531,7 @@ public class KeyRotationService {
 	 *
 	 * @param enable         whether to enable or disable auto-rotation
 	 * @param rotationPeriod the period (in days) between rotations
-	 * @throws IllegalArgumentException if the rotation period is invalid
+	 * @throws IllegalArgumentException if an unknown encryption type is provided
 	 */
 	public void enableRotationSchedule(boolean enable, Integer rotationPeriod) {
 		// Make sure we have a valid rotation period to enable

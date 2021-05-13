@@ -11,8 +11,8 @@ import java.util.function.Supplier;
  * This class does not implement {@link AbstractBucketer#itemBelongsInBucket(Object,
  * LocalDateTime, LocalDateTime)}, which is left for concrete classes to implement.
  *
- * @param <T> type of the items to be put into buckets
  * @author mcool
+ * @param <T> type of the items to be put into buckets
  */
 public abstract class StandardIntervalBucketer<T> extends AbstractBucketer<T> {
 

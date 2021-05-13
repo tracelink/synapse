@@ -56,7 +56,7 @@ public class DemoProjectEntity {
 	private ProjectModel synapseProject;
 
 	/**
-	 * Adding the {@link @Convert} annotation to a DB column allows implementers to configure
+	 * Adding the {@link Convert} annotation to a DB column allows implementers to configure
 	 * encryption for that column. On read and write from this table, the "secret" value will be
 	 * decrypted and encrypted, respectively, using a key associated with the specified converter
 	 * class. Here, the {@link StringEncryptedAttributeConverter} is used, but implementers can

@@ -55,25 +55,21 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CategoryType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-		"desc",
-		"recommendations",
-		"cwe"
-})
+@XmlType(name = "CategoryType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"desc", "recommendations", "cwe"})
 public class CategoryType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected ParaListType desc;
+	private ParaListType desc;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected ParaListType recommendations;
+	private ParaListType recommendations;
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0", required = true)
-	protected List<CweType> cwe;
+	private List<CweType> cwe;
 	@XmlAttribute(name = "categoryid", required = true)
-	protected BigInteger categoryid;
+	private BigInteger categoryid;
 	@XmlAttribute(name = "categoryname", required = true)
-	protected String categoryname;
+	private String categoryname;
 	@XmlAttribute(name = "pcirelated")
-	protected Boolean pcirelated;
+	private Boolean pcirelated;
 
 	/**
 	 * Gets the value of the desc property.

@@ -20,6 +20,9 @@ public class Project {
 	@SerializedName("id")
 	private UUID id = null;
 
+	/**
+	 * Enum for all project languages.
+	 */
 	@JsonAdapter(LanguagesEnum.Adapter.class)
 	public enum LanguagesEnum {
 		JAVA("JAVA"),
@@ -50,6 +53,12 @@ public class Project {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Gets the language with the given value.
+		 *
+		 * @param text the value of the language to get
+		 * @return the language, or null
+		 */
 		public static LanguagesEnum fromValue(String text) {
 			for (LanguagesEnum b : LanguagesEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -59,11 +68,14 @@ public class Project {
 			return null;
 		}
 
+		/**
+		 * Adapter to convert this enum to and from JSON.
+		 */
 		public static class Adapter extends TypeAdapter<LanguagesEnum> {
 
 			@Override
 			public void write(final JsonWriter jsonWriter, final LanguagesEnum enumeration)
-				throws IOException {
+					throws IOException {
 				jsonWriter.value(enumeration.getValue());
 			}
 
@@ -98,11 +110,6 @@ public class Project {
 
 	@SerializedName("vulnerability_issues_count")
 	private int vulnerabilityIssuesCount;
-
-	public Project branches(List<String> branches) {
-		this.branches = branches;
-		return this;
-	}
 
 	public List<String> getBranches() {
 		return branches;

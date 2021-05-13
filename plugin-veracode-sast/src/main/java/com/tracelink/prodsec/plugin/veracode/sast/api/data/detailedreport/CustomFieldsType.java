@@ -38,13 +38,11 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CustomFieldsType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {
-		"customfield"
-})
+@XmlType(name = "CustomFieldsType", namespace = "https://www.veracode.com/schema/reports/export/1.0", propOrder = {"customfield"})
 public class CustomFieldsType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<CustomFieldType> customfield;
+	private List<CustomFieldType> customfield;
 
 	/**
 	 * Gets the value of the customfield property.

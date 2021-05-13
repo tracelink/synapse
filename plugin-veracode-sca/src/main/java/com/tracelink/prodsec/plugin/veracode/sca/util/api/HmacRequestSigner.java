@@ -33,7 +33,7 @@ public final class HmacRequestSigner {
 	private static final String HMAC_SHA_256 = "HmacSHA256";
 
 	// A cryptographically secure random number generator.
-	private static final SecureRandom secureRandom = new SecureRandom();
+	private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
 	// Private constructor.
 	private HmacRequestSigner() {
@@ -54,6 +54,7 @@ public final class HmacRequestSigner {
 	 * @return The value to be put in the Authorization header
 	 * @throws InvalidKeyException      if there is an error computing the signature
 	 * @throws NoSuchAlgorithmException if there is an issue with the signing algorithm
+	 * @throws IllegalStateException    if the MAC is not properly initialized
 	 */
 	public static String getVeracodeAuthorizationHeader(final String id, final String key,
 			final URL url, final String httpMethod)
@@ -103,7 +104,7 @@ public final class HmacRequestSigner {
 	// Generate a random byte array for cryptographic use.
 	private static byte[] generateRandomBytes(final int size) {
 		final byte[] key = new byte[size];
-		secureRandom.nextBytes(key);
+		SECURE_RANDOM.nextBytes(key);
 		return key;
 	}
 

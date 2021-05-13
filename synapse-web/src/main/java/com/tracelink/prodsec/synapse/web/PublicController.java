@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controller for public-facing Synapse pages such as login and register.
+ *
+ * @author csmith, mcool
+ */
 @Controller
 public class PublicController {
 

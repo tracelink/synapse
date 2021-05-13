@@ -2,6 +2,11 @@ package com.tracelink.prodsec.plugin.bsimm.model.imports;
 
 import java.util.Collection;
 
+/**
+ * DTO to store level information for a BSIMM survey. Maintains a list of associated measures.
+ *
+ * @author csmith
+ */
 public class BsimmLevel {
 
 	private int levelNum;

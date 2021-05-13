@@ -22,6 +22,9 @@ public class IssueSummary {
 	@SerializedName("ignored")
 	private boolean ignored;
 
+	/**
+	 * IssueStatusEnum
+	 */
 	@JsonAdapter(IssueStatusEnum.Adapter.class)
 	public enum IssueStatusEnum {
 		FIXED("fixed"),
@@ -42,6 +45,12 @@ public class IssueSummary {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Gets the {@link IssueStatusEnum} associated with the given value.
+		 *
+		 * @param text the value to get the issue status for
+		 * @return the issue status
+		 */
 		public static IssueStatusEnum fromValue(String text) {
 			for (IssueStatusEnum b : IssueStatusEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -51,11 +60,14 @@ public class IssueSummary {
 			return null;
 		}
 
+		/**
+		 * An adapter class to handle JSON translation of the {@link IssueStatusEnum}.
+		 */
 		public static class Adapter extends TypeAdapter<IssueStatusEnum> {
 
 			@Override
 			public void write(final JsonWriter jsonWriter, final IssueStatusEnum enumeration)
-				throws IOException {
+					throws IOException {
 				jsonWriter.value(enumeration.getValue());
 			}
 
@@ -70,6 +82,9 @@ public class IssueSummary {
 	@SerializedName("issue_status")
 	private IssueStatusEnum issueStatus = null;
 
+	/**
+	 * IssueTypeEnum
+	 */
 	@JsonAdapter(IssueTypeEnum.Adapter.class)
 	public enum IssueTypeEnum {
 		LIBRARY("library"),
@@ -91,6 +106,12 @@ public class IssueSummary {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Gets the {@link IssueTypeEnum} associated with the given value.
+		 *
+		 * @param text the value to get the issue type for
+		 * @return the issue type
+		 */
 		public static IssueTypeEnum fromValue(String text) {
 			for (IssueTypeEnum b : IssueTypeEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -100,11 +121,14 @@ public class IssueSummary {
 			return null;
 		}
 
+		/**
+		 * An adapter class to handle JSON translation of the {@link IssueTypeEnum}.
+		 */
 		public static class Adapter extends TypeAdapter<IssueTypeEnum> {
 
 			@Override
 			public void write(final JsonWriter jsonWriter, final IssueTypeEnum enumeration)
-				throws IOException {
+					throws IOException {
 				jsonWriter.value(enumeration.getValue());
 			}
 

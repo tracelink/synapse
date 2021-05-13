@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 public class FilePathList {
 
 	@XmlElement(name = "file_path", namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<FilePath> filePath;
+	private List<FilePath> filePath;
 
 	/**
 	 * Gets the value of the filePath property.

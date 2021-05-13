@@ -1,28 +1,19 @@
 package com.tracelink.prodsec.synapse.scheduler.service;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
+import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
+import com.tracelink.prodsec.synapse.scheduler.model.JobDto;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.stereotype.Service;
-
-import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
-import com.tracelink.prodsec.synapse.scheduler.model.JobDto;
 
 /**
  * Handles the business logic to schedule jobs with the Scheduler
@@ -73,7 +64,8 @@ public class SchedulerService {
 		jobs.put(jobKey, jobDto);
 
 		this.scheduler.schedule(() -> {
-			LOG.info("Beginning Scheduled Job {} for Plugin {}", job.getJobName(), pluginDisplayName);
+			LOG.info("Beginning Scheduled Job {} for Plugin {}", job.getJobName(),
+					pluginDisplayName);
 
 			jobDto.setActive(true);
 			jobDto.setLastStartTime(new Date());
@@ -83,7 +75,8 @@ public class SchedulerService {
 			jobDto.setLastEndTime(new Date());
 			jobDto.setActive(false);
 			jobDto.setNextStartTime(trigger.nextExecutionTime(jobDto));
-			LOG.info("Completed Scheduled Job {} for Plugin {}", job.getJobName(), pluginDisplayName);
+			LOG.info("Completed Scheduled Job {} for Plugin {}", job.getJobName(),
+					pluginDisplayName);
 		}, trigger);
 	}
 

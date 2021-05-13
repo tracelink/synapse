@@ -5,11 +5,10 @@ import java.util.List;
 /**
  * The BSIMM survey is a set of functions, practices, levels and measures that
  * are responded to in order to generate a maturity score.
- * 
+ * <p>
  * This object also holds a list of firms to compare against
- * 
- * @author csmith
  *
+ * @author csmith
  */
 public class BsimmSurvey {
 	private String surveyName;
@@ -42,6 +41,11 @@ public class BsimmSurvey {
 		this.comparisons = comparisons;
 	}
 
+	/**
+	 * Validates all {@link BsimmComparison}s in this survey.
+	 *
+	 * @throws SurveyImportException if any of the comparisons is invalid
+	 */
 	public void validate() throws SurveyImportException {
 		for (BsimmComparison compare : comparisons) {
 			compare.validate(this);

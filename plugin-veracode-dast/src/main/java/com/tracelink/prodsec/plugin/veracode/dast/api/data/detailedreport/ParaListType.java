@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ParaListType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<ParaType> para;
+	private List<ParaType> para;
 
 	/**
 	 * Gets the value of the para property.

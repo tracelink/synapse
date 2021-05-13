@@ -17,6 +17,11 @@ public class ScorecardRow {
 		this.rowName = rowName;
 	}
 
+	/**
+	 * Adds a scorecard result to an ordered list representing columns of this scorecard row.
+	 *
+	 * @param result scorecard value to add to this row
+	 */
 	public void addOrderedResult(ScorecardValue result) {
 		results.add(result);
 	}

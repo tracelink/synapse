@@ -10,6 +10,7 @@ import com.tracelink.prodsec.plugin.sonatype.service.SonatypeThresholdsService;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import java.util.concurrent.CompletableFuture;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -84,7 +85,7 @@ public class SonatypeConfigurationsController {
 	public String setApiClient(@RequestParam String apiUrl, @RequestParam String user,
 			@RequestParam String auth,
 			RedirectAttributes redirectAttributes) {
-		if (apiUrl.equals("") || user.equals("") || auth.equals("")) {
+		if (StringUtils.isBlank(apiUrl) || StringUtils.isBlank(user) || StringUtils.isBlank(auth)) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Please provide all inputs.");
 			return REDIRECT;

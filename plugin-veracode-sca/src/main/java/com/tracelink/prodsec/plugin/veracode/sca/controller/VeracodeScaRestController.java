@@ -281,8 +281,7 @@ public class VeracodeScaRestController {
 	private static class VeracodeScaIssueBucketer extends
 			StandardIntervalBucketer<VeracodeScaIssue> {
 
-		public VeracodeScaIssueBucketer(String period,
-				Supplier<LocalDateTime> earliestDateTimeSupplier) {
+		VeracodeScaIssueBucketer(String period, Supplier<LocalDateTime> earliestDateTimeSupplier) {
 			super(period, earliestDateTimeSupplier);
 		}
 

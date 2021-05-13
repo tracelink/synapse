@@ -1,7 +1,8 @@
 package com.tracelink.prodsec.plugin.sme.model;
 
+import com.tracelink.prodsec.plugin.sme.SMEPlugin;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,12 +15,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.tracelink.prodsec.plugin.sme.SMEPlugin;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
-
+/**
+ * Holds information about a subject matter expert and the projects they are assigned to.
+ *
+ * @author csmith
+ */
 @Entity
 @Table(schema = SMEPlugin.SCHEMA, name = "sme_names")
 public class SMEEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sme_id")

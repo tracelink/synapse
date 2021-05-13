@@ -46,9 +46,7 @@ public class BsimmResponseService {
 	private final BsimmSurveyResponseRepo surveyResponseRepo;
 	private final BsimmMeasureResponseRepo measureResponseRepo;
 
-	public BsimmResponseService(@Autowired BsimmSurveyService surveyService,
-			@Autowired BsimmSurveyResponseRepo surveyResponseRepo,
-			@Autowired BsimmMeasureResponseRepo measureResponseRepo) {
+	public BsimmResponseService(@Autowired BsimmSurveyService surveyService, @Autowired BsimmSurveyResponseRepo surveyResponseRepo, @Autowired BsimmMeasureResponseRepo measureResponseRepo) {
 		this.surveyService = surveyService;
 		this.surveyResponseRepo = surveyResponseRepo;
 		this.measureResponseRepo = measureResponseRepo;
@@ -68,9 +66,7 @@ public class BsimmResponseService {
 	 * @param survey      the survey to respond to
 	 * @return the {@linkplain SurveyInProgress} to track this work
 	 */
-	public SurveyInProgress startNewSurvey(HttpSession userSession, String author,
-			ProductLineModel productLine,
-			SurveyEntity survey) {
+	public SurveyInProgress startNewSurvey(HttpSession userSession, String author, ProductLineModel productLine, SurveyEntity survey) {
 		SurveyInProgress prog = new SurveyInProgress(survey);
 		SurveyResponseEntity surveyResp = new SurveyResponseEntity();
 		surveyResp.setDateFiled(new Date());
@@ -94,9 +90,7 @@ public class BsimmResponseService {
 	 * @throws SurveyException if the user doesn't have a survey or the status is
 	 *                         unknown
 	 */
-	public SurveyInProgress recordMeasureResponse(HttpSession userSession, int measureNumber,
-			MeasureResponseStatus status, String responsible, String responseText)
-			throws SurveyException {
+	public SurveyInProgress recordMeasureResponse(HttpSession userSession, int measureNumber, MeasureResponseStatus status, String responsible, String responseText) throws SurveyException {
 
 		SurveyInProgress prog = surveyProgress.get(userSession);
 		if (prog == null) {
@@ -130,8 +124,7 @@ public class BsimmResponseService {
 	 *                                   survey
 	 * @throws SurveyIncompleteException if the survey isn't complete yet
 	 */
-	public SurveyResponseEntity saveSurveyResult(HttpSession userSession)
-			throws SurveyException, SurveyIncompleteException {
+	public SurveyResponseEntity saveSurveyResult(HttpSession userSession) throws SurveyException, SurveyIncompleteException {
 		SurveyInProgress prog = surveyProgress.get(userSession);
 		if (prog == null) {
 			throw new SurveyException("User has no active surveys");
@@ -159,9 +152,7 @@ public class BsimmResponseService {
 	 * @return the edited measure response
 	 * @throws SurveyException if there is no survey response for the given ID
 	 */
-	public MeasureResponseEntity amendResponse(long surveyResponseId, String measureId,
-			String status, String responsible, String response)
-			throws SurveyException, IllegalArgumentException {
+	public MeasureResponseEntity amendResponse(long surveyResponseId, String measureId, String status, String responsible, String response) throws SurveyException {
 		SurveyResponseEntity survey = getSurveyResult(surveyResponseId);
 		if (survey == null) {
 			throw new SurveyException("No Survey Response for that id");
@@ -170,8 +161,7 @@ public class BsimmResponseService {
 		for (MeasureResponseEntity responseEntity : survey.getMeasureResponses()) {
 			if (responseEntity.getRelatedMeasure().getMeasureId().equals(measureId)) {
 				correctResponseEntity = responseEntity;
-				MeasureResponseStatus measureResponseStatus = MeasureResponseStatus
-						.getMeasureFor(status);
+				MeasureResponseStatus measureResponseStatus = MeasureResponseStatus.getMeasureFor(status);
 				if (measureResponseStatus == null) {
 					throw new SurveyException("Invalid measure response status");
 				}
@@ -292,8 +282,7 @@ public class BsimmResponseService {
 	 * @return a JSON object with score data for the given product line
 	 * @throws SurveyException if the given product line doesn't have any responses
 	 */
-	public JsonObject generateResponsesAndComparisons(List<Long> responses, List<Long> comparisons)
-			throws SurveyException {
+	public JsonObject generateResponsesAndComparisons(List<Long> responses, List<Long> comparisons) throws SurveyException {
 		JsonObject json = new JsonObject();
 
 		JsonArray responseArr = new JsonArray();
@@ -326,32 +315,22 @@ public class BsimmResponseService {
 		return json;
 	}
 
-	private void generateComparisonsForResponse(SurveyComparisonEntity comparison,
-			JsonArray compareArr) {
-		JsonObject comparisonObj = getObjectFromOrAddToJsonArray(compareArr,
-				"comparisonTitle",
-				comparison.getTitle());
+	private void generateComparisonsForResponse(SurveyComparisonEntity comparison, JsonArray compareArr) {
+		JsonObject comparisonObj = getObjectFromOrAddToJsonArray(compareArr, "comparisonTitle", comparison.getTitle());
 		List<SurveyComparisonPracticeEntity> practices = comparison.getPractices();
 		for (SurveyComparisonPracticeEntity practiceEntity : practices) {
-			JsonArray functionsArr = getArrayFromOrAddToJsonObject(comparisonObj,
-					"functions");
+			JsonArray functionsArr = getArrayFromOrAddToJsonObject(comparisonObj, "functions");
 
-			JsonObject function = getObjectFromOrAddToJsonArray(functionsArr,
-					"functionName",
-					practiceEntity.getFunctionName());
+			JsonObject function = getObjectFromOrAddToJsonArray(functionsArr, "functionName", practiceEntity.getFunctionName());
 
-			JsonArray practiceArr = getArrayFromOrAddToJsonObject(function,
-					"practices");
+			JsonArray practiceArr = getArrayFromOrAddToJsonObject(function, "practices");
 
-			JsonObject practice = getObjectFromOrAddToJsonArray(practiceArr,
-					"practiceName",
-					practiceEntity.getPracticeName());
+			JsonObject practice = getObjectFromOrAddToJsonArray(practiceArr, "practiceName", practiceEntity.getPracticeName());
 			practice.addProperty("comparisonScore", practiceEntity.getScore());
 		}
 	}
 
-	private void generateMeasureResponsesForResponse(SurveyResponseEntity response,
-			JsonArray responseArr) {
+	private void generateMeasureResponsesForResponse(SurveyResponseEntity response, JsonArray responseArr) {
 		JsonObject responseObj = new JsonObject();
 		responseObj.addProperty("title", response.getTitle());
 
@@ -369,36 +348,27 @@ public class BsimmResponseService {
 			measureData.addProperty("measureScore", measure.getScore());
 			measuresData.add(measureData);
 
-			JsonArray functionsArr = getArrayFromOrAddToJsonObject(responseObj,
-					"functions");
+			JsonArray functionsArr = getArrayFromOrAddToJsonObject(responseObj, "functions");
 
-			JsonObject function = getObjectFromOrAddToJsonArray(functionsArr,
-					"functionName",
-					originalMeasure.getFunctionName());
+			JsonObject function = getObjectFromOrAddToJsonArray(functionsArr, "functionName", originalMeasure.getFunctionName());
 
-			JsonArray practiceArr = getArrayFromOrAddToJsonObject(function,
-					"practices");
+			JsonArray practiceArr = getArrayFromOrAddToJsonObject(function, "practices");
 
-			JsonObject practice = getObjectFromOrAddToJsonArray(practiceArr,
-					"practiceName",
-					originalMeasure.getPracticeName());
+			JsonObject practice = getObjectFromOrAddToJsonArray(practiceArr, "practiceName", originalMeasure.getPracticeName());
 
 			JsonArray levelsArr = getArrayFromOrAddToJsonObject(practice, "levels");
 
-			JsonObject level = getObjectFromOrAddToJsonArray(levelsArr, "levelNum",
-					Integer.toString(originalMeasure.getLevel()));
+			JsonObject level = getObjectFromOrAddToJsonArray(levelsArr, "levelNum", Integer.toString(originalMeasure.getLevel()));
 
 			JsonArray measuresArr = getArrayFromOrAddToJsonObject(level, "measures");
 			measuresArr.add(measureData);
 		}
 	}
 
-	private static JsonObject getObjectFromOrAddToJsonArray(JsonArray array, String key,
-			String value) {
+	private static JsonObject getObjectFromOrAddToJsonArray(JsonArray array, String key, String value) {
 		JsonObject target = null;
 		for (JsonElement elem : array) {
-			if (elem.isJsonObject() && ((JsonObject) elem).has(key)
-					&& ((JsonObject) elem).get(key).getAsString().equals(value)) {
+			if (elem.isJsonObject() && ((JsonObject) elem).has(key) && ((JsonObject) elem).get(key).getAsString().equals(value)) {
 				target = (JsonObject) elem;
 			}
 		}

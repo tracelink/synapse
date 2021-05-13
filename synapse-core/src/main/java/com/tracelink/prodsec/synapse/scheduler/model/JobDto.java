@@ -2,17 +2,16 @@ package com.tracelink.prodsec.synapse.scheduler.model;
 
 import java.time.Duration;
 import java.util.Date;
-
 import org.springframework.scheduling.TriggerContext;
 
 /**
  * Class to manage the state of a job including its next execution time.
  * Implements the {@linkplain TriggerContext} to help manage the job state
- * 
- * @author csmith
  *
+ * @author csmith
  */
 public class JobDto implements TriggerContext {
+
 	private String pluginName;
 
 	private String jobName;
@@ -65,22 +64,23 @@ public class JobDto implements TriggerContext {
 	/**
 	 * Get the duration of the last job run in milliseconds, or -1 if the job hasn't
 	 * run or completed yet
-	 * 
+	 *
 	 * @return the milliseconds of duration, or -1 if the job hasn't run or
-	 *         completed
+	 * completed
 	 */
 	public long getDurationMs() {
 		if (getLastStartTime() == null || getLastEndTime() == null) {
 			return -1;
 		}
-		return Duration.between(getLastStartTime().toInstant(), getLastEndTime().toInstant()).toMillis();
+		return Duration.between(getLastStartTime().toInstant(), getLastEndTime().toInstant())
+				.toMillis();
 	}
 
 	/**
 	 * Report the duration of the last job run.
-	 * 
+	 *
 	 * @return a friendly string describing the duration of the last run in
-	 *         minutes:seconds.milliseconds, or 'N/A' if the job hasn't run
+	 * minutes:seconds.milliseconds, or 'N/A' if the job hasn't run
 	 */
 	public String getDurationString() {
 		long totalMs = getDurationMs();

@@ -17,6 +17,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Class to initialize Spring Boot app during controller tests.
+ */
 @SpringBootApplication(scanBasePackages = "com.tracelink.prodsec.synapse")
 @EntityScan(basePackages = "com.tracelink.prodsec.synapse")
 @EnableJpaRepositories(basePackages = "com.tracelink.prodsec.synapse")

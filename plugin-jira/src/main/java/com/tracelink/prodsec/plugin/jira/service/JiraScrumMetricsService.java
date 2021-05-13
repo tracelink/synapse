@@ -1,16 +1,13 @@
 package com.tracelink.prodsec.plugin.jira.service;
 
 import com.atlassian.jira.rest.client.api.JiraRestClient;
-
 import com.tracelink.prodsec.plugin.jira.model.JiraPhraseDataFormat;
 import com.tracelink.prodsec.plugin.jira.model.JiraScrumMetric;
 import com.tracelink.prodsec.plugin.jira.repo.JiraScrumMetricsRepo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Handles business logic for storing and retrieving scrum metrics
@@ -41,8 +38,14 @@ public class JiraScrumMetricsService {
 		this.jiraPhraseService = jiraPhraseService;
 	}
 
+	/**
+	 * Gets scrum metrics from Jira and stores them in the database.
+	 *
+	 * @throws Exception if there ar problems with the Jira REST client
+	 */
 	public void storeScrumMetrics() throws Exception {
-		String scrumJqlSearchFormat = jiraPhraseService.getPhraseForData(JiraPhraseDataFormat.SCRUM);
+		String scrumJqlSearchFormat = jiraPhraseService
+				.getPhraseForData(JiraPhraseDataFormat.SCRUM);
 		JiraRestClient restClient = clientService.createRestClient();
 
 		int todo = getTotalResults(String.format(scrumJqlSearchFormat, "Backlog"), restClient);

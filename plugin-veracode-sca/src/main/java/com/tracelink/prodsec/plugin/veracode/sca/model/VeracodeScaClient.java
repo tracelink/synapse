@@ -74,7 +74,7 @@ public class VeracodeScaClient {
 	 */
 	static class VeracodeScaClientConverter extends StringEncryptedAttributeConverter {
 
-		public VeracodeScaClientConverter(@Lazy DataEncryptionService dataEncryptionService) {
+		VeracodeScaClientConverter(@Lazy DataEncryptionService dataEncryptionService) {
 			super(dataEncryptionService);
 		}
 	}

@@ -1,5 +1,10 @@
 package com.tracelink.prodsec.plugin.bsimm.model.imports;
 
+/**
+ * DTO to store measure information for a BSIMM survey.
+ *
+ * @author csmith
+ */
 public class BsimmMeasure {
 	private String measureId;
 

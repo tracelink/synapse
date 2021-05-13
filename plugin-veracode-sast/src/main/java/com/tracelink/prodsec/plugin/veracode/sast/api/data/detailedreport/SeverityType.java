@@ -51,9 +51,9 @@ import javax.xml.bind.annotation.XmlType;
 public class SeverityType {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<CategoryType> category;
+	private List<CategoryType> category;
 	@XmlAttribute(name = "level", required = true)
-	protected int level;
+	private int level;
 
 	/**
 	 * Gets the value of the category property.

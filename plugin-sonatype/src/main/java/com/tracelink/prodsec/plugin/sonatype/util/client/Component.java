@@ -1,5 +1,8 @@
 package com.tracelink.prodsec.plugin.sonatype.util.client;
 
+/**
+ * DTO to store Component info from the Sonatype Nexus IQ API.
+ */
 public class Component {
 
 	private String packageUrl;

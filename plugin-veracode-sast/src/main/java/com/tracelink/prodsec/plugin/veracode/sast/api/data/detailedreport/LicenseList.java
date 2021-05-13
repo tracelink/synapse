@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 public class LicenseList {
 
 	@XmlElement(namespace = "https://www.veracode.com/schema/reports/export/1.0")
-	protected List<License> license;
+	private List<License> license;
 
 	/**
 	 * Gets the value of the license property.

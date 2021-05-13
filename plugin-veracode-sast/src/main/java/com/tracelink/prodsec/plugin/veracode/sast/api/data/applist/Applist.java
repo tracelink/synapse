@@ -39,21 +39,18 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-		"app",
-		"user"
-})
+@XmlType(name = "", propOrder = {"app", "user"})
 @XmlRootElement(name = "applist", namespace = "https://analysiscenter.veracode.com/schema/2.0/applist")
 public class Applist {
 
 	@XmlElement(namespace = "https://analysiscenter.veracode.com/schema/2.0/applist")
-	protected List<AppType> app;
+	private List<AppType> app;
 	@XmlElement(namespace = "https://analysiscenter.veracode.com/schema/2.0/applist")
-	protected UserType user;
+	private UserType user;
 	@XmlAttribute(name = "applist_version", required = true)
-	protected String applistVersion;
+	private String applistVersion;
 	@XmlAttribute(name = "account_id", required = true)
-	protected long accountId;
+	private long accountId;
 
 	/**
 	 * Gets the value of the app property.

@@ -42,7 +42,7 @@ public class JiraVulnMetricsRestController {
 	 * based on when they are created and resolved, not just when the data is recorded */
 	private static class JiraVulnBucketer extends StandardIntervalBucketer<JiraVuln> {
 
-		public JiraVulnBucketer(String timePeriod,
+		JiraVulnBucketer(String timePeriod,
 				Supplier<LocalDateTime> earliestDateTimeSupplier) {
 			super(timePeriod, earliestDateTimeSupplier);
 		}
