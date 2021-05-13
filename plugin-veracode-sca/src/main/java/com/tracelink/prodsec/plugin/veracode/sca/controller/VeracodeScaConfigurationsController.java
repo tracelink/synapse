@@ -10,6 +10,7 @@ import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsSe
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import java.util.concurrent.CompletableFuture;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -81,7 +82,7 @@ public class VeracodeScaConfigurationsController {
 	@PostMapping("client")
 	public String setApiClient(@RequestParam String apiId, @RequestParam String apiSecretKey,
 			RedirectAttributes redirectAttributes) {
-		if ("".equals(apiId) || "".equals(apiSecretKey)) {
+		if (StringUtils.isBlank(apiId) || StringUtils.isBlank(apiSecretKey)) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Please provide all inputs.");
 			return CONFIGURATIONS_REDIRECT;

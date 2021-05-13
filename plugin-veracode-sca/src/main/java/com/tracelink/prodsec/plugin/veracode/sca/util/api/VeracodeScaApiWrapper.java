@@ -2,7 +2,6 @@ package com.tracelink.prodsec.plugin.veracode.sca.util.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesIssueSummary;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesProject;
@@ -13,6 +12,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

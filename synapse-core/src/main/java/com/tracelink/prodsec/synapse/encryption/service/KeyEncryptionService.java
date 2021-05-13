@@ -1,6 +1,5 @@
 package com.tracelink.prodsec.synapse.encryption.service;
 
-import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.tracelink.prodsec.synapse.encryption.model.EncryptionType;
 import com.tracelink.prodsec.synapse.encryption.utils.EncryptionUtils;
 import java.io.FileInputStream;
@@ -17,6 +16,7 @@ import java.util.Base64;
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +77,7 @@ public class KeyEncryptionService {
 	 * Initializes environment variable keys, if configured.
 	 *
 	 * @throws IllegalArgumentException if an unknown encryption type is provided
-	 * @throws Exception if an error occurs while loading a key from a KeyStore
+	 * @throws Exception                if an error occurs while loading a key from a KeyStore
 	 */
 	@PostConstruct
 	public void init() throws Exception {
