@@ -82,7 +82,7 @@ public class VeracodeSastPluginTest {
 	@Test
 	public void testGetLinksForSidebar() {
 		List<SidebarLink> links = plugin.getLinksForSidebar();
-		Assert.assertEquals(4, links.size());
+		Assert.assertEquals(5, links.size());
 
 		SidebarLink dashboard = links.get(0);
 		Assert.assertEquals("Dashboard", dashboard.getDisplayName());
@@ -101,7 +101,14 @@ public class VeracodeSastPluginTest {
 		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV,
 				configurations.getAuthorizePrivileges().toArray()[0]);
 
-		SidebarLink mappings = links.get(3);
+		SidebarLink dataMgmt = links.get(3);
+		Assert.assertEquals("Manage Data", dataMgmt.getDisplayName());
+		Assert.assertEquals("visibility", dataMgmt.getMaterialIcon());
+		Assert.assertEquals(VeracodeSastPlugin.DATA_MGMT_PAGE, dataMgmt.getPageLink());
+		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV,
+				dataMgmt.getAuthorizePrivileges().toArray()[0]);
+
+		SidebarLink mappings = links.get(4);
 		Assert.assertEquals("Mappings", mappings.getDisplayName());
 		Assert.assertEquals("swap_horiz", mappings.getMaterialIcon());
 		Assert.assertEquals(VeracodeSastPlugin.MAPPINGS_PAGE, mappings.getPageLink());

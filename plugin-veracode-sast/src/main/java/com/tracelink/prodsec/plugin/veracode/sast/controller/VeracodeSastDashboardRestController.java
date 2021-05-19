@@ -40,7 +40,7 @@ public class VeracodeSastDashboardRestController {
 	@GetMapping(value = "flaws", params = {"period", "category"})
 	public ResponseEntity<Map<String, List<?>>> getAllFlaws(@RequestParam String period,
 			@RequestParam String category) {
-		List<VeracodeSastAppModel> apps = appService.getAllApps();
+		List<VeracodeSastAppModel> apps = appService.getIncludedApps();
 		return getResponse(apps, period, category);
 	}
 

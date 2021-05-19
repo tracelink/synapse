@@ -22,12 +22,12 @@
 			<artifactId>synapse-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-demo</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-bsimm</artifactId>
 			<version>${project.version}</version>
@@ -56,13 +56,13 @@
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-veracode-dast</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-veracode-sast</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-veracode-sca</artifactId>
 			<version>${project.version}</version>
