@@ -173,16 +173,14 @@ public class VeracodeSastUpdateService {
 			appModel = new VeracodeSastAppModel();
 			appModel.setName(appName);
 			appModel.setModelType(modelType);
-			/*
-			 * N.B. the app must be saved first to have a valid identifier created for the
-			 * reports to have a relationship with it.
-			 */
-			appModel = appService.save(appModel);
 		}
-
 		// Added here as this may change over time during renames
 		appModel.setProductLineName(productLineName);
-
+		/*
+		 * N.B. the app must be saved first to have a valid identifier created for the
+		 * reports to have a relationship with it.
+		 */
+		appModel = appService.save(appModel);
 		return appModel;
 	}
 

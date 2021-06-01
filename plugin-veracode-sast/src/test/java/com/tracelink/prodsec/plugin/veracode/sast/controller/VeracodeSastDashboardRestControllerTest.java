@@ -52,7 +52,7 @@ public class VeracodeSastDashboardRestControllerTest {
 		report.setVeryHighVios(1);
 
 		app.setReports(Arrays.asList(report));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+		BDDMockito.when(mockAppService.getIncludedApps()).thenReturn(Arrays.asList(app));
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/veracodesast/rest/flaws").param("period", period)
@@ -69,7 +69,7 @@ public class VeracodeSastDashboardRestControllerTest {
 
 		VeracodeSastAppModel app = new VeracodeSastAppModel();
 
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+		BDDMockito.when(mockAppService.getIncludedApps()).thenReturn(Arrays.asList(app));
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/veracodesast/rest/flaws").param("period", period)
@@ -94,7 +94,7 @@ public class VeracodeSastDashboardRestControllerTest {
 		report2.setVeryHighVios(1);
 
 		app.setReports(Arrays.asList(report, report2));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+		BDDMockito.when(mockAppService.getIncludedApps()).thenReturn(Arrays.asList(app));
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/veracodesast/rest/flaws").param("period", period)
@@ -111,7 +111,7 @@ public class VeracodeSastDashboardRestControllerTest {
 
 		VeracodeSastAppModel app = new VeracodeSastAppModel();
 
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+		BDDMockito.when(mockAppService.getIncludedApps()).thenReturn(Arrays.asList(app));
 		String nowMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMM"));
 		if (LocalDate.now().getMonth().equals(Month.DECEMBER) || LocalDate.now().getMonth()
 				.equals(Month.JANUARY)) {
@@ -142,7 +142,7 @@ public class VeracodeSastDashboardRestControllerTest {
 		report2.setVeryHighVios(1);
 
 		app.setReports(Arrays.asList(report, report2));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+		BDDMockito.when(mockAppService.getIncludedApps()).thenReturn(Arrays.asList(app));
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/veracodesast/rest/flaws").param("period", period)
@@ -173,7 +173,7 @@ public class VeracodeSastDashboardRestControllerTest {
 
 		report.setFlaws(Arrays.asList(flaw1, flaw2));
 		app.setReports(Arrays.asList(report));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+		BDDMockito.when(mockAppService.getIncludedApps()).thenReturn(Arrays.asList(app));
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/veracodesast/rest/flaws").param("period", period)

@@ -40,11 +40,13 @@ public class VeracodeSastPlugin extends PluginWithDatabase {
 
 	public static final String DASHBOARD_PAGE = "/veracodesast";
 
+	public static final String FLAWS_PAGE = DASHBOARD_PAGE + "/flaws";
+
 	public static final String CONFIGURATIONS_PAGE = DASHBOARD_PAGE + "/configure";
 
-	public static final String MAPPINGS_PAGE = DASHBOARD_PAGE + "/mappings";
+	public static final String DATA_MGMT_PAGE = DASHBOARD_PAGE + "/data";
 
-	public static final String FLAWS_PAGE = DASHBOARD_PAGE + "/flaws";
+	public static final String MAPPINGS_PAGE = DASHBOARD_PAGE + "/mappings";
 
 	public static final String FLAWS_VIEWER_PRIVILEGE = "VeracodeSastFlawViewer";
 
@@ -107,11 +109,17 @@ public class VeracodeSastPlugin extends PluginWithDatabase {
 				.withPageLink(CONFIGURATIONS_PAGE)
 				.withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
 
+		// Data management page
+		SidebarLink dataMgmt = new SimpleSidebarLink("Manage Data")
+				.withMaterialIcon("visibility")
+				.withPageLink(DATA_MGMT_PAGE)
+				.withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
+
 		// Mappings page
 		SidebarLink mappings = new SimpleSidebarLink("Mappings").withMaterialIcon("swap_horiz")
 				.withPageLink(MAPPINGS_PAGE).withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
 
-		return Arrays.asList(dashboard, flaws, configurations, mappings);
+		return Arrays.asList(dashboard, flaws, configurations, dataMgmt, mappings);
 	}
 
 	@Override

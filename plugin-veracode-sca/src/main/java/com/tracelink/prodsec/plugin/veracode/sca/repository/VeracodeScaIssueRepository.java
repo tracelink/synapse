@@ -5,6 +5,7 @@ import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Repository for DB integration with the {@link VeracodeScaIssue}.
@@ -26,5 +27,6 @@ public interface VeracodeScaIssueRepository extends JpaRepository<VeracodeScaIss
 	 *
 	 * @param project the project for which to delete all issues
 	 */
+	@Transactional
 	void deleteByProject(VeracodeScaProject project);
 }

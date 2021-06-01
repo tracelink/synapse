@@ -221,9 +221,9 @@ public class VeracodeScaProjectService {
 			projectsPage = projectRepository.findAllByWorkspace(workspace, pageRequest);
 			// Delete all issues associated with these projects
 			projectsPage.forEach(issueService::deleteIssuesByProject);
-			// Delete all the projects
-			projectRepository.deleteAll(projectsPage);
 		} while (projectsPage.hasNext());
+		// Delete all the projects
+		projectRepository.deleteByWorkspace(workspace);
 		// Flush before returning
 		projectRepository.flush();
 	}

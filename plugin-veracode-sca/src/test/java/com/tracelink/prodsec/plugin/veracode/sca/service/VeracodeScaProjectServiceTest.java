@@ -505,7 +505,7 @@ public class VeracodeScaProjectServiceTest {
 		projectService.deleteProjectsByWorkspace(workspace);
 		BDDMockito.verify(issueService).deleteIssuesByProject(project1);
 		BDDMockito.verify(issueService).deleteIssuesByProject(project2);
-		BDDMockito.verify(projectRepository).deleteAll(BDDMockito.anyIterable());
+		BDDMockito.verify(projectRepository).deleteByWorkspace(workspace);
 		BDDMockito.verify(projectRepository).flush();
 	}
 
@@ -527,7 +527,7 @@ public class VeracodeScaProjectServiceTest {
 		projectService.deleteProjectsByWorkspace(workspace);
 		BDDMockito.verify(issueService).deleteIssuesByProject(project1);
 		BDDMockito.verify(issueService).deleteIssuesByProject(project2);
-		BDDMockito.verify(projectRepository, times(2)).deleteAll(BDDMockito.anyIterable());
+		BDDMockito.verify(projectRepository).deleteByWorkspace(workspace);
 		BDDMockito.verify(projectRepository).flush();
 	}
 }

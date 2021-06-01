@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Repository for DB integration with the {@link VeracodeScaProject}.
@@ -68,4 +69,12 @@ public interface VeracodeScaProjectRepository extends JpaRepository<VeracodeScaP
 	 * @return page of projects associated with the given workspace
 	 */
 	Page<VeracodeScaProject> findAllByWorkspace(VeracodeScaWorkspace workspace, Pageable pageable);
+
+	/**
+	 * Deletes all projects associated with the given {@link VeracodeScaWorkspace}.
+	 *
+	 * @param workspace the workspace for which to delete all projects
+	 */
+	@Transactional
+	void deleteByWorkspace(VeracodeScaWorkspace workspace);
 }

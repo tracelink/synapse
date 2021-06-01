@@ -44,6 +44,14 @@ public class VeracodeSastAppModel {
 	@Convert(converter = ModelType.ModelTypeConverter.class)
 	private ModelType modelType;
 
+	/**
+	 * Whether the reports and flaws associated with this app should be included by Synapse. If
+	 * excluded, this app and the reports and flaws associated with it will not be displayed in
+	 * graphs, summary statistics, or the flaws page.
+	 */
+	@Column(name = "included")
+	private boolean included = true;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "synapse_project")
 	private ProjectModel synapseProject;
@@ -81,6 +89,14 @@ public class VeracodeSastAppModel {
 		this.modelType = modelType;
 	}
 
+	public boolean isIncluded() {
+		return included;
+	}
+
+	public void setIncluded(boolean included) {
+		this.included = included;
+	}
+
 	public ProjectModel getSynapseProject() {
 		return synapseProject;
 	}
@@ -111,6 +127,19 @@ public class VeracodeSastAppModel {
 
 	public VeracodeSastReportModel getOldestReport() {
 		return (reports == null || reports.isEmpty()) ? null : reports.get(reports.size() - 1);
+	}
+
+	/**
+	 * Gets the display name for this app model based on whether it is an app or a sandbox.
+	 *
+	 * @return display name including app and/or sandbox name
+	 */
+	public String getDisplayName() {
+		if (modelType.equals(ModelType.APP)) {
+			return name;
+		} else {
+			return productLineName + " - " + name;
+		}
 	}
 
 }
