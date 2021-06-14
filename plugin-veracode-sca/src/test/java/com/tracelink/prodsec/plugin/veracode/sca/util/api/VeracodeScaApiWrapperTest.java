@@ -188,11 +188,11 @@ public class VeracodeScaApiWrapperTest {
 						.withQueryParams(queryParams2)
 						.willReturn(WireMock.okJson(GSON.toJson(pagedProjects2))));
 
-		List<Project> projects = apiWrapper.getProjects(workspaceId.toString(), 0).getEmbedded()
+		List<Project> projects = apiWrapper.getProjects(workspaceId, 0).getEmbedded()
 				.getProjects();
 		Assert.assertEquals(1, projects.size());
 		Assert.assertEquals(project1.getId(), projects.get(0).getId());
-		projects = apiWrapper.getProjects(workspaceId.toString(), 1).getEmbedded().getProjects();
+		projects = apiWrapper.getProjects(workspaceId, 1).getEmbedded().getProjects();
 		Assert.assertEquals(1, projects.size());
 		Assert.assertEquals(project2.getId(), projects.get(0).getId());
 	}
@@ -230,11 +230,11 @@ public class VeracodeScaApiWrapperTest {
 						.willReturn(WireMock.okJson(GSON.toJson(pagedIssues2))));
 
 		List<IssueSummary> issues = apiWrapper
-				.getIssues(workspaceId.toString(), projectId.toString(), null, 0).getEmbedded()
+				.getIssues(workspaceId, projectId, null, 0).getEmbedded()
 				.getIssues();
 		Assert.assertEquals(1, issues.size());
 		Assert.assertEquals(issue1.getId(), issues.get(0).getId());
-		issues = apiWrapper.getIssues(workspaceId.toString(), projectId.toString(), null, 1)
+		issues = apiWrapper.getIssues(workspaceId, projectId, null, 1)
 				.getEmbedded().getIssues();
 		Assert.assertEquals(1, issues.size());
 		Assert.assertEquals(issue2.getId(), issues.get(0).getId());

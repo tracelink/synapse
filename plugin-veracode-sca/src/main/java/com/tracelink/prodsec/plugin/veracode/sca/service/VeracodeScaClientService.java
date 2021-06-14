@@ -48,23 +48,32 @@ public class VeracodeScaClientService {
 	}
 
 	/**
-	 * Determines whether a connection can be established with the Veracode SCA server, using the
+	 * Determines whether all API calls can be made to the Veracode SCA server, using the
 	 * configured API client settings.
-	 *
-	 * @return true if data can be fetched, false if no API client is configured or if API client
-	 * ID or secret key are incorrect
 	 */
-	public boolean testConnection() {
+	public void testConnection() {
 		VeracodeScaClient client;
 		try {
 			client = getClient();
 			apiWrapper.setClient(client);
-			apiWrapper.getWorkspaces(0);
+			PagedResourcesWorkspace workspaces = apiWrapper.getWorkspaces(0);
+			for (Workspace workspace : workspaces.getEmbedded().getWorkspaces()) {
+				PagedResourcesProject projects = apiWrapper.getProjects(workspace.getId(), 0);
+				for (Project project : projects.getEmbedded().getProjects()) {
+					PagedResourcesIssueSummary issueSummaries = apiWrapper
+							.getIssue(workspace.getId(), project.getId());
+					for (IssueSummary issueSummary : issueSummaries.getEmbedded().getIssues()) {
+						if (issueSummary != null) {
+							return; // Successfully tested all API calls
+						}
+					}
+				}
+			}
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			return false;
+			throw new VeracodeScaClientException(e.getMessage());
 		}
-		return true;
+		throw new VeracodeScaClientException(
+				"Client has access to Veracode but cannot view issues");
 	}
 
 	/**
@@ -72,6 +81,7 @@ public class VeracodeScaClientService {
 	 * projects and issues in the database.
 	 */
 	public void fetchData() {
+		LOGGER.info("Starting data fetch for Veracode SCA");
 		VeracodeScaClient client;
 		try {
 			client = getClient();
@@ -84,8 +94,9 @@ public class VeracodeScaClientService {
 		try {
 			fetchWorkspaceData();
 		} catch (Exception e) {
-			LOGGER.error("An error occurred while fetching Veracode SCA data: " + e.getMessage());
+			LOGGER.error("An error occurred while fetching Veracode SCA data", e);
 		}
+		LOGGER.info("Finished data fetch for Veracode SCA");
 	}
 
 	/**
@@ -155,7 +166,7 @@ public class VeracodeScaClientService {
 		for (VeracodeScaWorkspace workspaceModel : workspaceModels) {
 			VeracodeScaPagedResourcesIterator<PagedResourcesProject> projectsIterator = new VeracodeScaPagedResourcesIterator<>(
 					page -> apiWrapper
-							.getProjects(workspaceModel.getId().toString(), page));
+							.getProjects(workspaceModel.getId(), page));
 			// Get all projects for this workspace, one page at a time
 			while (projectsIterator.hasNext()) {
 				List<Project> projects = projectsIterator.next().getEmbedded()
@@ -181,7 +192,7 @@ public class VeracodeScaClientService {
 		Map<UUID, String> branches = new HashMap<>();
 		for (Project project : projects) {
 			PagedResourcesIssueSummary pagedResourcesIssueSummary = apiWrapper
-					.getIssue(workspaceModel.getId().toString(), project.getId().toString());
+					.getIssue(workspaceModel.getId(), project.getId());
 			List<IssueSummary> issues = pagedResourcesIssueSummary.getEmbedded().getIssues();
 			if (issues.isEmpty()) {
 				LOGGER.debug("No issues associated with visible branch for project " + project
@@ -205,9 +216,8 @@ public class VeracodeScaClientService {
 			List<VeracodeScaProject> projectModels) {
 		for (VeracodeScaProject projectModel : projectModels) {
 			VeracodeScaPagedResourcesIterator<PagedResourcesIssueSummary> issuesIterator = new VeracodeScaPagedResourcesIterator<>(
-					page -> apiWrapper.getIssues(workspaceModel.getId().toString(),
-							projectModel.getId().toString(), projectModel.getVisibleBranch(),
-							page));
+					page -> apiWrapper.getIssues(workspaceModel.getId(), projectModel.getId(),
+							projectModel.getVisibleBranch(), page));
 			// Get all issues for this project and branch combo, one page at a time
 			while (issuesIterator.hasNext()) {
 				List<IssueSummary> issues = issuesIterator.next().getEmbedded().getIssues();

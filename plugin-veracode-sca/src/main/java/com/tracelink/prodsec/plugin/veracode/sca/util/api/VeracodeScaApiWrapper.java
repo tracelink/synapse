@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +31,8 @@ public class VeracodeScaApiWrapper {
 	private static final String GET = "GET";
 	private static final String QUERY_PARAMS = "?page=%s&size=%s";
 	private static final int STANDARD_SIZE = 50;
-	private static final int DETECT_BRANCH_PAGE = 0;
-	private static final int DETECT_BRANCH_SIZE = 1;
+	private static final int PAGE_ZERO = 0;
+	private static final int SIZE_ONE = 1;
 	private static final String WORKSPACES_URI = "/v3/workspaces" + QUERY_PARAMS;
 	private static final String PROJECTS_URI = "/v3/workspaces/%s/projects" + QUERY_PARAMS;
 	private static final String ISSUES_URI =
@@ -50,13 +51,13 @@ public class VeracodeScaApiWrapper {
 		return GSON.fromJson(json, PagedResourcesWorkspace.class);
 	}
 
-	public PagedResourcesProject getProjects(String workspaceId, long page)
+	public PagedResourcesProject getProjects(UUID workspaceId, long page)
 			throws VeracodeScaApiException, JsonSyntaxException {
 		String json = getRequest(String.format(PROJECTS_URI, workspaceId, page, STANDARD_SIZE));
 		return GSON.fromJson(json, PagedResourcesProject.class);
 	}
 
-	public PagedResourcesIssueSummary getIssues(String workspaceId, String projectId, String branch,
+	public PagedResourcesIssueSummary getIssues(UUID workspaceId, UUID projectId, String branch,
 			long page) throws VeracodeScaApiException, JsonSyntaxException {
 		String url = String.format(ISSUES_URI, workspaceId, page, STANDARD_SIZE, projectId);
 		if (!StringUtils.isBlank(branch)) {
@@ -66,35 +67,34 @@ public class VeracodeScaApiWrapper {
 		return GSON.fromJson(json, PagedResourcesIssueSummary.class);
 	}
 
-	public PagedResourcesIssueSummary getIssue(String workspaceId, String projectId)
+	public PagedResourcesIssueSummary getIssue(UUID workspaceId, UUID projectId)
 			throws VeracodeScaApiException, JsonSyntaxException {
-		String url = String.format(ISSUES_URI, workspaceId, DETECT_BRANCH_PAGE, DETECT_BRANCH_SIZE,
-				projectId);
+		String url = String.format(ISSUES_URI, workspaceId, PAGE_ZERO, SIZE_ONE, projectId);
 		String json = getRequest(url);
 		return GSON.fromJson(json, PagedResourcesIssueSummary.class);
 	}
 
 	private String getRequest(String path) throws VeracodeScaApiException {
-		HttpResponse<String> json = null;
+		HttpResponse<String> response = null;
 		final String url = client.getApiUrl() + path;
 		try {
 			final String authorizationHeader = HmacRequestSigner
 					.getVeracodeAuthorizationHeader(client.getApiId(), client.getApiSecretKey(),
 							new URL(url), GET);
-			json = Unirest.get(url).header("Authorization", authorizationHeader).asString();
+			response = Unirest.get(url).header("Authorization", authorizationHeader).asString();
 		} catch (IllegalArgumentException | InvalidKeyException | NoSuchAlgorithmException
 				| MalformedURLException e) {
 			LOGGER.error("Error sending request to Veracode SCA API: " + e.getMessage());
 		}
 
-		if (json == null) {
+		if (response == null) {
 			throw new VeracodeScaApiException("Could not obtain response from Veracode SCA API");
-		} else if (json.isSuccess()) {
-			return json.getBody();
+		} else if (response.isSuccess()) {
+			return response.getBody();
 		} else {
 			throw new VeracodeScaApiException(String.format(
 					"Received status code %d from Veracode SCA API while sending request to %s: %s",
-					json.getStatus(), url, json.getBody()));
+					response.getStatus(), url, response.getBody()));
 		}
 	}
 }

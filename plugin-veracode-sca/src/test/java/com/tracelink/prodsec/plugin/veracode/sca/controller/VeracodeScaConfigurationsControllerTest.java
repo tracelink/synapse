@@ -153,7 +153,6 @@ public class VeracodeScaConfigurationsControllerTest {
 	@Test
 	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
 	public void testTestConnectionTrue() throws Exception {
-		BDDMockito.when(clientService.testConnection()).thenReturn(true);
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.flash()
@@ -163,11 +162,12 @@ public class VeracodeScaConfigurationsControllerTest {
 	@Test
 	@WithMockUser(authorities = {SynapseAdminAuthDictionary.ADMIN_PRIV})
 	public void testTestConnectionFalse() throws Exception {
-		BDDMockito.when(clientService.testConnection()).thenReturn(false);
+		BDDMockito.doThrow(VeracodeScaClientException.class).when(clientService).testConnection();
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeScaPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.flash()
-						.attribute(SynapseModelAndView.FAILURE_FLASH, "Connection failed."));
+						.attribute(SynapseModelAndView.FAILURE_FLASH,
+								Matchers.containsString("Connection failed: ")));
 	}
 
 	@Test
