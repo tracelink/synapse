@@ -106,7 +106,7 @@ public class VeracodeScaApiWrapperTest {
 	}
 
 	@Test
-	public void testGetRequestInvalidResponse() {
+	public void testGetRequest4xxResponse() {
 		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces"))
 				.withQueryParams(queryParams1)
 				.willReturn(WireMock.badRequest()));
@@ -116,8 +116,27 @@ public class VeracodeScaApiWrapperTest {
 			Assert.fail("Exception should have been thrown");
 		} catch (VeracodeScaApiException e) {
 			Assert.assertTrue(e.getMessage().contains(
-					"Received status code 400 from Veracode SCA API while sending request to "));
+					"Received status code 400 from Veracode SCA API endpoint "));
 		}
+	}
+
+	@Test
+	public void testGetRequest5xxResponse() {
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces"))
+				.withQueryParams(queryParams1)
+				.willReturn(WireMock.aResponse().withStatus(504).withBody("{}")));
+
+		try {
+			apiWrapper.getWorkspaces(0);
+			Assert.fail("Exception should have been thrown");
+		} catch (VeracodeScaApiException e) {
+			Assert.assertTrue(e.getMessage().contains(
+					"Received status code 504 from Veracode SCA API endpoint "));
+		}
+		Assert.assertTrue(
+				loggerRule.getMessages().contains("Retrying request. Retries remaining: 2"));
+		Assert.assertTrue(
+				loggerRule.getMessages().contains("Retrying request. Retries remaining: 1"));
 	}
 
 	@Test
@@ -238,5 +257,24 @@ public class VeracodeScaApiWrapperTest {
 				.getEmbedded().getIssues();
 		Assert.assertEquals(1, issues.size());
 		Assert.assertEquals(issue2.getId(), issues.get(0).getId());
+	}
+
+	@Test
+	public void testGetIssuesMalformed() {
+		UUID workspaceId = UUID.randomUUID();
+		UUID projectId = UUID.randomUUID();
+		String branch = "mainline";
+		Map<String, StringValuePattern> queryParams = new HashMap<>(queryParams1);
+		queryParams.put("project_id", equalTo(projectId.toString()));
+		queryParams.put("branch", equalTo(branch));
+		WireMock.stubFor(
+				WireMock.get(urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspaceId)))
+						.withQueryParams(queryParams)
+						.willReturn(WireMock.okJson("invalid")));
+
+		PagedResourcesIssueSummary issues = apiWrapper.getIssues(workspaceId, projectId, branch, 0);
+		Assert.assertTrue(issues.getEmbedded().getIssues().isEmpty());
+		Assert.assertTrue(loggerRule.getMessages().get(0)
+				.contains("Received malformed JSON from Veracode SCA API endpoint "));
 	}
 }

@@ -94,7 +94,7 @@ public class VeracodeScaClientService {
 		try {
 			fetchWorkspaceData();
 		} catch (Exception e) {
-			LOGGER.error("An error occurred while fetching Veracode SCA data", e);
+			LOGGER.error("An error occurred while fetching Veracode SCA data: " + e.getMessage());
 		}
 		LOGGER.info("Finished data fetch for Veracode SCA");
 	}
@@ -148,8 +148,7 @@ public class VeracodeScaClientService {
 				apiWrapper::getWorkspaces);
 		// Get all workspaces, one page at a time
 		while (workspacesIterator.hasNext()) {
-			List<Workspace> workspaces = workspacesIterator.next().getEmbedded()
-					.getWorkspaces();
+			List<Workspace> workspaces = workspacesIterator.next().getEmbedded().getWorkspaces();
 			List<VeracodeScaWorkspace> workspaceModels = workspaceService
 					.updateWorkspaces(workspaces);
 			fetchProjectData(workspaceModels);
@@ -165,8 +164,7 @@ public class VeracodeScaClientService {
 	private void fetchProjectData(List<VeracodeScaWorkspace> workspaceModels) {
 		for (VeracodeScaWorkspace workspaceModel : workspaceModels) {
 			VeracodeScaPagedResourcesIterator<PagedResourcesProject> projectsIterator = new VeracodeScaPagedResourcesIterator<>(
-					page -> apiWrapper
-							.getProjects(workspaceModel.getId(), page));
+					page -> apiWrapper.getProjects(workspaceModel.getId(), page));
 			// Get all projects for this workspace, one page at a time
 			while (projectsIterator.hasNext()) {
 				List<Project> projects = projectsIterator.next().getEmbedded()
