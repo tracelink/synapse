@@ -2,12 +2,14 @@ package com.tracelink.prodsec.plugin.veracode.sca.service;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static org.mockito.Mockito.times;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.google.gson.Gson;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
 import com.tracelink.prodsec.plugin.veracode.sca.mock.LoggerRule;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
@@ -35,7 +37,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -88,16 +89,25 @@ public class VeracodeScaClientServiceTest {
 	@Test
 	public void testTestConnectionFailClient() {
 		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.emptyList());
-		Assert.assertFalse(clientService.testConnection());
-		Assert.assertEquals("No Veracode SCA client configured.", loggerRule.getMessages().get(0));
+		try {
+			clientService.testConnection();
+			Assert.fail("Exception should have been thrown");
+		} catch (VeracodeScaClientException e) {
+			Assert.assertEquals("No Veracode SCA client configured.", e.getMessage());
+		}
 	}
 
 	@Test
 	public void testTestConnectionFailVeracode() {
 		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.singletonList(client));
 		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams)
-				.willReturn(WireMock.aResponse().withBody("invalid")));
-		Assert.assertFalse(clientService.testConnection());
+				.willReturn(WireMock.aResponse().withStatus(401)));
+		try {
+			clientService.testConnection();
+			Assert.fail("Exception should have been thrown");
+		} catch (VeracodeScaClientException e) {
+			Assert.assertTrue(e.getMessage().contains("Received status code 401"));
+		}
 	}
 
 	@Test
@@ -106,20 +116,162 @@ public class VeracodeScaClientServiceTest {
 
 		PagedResourcesWorkspace pagedWorkspaces = new PagedResourcesWorkspace();
 		Workspaces workspacesList = new Workspaces();
-		workspacesList.setWorkspaces(Collections.emptyList());
+		Workspace workspace = new Workspace();
+		workspace.setId(UUID.randomUUID());
+		workspacesList.setWorkspaces(Collections.singletonList(workspace));
 		pagedWorkspaces.setEmbedded(workspacesList);
 		pagedWorkspaces.setPage(page);
 
+		PagedResourcesProject pagedProjects = new PagedResourcesProject();
+		Projects projectsList = new Projects();
+		Project project = new Project();
+		project.setId(UUID.randomUUID());
+		projectsList.setProjects(Collections.singletonList(project));
+		pagedProjects.setEmbedded(projectsList);
+		pagedProjects.setPage(page);
+
+		PagedResourcesIssueSummary pagedIssues = new PagedResourcesIssueSummary();
+		IssueSummaries issueSummaries = new IssueSummaries();
+		IssueSummary issue = new IssueSummary();
+		issue.setId(UUID.randomUUID());
+		issueSummaries.setIssues(Collections.singletonList(issue));
+		pagedIssues.setEmbedded(issueSummaries);
+		pagedIssues.setPage(page);
+
 		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams)
 				.willReturn(WireMock.okJson(GSON.toJson(pagedWorkspaces))));
-		Assert.assertTrue(clientService.testConnection());
+
+		WireMock.stubFor(WireMock.get(
+				urlPathEqualTo(String.format("/v3/workspaces/%s/projects", workspace.getId())))
+				.withQueryParams(queryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedProjects))));
+
+		Map<String, StringValuePattern> issuesQueryParams = new HashMap<>(queryParams);
+		issuesQueryParams.put("size", equalTo("1"));
+		issuesQueryParams.put("project_id", equalTo(project.getId().toString()));
+		issuesQueryParams.put("status", equalTo("open,fixed"));
+
+		WireMock.stubFor(WireMock.get(
+				urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspace.getId())))
+				.withQueryParams(issuesQueryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedIssues))));
+
+		clientService.testConnection(); // No exception is thrown
+	}
+
+	@Test
+	public void testTestConnectionNullIssue() {
+		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.singletonList(client));
+
+		PagedResourcesWorkspace pagedWorkspaces = new PagedResourcesWorkspace();
+		Workspaces workspacesList = new Workspaces();
+		Workspace workspace = new Workspace();
+		workspace.setId(UUID.randomUUID());
+		workspacesList.setWorkspaces(Collections.singletonList(workspace));
+		pagedWorkspaces.setEmbedded(workspacesList);
+		pagedWorkspaces.setPage(page);
+
+		PagedResourcesProject pagedProjects = new PagedResourcesProject();
+		Projects projectsList = new Projects();
+		Project project = new Project();
+		project.setId(UUID.randomUUID());
+		projectsList.setProjects(Collections.singletonList(project));
+		pagedProjects.setEmbedded(projectsList);
+		pagedProjects.setPage(page);
+
+		PagedResourcesIssueSummary pagedIssues = new PagedResourcesIssueSummary();
+		IssueSummaries issueSummaries = new IssueSummaries();
+		issueSummaries.setIssues(Collections.singletonList(null));
+		pagedIssues.setEmbedded(issueSummaries);
+		pagedIssues.setPage(page);
+
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedWorkspaces))));
+
+		WireMock.stubFor(WireMock.get(
+				urlPathEqualTo(String.format("/v3/workspaces/%s/projects", workspace.getId())))
+				.withQueryParams(queryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedProjects))));
+
+		Map<String, StringValuePattern> issuesQueryParams = new HashMap<>(queryParams);
+		issuesQueryParams.put("size", equalTo("1"));
+		issuesQueryParams.put("project_id", equalTo(project.getId().toString()));
+		issuesQueryParams.put("status", equalTo("open,fixed"));
+
+		WireMock.stubFor(WireMock.get(
+				urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspace.getId())))
+				.withQueryParams(issuesQueryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedIssues))));
+
+		try {
+			clientService.testConnection();
+			Assert.fail("Should have thrown exception");
+		} catch (VeracodeScaClientException e) {
+			Assert.assertEquals("Client has access to Veracode but cannot view issues",
+					e.getMessage());
+		}
+	}
+
+	@Test
+	public void testTestConnectionNoIssues() {
+		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.singletonList(client));
+
+		PagedResourcesWorkspace pagedWorkspaces = new PagedResourcesWorkspace();
+		Workspaces workspacesList = new Workspaces();
+		Workspace workspace = new Workspace();
+		workspace.setId(UUID.randomUUID());
+		workspacesList.setWorkspaces(Collections.singletonList(workspace));
+		pagedWorkspaces.setEmbedded(workspacesList);
+		pagedWorkspaces.setPage(page);
+
+		PagedResourcesProject pagedProjects = new PagedResourcesProject();
+		Projects projectsList = new Projects();
+		Project project = new Project();
+		project.setId(UUID.randomUUID());
+		projectsList.setProjects(Collections.singletonList(project));
+		pagedProjects.setEmbedded(projectsList);
+		pagedProjects.setPage(page);
+
+		PagedResourcesIssueSummary pagedIssues = new PagedResourcesIssueSummary();
+		IssueSummaries issueSummaries = new IssueSummaries();
+		issueSummaries.setIssues(Collections.emptyList());
+		pagedIssues.setEmbedded(issueSummaries);
+		pagedIssues.setPage(page);
+
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedWorkspaces))));
+
+		WireMock.stubFor(WireMock.get(
+				urlPathEqualTo(String.format("/v3/workspaces/%s/projects", workspace.getId())))
+				.withQueryParams(queryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedProjects))));
+
+		Map<String, StringValuePattern> issuesQueryParams = new HashMap<>(queryParams);
+		issuesQueryParams.put("size", equalTo("1"));
+		issuesQueryParams.put("project_id", equalTo(project.getId().toString()));
+		issuesQueryParams.put("status", equalTo("open,fixed"));
+
+		WireMock.stubFor(WireMock.get(
+				urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspace.getId())))
+				.withQueryParams(issuesQueryParams)
+				.willReturn(WireMock.okJson(GSON.toJson(pagedIssues))));
+
+		try {
+			clientService.testConnection();
+			Assert.fail("Should have thrown exception");
+		} catch (VeracodeScaClientException e) {
+			Assert.assertEquals("Client has access to Veracode but cannot view issues",
+					e.getMessage());
+		}
 	}
 
 	@Test
 	public void testFetchDataFailClient() {
 		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.emptyList());
 		clientService.fetchData();
-		Assert.assertEquals("No Veracode SCA client configured.", loggerRule.getMessages().get(0));
+		Assert.assertEquals("Starting data fetch for Veracode SCA",
+				loggerRule.getMessages().get(0));
+		Assert.assertEquals("No Veracode SCA client configured.", loggerRule.getMessages().get(1));
 	}
 
 	@Test
@@ -130,12 +282,17 @@ public class VeracodeScaClientServiceTest {
 				.willReturn(WireMock.aResponse().withBody("invalid")));
 
 		clientService.fetchData();
-		BDDMockito.verify(workspaceService, Mockito.times(0))
-				.updateWorkspaces(BDDMockito.anyList());
 
-		Assert.assertFalse(loggerRule.getMessages().isEmpty());
-		Assert.assertTrue(loggerRule.getMessages().get(0)
-				.contains("An error occurred while fetching Veracode SCA data: "));
+		@SuppressWarnings("unchecked")
+		ArgumentCaptor<List<Workspace>> workspacesCaptor = ArgumentCaptor.forClass(List.class);
+		BDDMockito.verify(workspaceService).updateWorkspaces(workspacesCaptor.capture());
+		Assert.assertTrue(workspacesCaptor.getValue().isEmpty());
+
+		Assert.assertEquals(2, loggerRule.getMessages().size());
+		Assert.assertEquals("Starting data fetch for Veracode SCA",
+				loggerRule.getMessages().get(0));
+		Assert.assertEquals("Finished data fetch for Veracode SCA",
+				loggerRule.getMessages().get(1));
 	}
 
 	@Test
@@ -160,15 +317,24 @@ public class VeracodeScaClientServiceTest {
 				.withQueryParams(queryParams)
 				.willReturn(WireMock.aResponse().withBody("invalid")));
 
+		VeracodeScaWorkspace savedWorkspace = new VeracodeScaWorkspace();
+		savedWorkspace.setId(workspace.getId());
+
 		BDDMockito.when(workspaceService.updateWorkspaces(BDDMockito.anyList()))
-				.thenReturn(Collections.singletonList(new VeracodeScaWorkspace()));
+				.thenReturn(Collections.singletonList(savedWorkspace));
 
 		clientService.fetchData();
-		BDDMockito.verify(workspaceService, Mockito.times(1))
+		BDDMockito.verify(workspaceService, times(1))
 				.updateWorkspaces(BDDMockito.anyList());
-		BDDMockito.verify(projectService, Mockito.times(0))
-				.updateProjects(BDDMockito.anyList(), BDDMockito.any(VeracodeScaWorkspace.class),
-						BDDMockito.anyMap());
+		@SuppressWarnings("unchecked")
+		ArgumentCaptor<List<Project>> projectsCaptor = ArgumentCaptor.forClass(List.class);
+		@SuppressWarnings("unchecked")
+		ArgumentCaptor<Map<UUID, String>> branchesCaptor = ArgumentCaptor.forClass(Map.class);
+		BDDMockito.verify(projectService).updateProjects(projectsCaptor.capture(),
+				BDDMockito.any(VeracodeScaWorkspace.class),
+				branchesCaptor.capture());
+		Assert.assertTrue(projectsCaptor.getValue().isEmpty());
+		Assert.assertTrue(branchesCaptor.getValue().isEmpty());
 	}
 
 	@Test
@@ -221,12 +387,11 @@ public class VeracodeScaClientServiceTest {
 				.thenReturn(Collections.singletonList(workspaceModel));
 
 		clientService.fetchData();
-		BDDMockito.verify(workspaceService, Mockito.times(1))
-				.updateWorkspaces(BDDMockito.anyList());
-		BDDMockito.verify(projectService, Mockito.times(0))
+		BDDMockito.verify(workspaceService).updateWorkspaces(BDDMockito.anyList());
+		BDDMockito.verify(projectService)
 				.updateProjects(BDDMockito.anyList(), BDDMockito.any(VeracodeScaWorkspace.class),
 						BDDMockito.anyMap());
-		BDDMockito.verify(issueService, Mockito.times(0))
+		BDDMockito.verify(issueService, times(0))
 				.updateIssues(BDDMockito.anyList(), BDDMockito.any(VeracodeScaProject.class));
 	}
 
@@ -290,12 +455,12 @@ public class VeracodeScaClientServiceTest {
 				.thenReturn(Collections.singletonList(workspaceModel));
 
 		clientService.fetchData();
-		BDDMockito.verify(workspaceService, Mockito.times(1))
+		BDDMockito.verify(workspaceService, times(1))
 				.updateWorkspaces(BDDMockito.anyList());
-		BDDMockito.verify(projectService, Mockito.times(1))
+		BDDMockito.verify(projectService, times(1))
 				.updateProjects(BDDMockito.anyList(), BDDMockito.any(VeracodeScaWorkspace.class),
 						BDDMockito.anyMap());
-		BDDMockito.verify(issueService, Mockito.times(0))
+		BDDMockito.verify(issueService, times(0))
 				.updateIssues(BDDMockito.anyList(), BDDMockito.any(VeracodeScaProject.class));
 	}
 
@@ -340,10 +505,10 @@ public class VeracodeScaClientServiceTest {
 						BDDMockito.anyMap())).thenReturn(Collections.singletonList(projectModel));
 
 		clientService.fetchData();
-		BDDMockito.verify(projectService, Mockito.times(1))
+		BDDMockito.verify(projectService, times(1))
 				.updateProjects(projectsCaptor.capture(), workspaceCaptor.capture(),
 						branchesCaptor.capture());
-		BDDMockito.verify(issueService, Mockito.times(1))
+		BDDMockito.verify(issueService, times(1))
 				.updateIssues(issuesCaptor.capture(), projectCaptor.capture());
 
 		Assert.assertEquals(project.getId(), projectsCaptor.getValue().get(0).getId());
@@ -390,10 +555,10 @@ public class VeracodeScaClientServiceTest {
 						BDDMockito.anyMap())).thenReturn(Collections.singletonList(projectModel));
 
 		clientService.fetchData();
-		BDDMockito.verify(projectService, Mockito.times(1))
+		BDDMockito.verify(projectService, times(1))
 				.updateProjects(projectsCaptor.capture(), workspaceCaptor.capture(),
 						branchesCaptor.capture());
-		BDDMockito.verify(issueService, Mockito.times(1))
+		BDDMockito.verify(issueService, times(1))
 				.updateIssues(issuesCaptor.capture(), projectCaptor.capture());
 
 		Assert.assertEquals(project.getId(), projectsCaptor.getValue().get(0).getId());
@@ -413,13 +578,13 @@ public class VeracodeScaClientServiceTest {
 		// Case where no client is set
 		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.emptyList());
 		Assert.assertTrue(clientService.setClient("id", "secretKey"));
-		BDDMockito.verify(clientRepository, Mockito.times(1))
+		BDDMockito.verify(clientRepository, times(1))
 				.saveAndFlush(BDDMockito.any(VeracodeScaClient.class));
 
 		// Case where no client is set
 		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.singletonList(client));
 		Assert.assertTrue(clientService.setClient("id", "secretKey"));
-		BDDMockito.verify(clientRepository, Mockito.times(1)).saveAndFlush(client);
+		BDDMockito.verify(clientRepository, times(1)).saveAndFlush(client);
 		Assert.assertEquals(wireMockRule.baseUrl(), client.getApiUrl());
 		Assert.assertEquals("id", client.getApiId());
 		Assert.assertEquals("secretKey", client.getApiSecretKey());
@@ -477,5 +642,17 @@ public class VeracodeScaClientServiceTest {
 				.get(urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspace.getId())))
 				.withQueryParams(issuesQueryParams)
 				.willReturn(WireMock.okJson(GSON.toJson(pagedIssues))));
+	}
+
+	@Test
+	public void testFetchData4xx() {
+		BDDMockito.when(clientRepository.findAll()).thenReturn(Collections.singletonList(client));
+
+		WireMock.stubFor(
+				WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams)
+						.willReturn(WireMock.badRequest()));
+		clientService.fetchData();
+		Assert.assertTrue(loggerRule.getMessages().get(1)
+				.contains("An error occurred while fetching Veracode SCA data: "));
 	}
 }

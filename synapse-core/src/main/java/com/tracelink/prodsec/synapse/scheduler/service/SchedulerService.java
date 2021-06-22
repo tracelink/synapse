@@ -64,7 +64,7 @@ public class SchedulerService {
 		jobs.put(jobKey, jobDto);
 
 		this.scheduler.schedule(() -> {
-			LOG.info("Beginning Scheduled Job {} for Plugin {}", job.getJobName(),
+			LOG.info("Beginning scheduled job '{}' for plugin '{}'", job.getJobName(),
 					pluginDisplayName);
 
 			jobDto.setActive(true);
@@ -75,7 +75,7 @@ public class SchedulerService {
 			jobDto.setLastEndTime(new Date());
 			jobDto.setActive(false);
 			jobDto.setNextStartTime(trigger.nextExecutionTime(jobDto));
-			LOG.info("Completed Scheduled Job {} for Plugin {}", job.getJobName(),
+			LOG.info("Completed scheduled job '{}' for plugin '{}'", job.getJobName(),
 					pluginDisplayName);
 		}, trigger);
 	}
@@ -99,9 +99,9 @@ public class SchedulerService {
 		}
 		// Schedule job
 		this.scheduler.schedule(() -> {
-			LOG.info("Beginning Scheduled Job {}", job.getJobName());
+			LOG.info("Beginning scheduled job '{}'", job.getJobName());
 			job.getJob().run();
-			LOG.info("Completed Scheduled Job {}", job.getJobName());
+			LOG.info("Completed scheduled job '{}'", job.getJobName());
 		}, job.getSchedule().makeTrigger());
 	}
 

@@ -49,4 +49,18 @@ public class JobsModelTest {
 		Assert.assertEquals(finish.getTime()-start.getTime(), job.getDurationMs());
 		Assert.assertEquals("0:01.111", job.getDurationString());
 	}
+
+	@Test
+	public void testActiveJobDurationString() {
+		String pluginName = "plugin";
+		String jobName = "job";
+
+		JobDto job = new JobDto(pluginName, jobName);
+		Date start = new Date(2345);
+		Date finish = new Date(1234);
+		job.setLastStartTime(start);
+		job.setLastEndTime(finish);
+
+		Assert.assertEquals("N/A", job.getDurationString());
+	}
 }

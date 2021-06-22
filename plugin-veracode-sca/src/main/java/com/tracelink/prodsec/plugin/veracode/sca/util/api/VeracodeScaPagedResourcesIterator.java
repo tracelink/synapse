@@ -3,6 +3,7 @@ package com.tracelink.prodsec.plugin.veracode.sca.util.api;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.AbstractPagedResources;
 import com.tracelink.prodsec.plugin.veracode.sca.util.model.PageMetadata;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 /**
@@ -13,10 +14,10 @@ import java.util.function.Function;
  * @param <T> type of the paged resources to fetch from Veracode
  */
 public class VeracodeScaPagedResourcesIterator<T extends AbstractPagedResources> implements
-	Iterator<T> {
+		Iterator<T> {
 
 	private final Function<Long, T> pagedResourcesFunction;
-	private PageMetadata currentPage; // Null if we have not yet fetched the first page
+	private PageMetadata currentPage;
 
 	/**
 	 * Constructs an instance of this iterator with a function that returns a single page of results
@@ -26,16 +27,23 @@ public class VeracodeScaPagedResourcesIterator<T extends AbstractPagedResources>
 	 */
 	public VeracodeScaPagedResourcesIterator(Function<Long, T> pagedResourcesFunction) {
 		this.pagedResourcesFunction = pagedResourcesFunction;
+		PageMetadata page = new PageMetadata();
+		page.setNumber(-1);
+		this.currentPage = page;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return currentPage == null || currentPage.getNumber() + 1 < currentPage.getTotalPages();
+		return currentPage != null && (currentPage.getNumber() == -1
+				|| currentPage.getNumber() + 1 < currentPage.getTotalPages());
 	}
 
 	@Override
 	public T next() {
-		long nextPage = currentPage == null ? 0L : currentPage.getNumber() + 1;
+		if (currentPage == null) {
+			throw new NoSuchElementException();
+		}
+		long nextPage = currentPage.getNumber() + 1;
 		// Apply pagedResourcesFunction to get the next page of results
 		T pagedResources = pagedResourcesFunction.apply(nextPage);
 		currentPage = pagedResources.getPage();

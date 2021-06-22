@@ -12,9 +12,9 @@ import org.springframework.scheduling.TriggerContext;
  */
 public class JobDto implements TriggerContext {
 
-	private String pluginName;
+	private final String pluginName;
 
-	private String jobName;
+	private final String jobName;
 
 	private Date lastStartTime;
 
@@ -84,7 +84,7 @@ public class JobDto implements TriggerContext {
 	 */
 	public String getDurationString() {
 		long totalMs = getDurationMs();
-		if (totalMs == -1L) {
+		if (totalMs < 0L) {
 			return "N/A";
 		}
 

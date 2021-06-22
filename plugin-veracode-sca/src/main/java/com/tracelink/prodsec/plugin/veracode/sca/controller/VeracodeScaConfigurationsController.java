@@ -107,12 +107,14 @@ public class VeracodeScaConfigurationsController {
 	 */
 	@GetMapping("test")
 	public String testConnection(RedirectAttributes redirectAttributes) {
-		if (clientService.testConnection()) {
+		try {
+			clientService.testConnection();
 			redirectAttributes
 					.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH, "Connection successful.");
-		} else {
+		} catch (VeracodeScaClientException e) {
 			redirectAttributes
-					.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "Connection failed.");
+					.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
+							"Connection failed: " + e.getMessage());
 		}
 		return CONFIGURATIONS_REDIRECT;
 	}
