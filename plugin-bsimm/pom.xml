@@ -9,9 +9,6 @@
 	</parent>
 	<artifactId>plugin-bsimm</artifactId>
 
-	<properties>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
-	</properties>
 	<dependencies>
 		<!-- General dependencies -->
 		<dependency>

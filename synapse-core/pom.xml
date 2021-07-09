@@ -10,7 +10,6 @@
 	<artifactId>synapse-core</artifactId>
 
 	<properties>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
 		<wiremock.version>2.28.1</wiremock.version>
 		<font-awesome.version>5.15.1</font-awesome.version>
 		<bootstrap.version>4.5.3</bootstrap.version>

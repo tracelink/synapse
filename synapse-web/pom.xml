@@ -22,11 +22,11 @@
 			<artifactId>synapse-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-demo</artifactId>
 			<version>${project.version}</version>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-bsimm</artifactId>
@@ -47,11 +47,11 @@
 			<artifactId>plugin-sme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-sonatype</artifactId>
 			<version>${project.version}</version>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>plugin-veracode-dast</artifactId>
