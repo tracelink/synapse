@@ -23,7 +23,7 @@
 	<logger name="com.tracelink.prodsec" level="INFO">
 	</logger>
 
-	<springProfile name="default">
+	<springProfile name="dev,test,default">
 		<root level="INFO">
 			<appender-ref ref="CONSOLE" />
 		</root>

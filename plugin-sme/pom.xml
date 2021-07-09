@@ -9,10 +9,6 @@
 		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>plugin-sme</artifactId>
-
-	<properties>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
-	</properties>
 	<dependencies>
 		<!-- Synapse dependencies -->
 		<dependency>
@@ -41,7 +37,6 @@
 		<dependency>
 			<groupId>org.flywaydb.flyway-test-extensions</groupId>
 			<artifactId>flyway-spring-test</artifactId>
-			<version>${flyway.spring.test.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

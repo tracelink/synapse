@@ -10,8 +10,7 @@
 	<artifactId>plugin-veracode-dast</artifactId>
 
 	<properties>
-		<veracode.api.wrappers.version>20.3.6.1</veracode.api.wrappers.version>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
+		<veracode.api.wrappers.version>21.5.7.7</veracode.api.wrappers.version>
 		<wiremock.version>2.27.2</wiremock.version>
 	</properties>
 	<dependencies>
@@ -61,7 +60,6 @@
 		<dependency>
 			<groupId>org.flywaydb.flyway-test-extensions</groupId>
 			<artifactId>flyway-spring-test</artifactId>
-			<version>${flyway.spring.test.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

@@ -10,9 +10,8 @@
 	<artifactId>plugin-jira</artifactId>
 
 	<properties>
-		<jira.rest.client.version>5.2.0</jira.rest.client.version>
+		<jira.rest.client.version>5.2.2</jira.rest.client.version>
 		<atlassian.fugue.version>4.7.2</atlassian.fugue.version>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
 		<wiremock.version>2.27.2</wiremock.version>
 	</properties>
 	<dependencies>
@@ -55,7 +54,6 @@
 		<dependency>
 			<groupId>org.flywaydb.flyway-test-extensions</groupId>
 			<artifactId>flyway-spring-test</artifactId>
-			<version>${flyway.spring.test.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
