@@ -9,10 +9,6 @@
 	</parent>
 	<artifactId>plugin-bsimm</artifactId>
 
-	<properties>
-		<commons.io.version>2.6</commons.io.version>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
-	</properties>
 	<dependencies>
 		<!-- General dependencies -->
 		<dependency>
@@ -26,7 +22,6 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>${commons.io.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -60,7 +55,6 @@
 		<dependency>
 			<groupId>org.flywaydb.flyway-test-extensions</groupId>
 			<artifactId>flyway-spring-test</artifactId>
-			<version>${flyway.spring.test.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

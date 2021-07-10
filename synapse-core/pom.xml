@@ -10,10 +10,16 @@
 	<artifactId>synapse-core</artifactId>
 
 	<properties>
-		<unirest.version>3.3.00</unirest.version>
-		<flyway.spring.test.version>7.0.0</flyway.spring.test.version>
-		<wiremock.version>2.27.2</wiremock.version>
-		<commons.io.version>2.6</commons.io.version>
+		<wiremock.version>2.28.1</wiremock.version>
+		<font-awesome.version>5.15.1</font-awesome.version>
+		<bootstrap.version>4.5.3</bootstrap.version>
+		<jquery.version>3.5.1</jquery.version>
+		<datatables.version>1.10.21</datatables.version>
+		<popper.js.version>1.16.1</popper.js.version>
+		<chart.js.version>2.9.4</chart.js.version>
+		<codemirror.version>5.58.2</codemirror.version>
+		<bootstrap.select.version>1.13.17</bootstrap.select.version>
+		<material.design.icons.version>3.0.1</material.design.icons.version>
 	</properties>
 	<dependencies>
 		<!-- Web App Dependencies -->
@@ -111,47 +117,47 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
-			<version>5.15.1</version>
+			<version>${font-awesome.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>4.5.3</version>
+			<version>${bootstrap.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>3.5.1</version>
+			<version>${jquery.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>datatables</artifactId>
-			<version>1.10.21</version>
+			<version>${datatables.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>popper.js</artifactId>
-			<version>1.16.1</version>
+			<version>${popper.js.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>chart.js</artifactId>
-			<version>2.9.4</version>
+			<version>${chart.js.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>codemirror</artifactId>
-			<version>5.58.2</version>
+			<version>${codemirror.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap-select</artifactId>
-			<version>1.13.17</version>
+			<version>${bootstrap.select.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>material-design-icons</artifactId>
-			<version>3.0.1</version>
+			<version>${material.design.icons.version}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -168,7 +174,6 @@
 		<dependency>
 			<groupId>org.flywaydb.flyway-test-extensions</groupId>
 			<artifactId>flyway-spring-test</artifactId>
-			<version>${flyway.spring.test.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
