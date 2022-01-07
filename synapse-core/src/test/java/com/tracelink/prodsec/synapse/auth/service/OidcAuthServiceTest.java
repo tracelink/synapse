@@ -179,4 +179,19 @@ public class OidcAuthServiceTest {
 		Assert.assertEquals(privilege.getName(),
 				oidcUser.getAuthorities().iterator().next().getAuthority());
 	}
+
+	@Test
+	public void testLoadUserExistingSsoUserNewSsoId() {
+		UserModel user = new UserModel();
+		user.setUsername("email@example.com");
+		user.setSsoId("1234567890");
+		user.setEnabled(true);
+
+		BDDMockito.when(userRepository.findByUsername(email)).thenReturn(null);
+		BDDMockito.when(userRepository.findBySsoId(sub)).thenReturn(user);
+		OidcUser oidcUser = oidcAuthService.loadUser(oidcUserRequest);
+
+		BDDMockito.verify(userRepository, Mockito.times(2)).saveAndFlush(user);
+		Assert.assertEquals(sub, user.getSsoId());
+	}
 }
