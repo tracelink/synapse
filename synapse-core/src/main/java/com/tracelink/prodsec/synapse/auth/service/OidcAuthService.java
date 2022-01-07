@@ -20,12 +20,13 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 /**
- * Service to store and retrieve users in the database, if they login via OpenID Connect. When
- * users login for the first time, this service will create a new {@link UserModel} in the
- * database to keep track of user roles and privileges.
+ * Service to store and retrieve users in the database, if they login via OpenID
+ * Connect. When users login for the first time, this service will create a new
+ * {@link UserModel} in the database to keep track of user roles and privileges.
  * <p>
- * Note that this service does not attempt to link an SSO user to a local user if they have the
- * same username. If there is a username collision, the SSO user cannot login.
+ * Note that this service does not attempt to link an SSO user to a local user
+ * if they have the same username. If there is a username collision, the SSO
+ * user cannot login.
  *
  * @author mcool
  */
@@ -37,8 +38,8 @@ public class OidcAuthService extends OidcUserService {
 	private final UserRepository userRepository;
 
 	/**
-	 * Constructor for this service that configures a {@link UserRepository} for interaction with
-	 * the user database.
+	 * Constructor for this service that configures a {@link UserRepository} for
+	 * interaction with the user database.
 	 *
 	 * @param userRepository to store and retrieve {@link UserModel}s.
 	 */
@@ -50,16 +51,14 @@ public class OidcAuthService extends OidcUserService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public OidcUser loadUser(OidcUserRequest userRequest)
-			throws OAuth2AuthenticationException {
+	public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
 		OidcUser oidcUser = super.loadUser(userRequest);
 
 		// Check that the user info contains an email
 		String username = oidcUser.getEmail();
 		if (username == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error("missing_user_email_attribute");
-			throw new OAuth2AuthenticationException(oAuth2Error,
-					"User info must contain an email attribute to login.");
+			throw new OAuth2AuthenticationException(oAuth2Error, "User info must contain an email attribute to login.");
 		}
 
 		UserModel user;
@@ -67,17 +66,15 @@ public class OidcAuthService extends OidcUserService {
 		UserModel localUser = userRepository.findByUsername(username);
 		if (localUser != null) {
 			// Check if the local user has the same SSO id
-			if (localUser.getSsoId() != null && localUser.getSsoId()
-					.equals(oidcUser.getSubject())) {
-				user = localUser;
-			} else {
+			if (localUser.getSsoId() == null) {
 				// There is a username collision, prevent login
 				LOGGER.warn("User with username \"" + username
 						+ "\" attempted to login via SSO, but already has a local user account.");
 				OAuth2Error oauth2Error = new OAuth2Error("username_collision");
-				throw new OAuth2AuthenticationException(oauth2Error,
-						"A local user with the username \"" + username
-								+ "\" already exists. Please login with the provided form instead of SSO.");
+				throw new OAuth2AuthenticationException(oauth2Error, "A local user with the username \"" + username
+						+ "\" already exists. Please login with the provided form instead of SSO.");
+			} else {
+				user = localUser;
 			}
 		} else {
 			user = userRepository.findBySsoId(oidcUser.getSubject());
@@ -92,6 +89,12 @@ public class OidcAuthService extends OidcUserService {
 			userRepository.saveAndFlush(user);
 		}
 
+		// Update local ssoId if the SSO subject has changed
+		if (!user.getSsoId().equals(oidcUser.getSubject())) {
+			user.setSsoId(oidcUser.getSubject());
+			userRepository.saveAndFlush(user);
+		}
+
 		// Update local username if the user's email has been updated in the SSO
 		if (!user.getUsername().equals(username)) {
 			user.setUsername(username);
@@ -99,9 +102,8 @@ public class OidcAuthService extends OidcUserService {
 		}
 
 		// Get database roles and privileges
-		Collection<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(RoleModel::getPrivileges).flatMap(Collection::stream)
-				.map(PrivilegeModel::getName).map(SimpleGrantedAuthority::new)
+		Collection<GrantedAuthority> authorities = user.getRoles().stream().map(RoleModel::getPrivileges)
+				.flatMap(Collection::stream).map(PrivilegeModel::getName).map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toSet());
 
 		return new OidcUserDetails(oidcUser, authorities);
