@@ -6,11 +6,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,8 @@ public class SchedulerService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SchedulerService.class);
 
-	private final ConcurrentTaskScheduler scheduler;
+	private final ConcurrentTaskScheduler externalScheduler;
+	private final ConcurrentTaskScheduler internalScheduler;
 	private final Map<String, JobDto> jobs = new ConcurrentSkipListMap<>();
 
 	private volatile boolean isPaused = false;
@@ -33,7 +36,8 @@ public class SchedulerService {
 	private final Condition unpaused = pauseLock.newCondition();
 
 	public SchedulerService(@Autowired ConcurrentTaskScheduler scheduler) {
-		this.scheduler = scheduler;
+		this.externalScheduler = scheduler;
+		this.internalScheduler = new ConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor());
 	}
 
 	/**
@@ -63,7 +67,7 @@ public class SchedulerService {
 		jobDto.setNextStartTime(trigger.nextExecutionTime(jobDto));
 		jobs.put(jobKey, jobDto);
 
-		this.scheduler.schedule(() -> {
+		this.externalScheduler.schedule(() -> {
 			LOG.info("Beginning scheduled job '{}' for plugin '{}'", job.getJobName(),
 					pluginDisplayName);
 
@@ -81,11 +85,11 @@ public class SchedulerService {
 	}
 
 	/**
-	 * Process key rotations using the defined schedule
+	 * Schedule a Job that can't be modified by users
 	 *
 	 * @param job the scheduler job configuration to use
 	 */
-	public void scheduleKeyRotationJob(SchedulerJob job) {
+	public void scheduleInternalJob(SchedulerJob job) {
 		// Wait until scheduler service is resumed
 		pauseLock.lock();
 		try {
@@ -98,7 +102,7 @@ public class SchedulerService {
 			pauseLock.unlock();
 		}
 		// Schedule job
-		this.scheduler.schedule(() -> {
+		this.internalScheduler.schedule(() -> {
 			LOG.info("Beginning scheduled job '{}'", job.getJobName());
 			job.getJob().run();
 			LOG.info("Completed scheduled job '{}'", job.getJobName());

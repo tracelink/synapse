@@ -12,7 +12,7 @@
 			<div class="card-header border-bottom">
 				<div class="d-flex align-items-center">
 					<div class="mr-auto">
-						<h6 class="m-0" th:text="${scorecardType}"></h6>
+						<h6 class="m-0" th:text="${scorecardType?:'Scorecard'}"></h6>
 					</div>
 					<div>
 						<form class="">
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="card-body p-0 pb-3 text-center">
+			<div class="card-body p-0 pb-3 text-center" th:if="${scorecard != null}">
 				<h6 th:if="${scorecard.rows.size() == 0}">No Product Lines/Filters/Projects Configured</h6>
 				<div class="table-responsive" th:if="${scorecard.rows.size() > 0}">
 					<table class="table mb-0">

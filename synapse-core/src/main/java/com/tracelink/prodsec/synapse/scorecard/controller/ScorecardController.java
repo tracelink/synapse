@@ -49,7 +49,10 @@ public class ScorecardController {
 	public SynapseModelAndView scorecardHome(@RequestParam(required = false) String filterType,
 			@RequestParam(required = false) String name, RedirectAttributes redirectAttributes) {
 		SynapseModelAndView mav = makeScorecardMav();
-
+		if(!scorecardService.isReady()) {
+			mav.addObject(SynapseModelAndView.SUCCESS_FLASH, ScorecardService.NOT_READY_MESSAGE);
+			return mav;
+		}
 		// standard scorecard of orgs
 		if (filterType == null && name == null) {
 			standardScorecard(mav);
