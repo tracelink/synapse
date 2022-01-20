@@ -116,7 +116,10 @@ public class ScorecardService {
 	public Scorecard getScorecardForProductLine(String productLineName) throws ProductsNotFoundException {
 		Scorecard scorecard = productLineScorecardCache.get(productLineName);
 		if (scorecard == null) {
-			throw new ProductsNotFoundException("Unknown Product Line Name");
+			if(productsService.getProductLine(productLineName) == null) {
+				throw new ProductsNotFoundException("Unknown Product Line Name");
+			}
+			throw new ProductsNotFoundException("Scorecard has not been generated yet");
 		}
 		return scorecard;
 	}
@@ -148,7 +151,10 @@ public class ScorecardService {
 	public Scorecard getScorecardForFilter(String filterName) throws ProductsNotFoundException {
 		Scorecard scorecard = filterScorecardCache.get(filterName);
 		if (scorecard == null) {
-			throw new ProductsNotFoundException("Unknown Filter Name");
+			if(productsService.getProjectFilter(filterName) == null) {
+				throw new ProductsNotFoundException("Unknown Filter Name");
+			}
+			throw new ProductsNotFoundException("Scorecard has not been generated yet");
 		}
 		return scorecard;
 	}
@@ -180,7 +186,10 @@ public class ScorecardService {
 	public Scorecard getScorecardForProject(String projectName) throws ProductsNotFoundException {
 		Scorecard scorecard = projectScorecardCache.get(projectName);
 		if (scorecard == null) {
-			throw new ProductsNotFoundException("Unknown Project Name");
+			if(productsService.getProject(projectName) == null) {
+				throw new ProductsNotFoundException("Unknown Project Name");
+			}
+			throw new ProductsNotFoundException("Scorecard has not been generated yet");
 		}
 		return scorecard;
 	}
