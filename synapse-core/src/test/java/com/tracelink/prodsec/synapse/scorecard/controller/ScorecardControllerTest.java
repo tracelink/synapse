@@ -5,6 +5,7 @@ import com.tracelink.prodsec.synapse.products.ProductsNotFoundException;
 import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
 import com.tracelink.prodsec.synapse.products.model.ProjectFilterModel;
 import com.tracelink.prodsec.synapse.products.service.ProductsService;
+import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
 import com.tracelink.prodsec.synapse.scorecard.model.Scorecard;
 import com.tracelink.prodsec.synapse.scorecard.service.ScorecardService;
 import com.tracelink.prodsec.synapse.test.TestSynapseBootApplicationCore;
@@ -51,7 +52,8 @@ public class ScorecardControllerTest {
 		BDDMockito.when(mockProductsService.getAllProductLines()).thenReturn(Arrays.asList(plm));
 		BDDMockito.when(mockProductsService.getAllProjectFilters()).thenReturn(Arrays.asList(pfm));
 		BDDMockito.when(mockScorecardService.getTopLevelScorecard()).thenReturn(new Scorecard());
-		mockMvc.perform(MockMvcRequestBuilders.get("/"))
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
+mockMvc.perform(MockMvcRequestBuilders.get("/"))
 				.andExpect(MockMvcResultMatchers.model()
 						.attribute("productLineNames", Matchers.contains(plmName)))
 				.andExpect(MockMvcResultMatchers.model()
@@ -85,6 +87,7 @@ public class ScorecardControllerTest {
 		BDDMockito.when(mockProductsService.getAllProjectFilters()).thenReturn(Arrays.asList(pfm));
 		BDDMockito.when(mockScorecardService.getScorecardForProductLine(BDDMockito.anyString()))
 				.thenReturn(new Scorecard());
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/").param("filterType", filterType)
 				.param("name", filterName))
@@ -121,6 +124,7 @@ public class ScorecardControllerTest {
 		BDDMockito.when(mockProductsService.getAllProjectFilters()).thenReturn(Arrays.asList(pfm));
 		BDDMockito.when(mockScorecardService.getScorecardForFilter(BDDMockito.anyString()))
 				.thenReturn(new Scorecard());
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/").param("filterType", filterType)
 				.param("name", filterName))
@@ -155,6 +159,7 @@ public class ScorecardControllerTest {
 
 		BDDMockito.when(mockProductsService.getAllProductLines()).thenReturn(Arrays.asList(plm));
 		BDDMockito.when(mockProductsService.getAllProjectFilters()).thenReturn(Arrays.asList(pfm));
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 		BDDMockito.when(mockScorecardService.getScorecardForProject(BDDMockito.anyString()))
 				.thenReturn(new Scorecard());
 
@@ -192,6 +197,7 @@ public class ScorecardControllerTest {
 				.thenReturn(Arrays.asList(plm));
 		BDDMockito.when(mockProductsService.getAllProjectFilters())
 				.thenReturn(Arrays.asList(pfm));
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/").param("filterType", filterType)
 				.param("name", filterName))
@@ -218,6 +224,7 @@ public class ScorecardControllerTest {
 				.thenReturn(Arrays.asList(plm));
 		BDDMockito.when(mockProductsService.getAllProjectFilters())
 				.thenReturn(Arrays.asList(pfm));
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/").param("filterType", filterType)
 				.param("name", filterName))
@@ -244,6 +251,7 @@ public class ScorecardControllerTest {
 				.thenReturn(Arrays.asList(plm));
 		BDDMockito.when(mockProductsService.getAllProjectFilters())
 				.thenReturn(Arrays.asList(pfm));
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/").param("filterType", filterType)
 				.param("name", filterName))
@@ -274,6 +282,7 @@ public class ScorecardControllerTest {
 				.getScorecardForProject(BDDMockito.anyString());
 		BDDMockito.when(mockScorecardService.getTopLevelScorecard())
 				.thenReturn(new Scorecard());
+		BDDMockito.when(mockScorecardService.isReady()).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/").param("filterType", filterType)
 				.param("name", filterName))

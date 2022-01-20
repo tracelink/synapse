@@ -88,12 +88,12 @@ public class SchedulerServiceTest {
 		SchedulerService schedulerService = new SchedulerService(realScheduler);
 
 		// first schedule and add to the map
-		schedulerService.scheduleKeyRotationJob(scheduledJob);
+		schedulerService.scheduleInternalJob(scheduledJob);
 		Thread.sleep(500);
 		BDDMockito.verify(mockJob).run();
 
 		// second schedule to confirm repeatability
-		schedulerService.scheduleKeyRotationJob(scheduledJob);
+		schedulerService.scheduleInternalJob(scheduledJob);
 		Thread.sleep(500);
 		BDDMockito.verify(mockJob, BDDMockito.times(2)).run();
 	}
