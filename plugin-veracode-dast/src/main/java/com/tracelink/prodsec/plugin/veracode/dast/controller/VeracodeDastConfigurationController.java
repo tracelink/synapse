@@ -1,15 +1,7 @@
 package com.tracelink.prodsec.plugin.veracode.dast.controller;
 
-import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
-import com.tracelink.prodsec.plugin.veracode.dast.api.ApiClient;
-import com.tracelink.prodsec.plugin.veracode.dast.api.VeracodeClientException;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastClientConfigService;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastThresholdsService;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateService;
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
+import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
+import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastClientConfigService;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastThresholdsService;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateService;
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 
 /**
  * The Veracode DAST configurations controller handles requests to the page for
@@ -71,7 +73,7 @@ public class VeracodeDastConfigurationController {
 
 	@GetMapping("test")
 	public String testConfig(RedirectAttributes redirectAttributes) {
-		ApiClient client = configService.getApiClient();
+		VeracodeXmlApiClient client = configService.getApiClient();
 		if (client == null) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Client has not been configured");
@@ -81,7 +83,7 @@ public class VeracodeDastConfigurationController {
 			client.testAccess();
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
 					"Client Configured Correctly");
-		} catch (VeracodeClientException e) {
+		} catch (VeracodeXmlApiException e) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Client does not have access. Error: " + e.getMessage());
 		}

@@ -71,6 +71,10 @@ public class ScorecardService {
 	}
 
 	public void updateAll() {
+		//skip if scorecard columns haven't been defined
+		if(scorecardColumnDefs.isEmpty()) {
+			return;
+		}
 		updateTopLevelScorecard();
 		productsService.getAllProductLines().forEach(plm -> updateProductLineScorecard(plm));
 		productsService.getAllProjects().forEach(p -> updateProjectScorecard(p));

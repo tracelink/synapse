@@ -2,16 +2,6 @@ package com.tracelink.prodsec.plugin.veracode.sca.service;
 
 import static org.mockito.Mockito.times;
 
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
-import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
-import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaProjectRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Project;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +22,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.lib.veracode.rest.api.model.Project;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
+import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
+import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaProjectRepository;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 
 @RunWith(SpringRunner.class)
 public class VeracodeScaProjectServiceTest {

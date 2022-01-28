@@ -1,23 +1,9 @@
 package com.tracelink.prodsec.plugin.veracode.dast.service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.api.ApiClient;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.applist.AppType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.applist.Applist;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.buildlist.BuildType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.buildlist.Buildlist;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.AnalysisType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.CategoryType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.CweType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.Detailedreport;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.FlawListType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.FlawType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.SeverityType;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +12,22 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.AppType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.Applist;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.BuildType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.Buildlist;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.AnalysisType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.CategoryType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.CweType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.Detailedreport;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.FlawListType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.FlawType;
+import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.SeverityType;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 
 @RunWith(SpringRunner.class)
 public class VeracodeDastUpdateServiceTest {
@@ -51,7 +53,7 @@ public class VeracodeDastUpdateServiceTest {
 				mockConfigService);
 	}
 
-	private void mockApps(ApiClient mockApiClient, String appName, String appId) throws Exception {
+	private void mockApps(VeracodeXmlApiClient mockApiClient, String appName, String appId) throws Exception {
 
 		Applist apps = new Applist();
 		AppType app = new AppType();
@@ -62,7 +64,7 @@ public class VeracodeDastUpdateServiceTest {
 		BDDMockito.when(mockApiClient.getApplications()).thenReturn(apps);
 	}
 
-	private void mockBuilds(ApiClient mockApiClient, String appId, String buildId)
+	private void mockBuilds(VeracodeXmlApiClient mockApiClient, String appId, String buildId)
 			throws Exception {
 		Buildlist builds = new Buildlist();
 		BuildType build = new BuildType();
@@ -84,7 +86,7 @@ public class VeracodeDastUpdateServiceTest {
 		return flaw;
 	}
 
-	private void mockReport(ApiClient mockApiClient, String buildId, long analysisId, long score,
+	private void mockReport(VeracodeXmlApiClient mockApiClient, String buildId, long analysisId, long score,
 			String publishedDate,
 			long cweId, String cweName, FlawType... flaws) throws Exception {
 		Detailedreport report = new Detailedreport();
@@ -113,7 +115,7 @@ public class VeracodeDastUpdateServiceTest {
 
 	@Test
 	public void testSyncAllDataSuccess() throws Exception {
-		ApiClient mockApiClient = BDDMockito.mock(ApiClient.class);
+		VeracodeXmlApiClient mockApiClient = BDDMockito.mock(VeracodeXmlApiClient.class);
 		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(mockApiClient);
 
 		BDDMockito.when(mockAppService.save(BDDMockito.any())).thenAnswer(e -> e.getArgument(0));

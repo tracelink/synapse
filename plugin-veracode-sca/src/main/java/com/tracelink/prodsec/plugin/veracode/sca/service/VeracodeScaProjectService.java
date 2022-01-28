@@ -1,13 +1,5 @@
 package com.tracelink.prodsec.plugin.veracode.sca.service;
 
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaProjectRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Project;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,11 +9,21 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.tracelink.prodsec.lib.veracode.rest.api.model.Project;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaProjectRepository;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 
 /**
  * Service to store and retrieve data about Veracode SCA projects from the {@link

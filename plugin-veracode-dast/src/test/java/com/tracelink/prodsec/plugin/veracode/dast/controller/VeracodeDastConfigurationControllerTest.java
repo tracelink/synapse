@@ -15,9 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
+import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
-import com.tracelink.prodsec.plugin.veracode.dast.api.ApiClient;
-import com.tracelink.prodsec.plugin.veracode.dast.api.VeracodeClientException;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastThresholdModel;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastClientConfigService;
@@ -108,9 +108,9 @@ public class VeracodeDastConfigurationControllerTest {
 	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigNoAccess() throws Exception {
-		ApiClient client = BDDMockito.mock(ApiClient.class);
+		VeracodeXmlApiClient client = BDDMockito.mock(VeracodeXmlApiClient.class);
 		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
-		BDDMockito.willThrow(VeracodeClientException.class).given(client).testAccess();
+		BDDMockito.willThrow(VeracodeXmlApiException.class).given(client).testAccess();
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeDastPlugin.CONFIGURATIONS_PAGE))
@@ -121,7 +121,7 @@ public class VeracodeDastConfigurationControllerTest {
 	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigSuccess() throws Exception {
-		ApiClient client = BDDMockito.mock(ApiClient.class);
+		VeracodeXmlApiClient client = BDDMockito.mock(VeracodeXmlApiClient.class);
 		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))

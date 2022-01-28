@@ -70,7 +70,8 @@ public class SchedulerService {
 		this.externalScheduler.schedule(() -> {
 			LOG.info("Beginning scheduled job '{}' for plugin '{}'", job.getJobName(),
 					pluginDisplayName);
-
+			Runtime instance = Runtime.getRuntime();
+			LOG.info("Memory Stats Before - Total: " + instance.totalMemory() + " Free: " + instance.freeMemory() + " Used: " + (instance.totalMemory() - instance.freeMemory()));
 			jobDto.setActive(true);
 			jobDto.setLastStartTime(new Date());
 
@@ -81,6 +82,7 @@ public class SchedulerService {
 			jobDto.setNextStartTime(trigger.nextExecutionTime(jobDto));
 			LOG.info("Completed scheduled job '{}' for plugin '{}'", job.getJobName(),
 					pluginDisplayName);
+			LOG.info("Memory Stats After - Total: " + instance.totalMemory() + " Free: " + instance.freeMemory() + " Used: " + (instance.totalMemory() - instance.freeMemory()));
 		}, trigger);
 	}
 

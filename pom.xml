@@ -102,5 +102,6 @@
 		<module>plugin-veracode-dast</module>
 		<module>plugin-veracode-sast</module>
 		<module>plugin-veracode-sca</module>
+		<module>lib-veracode-apis</module>
 	</modules>
 </project>
