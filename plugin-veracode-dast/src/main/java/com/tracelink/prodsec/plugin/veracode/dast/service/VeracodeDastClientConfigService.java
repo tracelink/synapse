@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestApiClient;
 import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
 import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
 import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.AppType;
@@ -48,15 +49,16 @@ public class VeracodeDastClientConfigService {
 	 * @return an api client, pre-configured with the current config. Or null if no
 	 *         config exists
 	 */
-	public VeracodeXmlApiClient getApiClient() {
+	public VeracodeRestApiClient getApiClient() {
 		VeracodeDastClientConfigModel config = getClientConfig();
 		if (config == null) {
 			return null;
 		}
-		VeracodeXmlApiClient xmlApiClient = new VeracodeXmlApiClient(config.getApiId(), config.getApiKey());
-		return xmlApiClient;
+		VeracodeRestApiClient apiClient = new VeracodeRestApiClient("https://api.veracode.com", config.getApiId(),
+				config.getApiKey());
+		return apiClient;
 	}
-	
+
 	/**
 	 * Test each of the APIs we intend to use. This succeeds fast, and fails fast
 	 *
@@ -65,8 +67,8 @@ public class VeracodeDastClientConfigService {
 	public void testAccess() throws VeracodeXmlApiException {
 		// At each api call, we can fail due to an access problem,
 		// so we need to call each api
-		VeracodeXmlApiClient xmlApiClient = getApiClient();
-		Applist apps = xmlApiClient.getApplications();
+		VeracodeRestApiClient apiClient = getApiClient();
+		Applist apps = apiClient.getApps();
 		for (AppType app : apps.getApp()) {
 			String appId = String.valueOf(app.getAppId());
 			Buildlist builds = xmlApiClient.getBuildList(appId);

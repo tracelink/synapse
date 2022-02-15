@@ -2,17 +2,14 @@ package com.tracelink.prodsec.plugin.veracode.dast.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestApiClient;
 import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
 import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
 import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.AppType;
@@ -20,11 +17,8 @@ import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.Applist;
 import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.BuildType;
 import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.Buildlist;
 import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.AnalysisType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.CweType;
 import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.Detailedreport;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.FlawType;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 
 /**
@@ -43,16 +37,14 @@ public class VeracodeDastUpdateService {
 
 	private final VeracodeDastReportService reportService;
 
-	private final VeracodeDastFlawService flawService;
 
 	private final VeracodeDastClientConfigService configService;
 	private final DateTimeFormatter reportDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
 
 	public VeracodeDastUpdateService(@Autowired VeracodeDastAppService appService,
-			@Autowired VeracodeDastFlawService flawService, @Autowired VeracodeDastReportService reportService,
+			@Autowired VeracodeDastReportService reportService,
 			@Autowired VeracodeDastClientConfigService configService) {
 		this.appService = appService;
-		this.flawService = flawService;
 		this.reportService = reportService;
 		this.configService = configService;
 	}
@@ -63,6 +55,7 @@ public class VeracodeDastUpdateService {
 	public void syncAllData() {
 		LOG.info("Beginning Veracode DAST data update");
 		try {
+			VeracodeRestApiClient cli = configService.getApiClient()
 			// get the current client
 			VeracodeXmlApiClient client = configService.getApiClient();
 			if (client == null) {
@@ -191,35 +184,7 @@ public class VeracodeDastUpdateService {
 			reportModel.setApp(appModel);
 		}
 
-		List<CweType> cwes = report.getSeverity().stream().flatMap(s -> s.getCategory().stream())
-				.flatMap(c -> c.getCwe().stream()).collect(Collectors.toList());
-		Map<Integer, Integer> severityCounts = new HashMap<>();
-		List<VeracodeDastFlawModel> flawModels = new ArrayList<>();
-		for (CweType cwe : cwes) {
-			if (cwe.getDynamicflaws() == null) {
-				LOG.info("No Dynamic flaws found for cwe: " + cwe.getCweid() + " in app: " + appModel.getName());
-				continue;
-			}
-			for (FlawType flaw : cwe.getDynamicflaws().getFlaw()) {
-				// Update or create the flaws associated with this Veracode report
-				VeracodeDastFlawModel flawModel = flawService.getFlawForIssueId(report.getAnalysisId(),
-						flaw.getIssueid().longValue());
-				if (flawModel == null) {
-					flawModel = new VeracodeDastFlawModel();
-					flawModel.setReport(reportModel);
-					flawModel.setAnalysisId(report.getAnalysisId());
-				}
-				populateFlawModel(flawModel, flaw, cwe);
-
-				if (!flawModel.isRemediated()) {
-					int severity = flaw.getSeverity();
-					int countSev = severityCounts.getOrDefault(severity, 0);
-					severityCounts.put(severity, countSev + flaw.getCount());
-				}
-				flawModels.add(flawModel);
-			}
-		}
-		populateReportModel(reportModel, report, severityCounts);
+		populateReportModel(reportModel, report);
 
 		// Save the reports
 		/*
@@ -227,8 +192,6 @@ public class VeracodeDastUpdateService {
 		 * the flaws to have a relationship with it.
 		 */
 		reportService.save(reportModel);
-		// Save the flaws
-		flawService.saveFlaws(flawModels);
 		// Save the app
 		/*
 		 * N.B. This save confirms the associations with all of the reports
@@ -236,19 +199,7 @@ public class VeracodeDastUpdateService {
 		appService.save(appModel);
 	}
 
-	private void populateFlawModel(VeracodeDastFlawModel flawModel, FlawType flaw, CweType cwe) {
-		flawModel.setIssueId(flaw.getIssueid().longValue());
-		flawModel.setCategoryName(flaw.getCategoryname());
-		flawModel.setCweId(cwe.getCweid().longValue());
-		flawModel.setCweName(cwe.getCwename());
-		flawModel.setRemediationStatus(flaw.getRemediationStatus());
-		flawModel.setMitigationStatus(flaw.getMitigationStatus());
-		flawModel.setSeverity(flaw.getSeverity());
-		flawModel.setCount(flaw.getCount());
-	}
-
-	private void populateReportModel(VeracodeDastReportModel reportModel, Detailedreport report,
-			Map<Integer, Integer> severityCounts) {
+	private void populateReportModel(VeracodeDastReportModel reportModel, Detailedreport report) {
 		reportModel.setAnalysisId(report.getAnalysisId());
 		reportModel.setReportDate(
 				LocalDateTime.parse(report.getDynamicAnalysis().getPublishedDate(), reportDateFormatter));

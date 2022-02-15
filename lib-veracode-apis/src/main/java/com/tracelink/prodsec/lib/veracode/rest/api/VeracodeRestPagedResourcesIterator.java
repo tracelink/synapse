@@ -29,7 +29,7 @@ public class VeracodeRestPagedResourcesIterator<T extends AbstractPagedResources
 	public VeracodeRestPagedResourcesIterator(Function<Long, T> pagedResourcesFunction) {
 		this.pagedResourcesFunction = pagedResourcesFunction;
 		PageMetadata page = new PageMetadata();
-		page.setNumber(-1);
+		page.setNumber(-1L);
 		this.currentPage = page;
 	}
 

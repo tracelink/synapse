@@ -78,32 +78,9 @@ public class VeracodeDastDashboardRestController {
 		switch (category) {
 			case "severity":
 				return getSeverityDatasets(apps, bucketer);
-			case "cwe":
-				return getCweDatasets(apps, bucketer);
 			default:
 				throw new IllegalArgumentException("Unknown categorization");
 		}
-	}
-
-	private Map<String, List<Long>> getCweDatasets(List<VeracodeDastAppModel> apps,
-			SimpleBucketer<VeracodeDastReportModel> bucketer) {
-		Map<String, List<Long>> datasets = new LinkedHashMap<>();
-
-		for (VeracodeDastAppModel app : apps) {
-			List<List<VeracodeDastReportModel>> reports = bucketer
-					.putItemsInBuckets(app.getReports());
-			for (int i = 0; i < reports.size(); i++) {
-				if (reports.get(i).isEmpty()) {
-					continue;
-				}
-				VeracodeDastReportModel report = reports.get(i).get(0);
-				final int j = i;
-				report.getFlaws().forEach(
-						f -> updateCounts(datasets, j, reports.size(), f.getCategoryName(),
-								f.getCount()));
-			}
-		}
-		return datasets;
 	}
 
 	private Map<String, List<Long>> getSeverityDatasets(List<VeracodeDastAppModel> apps,

@@ -1,5 +1,6 @@
 package com.tracelink.prodsec.lib.veracode.rest.api;
 
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.InvalidKeyException;
@@ -12,9 +13,13 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.tracelink.prodsec.lib.veracode.rest.api.model.Application;
+import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourceOfApplication;
 import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesIssueSummary;
 import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesProject;
 import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesWorkspace;
+import com.veracode.apiwrapper.model.util.JSON;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -35,13 +40,16 @@ public class VeracodeRestApiClient {
 	private static final int STANDARD_SIZE = 50;
 	private static final int PAGE_ZERO = 0;
 	private static final int SIZE_ONE = 1;
+
 	private static final String WORKSPACES_URI = "/v3/workspaces" + QUERY_PARAMS;
 	private static final String PROJECTS_URI = "/v3/workspaces/%s/projects" + QUERY_PARAMS;
 	private static final String ISSUES_URI = "/v3/workspaces/%s/issues" + QUERY_PARAMS
 			+ "&status=open,fixed&project_id=%s";
+
 	private static final String BRANCH_PARAM = "&branch=%s";
 
 	private static final int NUM_RETRIES = 3;
+
 	private static final String REQUEST_ERROR = "Error sending request to Veracode SCA API: ";
 	private static final String NO_RESPONSE = "Could not obtain response from Veracode SCA API";
 	private static final String BAD_STATUS = "Received status code %d from Veracode SCA API endpoint %s: %s";
@@ -53,9 +61,9 @@ public class VeracodeRestApiClient {
 	private String secretKey;
 
 	public VeracodeRestApiClient(String apiUrl, String apiId, String secretKey) {
-		this.apiUrl=apiUrl;
-		this.apiId=apiId;
-		this.secretKey=secretKey;
+		this.apiUrl = apiUrl;
+		this.apiId = apiId;
+		this.secretKey = secretKey;
 	}
 
 	public PagedResourcesWorkspace getWorkspaces(long page) throws VeracodeRestApiException {
@@ -112,8 +120,8 @@ public class VeracodeRestApiClient {
 		int retries = NUM_RETRIES;
 		while (retries > 0) {
 			try {
-				final String authorizationHeader = HmacRequestSigner.getVeracodeAuthorizationHeader(apiId,
-						secretKey, new URL(url), GET);
+				final String authorizationHeader = HmacRequestSigner.getVeracodeAuthorizationHeader(apiId, secretKey,
+						new URL(url), GET);
 				response = Unirest.get(url).header("Authorization", authorizationHeader).asString();
 			} catch (IllegalArgumentException | InvalidKeyException | NoSuchAlgorithmException
 					| MalformedURLException e) {
@@ -141,4 +149,28 @@ public class VeracodeRestApiClient {
 		throw new VeracodeRestApiException(String.format(BAD_STATUS, response.getStatus(), url, response.getBody()));
 
 	}
+	
+	public <T> T deserialize(String json, Class<T> returnType) {
+		return GSON.fromJson(json, returnType);
+	}
+
+	public String getApps() {
+		String url = String.format("/appsec/v1/applications/");
+		String json = getRequest(url);
+		System.out.println(json);
+		JSON jsono = new JSON();
+        Type localVarReturnType = new TypeToken<PagedResourceOfApplication>(){}.getType();
+        PagedResourceOfApplication app = jsono.deserialize(json, localVarReturnType);
+		return json;
+	}
+
+	public static void main(String... strings) throws Exception {
+		VeracodeRestApiClient c = new VeracodeRestApiClient("https://api.veracode.com",
+				"308e72a79fff45cdd85123eb99d7a647",
+				"b8eb25032f0268bc37a547ba3a7e4980f710a3489287bf01a83213e276a1755c6d3c22e359bbb41170d4c206f1368aa891b5582239662c7bbd9b30c6047730a4");
+		c.getApps();
+	}
+	
+	
+	
 }

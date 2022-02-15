@@ -48,10 +48,6 @@ public class VeracodeDastReportModel {
 	@JoinColumn(name = "app", nullable = false)
 	private VeracodeDastAppModel app;
 
-	@OneToMany(mappedBy = "report", fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<VeracodeDastFlawModel> flaws;
-
 	@Column(name = "very_high_vios")
 	private long veryHighVios;
 
@@ -72,6 +68,9 @@ public class VeracodeDastReportModel {
 
 	@Column(name = "policy_score")
 	private long policyScore;
+	
+	@Column(name="reportUrl")
+	private String reportUrl;
 
 	public long getId() {
 		return id;
@@ -107,14 +106,6 @@ public class VeracodeDastReportModel {
 
 	public void setApp(VeracodeDastAppModel app) {
 		this.app = app;
-	}
-
-	public List<VeracodeDastFlawModel> getFlaws() {
-		return this.flaws;
-	}
-
-	public void setFlaws(List<VeracodeDastFlawModel> flaws) {
-		this.flaws = flaws;
 	}
 
 	public long getVeryHighVios() {
@@ -172,6 +163,14 @@ public class VeracodeDastReportModel {
 
 	public long getScore() {
 		return policyScore;
+	}
+
+	public String getReportUrl() {
+		return reportUrl;
+	}
+
+	public void setReportUrl(String reportUrl) {
+		this.reportUrl = reportUrl;
 	}
 
 	public long getVulnerabilitiesCount() {
