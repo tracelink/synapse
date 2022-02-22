@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Lazy;
 @Table(schema = VeracodeScaPlugin.SCHEMA, name = "veracode_sca_clients")
 public class VeracodeScaClient {
 
-	private static final String VERACODE_API_URL = "https://api.veracode.com/srcclr";
+	private static final String VERACODE_API_URL = "https://api.veracode.com";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

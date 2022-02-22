@@ -1,5 +1,16 @@
 package com.tracelink.prodsec.plugin.veracode.dast;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastThresholdModel;
@@ -15,15 +26,6 @@ import com.tracelink.prodsec.synapse.scorecard.model.ScorecardValue;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardValue.TrafficLight;
 import com.tracelink.prodsec.synapse.sidebar.model.SidebarLink;
 import com.tracelink.prodsec.synapse.spi.PluginDisplayGroup;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 public class VeracodeDastPluginTest {

@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
+import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiClient;
+import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastThresholdModel;
@@ -109,7 +109,7 @@ public class VeracodeDastConfigurationControllerTest {
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigNoAccess() throws Exception {
 		VeracodeXmlApiClient client = BDDMockito.mock(VeracodeXmlApiClient.class);
-		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
+		BDDMockito.when(mockConfigService.getRestApiClient()).thenReturn(client);
 		BDDMockito.willThrow(VeracodeXmlApiException.class).given(client).testAccess();
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))
@@ -122,7 +122,7 @@ public class VeracodeDastConfigurationControllerTest {
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigSuccess() throws Exception {
 		VeracodeXmlApiClient client = BDDMockito.mock(VeracodeXmlApiClient.class);
-		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
+		BDDMockito.when(mockConfigService.getRestApiClient()).thenReturn(client);
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeDastPlugin.CONFIGURATIONS_PAGE))

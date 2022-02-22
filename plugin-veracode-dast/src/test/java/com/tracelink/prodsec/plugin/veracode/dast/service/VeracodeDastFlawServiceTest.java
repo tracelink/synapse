@@ -1,9 +1,8 @@
 package com.tracelink.prodsec.plugin.veracode.dast.service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
-import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastFlawRepository;
 import java.util.Collections;
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +11,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.appsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
+import com.tracelink.appsec.plugin.veracode.dast.repository.VeracodeDastFlawRepository;
+import com.tracelink.appsec.plugin.veracode.dast.service.VeracodeDastFlawService;
+
 
 @RunWith(SpringRunner.class)
 public class VeracodeDastFlawServiceTest {

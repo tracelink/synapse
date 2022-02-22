@@ -1,18 +1,8 @@
 package com.tracelink.prodsec.plugin.veracode.sca;
 
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
-import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaProjectService;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsService;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
-import com.tracelink.prodsec.synapse.products.service.ProductsService;
-import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 import java.util.Arrays;
 import java.util.Collections;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +17,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
+import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
+import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaProjectService;
+import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsService;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
+import com.tracelink.prodsec.synapse.products.service.ProductsService;
+import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplication.class)

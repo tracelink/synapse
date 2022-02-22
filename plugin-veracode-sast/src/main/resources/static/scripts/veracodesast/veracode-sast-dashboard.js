@@ -44,9 +44,9 @@ const updateCategory = async (event) => {
 const updateData = async () => {
 	let response;
 	if(viewBy == 'all'){
-		response = await fetch(`/veracodesast/rest/flaws?period=${period}&category=${category}`);    
+		response = await fetch(`/veracodesast/rest/reports?period=${period}&category=${category}`);    
     }else{
-    	response = await fetch(`/veracodesast/rest/flaws?${viewBy}=${selection}&period=${period}&category=${category}`);
+    	response = await fetch(`/veracodesast/rest/reports?${viewBy}=${selection}&period=${period}&category=${category}`);
     }
     const result = await response.json();
 
@@ -142,7 +142,7 @@ const updateData = async () => {
 var viosBar = null;
 var period = 'last-four-weeks';
 var viewBy = 'all';
-var category = 'severity'
+var category = 'policy'
 var selection = null;
 
 $(function () {

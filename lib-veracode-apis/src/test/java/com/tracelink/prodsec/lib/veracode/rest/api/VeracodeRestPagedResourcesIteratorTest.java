@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestPagedResourcesIterator;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesWorkspace;
+import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestPagedResourcesIterator;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesWorkspace;
 
 public class VeracodeRestPagedResourcesIteratorTest {
 

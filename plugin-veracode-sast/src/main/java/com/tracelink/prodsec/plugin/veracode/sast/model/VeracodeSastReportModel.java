@@ -48,31 +48,18 @@ public class VeracodeSastReportModel {
 	@JoinColumn(name = "app", nullable = false)
 	private VeracodeSastAppModel app;
 
-	@OneToMany(mappedBy = "report", fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<VeracodeSastFlawModel> flaws;
-
-	@Column(name = "very_high_vios")
-	private long veryHighVios;
-
-	@Column(name = "high_vios")
-	private long highVios;
-
-	@Column(name = "med_vios")
-	private long medVios;
-
-	@Column(name = "low_vios")
-	private long lowVios;
-
-	@Column(name = "very_low_vios")
-	private long veryLowVios;
-
-	@Column(name = "info_vios")
-	private long infoVios;
-
 	@Column(name = "policy_score")
 	private long policyScore;
 
+	@Column(name = "unmitigated")
+	private long unmitigated;
+
+	@Column(name = "totalFlaws")
+	private long totalFlaws;
+	
+	@Column(name = "report_coordinates")
+	private String coordinates;
+	
 	public long getId() {
 		return id;
 	}
@@ -109,63 +96,6 @@ public class VeracodeSastReportModel {
 		this.app = app;
 	}
 
-	public List<VeracodeSastFlawModel> getFlaws() {
-		return this.flaws;
-	}
-
-	public void setFlaws(List<VeracodeSastFlawModel> flaws) {
-		this.flaws = flaws;
-	}
-
-	public long getVeryHighVios() {
-		return veryHighVios;
-	}
-
-	public void setVeryHighVios(long veryHighVios) {
-		this.veryHighVios = veryHighVios;
-	}
-
-	public long getHighVios() {
-		return highVios;
-	}
-
-	public void setHighVios(long highVios) {
-		this.highVios = highVios;
-	}
-
-	public long getMedVios() {
-		return medVios;
-	}
-
-	public void setMedVios(long medVios) {
-		this.medVios = medVios;
-	}
-
-	public long getLowVios() {
-		return lowVios;
-	}
-
-	public void setLowVios(long lowVios) {
-		this.lowVios = lowVios;
-	}
-
-	public long getVeryLowVios() {
-		return veryLowVios;
-	}
-
-	public void setVeryLowVios(long veryLowVios) {
-		this.veryLowVios = veryLowVios;
-	}
-
-	public long getInfoVios() {
-		return infoVios;
-	}
-
-	public void setInfoVios(long infoVios) {
-		this.infoVios = infoVios;
-
-	}
-
 	public void setScore(long score) {
 		policyScore = score;
 	}
@@ -174,8 +104,27 @@ public class VeracodeSastReportModel {
 		return policyScore;
 	}
 
-	public long getVulnerabilitiesCount() {
-		return veryHighVios + highVios + medVios + lowVios + veryLowVios + infoVios;
+	public void setTotalFlaws(Long totalFlaws) {
+		this.totalFlaws = totalFlaws;
 	}
 
+	public long getTotalFlaws() {
+		return this.totalFlaws;
+	}
+	
+	public void setUnmitigatedFlaws(Long flawsNotMitigated) {
+		this.unmitigated = flawsNotMitigated;
+	}
+
+	public long getUnmitigatedFlaws() {
+		return this.unmitigated;
+	}
+
+	public String getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
+	}
 }

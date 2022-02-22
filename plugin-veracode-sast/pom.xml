@@ -39,6 +39,12 @@
 			<artifactId>synapse-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.tracelink.prodsec</groupId>
+			<artifactId>lib-veracode-apis</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>

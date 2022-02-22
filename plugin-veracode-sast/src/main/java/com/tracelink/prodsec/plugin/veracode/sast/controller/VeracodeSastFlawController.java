@@ -51,20 +51,4 @@ public class VeracodeSastFlawController {
 
 		return smav;
 	}
-
-	@GetMapping("report")
-	public SynapseModelAndView showReport(@RequestParam long reportId,
-			RedirectAttributes redirectAttributes) {
-		SynapseModelAndView smav = new SynapseModelAndView("veracode-sast-report");
-		Optional<VeracodeSastReportModel> reportOpt = reportService.getReportById(reportId);
-		if (reportOpt.isPresent()) {
-			smav.addObject("report", reportOpt.get());
-			smav.addScriptReference("/scripts/veracodesast/datatable.js");
-		} else {
-			redirectAttributes
-					.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "Unknown report");
-			smav.setViewName("redirect:" + VeracodeSastPlugin.FLAWS_PAGE);
-		}
-		return smav;
-	}
 }

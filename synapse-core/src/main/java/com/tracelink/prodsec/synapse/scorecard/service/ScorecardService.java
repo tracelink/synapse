@@ -16,6 +16,7 @@ import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import com.tracelink.prodsec.synapse.products.service.ProductsService;
 import com.tracelink.prodsec.synapse.scheduler.job.SimpleSchedulerJob;
 import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
+import com.tracelink.prodsec.synapse.scheduler.service.schedule.DelayedSchedule;
 import com.tracelink.prodsec.synapse.scheduler.service.schedule.PeriodicSchedule;
 import com.tracelink.prodsec.synapse.scorecard.model.Scorecard;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
@@ -46,7 +47,7 @@ public class ScorecardService {
 	public ScorecardService(@Autowired ProductsService productsService, @Autowired SchedulerService scheduler) {
 		this.productsService = productsService;
 		scheduler.scheduleInternalJob(new SimpleSchedulerJob("Scorecard Updater")
-				.onSchedule(new PeriodicSchedule(15, TimeUnit.MINUTES)).withJob(() -> {
+				.onSchedule(new DelayedSchedule(15, 1, TimeUnit.MINUTES)).withJob(() -> {
 					updateAll();
 				}));
 	}

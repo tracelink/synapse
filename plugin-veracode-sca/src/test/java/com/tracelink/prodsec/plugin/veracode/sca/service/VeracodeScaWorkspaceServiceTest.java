@@ -21,7 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.model.Workspace;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspace;
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
 import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaWorkspaceRepository;

@@ -50,7 +50,7 @@ public class VeracodeSastDashboardController {
 		mav.addObject("totalVulns",
 				apps.size() > 0
 						? apps.stream().filter(app -> app.getCurrentReport() != null)
-						.mapToLong(app -> app.getCurrentReport().getVulnerabilitiesCount()).sum()
+						.mapToLong(app -> app.getCurrentReport().getUnmitigatedFlaws()).sum()
 						: "N/A");
 
 		// Product lines, project filters and projects for the graph dropdown menus

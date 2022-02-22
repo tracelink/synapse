@@ -36,12 +36,8 @@
                   <th scope="col">Veracode App</th>
                   <th scope="col">Latest Report</th>
                   <th scope="col">Policy Score</th>
-                  <th scope="col">Very High</th>
-                  <th scope="col">High</th>
-                  <th scope="col">Medium</th>
-                  <th scope="col">Low</th>
-                  <th scope="col">Very Low</th>
-                  <th scope="col">Info</th>
+                  <th scope="col">Unmitigated Flaws</th>
+                  <th scope="col">Total Flaws</th>
                   <th scope="col">View Report</th>
                 </tr>
                 </thead>
@@ -55,21 +51,13 @@
                       th:data-order="${#temporals.format(report?.reportDate, 'YYYYMMddhhmm')} ?: '0'"></td>
                   <td class="px-3" th:text="${report?.score} ?: 'N/A'"
                       th:data-order="${report?.score} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.veryHighVios} ?: 'N/A'"
-                      th:data-order="${report?.veryHighVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.highVios} ?: 'N/A'"
-                      th:data-order="${report?.highVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.medVios} ?: 'N/A'"
-                      th:data-order="${report?.medVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.lowVios} ?: 'N/A'"
-                      th:data-order="${report?.lowVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.veryLowVios} ?: 'N/A'"
-                      th:data-order="${report?.veryLowVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.infoVios} ?: 'N/A'"
-                      th:data-order="${report?.infoVios} ?: -1"></td>
+                  <td class="px-3" th:text="${report?.unmitigatedFlaws} ?: 'N/A'"
+                      th:data-order="${report?.unmitigatedFlaws} ?: -1"></td>
+                  <td class="px-3" th:text="${report?.totalFlaws} ?: 'N/A'"
+                      th:data-order="${report?.totalFlaws} ?: -1"></td>
                   <td class="py-2">
-                    <a class="btn btn-sm btn-primary"
-                       th:href="${report == null ? '#' : 'flaws/report?reportId='+report.id}">
+                    <a class="btn btn-sm btn-primary" target="__blank"
+                       th:href="${report == null ? '#' : 'https://analysiscenter.veracode.com/auth/index.jsp#ViewReportsDetailedReport:'+ report.coordinates}">
                       Go To Report
                     </a>
                   </td>
@@ -84,12 +72,8 @@
                   <th scope="col">Veracode App</th>
                   <th scope="col">Latest Report</th>
                   <th scope="col">Policy Score</th>
-                  <th scope="col">Very High</th>
-                  <th scope="col">High</th>
-                  <th scope="col">Medium</th>
-                  <th scope="col">Low</th>
-                  <th scope="col">Very Low</th>
-                  <th scope="col">Info</th>
+                  <th scope="col">Unmitigated Flaws</th>
+                  <th scope="col">Total Flaws</th>
                   <th scope="col">View Report</th>
                 </tr>
                 </thead>
@@ -103,21 +87,13 @@
                       th:data-order="${#temporals.format(report?.reportDate, 'YYYYMMddhhmm')} ?: '0'"></td>
                   <td class="px-3" th:text="${report?.score} ?: 'N/A'"
                       th:data-order="${report?.score} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.veryHighVios} ?: 'N/A'"
-                      th:data-order="${report?.veryHighVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.highVios} ?: 'N/A'"
-                      th:data-order="${report?.highVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.medVios} ?: 'N/A'"
-                      th:data-order="${report?.medVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.lowVios} ?: 'N/A'"
-                      th:data-order="${report?.lowVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.veryLowVios} ?: 'N/A'"
-                      th:data-order="${report?.veryLowVios} ?: -1"></td>
-                  <td class="px-3" th:text="${report?.infoVios} ?: 'N/A'"
-                      th:data-order="${report?.infoVios} ?: -1"></td>
+                  <td class="px-3" th:text="${report?.unmitigatedFlaws} ?: 'N/A'"
+                      th:data-order="${report?.unmitigatedFlaws} ?: -1"></td>
+                  <td class="px-3" th:text="${report?.totalFlaws} ?: 'N/A'"
+                      th:data-order="${report?.totalFlaws} ?: -1"></td>
                   <td class="py-2">
-                    <a class="btn btn-sm btn-primary"
-                       th:href="${report == null ? '#' : 'flaws/report?reportId='+report.id}">
+                    <a class="btn btn-sm btn-primary" target="__blank"
+                       th:href="${report == null ? '#' : 'https://analysiscenter.veracode.com/auth/index.jsp#ViewReportsDetailedReport:'+ report.coordinates}">
                       Go To Report
                     </a>
                   </td>

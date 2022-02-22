@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastClientConfigService;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastThresholdsService;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateService;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateService.SyncType;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 
@@ -34,14 +33,12 @@ import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 @PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")
 public class VeracodeDastConfigurationController {
 
-	private static final String CONFIG_REDIRECT =
-			"redirect:" + VeracodeDastPlugin.CONFIGURATIONS_PAGE;
+	private static final String CONFIG_REDIRECT = "redirect:" + VeracodeDastPlugin.CONFIGURATIONS_PAGE;
 	private final VeracodeDastClientConfigService configService;
 	private final VeracodeDastUpdateService metricsService;
 	private final VeracodeDastThresholdsService thresholdService;
 
-	public VeracodeDastConfigurationController(
-			@Autowired VeracodeDastClientConfigService configService,
+	public VeracodeDastConfigurationController(@Autowired VeracodeDastClientConfigService configService,
 			@Autowired VeracodeDastUpdateService metricsService,
 			@Autowired VeracodeDastThresholdsService thresholdService) {
 		this.configService = configService;
@@ -65,27 +62,18 @@ public class VeracodeDastConfigurationController {
 					"Must fill out client API ID and API Key");
 		} else {
 			configService.setClientConfig(apiId, apiKey);
-			redirectAttributes
-					.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH, "Configured API client");
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH, "Configured API client");
 		}
 		return CONFIG_REDIRECT;
 	}
 
 	@GetMapping("test")
 	public String testConfig(RedirectAttributes redirectAttributes) {
-		VeracodeXmlApiClient client = configService.getApiClient();
-		if (client == null) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
-					"Client has not been configured");
-			return CONFIG_REDIRECT;
-		}
 		try {
-			client.testAccess();
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
-					"Client Configured Correctly");
-		} catch (VeracodeXmlApiException e) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
-					"Client does not have access. Error: " + e.getMessage());
+			configService.testAccess();
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH, "Client Configured Correctly");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, e.getMessage());
 		}
 		return CONFIG_REDIRECT;
 	}
@@ -94,12 +82,25 @@ public class VeracodeDastConfigurationController {
 	public String fetchData(RedirectAttributes redirectAttributes) {
 		VeracodeDastClientConfigModel config = configService.getClientConfig();
 		if (config == null) {
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
-					"Client has not been configured");
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "Client has not been configured");
 			return CONFIG_REDIRECT;
 		}
 
-		CompletableFuture.runAsync(metricsService::syncAllData);
+		CompletableFuture.runAsync(()->metricsService.syncData(SyncType.RECENT));
+		redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
+				"Veracode DAST data fetch in progress.");
+		return CONFIG_REDIRECT;
+	}
+	
+	@PostMapping("sync")
+	public String syncData(RedirectAttributes redirectAttributes) {
+		VeracodeDastClientConfigModel config = configService.getClientConfig();
+		if (config == null) {
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, "Client has not been configured");
+			return CONFIG_REDIRECT;
+		}
+
+		CompletableFuture.runAsync(()->metricsService.syncData(SyncType.ALL));
 		redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
 				"Veracode DAST data fetch in progress.");
 		return CONFIG_REDIRECT;
@@ -119,8 +120,7 @@ public class VeracodeDastConfigurationController {
 					"Please provide risk thresholds where Green/Yellow is greater than Yellow/Red.");
 		} else {
 			thresholdService.setThresholds(greenYellow, yellowRed);
-			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
-					"Thresholds updated successfully");
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH, "Thresholds updated successfully");
 		}
 		return CONFIG_REDIRECT;
 	}

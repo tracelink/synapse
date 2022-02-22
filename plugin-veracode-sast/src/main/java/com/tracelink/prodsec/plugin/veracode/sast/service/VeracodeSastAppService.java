@@ -1,21 +1,21 @@
 package com.tracelink.prodsec.plugin.veracode.sast.service;
 
-import com.tracelink.prodsec.plugin.veracode.sast.model.ModelType;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastFlawModel;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastProductException;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastReportModel;
-import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastAppRepository;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastProductException;
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastReportModel;
+import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastAppRepository;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 
 /**
  * Handles business logic for Apps and Mapping Apps to Projects
@@ -81,8 +81,8 @@ public class VeracodeSastAppService {
 				.collect(Collectors.toList());
 	}
 
-	public VeracodeSastAppModel getSastApp(String appName, ModelType type) {
-		return appRepo.findByNameAndModelType(appName, type);
+	public VeracodeSastAppModel getSastApp(String appName) {
+		return appRepo.findByName(appName);
 	}
 
 	/**

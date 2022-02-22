@@ -18,24 +18,24 @@ import org.junit.Test;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.AppType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.Applist;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.BuildType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.Buildlist;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.CategoryType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.CweType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.Detailedreport;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.FlawListType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.FlawType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.SeverityType;
+import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiClient;
+import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.AppType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.Applist;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.CategoryType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.CweType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.Detailedreport;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.FlawListType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.FlawType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.SeverityType;
 import com.veracode.apiwrapper.AbstractAPIWrapper;
 import com.veracode.http.WebClient;
 
 public class ApiClientTest {
 
 	private static final String GETAPPLIST = "/api/5.0/getapplist.do";
-
-	private static final String GETSBXLIST = "/api/5.0/getsandboxlist.do";
 
 	private static final String GETBUILDLIST = "/api/5.0/getbuildlist.do";
 
@@ -91,72 +91,6 @@ public class ApiClientTest {
 				WireMock.containing("VERACODE-HMAC")));
 	}
 
-	@Test
-	public void testTestAccess() throws Exception {
-		VeracodeXmlApiClient client = makeDefaultTestClient();
-
-		try {
-			client.testAccess();
-			Assert.fail("Should have failed");
-		} catch (VeracodeXmlApiException e) {
-			// correct
-		}
-		Applist apps = new Applist();
-
-		String appListEmptyXml = toXML(apps, Applist.class);
-		WireMock.stubFor(
-				WireMock.post(GETAPPLIST).willReturn(WireMock.aResponse().withStatus(200).withBody(appListEmptyXml)));
-
-		try {
-			client.testAccess();
-			Assert.fail("Should have failed");
-		} catch (VeracodeXmlApiException e) {
-			// correct
-		}
-
-		long appId = 123;
-		AppType app = new AppType();
-		app.setAppId(appId);
-		apps.getApp().add(app);
-
-		String appListXml = toXML(apps, Applist.class);
-		WireMock.stubFor(
-				WireMock.post(GETAPPLIST).willReturn(WireMock.aResponse().withStatus(200).withBody(appListXml)));
-
-		try {
-			client.testAccess();
-			Assert.fail("Should have failed");
-		} catch (VeracodeXmlApiException e) {
-			// correct
-		}
-
-		long buildId = 789;
-		Buildlist builds = new Buildlist();
-		BuildType build = new BuildType();
-		build.setBuildId(buildId);
-		builds.getBuild().add(build);
-
-		String buildListXml = toXML(builds, Buildlist.class);
-		WireMock.stubFor(
-				WireMock.post(GETBUILDLIST).willReturn(WireMock.aResponse().withStatus(200).withBody(buildListXml)));
-
-		try {
-			client.testAccess();
-			Assert.fail("Should have failed");
-		} catch (VeracodeXmlApiException e) {
-			// correct
-		}
-
-		Detailedreport report = new Detailedreport();
-		String reportXml = toXML(report, Detailedreport.class);
-		WireMock.stubFor(
-				WireMock.post(DETAILEDREPORT).willReturn(WireMock.aResponse().withStatus(200).withBody(reportXml)));
-
-		client.testAccess();
-
-		// needed to avoid extra unmatched request issues
-		WireMock.resetAllRequests();
-	}
 
 	@Test
 	public void testGetDetailedReport() throws Exception {

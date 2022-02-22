@@ -4,10 +4,12 @@ import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastThresholdMod
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastAppService;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastThresholdsService;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateService;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateService.SyncType;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
 import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
 import com.tracelink.prodsec.synapse.scheduler.job.SimpleSchedulerJob;
+import com.tracelink.prodsec.synapse.scheduler.service.schedule.DelayedSchedule;
 import com.tracelink.prodsec.synapse.scheduler.service.schedule.PeriodicSchedule;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardValue;
@@ -26,8 +28,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * The Veracode DAST Plugin allows for gathering data about a Veracode DAST setup. The plugin allows
- * reading data about found flaws and graphing both severities and CWEs by App Datasets.
+ * The Veracode DAST Plugin allows for gathering data about a Veracode DAST
+ * setup. The plugin allows reading data about found flaws and graphing both
+ * severities and CWEs by App Datasets.
  *
  * @author csmith
  */
@@ -77,9 +80,13 @@ public class VeracodeDastPlugin extends PluginWithDatabase {
 
 	@Override
 	protected List<SchedulerJob> getJobsForScheduler() {
-		return Arrays.asList(new SimpleSchedulerJob("Veracode DAST Updater")
-				.onSchedule(new PeriodicSchedule(1, TimeUnit.HOURS))
-				.withJob(updateService::syncAllData));
+		return Arrays.asList(
+				new SimpleSchedulerJob("Veracode DAST Updater - Recents")
+						.onSchedule(new PeriodicSchedule(1, TimeUnit.HOURS))
+						.withJob(() -> updateService.syncData(SyncType.RECENT)),
+				new SimpleSchedulerJob("Veracode DAST Updater - Full Sync")
+						.onSchedule(new DelayedSchedule(30, 30, TimeUnit.DAYS))
+						.withJob(() -> updateService.syncData(SyncType.ALL)));
 	}
 
 	@Override
@@ -99,10 +106,8 @@ public class VeracodeDastPlugin extends PluginWithDatabase {
 				.withPageLink(FLAWS_PAGE).withPrivileges(FLAWS_VIEWER_PRIVILEGE);
 
 		// Configurations page
-		SidebarLink configurations = new SimpleSidebarLink("Configurations")
-				.withMaterialIcon("settings_applications")
-				.withPageLink(CONFIGURATIONS_PAGE)
-				.withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
+		SidebarLink configurations = new SimpleSidebarLink("Configurations").withMaterialIcon("settings_applications")
+				.withPageLink(CONFIGURATIONS_PAGE).withPrivileges(SynapseAdminAuthDictionary.ADMIN_PRIV);
 
 		// Mappings page
 		SidebarLink mappings = new SimpleSidebarLink("Mappings").withMaterialIcon("swap_horiz")
@@ -117,8 +122,8 @@ public class VeracodeDastPlugin extends PluginWithDatabase {
 	}
 
 	private ScorecardValue getScorecardForProductLine(ProductLineModel productLine) {
-		LongSummaryStatistics sumStats = appService.getAppsBySynapseProductLine(productLine)
-				.stream().filter(app -> app != null && app.getCurrentReport() != null)
+		LongSummaryStatistics sumStats = appService.getAppsBySynapseProductLine(productLine).stream()
+				.filter(app -> app != null && app.getCurrentReport() != null)
 				.collect(Collectors.summarizingLong(app -> app.getCurrentReport().getScore()));
 
 		if (sumStats.getCount() == 0) {

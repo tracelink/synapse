@@ -40,14 +40,10 @@ public class VeracodeSastAppModel {
 	@Column(name = "product_name")
 	private String productLineName;
 
-	@Column(name = "model_type")
-	@Convert(converter = ModelType.ModelTypeConverter.class)
-	private ModelType modelType;
-
 	/**
-	 * Whether the reports and flaws associated with this app should be included by Synapse. If
-	 * excluded, this app and the reports and flaws associated with it will not be displayed in
-	 * graphs, summary statistics, or the flaws page.
+	 * Whether the reports and flaws associated with this app should be included by
+	 * Synapse. If excluded, this app and the reports and flaws associated with it
+	 * will not be displayed in graphs, summary statistics, or the flaws page.
 	 */
 	@Column(name = "included")
 	private boolean included = true;
@@ -79,14 +75,6 @@ public class VeracodeSastAppModel {
 
 	public void setProductLineName(String productLineName) {
 		this.productLineName = productLineName;
-	}
-
-	public ModelType getModelType() {
-		return modelType;
-	}
-
-	public void setModelType(ModelType modelType) {
-		this.modelType = modelType;
 	}
 
 	public boolean isIncluded() {
@@ -130,16 +118,12 @@ public class VeracodeSastAppModel {
 	}
 
 	/**
-	 * Gets the display name for this app model based on whether it is an app or a sandbox.
+	 * Gets the display name for this app model
 	 *
-	 * @return display name including app and/or sandbox name
+	 * @return display name
 	 */
 	public String getDisplayName() {
-		if (modelType.equals(ModelType.APP)) {
-			return name;
-		} else {
-			return productLineName + " - " + name;
-		}
+		return name;
 	}
 
 }

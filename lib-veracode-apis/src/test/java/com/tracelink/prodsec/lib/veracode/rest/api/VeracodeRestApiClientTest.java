@@ -19,18 +19,18 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.google.gson.Gson;
-import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestApiException;
-import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestApiClient;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.IssueSummaries;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.IssueSummary;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.PageMetadata;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesIssueSummary;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesProject;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.PagedResourcesWorkspace;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.Project;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.Projects;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.Workspace;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.Workspaces;
+import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestApiClient;
+import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummaries;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PageMetadata;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesIssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesProject;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesWorkspace;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Project;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Projects;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspace;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspaces;
 
 public class VeracodeRestApiClientTest {
 
@@ -48,15 +48,15 @@ public class VeracodeRestApiClientTest {
 	public void setup() {
 		apiWrapper = new VeracodeRestApiClient(wireMockRule.baseUrl(), "abcdef123456", "abcdef1234567890");
 
-		page1.setNumber(0);
-		page1.setSize(1);
-		page1.setTotalElements(2);
-		page1.setTotalPages(2);
+		page1.setNumber(0L);
+		page1.setSize(1L);
+		page1.setTotalElements(2L);
+		page1.setTotalPages(2L);
 
-		page2.setNumber(1);
-		page2.setSize(1);
-		page2.setTotalElements(2);
-		page2.setTotalPages(2);
+		page2.setNumber(1L);
+		page2.setSize(1L);
+		page2.setTotalElements(2L);
+		page2.setTotalPages(2L);
 
 		queryParams1.put("page", equalTo("0"));
 		queryParams1.put("size", equalTo("50"));
@@ -117,7 +117,7 @@ public class VeracodeRestApiClientTest {
 	}
 
 	@Test
-	public void testGetWorkspacesMultiplePages() {
+	public void testGetWorkspacesMultiplePages() throws VeracodeRestApiException {
 		Workspace workspace1 = new Workspace();
 		workspace1.setId(UUID.randomUUID());
 
@@ -150,7 +150,7 @@ public class VeracodeRestApiClientTest {
 	}
 
 	@Test
-	public void testGetProjectsMultiplePages() {
+	public void testGetProjectsMultiplePages() throws VeracodeRestApiException {
 		UUID workspaceId = UUID.randomUUID();
 
 		Project project1 = new Project();
@@ -185,7 +185,7 @@ public class VeracodeRestApiClientTest {
 	}
 
 	@Test
-	public void testGetIssuesMultiplePages() {
+	public void testGetIssuesMultiplePages() throws VeracodeRestApiException {
 		UUID workspaceId = UUID.randomUUID();
 		UUID projectId = UUID.randomUUID();
 
@@ -221,7 +221,7 @@ public class VeracodeRestApiClientTest {
 	}
 
 	@Test
-	public void testGetIssuesMalformed() {
+	public void testGetIssuesMalformed() throws VeracodeRestApiException {
 		UUID workspaceId = UUID.randomUUID();
 		UUID projectId = UUID.randomUUID();
 		String branch = "mainline";

@@ -2,22 +2,27 @@ package com.tracelink.prodsec.plugin.veracode.dast.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestApiClient;
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.AppType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.Applist;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.BuildType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.Buildlist;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.AnalysisType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.Detailedreport;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestPagedResourcesIterator;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Application;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourceOfApplication;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.SummaryReport;
+import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 
@@ -37,7 +42,6 @@ public class VeracodeDastUpdateService {
 
 	private final VeracodeDastReportService reportService;
 
-
 	private final VeracodeDastClientConfigService configService;
 	private final DateTimeFormatter reportDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
 
@@ -49,26 +53,41 @@ public class VeracodeDastUpdateService {
 		this.configService = configService;
 	}
 
+	public enum SyncType {
+		ALL(Integer.MAX_VALUE, 4), 
+		RECENT(5, 2);
+		
+		int lookback;
+		int threads;
+
+		SyncType(int lookback, int threads) {
+			this.lookback = lookback;
+			this.threads = threads;
+		}
+	}
+
 	/**
 	 * pulls new data from Veracode and syncs it with the current data
 	 */
-	public void syncAllData() {
-		LOG.info("Beginning Veracode DAST data update");
+	public void syncData(SyncType syncType) {
+		LOG.info("Beginning Veracode DAST data update. Syncing " + syncType);
 		try {
-			VeracodeRestApiClient cli = configService.getApiClient()
+			VeracodeApiClient client = configService.getApiClient();
 			// get the current client
-			VeracodeXmlApiClient client = configService.getApiClient();
 			if (client == null) {
 				LOG.error("No Configuration for Veracode DAST client");
 				return;
 			}
 			// start the sync operation
-			dataSync(client);
-
+			int threadSize = syncType.threads;
+			ExecutorService executor = Executors.newFixedThreadPool(threadSize);
+			dataSync(client, syncType, executor);
+			executor.shutdown();
+			executor.awaitTermination(1, TimeUnit.DAYS);
 		} catch (Exception e) {
-			LOG.error("Veracode DAST data update failed due to error: " + e.getMessage());
+			LOG.error("Veracode DAST data update failed due to error: ", e);
 		}
-		LOG.info("Veracode DAST data update complete");
+		LOG.info("Veracode DAST data update complete. Synced " + syncType);
 	}
 
 	/**
@@ -85,27 +104,24 @@ public class VeracodeDastUpdateService {
 	 * <li>Save the app</li>
 	 * </ol>
 	 *
-	 * @param client The API Client to use
+	 * @param client    The API Client to use
+	 * @param syncType
+	 * @param executor
+	 * @param xmlClient
+	 * @throws VeracodeXmlApiException
 	 */
-	private void dataSync(VeracodeXmlApiClient client) {
-		Applist apps;
-		try {
-			// Get all Applications for this client
-			apps = client.getApplications();
-		} catch (VeracodeXmlApiException e) {
-			LOG.error("Could not get Apps due to exception: " + e.getMessage());
-			return;
-		}
-		for (AppType app : apps.getApp()) {
-			String appName = app.getAppName();
-			LOG.debug("doing app: " + appName);
+	private void dataSync(VeracodeApiClient client, SyncType syncType, ExecutorService executor)
+			throws VeracodeXmlApiException {
+		VeracodeRestPagedResourcesIterator<PagedResourceOfApplication> appIterator = new VeracodeRestPagedResourcesIterator<>(
+				page -> client.getRestApplications(ScanTypeEnum.DYNAMIC, page));
+		while (appIterator.hasNext()) {
+			List<Application> apps = appIterator.next().getEmbedded().getApplications();
+			for (Application app : apps) {
+				String appName = app.getProfile().getName();
+				LOG.debug("doing app: " + appName);
 
-			try {
-				// Get a list of builds for this app
-				Buildlist builds = client.getBuildList(String.valueOf(app.getAppId()));
-				saveAppBuilds(client, appName, builds);
-			} catch (VeracodeXmlApiException e) {
-				LOG.error("Could not get sandbox builds for app: " + appName + " due to exception: " + e.getMessage());
+				Buildlist builds = client.getXMLBuildList(String.valueOf(app.getId()));
+				saveAppBuilds(client, app, builds, syncType, executor);
 			}
 		}
 	}
@@ -121,31 +137,38 @@ public class VeracodeDastUpdateService {
 	 * <li>Save the reports</li>
 	 * </ol>
 	 *
-	 * @param client The API Client to use
-	 * @param builds the list of builds to get reports for
+	 * @param client     The API Client to use
+	 * @param syncType
+	 * @param executor
+	 * @param restClient
+	 * @param builds     the list of builds to get reports for
 	 */
-	private void saveAppBuilds(VeracodeXmlApiClient client, String appName, Buildlist builds) {
-		for (BuildType build : builds.getBuild()) {
-			long buildId = build.getBuildId();
-			if (build.getDynamicScanType() != null) {
-				LOG.debug("No dynamic analysis report found for app: " + appName + " on build id: " + buildId);
-				continue;
-			}
-			Detailedreport report;
-			try {
-				// Get the associated Veracode report for this build
-				report = client.getDetailedReport(String.valueOf(buildId));
-			} catch (VeracodeXmlApiException e) {
-				LOG.error("Could not get detailed report due to exception: " + e.getMessage());
-				continue;
-			}
+	private void saveAppBuilds(VeracodeApiClient client, Application app, Buildlist buildList, SyncType syncType,
+			ExecutorService executor) {
+		String appName = app.getProfile().getName();
+		List<BuildType> builds = buildList.getBuild();
+		Collections.sort(builds, (b1, b2) -> b2.getBuildId().compareTo(b1.getBuildId()));
+		int buildLookback = Math.min(syncType.lookback, builds.size());
+		for (int i = 0; i < buildLookback; i++) {
+			BuildType build = builds.get(i);
+			executor.submit(() -> {
+				try {
+					long buildId = build.getBuildId();
+					LOG.debug("Doing build " + buildId);
 
-			if (report.getDynamicAnalysis() == null) {
-				LOG.debug("No dynamic analysis report found for app: " + appName + " on build id: " + buildId);
-				continue;
-			}
+					SummaryReport report = client.getRestSummaryReport(String.valueOf(app.getGuid()),
+							String.valueOf(buildId));
+					if (report.getDynamicAnalysis() == null) {
+						LOG.debug("No dynamic analysis report found for app: " + appName + " on build id: " + buildId);
+						return;
+					}
+					saveAppReport(appName, report);
+				} catch (VeracodeApiException e) {
+					LOG.error("Exception while getting Summary Report for app " + appName + " and build "
+							+ build.getBuildId(), e);
+				}
+			});
 
-			saveAppReport(appName, report);
 		}
 
 	}
@@ -163,7 +186,7 @@ public class VeracodeDastUpdateService {
 	 * @param appName the Veracode App name for these reports
 	 * @param report  the Veracode report to save
 	 */
-	private void saveAppReport(String appName, Detailedreport report) {
+	private void saveAppReport(String appName, SummaryReport report) {
 		// Get or create an App Model for the Application
 		VeracodeDastAppModel appModel = appService.getDastApp(appName);
 		if (appModel == null) {
@@ -177,8 +200,8 @@ public class VeracodeDastUpdateService {
 		}
 
 		// Get or create a Report Model for each Veracode report
-		VeracodeDastReportModel reportModel = reportService.getReportForAnalysisAndBuild(report.getAnalysisId(),
-				report.getBuildId());
+		VeracodeDastReportModel reportModel = reportService
+				.getReportForAnalysisAndBuild(report.getAnalysisId().longValue(), report.getBuildId().longValue());
 		if (reportModel == null) {
 			reportModel = new VeracodeDastReportModel();
 			reportModel.setApp(appModel);
@@ -199,19 +222,15 @@ public class VeracodeDastUpdateService {
 		appService.save(appModel);
 	}
 
-	private void populateReportModel(VeracodeDastReportModel reportModel, Detailedreport report) {
-		reportModel.setAnalysisId(report.getAnalysisId());
+	private void populateReportModel(VeracodeDastReportModel reportModel, SummaryReport report) {
+		reportModel.setAnalysisId(report.getAnalysisId().longValue());
 		reportModel.setReportDate(
 				LocalDateTime.parse(report.getDynamicAnalysis().getPublishedDate(), reportDateFormatter));
-		reportModel.setBuildId(report.getBuildId());
-		AnalysisType dynamicAnalysisResult = report.getDynamicAnalysis();
-		reportModel.setScore(dynamicAnalysisResult.getScore().longValue());
-		reportModel.setVeryHighVios(severityCounts.getOrDefault(5, 0));
-		reportModel.setHighVios(severityCounts.getOrDefault(4, 0));
-		reportModel.setMedVios(severityCounts.getOrDefault(3, 0));
-		reportModel.setLowVios(severityCounts.getOrDefault(2, 0));
-		reportModel.setVeryLowVios(severityCounts.getOrDefault(1, 0));
-		reportModel.setInfoVios(severityCounts.getOrDefault(0, 0));
+		reportModel.setBuildId(report.getBuildId().longValue());
+		reportModel.setScore(report.getDynamicAnalysis().getScore());
+		reportModel.setTotalFlaws(report.getTotalFlaws());
+		reportModel.setUnmitigatedFlaws(report.getFlawsNotMitigated());
+		reportModel.setCoordinates(String.format("%s:%s:%s:%s", report.getAccountId(), report.getAppId(),report.getBuildId(),report.getAnalysisId()));
 	}
 
 }

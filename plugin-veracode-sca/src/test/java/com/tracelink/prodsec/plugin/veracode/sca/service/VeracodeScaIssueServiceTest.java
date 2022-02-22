@@ -19,10 +19,10 @@ import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.model.IssueSummary;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.IssueSummary.IssueStatusEnum;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.IssueSummary.IssueTypeEnum;
-import com.tracelink.prodsec.lib.veracode.rest.api.model.VulnerabilitySummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary.IssueStatusEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary.IssueTypeEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.VulnerabilitySummary;
 import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;

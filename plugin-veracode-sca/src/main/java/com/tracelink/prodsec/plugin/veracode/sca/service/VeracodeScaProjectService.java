@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.model.Project;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Project;
 import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;

@@ -10,7 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.model.IssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;

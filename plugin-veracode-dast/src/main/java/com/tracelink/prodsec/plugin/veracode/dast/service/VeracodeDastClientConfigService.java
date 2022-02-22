@@ -4,14 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.lib.veracode.rest.api.VeracodeRestApiClient;
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiClient;
-import com.tracelink.prodsec.lib.veracode.xml.api.VeracodeXmlApiException;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.AppType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.applist.Applist;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.BuildType;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.buildlist.Buildlist;
-import com.tracelink.prodsec.lib.veracode.xml.api.data.detailedreport.Detailedreport;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestPagedResourcesIterator;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Application;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourceOfApplication;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.SummaryReport;
+import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.AppType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.Applist;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.Detailedreport;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastClientConfigRepository;
 
@@ -49,38 +54,46 @@ public class VeracodeDastClientConfigService {
 	 * @return an api client, pre-configured with the current config. Or null if no
 	 *         config exists
 	 */
-	public VeracodeRestApiClient getApiClient() {
+	public VeracodeApiClient getApiClient() {
 		VeracodeDastClientConfigModel config = getClientConfig();
 		if (config == null) {
 			return null;
 		}
-		VeracodeRestApiClient apiClient = new VeracodeRestApiClient("https://api.veracode.com", config.getApiId(),
+		VeracodeApiClient apiClient = new VeracodeApiClient("https://api.veracode.com", config.getApiId(),
 				config.getApiKey());
 		return apiClient;
 	}
 
 	/**
 	 * Test each of the APIs we intend to use. This succeeds fast, and fails fast
-	 *
-	 * @throws VeracodeXmlApiException if any API throws this Exception
+	 * 
+	 * @throws VeracodeApiException
 	 */
-	public void testAccess() throws VeracodeXmlApiException {
+	public void testAccess() throws VeracodeApiException {
 		// At each api call, we can fail due to an access problem,
 		// so we need to call each api
-		VeracodeRestApiClient apiClient = getApiClient();
-		Applist apps = apiClient.getApps();
+		VeracodeApiClient apiClient = getApiClient();
+		VeracodeRestPagedResourcesIterator<PagedResourceOfApplication> appIterator = new VeracodeRestPagedResourcesIterator<>(
+				page -> apiClient.getRestApplications(ScanTypeEnum.DYNAMIC, page));
+		String restAppId;
+		if (appIterator.hasNext()) {
+			restAppId = String.valueOf(appIterator.next().getEmbedded().getApplications().get(0).getId());
+		} else {
+			throw new VeracodeApiException("Could not get applications with the REST API");
+		}
+		Applist apps = apiClient.getXMLApplications();
 		for (AppType app : apps.getApp()) {
 			String appId = String.valueOf(app.getAppId());
-			Buildlist builds = xmlApiClient.getBuildList(appId);
+			Buildlist builds = apiClient.getXMLBuildList(appId);
 			for (BuildType build : builds.getBuild()) {
 				String buildId = String.valueOf(build.getBuildId());
-				Detailedreport report = xmlApiClient.getDetailedReport(buildId);
-				if (report != null) {
-					// at this point we've tested all api calls and can quit
-					return;
-				}
+				apiClient.getXMLDetailedReport(buildId);
+				apiClient.getRestSummaryReport(restAppId, buildId);
+				// we've called all apis and can quit now
+				return;
 			}
 		}
+
 		throw new VeracodeXmlApiException("Client has access but can't see any reports");
 	}
 
