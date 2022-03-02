@@ -47,8 +47,7 @@ public class VeracodeSastReportService {
 
 	/**
 	 * Deletes any {@link VeracodeSastReportModel} associated with the given
-	 * {@link VeracodeSastAppModel}. Also deletes any {@link VeracodeSastFlawModel}
-	 * that is associated with the reports to avoid orphaned flaws.
+	 * {@link VeracodeSastAppModel}. 
 	 *
 	 * @param app the app for which to delete all associated reports
 	 * @throws IllegalArgumentException if the app is null

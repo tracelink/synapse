@@ -17,7 +17,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * Spring configuration class to handle security settings for authorization and authentication.
+ * Spring configuration class to handle security settings for authorization and
+ * authentication.
  *
  * @author csmith, mcool
  */
@@ -46,33 +47,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.headers().httpStrictTransportSecurity().disable();
 		http.headers().frameOptions().disable();
 		http.authorizeRequests()
-				.antMatchers("/login").permitAll()
-				.antMatchers("/register").permitAll()
+				.antMatchers("/login", "/register").permitAll()
 				.requestMatchers(matcherService).permitAll()
 				.antMatchers("/console/**").hasAuthority(SynapseAdminAuthDictionary.ADMIN_PRIV)
-				.anyRequest().authenticated().and()
+				.anyRequest().authenticated()
+			.and()
 				.formLogin()
-				.loginPage("/login").failureHandler(synapseAuthFailureHandler())
-				.usernameParameter("username")
-				.passwordParameter("password").defaultSuccessUrl("/", true).and()
+					.loginPage("/login")
+					.failureHandler(synapseAuthFailureHandler())
+					.usernameParameter("username")
+					.passwordParameter("password")
+					.defaultSuccessUrl("/", true)
+			.and()
 				.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/login?logout=true")
-				.deleteCookies("JSESSIONID").invalidateHttpSession(true);
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutSuccessUrl("/login?logout=true")
+				.deleteCookies("JSESSIONID")
+					.invalidateHttpSession(true);
 
-		if (clientRegistrationRepository != null
-				&& clientRegistrationRepository.findByRegistrationId("oidc") != null) {
+		if (clientRegistrationRepository != null && clientRegistrationRepository.findByRegistrationId("oidc") != null) {
 			http.oauth2Login().loginPage("/login").failureHandler(synapseAuthFailureHandler())
-					.defaultSuccessUrl("/", true).userInfoEndpoint()
-					.oidcUserService(oidcAuthService);
+					.defaultSuccessUrl("/", true).userInfoEndpoint().oidcUserService(oidcAuthService);
 		}
 
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring()
-				.antMatchers("/styles/**", "/icons/**", "/images/**", "/scripts/**", "/webjars/**");
+		web.ignoring().antMatchers("/styles/**", "/icons/**", "/images/**", "/scripts/**", "/webjars/**");
 	}
 
 	@Bean

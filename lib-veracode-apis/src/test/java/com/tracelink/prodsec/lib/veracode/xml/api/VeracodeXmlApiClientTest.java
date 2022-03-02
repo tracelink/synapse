@@ -33,7 +33,7 @@ import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.SeverityTy
 import com.veracode.apiwrapper.AbstractAPIWrapper;
 import com.veracode.http.WebClient;
 
-public class ApiClientTest {
+public class VeracodeXmlApiClientTest {
 
 	private static final String GETAPPLIST = "/api/5.0/getapplist.do";
 
@@ -89,86 +89,6 @@ public class ApiClientTest {
 		webClient.downloadString("/test");
 		WireMock.verify(WireMock.postRequestedFor(WireMock.urlEqualTo("/test")).withHeader("Authorization",
 				WireMock.containing("VERACODE-HMAC")));
-	}
-
-
-	@Test
-	public void testGetDetailedReport() throws Exception {
-		VeracodeXmlApiClient client = makeDefaultTestClient();
-
-		long analysisId = 157;
-		Detailedreport report = new Detailedreport();
-		report.setAnalysisId(analysisId);
-		String reportXml = toXML(report, Detailedreport.class);
-		WireMock.stubFor(
-				WireMock.post(DETAILEDREPORT).willReturn(WireMock.aResponse().withStatus(200).withBody(reportXml)));
-
-		Detailedreport returnedReport = client.getDetailedReport("");
-		Assert.assertEquals(analysisId, returnedReport.getAnalysisId());
-	}
-
-	@Test
-	public void testGetDetailedReportTooManyFlaws() throws Exception {
-		VeracodeXmlApiClient client = makeDefaultTestClient();
-
-		long analysisId = 157;
-		Detailedreport report = new Detailedreport();
-		report.setAnalysisId(analysisId);
-		// Add 501 flaws to the report
-		List<FlawType> flaws = IntStream.range(0, 501).mapToObj(i -> {
-			FlawType flaw = new FlawType();
-			flaw.setCount(1);
-			return flaw;
-		}).collect(Collectors.toList());
-
-		FlawListType flawList = new FlawListType();
-		flawList.setFlaw(flaws);
-		CweType cwe = new CweType();
-		cwe.setDynamicflaws(flawList);
-		CategoryType category = new CategoryType();
-		category.setCwe(Collections.singletonList(cwe));
-		SeverityType severity = new SeverityType();
-		severity.setCategory(Collections.singletonList(category));
-		report.setSeverity(Collections.singletonList(severity));
-
-		String reportXml = toXML(report, Detailedreport.class);
-		WireMock.stubFor(
-				WireMock.post(DETAILEDREPORT).willReturn(WireMock.aResponse().withStatus(200).withBody(reportXml)));
-
-		try {
-			client.getDetailedReport("12345678");
-			Assert.fail("Should have thrown exception");
-		} catch (VeracodeXmlApiException e) {
-			Assert.assertEquals("Cannot parse detailed report for buildid 12345678 because it contains 501 flaws",
-					e.getMessage());
-		}
-	}
-
-	@Test
-	public void testGetApplications() throws Exception {
-		VeracodeXmlApiClient client = makeDefaultTestClient();
-
-		long appid = 123;
-		String appName = "test";
-
-		AppType app = new AppType();
-		app.setAppId(appid);
-		app.setAppName(appName);
-
-		Applist apps = new Applist();
-		apps.getApp().add(app);
-
-		String xmlString = toXML(apps, Applist.class);
-
-		WireMock.stubFor(
-				WireMock.post(GETAPPLIST).willReturn(WireMock.aResponse().withStatus(200).withBody(xmlString)));
-
-		Applist returnedApps = client.getApplications();
-		Assert.assertEquals(1, returnedApps.getApp().size());
-
-		AppType returnedApp = returnedApps.getApp().get(0);
-		Assert.assertEquals(Long.valueOf(appid), returnedApp.getAppId());
-		Assert.assertEquals(appName, returnedApp.getAppName());
 	}
 
 	@Test

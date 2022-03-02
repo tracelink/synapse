@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
 import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
 import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestPagedResourcesIterator;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.AnalysisType;
 import com.tracelink.prodsec.lib.veracode.api.rest.model.Application;
 import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Module;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ModuleType;
 import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourceOfApplication;
 import com.tracelink.prodsec.lib.veracode.api.rest.model.SummaryReport;
-import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
 import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
 import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
@@ -38,7 +40,6 @@ public class VeracodeSastUpdateService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VeracodeSastUpdateService.class);
 
-
 	private final VeracodeSastAppService appService;
 
 	private final VeracodeSastReportService reportService;
@@ -55,21 +56,36 @@ public class VeracodeSastUpdateService {
 
 	}
 
+	/**
+	 * Details the type of data sync to run
+	 * 
+	 * @author csmith
+	 *
+	 */
 	public enum SyncType {
-		ALL(Integer.MAX_VALUE, 4), 
-		RECENT(5, 2);
-		
-		int lookback;
-		int threads;
+		ALL(Integer.MAX_VALUE, 4), RECENT(5, 2);
+
+		private int lookback;
+		private int threads;
 
 		SyncType(int lookback, int threads) {
 			this.lookback = lookback;
 			this.threads = threads;
 		}
+
+		int getLookback() {
+			return lookback;
+		}
+
+		int getThreads() {
+			return threads;
+		}
 	}
 
 	/**
 	 * pulls new data from Veracode and syncs it with the current data
+	 * 
+	 * @param syncType the type of synchronization to execute
 	 */
 	public void syncData(SyncType syncType) {
 		LOG.info("Beginning Veracode SAST data update. Syncing " + syncType);
@@ -101,18 +117,17 @@ public class VeracodeSastUpdateService {
 	 * <li>Get a list of builds for this sandbox</li>
 	 * <li>Get the associated Veracode report for this build</li>
 	 * <li>Get or create a Report Model for each Veracode report</li>
-	 * <li>Update or create the flaws associated with this Veracode report</li>
-	 * <li>Save the flaws</li>
 	 * <li>Save the reports</li>
 	 * <li>Save the app</li>
 	 * </ol>
 	 *
 	 * @param client   The API Client to use
-	 * @param syncType 
-	 * @param executor
-	 * @throws VeracodeXmlApiException
+	 * @param syncType The type of data sync process to use
+	 * @param executor The executor for managing multiple processes
+	 * @throws VeracodeApiException if any error occurs during processing
 	 */
-	private void dataSync(VeracodeApiClient client, SyncType syncType, ExecutorService executor) throws VeracodeXmlApiException {
+	private void dataSync(VeracodeApiClient client, SyncType syncType, ExecutorService executor)
+			throws VeracodeApiException {
 		VeracodeRestPagedResourcesIterator<PagedResourceOfApplication> appIterator = new VeracodeRestPagedResourcesIterator<>(
 				page -> client.getRestApplications(ScanTypeEnum.STATIC, page));
 		while (appIterator.hasNext()) {
@@ -127,12 +142,28 @@ public class VeracodeSastUpdateService {
 		}
 	}
 
-	private void saveAppBuilds(VeracodeApiClient client, Application app, Buildlist buildList,
-			SyncType syncType, ExecutorService executor) {
+	/**
+	 * The following code follows this process:
+	 * <ol>
+	 * <li>Get the associated Veracode report for this build</li>
+	 * <li>Get or create an App Model for the Application</li>
+	 * <li>Get or create a Report Model for each Veracode report</li>
+	 * <li>Save the reports</li>
+	 * <li>Save the app</li>
+	 * </ol>
+	 *
+	 * @param client    The API Client to use
+	 * @param app       the application to sync
+	 * @param buildList the list of builds for this application
+	 * @param syncType  the type of data sync
+	 * @param executor  The executor for managing multiple processes
+	 */
+	private void saveAppBuilds(VeracodeApiClient client, Application app, Buildlist buildList, SyncType syncType,
+			ExecutorService executor) {
 		String appName = app.getProfile().getName();
 		List<BuildType> builds = buildList.getBuild();
 		Collections.sort(builds, (b1, b2) -> b2.getBuildId().compareTo(b1.getBuildId()));
-		
+
 		int buildLookback = Math.min(syncType.lookback, builds.size());
 		for (int i = 0; i < buildLookback; i++) {
 			BuildType build = builds.get(i);
@@ -160,14 +191,12 @@ public class VeracodeSastUpdateService {
 	 * <ol>
 	 * <li>Get the associated Veracode report for this build</li>
 	 * <li>Get or create a Report Model for each Veracode report</li>
-	 * <li>Update or create the flaws associated with this Veracode report</li>
-	 * <li>Save the flaws</li>
 	 * <li>Save the reports</li>
+	 * <li>Save the app</li>
 	 * </ol>
 	 *
-	 * @param client   The API Client to use
-	 * @param appModel the Veracode Plugin App Model for these reports
-	 * @param builds   the list of builds to get reports for
+	 * @param appName the Veracode App name for these reports
+	 * @param report  the Veracode report to save
 	 */
 	private void saveAppReport(String appName, SummaryReport report) {
 		// Get or create an App Model for the Application
@@ -206,13 +235,37 @@ public class VeracodeSastUpdateService {
 	}
 
 	private void populateReportModel(VeracodeSastReportModel reportModel, SummaryReport report) {
+		AnalysisType staticAnalysis = report.getStaticAnalysis();
 		reportModel.setAnalysisId(report.getAnalysisId().longValue());
-		reportModel
-				.setReportDate(LocalDateTime.parse(report.getStaticAnalysis().getPublishedDate(), reportDateFormatter));
+		reportModel.setReportDate(LocalDateTime.parse(staticAnalysis.getPublishedDate(), reportDateFormatter));
 		reportModel.setBuildId(report.getBuildId().longValue());
-		reportModel.setScore(report.getStaticAnalysis().getScore());
+		reportModel.setScore(staticAnalysis.getMitigatedScore());
 		reportModel.setTotalFlaws(report.getTotalFlaws());
 		reportModel.setUnmitigatedFlaws(report.getFlawsNotMitigated());
-		reportModel.setCoordinates(String.format("%s:%s:%s:%s", report.getAccountId(), report.getAppId(),report.getBuildId(),report.getAnalysisId()));
+		reportModel.setCoordinates(String.format("%s:%s:%s:%s", report.getAccountId(), report.getAppId(),
+				report.getBuildId(), report.getAnalysisId()));
+
+		Module module = staticAnalysis.getModules();
+		long info = 0;
+		long vlow = 0;
+		long low = 0;
+		long med = 0;
+		long high = 0;
+		long vhigh = 0;
+
+		for (ModuleType mt : module.getModule()) {
+			vhigh += mt.getNumflawssev5();
+			high += mt.getNumflawssev4();
+			med += mt.getNumflawssev3();
+			low += mt.getNumflawssev2();
+			vlow += mt.getNumflawssev1();
+			info += mt.getNumflawssev0();
+		}
+		reportModel.setvHigh(vhigh);
+		reportModel.setHigh(high);
+		reportModel.setMedium(med);
+		reportModel.setLow(low);
+		reportModel.setvLow(vlow);
+		reportModel.setInfo(info);
 	}
 }

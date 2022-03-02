@@ -42,8 +42,8 @@ public class VeracodeSastClientConfigServiceTest {
 	@Test
 	public void testGetApiClient() {
 		VeracodeSastClientConfigModel config = new VeracodeSastClientConfigModel();
-		config.setApiId("1234");
-		config.setApiKey("5678");
+		config.setApiId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		config.setApiKey("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		BDDMockito.when(mockClientConfigRepo.findAll()).thenReturn(Arrays.asList(config));
 		Assert.assertNotNull(configService.getApiClient());
 	}

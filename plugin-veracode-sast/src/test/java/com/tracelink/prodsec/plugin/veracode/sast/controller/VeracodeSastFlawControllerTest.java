@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
-import com.tracelink.prodsec.plugin.veracode.sast.model.ModelType;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastReportModel;
 import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastAppService;
@@ -68,32 +67,5 @@ public class VeracodeSastFlawControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeSastPlugin.FLAWS_PAGE))
 				.andExpect(MockMvcResultMatchers.model().attribute("unmappedProjects", Matchers.hasSize(2)))
 				.andExpect(MockMvcResultMatchers.model().attribute("mappedProjects", Matchers.hasSize(1)));
-	}
-
-	@Test
-	@WithMockUser(authorities = {VeracodeSastPlugin.FLAWS_VIEWER_PRIVILEGE})
-	public void testShowReportSuccess() throws Exception {
-		VeracodeSastReportModel report = new VeracodeSastReportModel();
-		VeracodeSastAppModel app = new VeracodeSastAppModel();
-		app.setName("foo");
-		app.setModelType(ModelType.APP);
-		report.setApp(app);
-		Optional<VeracodeSastReportModel> reportOpt = Optional.of(report);
-		BDDMockito.when(mockReportService.getReportById(BDDMockito.anyLong())).thenReturn(reportOpt);
-		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeSastPlugin.FLAWS_PAGE + "/report").param("reportId", "1"))
-				.andExpect(MockMvcResultMatchers.model().attribute("report", Matchers.is(report)))
-				.andExpect(MockMvcResultMatchers.model().attribute("scripts",
-						Matchers.contains("/scripts/veracodesast/datatable.js")));
-	}
-
-	@Test
-	@WithMockUser(authorities = {VeracodeSastPlugin.FLAWS_VIEWER_PRIVILEGE})
-	public void testShowReportFail() throws Exception {
-		Optional<VeracodeSastReportModel> reportOpt = Optional.empty();
-		BDDMockito.when(mockReportService.getReportById(BDDMockito.anyLong())).thenReturn(reportOpt);
-		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeSastPlugin.FLAWS_PAGE + "/report").param("reportId", "1"))
-				.andExpect(MockMvcResultMatchers.flash().attribute(SynapseModelAndView.FAILURE_FLASH,
-						Matchers.containsString("Unknown report")))
-				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeSastPlugin.FLAWS_PAGE));
 	}
 }

@@ -1,7 +1,6 @@
 package com.tracelink.prodsec.plugin.veracode.sast.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
 
@@ -54,12 +49,30 @@ public class VeracodeSastReportModel {
 	@Column(name = "unmitigated")
 	private long unmitigated;
 
+	@Column(name = "num_very_high")
+	private long vHigh;
+
+	@Column(name = "num_high")
+	private long high;
+
+	@Column(name = "num_medium")
+	private long medium;
+
+	@Column(name = "num_low")
+	private long low;
+
+	@Column(name = "num_very_low")
+	private long vLow;
+
+	@Column(name = "num_info")
+	private long info;
+
 	@Column(name = "totalFlaws")
 	private long totalFlaws;
-	
+
 	@Column(name = "report_coordinates")
 	private String coordinates;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -111,13 +124,61 @@ public class VeracodeSastReportModel {
 	public long getTotalFlaws() {
 		return this.totalFlaws;
 	}
-	
+
 	public void setUnmitigatedFlaws(Long flawsNotMitigated) {
 		this.unmitigated = flawsNotMitigated;
 	}
 
 	public long getUnmitigatedFlaws() {
 		return this.unmitigated;
+	}
+
+	public long getvHigh() {
+		return vHigh;
+	}
+
+	public void setvHigh(long vHigh) {
+		this.vHigh = vHigh;
+	}
+
+	public long getHigh() {
+		return high;
+	}
+
+	public void setHigh(long high) {
+		this.high = high;
+	}
+
+	public long getMedium() {
+		return medium;
+	}
+
+	public void setMedium(long medium) {
+		this.medium = medium;
+	}
+
+	public long getLow() {
+		return low;
+	}
+
+	public void setLow(long low) {
+		this.low = low;
+	}
+
+	public long getvLow() {
+		return vLow;
+	}
+
+	public void setvLow(long vLow) {
+		this.vLow = vLow;
+	}
+
+	public long getInfo() {
+		return info;
+	}
+
+	public void setInfo(long info) {
+		this.info = info;
 	}
 
 	public String getCoordinates() {

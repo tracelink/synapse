@@ -19,7 +19,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Name-value pair of account-specific custom fields and their values.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class CustomFieldType {
 	@SerializedName("name")
 	private String name = null;

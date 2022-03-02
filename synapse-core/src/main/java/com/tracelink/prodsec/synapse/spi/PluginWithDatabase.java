@@ -36,7 +36,7 @@ public abstract class PluginWithDatabase extends Plugin {
 		ClassicConfiguration compConfig = new ClassicConfiguration(flyway.getConfiguration());
 
 		// set the correct schema name
-		compConfig.setSchemas(getSchemaName());
+		compConfig.setSchemas(new String[] {getSchemaName()});
 
 		// set the correct location
 		compConfig.setLocations(new Location(getMigrationsLocation()));

@@ -1,19 +1,16 @@
 package com.tracelink.prodsec.plugin.veracode.dast.controller;
 
-import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastAppService;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastReportService;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.products.service.ProductsService;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastAppService;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastReportService;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.products.service.ProductsService;
 
 /**
  * The flaw controller is used to show the status of the latest report from each app as well as the

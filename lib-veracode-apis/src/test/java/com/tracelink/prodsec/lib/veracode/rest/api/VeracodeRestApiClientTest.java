@@ -67,53 +67,56 @@ public class VeracodeRestApiClientTest {
 
 	@Test
 	public void testGetRequestError() {
-		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams1)
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/srcclr/v3/workspaces")).withQueryParams(queryParams1)
 				.willReturn(WireMock.badRequest()));
 
 		try {
 			apiWrapper.getWorkspaces(0);
 			Assert.fail("Exception should have been thrown");
 		} catch (VeracodeRestApiException e) {
-			Assert.assertTrue(e.getMessage(), e.getMessage().contains("Received status code 400 from Veracode SCA API endpoint"));
+			Assert.assertTrue(e.getMessage(),
+					e.getMessage().contains("Received status code 400 from Veracode Rest API endpoint"));
 		}
 	}
 
 //	@Test
 //	public void testGetRequestNullResponse() {
-//		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams1).willReturn(null));
+//		WireMock.stubFor(WireMock.get(urlPathEqualTo("/srcclr/v3/workspaces")).withQueryParams(queryParams1).willReturn(null));
 //		try {
 //			apiWrapper.getWorkspaces(0);
 //			Assert.fail("Exception should have been thrown");
 //		} catch (VeracodeScaApiException e) {
-//			Assert.assertEquals("Could not obtain response from Veracode SCA API", e.getMessage());
+//			Assert.assertEquals("Could not obtain response from Veracode Rest API", e.getMessage());
 //		}
 //	}
 
 	@Test
 	public void testGetRequest4xxResponse() {
-		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams1)
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/srcclr/v3/workspaces")).withQueryParams(queryParams1)
 				.willReturn(WireMock.badRequest()));
 
 		try {
 			apiWrapper.getWorkspaces(0);
 			Assert.fail("Exception should have been thrown");
 		} catch (VeracodeRestApiException e) {
-			Assert.assertTrue(e.getMessage().contains("Received status code 400 from Veracode SCA API endpoint "));
+			Assert.assertTrue(e.getMessage(),
+					e.getMessage().contains("Received status code 400 from Veracode Rest API endpoint "));
 		}
 	}
 
 	@Test
 	public void testGetRequest5xxResponse() {
-		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams1)
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/srcclr/v3/workspaces")).withQueryParams(queryParams1)
 				.willReturn(WireMock.aResponse().withStatus(504).withBody("{}")));
 
 		try {
 			apiWrapper.getWorkspaces(0);
 			Assert.fail("Exception should have been thrown");
 		} catch (VeracodeRestApiException e) {
-			Assert.assertTrue(e.getMessage().contains("Received status code 504 from Veracode SCA API endpoint "));
+			Assert.assertTrue(e.getMessage(),
+					e.getMessage().contains("Received status code 504 from Veracode Rest API endpoint "));
 		}
-		WireMock.verify(3, WireMock.getRequestedFor(urlPathEqualTo("/v3/workspaces")));
+		WireMock.verify(5, WireMock.getRequestedFor(urlPathEqualTo("/srcclr/v3/workspaces")));
 	}
 
 	@Test
@@ -136,9 +139,9 @@ public class VeracodeRestApiClientTest {
 		pagedWorkspaces2.setEmbedded(workspacesList2);
 		pagedWorkspaces2.setPage(page2);
 
-		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams1)
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/srcclr/v3/workspaces")).withQueryParams(queryParams1)
 				.willReturn(WireMock.okJson(GSON.toJson(pagedWorkspaces1))));
-		WireMock.stubFor(WireMock.get(urlPathEqualTo("/v3/workspaces")).withQueryParams(queryParams2)
+		WireMock.stubFor(WireMock.get(urlPathEqualTo("/srcclr/v3/workspaces")).withQueryParams(queryParams2)
 				.willReturn(WireMock.okJson(GSON.toJson(pagedWorkspaces2))));
 
 		List<Workspace> workspaces = apiWrapper.getWorkspaces(0).getEmbedded().getWorkspaces();
@@ -171,9 +174,9 @@ public class VeracodeRestApiClientTest {
 		pagedProjects2.setEmbedded(projectsList2);
 		pagedProjects2.setPage(page2);
 
-		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/v3/workspaces/%s/projects", workspaceId)))
+		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/srcclr/v3/workspaces/%s/projects", workspaceId)))
 				.withQueryParams(queryParams1).willReturn(WireMock.okJson(GSON.toJson(pagedProjects1))));
-		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/v3/workspaces/%s/projects", workspaceId)))
+		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/srcclr/v3/workspaces/%s/projects", workspaceId)))
 				.withQueryParams(queryParams2).willReturn(WireMock.okJson(GSON.toJson(pagedProjects2))));
 
 		List<Project> projects = apiWrapper.getProjects(workspaceId, 0).getEmbedded().getProjects();
@@ -207,9 +210,9 @@ public class VeracodeRestApiClientTest {
 		pagedIssues2.setEmbedded(issuesList2);
 		pagedIssues2.setPage(page2);
 
-		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspaceId)))
+		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/srcclr/v3/workspaces/%s/issues", workspaceId)))
 				.withQueryParams(queryParams1).willReturn(WireMock.okJson(GSON.toJson(pagedIssues1))));
-		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspaceId)))
+		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/srcclr/v3/workspaces/%s/issues", workspaceId)))
 				.withQueryParams(queryParams2).willReturn(WireMock.okJson(GSON.toJson(pagedIssues2))));
 
 		List<IssueSummary> issues = apiWrapper.getIssues(workspaceId, projectId, null, 0).getEmbedded().getIssues();
@@ -228,7 +231,7 @@ public class VeracodeRestApiClientTest {
 		Map<String, StringValuePattern> queryParams = new HashMap<>(queryParams1);
 		queryParams.put("project_id", equalTo(projectId.toString()));
 		queryParams.put("branch", equalTo(branch));
-		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/v3/workspaces/%s/issues", workspaceId)))
+		WireMock.stubFor(WireMock.get(urlPathEqualTo(String.format("/srcclr/v3/workspaces/%s/issues", workspaceId)))
 				.withQueryParams(queryParams).willReturn(WireMock.okJson("invalid")));
 
 		PagedResourcesIssueSummary issues = apiWrapper.getIssues(workspaceId, projectId, branch, 0);

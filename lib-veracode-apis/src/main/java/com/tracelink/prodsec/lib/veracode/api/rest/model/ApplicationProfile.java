@@ -28,7 +28,6 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * ApplicationProfile
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-13T02:06:38.897Z")
 public class ApplicationProfile {
 	@SerializedName("archer_app_name")
 	private String archerAppName = null;

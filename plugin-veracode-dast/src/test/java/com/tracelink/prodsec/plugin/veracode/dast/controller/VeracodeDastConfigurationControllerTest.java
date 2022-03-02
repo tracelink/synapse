@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
 import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiClient;
 import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
@@ -26,6 +29,8 @@ import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastUpdateServ
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
+
+import ch.qos.logback.classic.spi.STEUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplication.class)
@@ -98,31 +103,22 @@ public class VeracodeDastConfigurationControllerTest {
 
 	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
-	public void testTestConfigUnconfigured() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))
-				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeDastPlugin.CONFIGURATIONS_PAGE))
-				.andExpect(MockMvcResultMatchers.flash().attribute(SynapseModelAndView.FAILURE_FLASH,
-						Matchers.containsString("not been configured")));
-	}
-
-	@Test
-	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigNoAccess() throws Exception {
-		VeracodeXmlApiClient client = BDDMockito.mock(VeracodeXmlApiClient.class);
-		BDDMockito.when(mockConfigService.getRestApiClient()).thenReturn(client);
-		BDDMockito.willThrow(VeracodeXmlApiException.class).given(client).testAccess();
+		VeracodeApiClient client = BDDMockito.mock(VeracodeApiClient.class);
+		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
+		BDDMockito.willThrow(new VeracodeApiException("No Access")).given(client).testAccess(ScanTypeEnum.DYNAMIC);
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeDastPlugin.CONFIGURATIONS_PAGE))
 				.andExpect(MockMvcResultMatchers.flash().attribute(SynapseModelAndView.FAILURE_FLASH,
-						Matchers.containsString("Client does not have access")));
+						Matchers.containsString("No Access")));
 	}
 
 	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigSuccess() throws Exception {
-		VeracodeXmlApiClient client = BDDMockito.mock(VeracodeXmlApiClient.class);
-		BDDMockito.when(mockConfigService.getRestApiClient()).thenReturn(client);
+		VeracodeApiClient client = BDDMockito.mock(VeracodeApiClient.class);
+		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeDastPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeDastPlugin.CONFIGURATIONS_PAGE))

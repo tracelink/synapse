@@ -27,19 +27,8 @@ public class VeracodeSastAppModelTest {
 	@Test
 	public void testGetDisplayNameApp() {
 		VeracodeSastAppModel app = new VeracodeSastAppModel();
-		app.setModelType(ModelType.APP);
 		app.setName("App1");
 
 		Assert.assertEquals("App1", app.getDisplayName());
-	}
-
-	@Test
-	public void testGetDisplayNameSandbox() {
-		VeracodeSastAppModel app = new VeracodeSastAppModel();
-		app.setModelType(ModelType.SBX);
-		app.setName("Sbx1");
-		app.setProductLineName("App1");
-
-		Assert.assertEquals("App1 - Sbx1", app.getDisplayName());
 	}
 }

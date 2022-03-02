@@ -17,7 +17,6 @@ import com.tracelink.prodsec.synapse.products.service.ProductsService;
 import com.tracelink.prodsec.synapse.scheduler.job.SimpleSchedulerJob;
 import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
 import com.tracelink.prodsec.synapse.scheduler.service.schedule.DelayedSchedule;
-import com.tracelink.prodsec.synapse.scheduler.service.schedule.PeriodicSchedule;
 import com.tracelink.prodsec.synapse.scorecard.model.Scorecard;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardRow;
@@ -71,6 +70,9 @@ public class ScorecardService {
 		return ready;
 	}
 
+	/**
+	 * Update all scorecard column definitions
+	 */
 	public void updateAll() {
 		//skip if scorecard columns haven't been defined
 		if(scorecardColumnDefs.isEmpty()) {

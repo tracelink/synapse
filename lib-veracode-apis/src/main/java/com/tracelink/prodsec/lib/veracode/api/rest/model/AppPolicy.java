@@ -26,7 +26,6 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * AppPolicy
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-13T02:06:38.897Z")
 public class AppPolicy {
 	@SerializedName("guid")
 	private String guid = null;

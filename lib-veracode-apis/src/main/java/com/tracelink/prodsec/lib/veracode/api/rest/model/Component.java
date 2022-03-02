@@ -19,7 +19,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Component
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class Component {
 	@SerializedName("file_paths")
 	private FilePathList filePaths = null;

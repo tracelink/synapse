@@ -19,7 +19,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Component license.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class License {
 	@SerializedName("name")
 	private String name = null;

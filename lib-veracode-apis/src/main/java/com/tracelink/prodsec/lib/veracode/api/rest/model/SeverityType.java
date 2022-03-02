@@ -22,7 +22,6 @@ import com.google.gson.annotations.SerializedName;
  * Information about the Veracode Levels for the severity of a finding. The
  * range is 0 through 5, where 0 is informational and 5 is the most severe.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class SeverityType {
 	@SerializedName("category")
 	private List<CategoryType> category = null;

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
-import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastClientConfigRepository;
 
@@ -51,10 +50,6 @@ public class VeracodeSastClientConfigService {
 		VeracodeApiClient client = new VeracodeApiClient("https://api.veracode.com", config.getApiId(),
 				config.getApiKey());
 		return client;
-	}
-
-	public void testAccess() throws VeracodeApiException {
-		throw new VeracodeApiException("");
 	}
 
 	/**

@@ -124,8 +124,8 @@ public class VeracodeSastAppService {
 
 	/**
 	 * Deletes the {@link VeracodeSastAppModel} with the given ID. Also deletes any {@link
-	 * VeracodeSastReportModel} and {@link VeracodeSastFlawModel} that is associated with the app to
-	 * avoid orphaned reports and flaws.
+	 * VeracodeSastReportModel} that is associated with the app to
+	 * avoid orphaned reports.
 	 *
 	 * @param appId the ID of the app to delete
 	 * @throws IllegalArgumentException     if the app ID is null

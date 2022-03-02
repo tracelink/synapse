@@ -17,6 +17,10 @@ import com.tracelink.prodsec.synapse.sidebar.model.SidebarLink;
 import com.tracelink.prodsec.synapse.spi.PluginDisplayGroup;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,8 +68,10 @@ public class VeracodeSastPluginTest {
 	@Test
 	public void testGetJobsForScheduler() {
 		List<SchedulerJob> jobs = plugin.getJobsForScheduler();
-		Assert.assertEquals(1, jobs.size());
-		Assert.assertEquals("Veracode SAST Updater", jobs.get(0).getJobName());
+		Assert.assertEquals(2, jobs.size());
+		MatcherAssert.assertThat(jobs.stream().map(SchedulerJob::getJobName).collect(Collectors.toList()),
+				Matchers.containsInAnyOrder(Matchers.equalTo("Veracode SAST Updater - Recents"),
+						Matchers.equalTo("Veracode SAST Updater - Full Sync")));
 	}
 
 	@Test

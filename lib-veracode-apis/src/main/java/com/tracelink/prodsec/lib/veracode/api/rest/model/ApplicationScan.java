@@ -28,7 +28,6 @@ import io.swagger.annotations.ApiModelProperty;
  * Reference to the latest scan of this application.
  */
 @ApiModel(description = "Reference to the latest scan of this application.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-13T02:06:38.897Z")
 public class ApplicationScan {
 	@SerializedName("internal_status")
 	private String internalStatus = null;

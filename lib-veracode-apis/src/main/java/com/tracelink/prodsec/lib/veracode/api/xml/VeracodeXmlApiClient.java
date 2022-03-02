@@ -57,66 +57,6 @@ public class VeracodeXmlApiClient {
 		return target.cast(result);
 	}
 
-	/**
-	 * Get the Detailed Report of this build from Veracode
-	 *
-	 * @param buildId the build ID for this report
-	 * @return a Report of what happened during this build
-	 * @throws VeracodeXmlApiException if the API had an issue or if the result
-	 *                                 could not be parsed into a POJO
-	 */
-	public Detailedreport getDetailedReport(String buildId) throws VeracodeXmlApiException {
-		Detailedreport report;
-		String message;
-		try {
-			message = this.resultsWrapper.detailedReport(buildId);
-			int numFlaws = countOccurrencesOf(message, FLAW_XML_STRING);
-			if (numFlaws > MAX_FLAWS) {
-				throw new VeracodeXmlApiException(String.format(
-						"Cannot parse XML detailed report for buildid %s because it contains %d flaws",
-						buildId, numFlaws));
-			}
-			report = translate(message, Detailedreport.class);
-		} catch (JAXBException | IOException | XMLStreamException e) {
-			throw new VeracodeXmlApiException(
-					"Could not get XML detailed report for buildid " + buildId, e);
-		}
-		return report;
-	}
-	
-	private static int countOccurrencesOf(String str, String sub) {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(sub)) {
-			return 0;
-		}
-
-		int count = 0;
-		int pos = 0;
-		int idx;
-		while ((idx = str.indexOf(sub, pos)) != -1) {
-			++count;
-			pos = idx + sub.length();
-		}
-		return count;
-	}
-
-	/**
-	 * get an App list of all applications visible to this API Client
-	 *
-	 * @return an App list object for this client
-	 * @throws VeracodeXmlApiException if the API had an issue or if the result
-	 *                                 could not be parsed into a POJO
-	 */
-	public Applist getApplications() throws VeracodeXmlApiException {
-		Applist appList;
-		String message;
-		try {
-			message = this.uploadWrapper.getAppList();
-			appList = translate(message, Applist.class);
-		} catch (JAXBException | IOException | XMLStreamException e) {
-			throw new VeracodeXmlApiException("Could not get XML apps list", e);
-		}
-		return appList;
-	}
 
 	/**
 	 * get a list of builds for this application/sandbox combo

@@ -21,7 +21,6 @@ import com.google.gson.annotations.SerializedName;
  * For a static analysis, a list of modules with one module node per module
  * analyzed. For a dynamic analysis, a single module node.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class AnalysisType {
 	@SerializedName("modules")
 	private Module modules = null;

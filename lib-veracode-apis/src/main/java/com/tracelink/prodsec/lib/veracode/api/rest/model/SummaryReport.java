@@ -22,7 +22,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Details about the Summary Report.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class SummaryReport {
 	@SerializedName("static-analysis")
 	private AnalysisType staticAnalysis = null;

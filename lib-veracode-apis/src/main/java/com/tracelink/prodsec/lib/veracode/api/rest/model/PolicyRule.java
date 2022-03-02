@@ -19,7 +19,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Name of the SCA policy rule.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class PolicyRule {
 	@SerializedName("type")
 	private PolicyRuleType type = null;

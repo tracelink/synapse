@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
 import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
 import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastClientConfigService;
@@ -81,7 +82,7 @@ public class VeracodeSastConfigurationController {
 			return CONFIG_REDIRECT;
 		}
 		try {
-			configService.testAccess();
+			configService.getApiClient().testAccess(ScanTypeEnum.STATIC);
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
 					"Client Configured Correctly");
 		} catch (VeracodeApiException e) {

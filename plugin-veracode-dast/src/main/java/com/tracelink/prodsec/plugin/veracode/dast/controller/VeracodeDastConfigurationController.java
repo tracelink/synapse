@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastClientConfigService;
@@ -70,7 +71,7 @@ public class VeracodeDastConfigurationController {
 	@GetMapping("test")
 	public String testConfig(RedirectAttributes redirectAttributes) {
 		try {
-			configService.testAccess();
+			configService.getApiClient().testAccess(ScanTypeEnum.DYNAMIC);
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH, "Client Configured Correctly");
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH, e.getMessage());

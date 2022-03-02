@@ -99,6 +99,8 @@ public class VeracodeSastDashboardRestController {
 			return getPolicyScoreDatasets(apps, bucketer);
 		case "flaws":
 			return getFlawDatasets(apps, bucketer);
+		case "severity":
+			return getSeverityDatasets(apps, bucketer);
 		default:
 			throw new IllegalArgumentException("Unknown categorization");
 		}
@@ -140,6 +142,29 @@ public class VeracodeSastDashboardRestController {
 				for (VeracodeSastReportModel report : reports.get(i)) {
 					updateCounts(datasets, i, reports.size(), "Total Flaws", report.getTotalFlaws());
 					updateCounts(datasets, i, reports.size(), "Unmitigated Flaws", report.getUnmitigatedFlaws());
+				}
+			}
+		}
+		return datasets;
+	}
+	
+	private Map<String, List<Number>> getSeverityDatasets(List<VeracodeSastAppModel> apps,
+			SimpleBucketer<VeracodeSastReportModel> bucketer) {
+		Map<String, List<Number>> datasets = new LinkedHashMap<>();
+
+		for (VeracodeSastAppModel app : apps) {
+			List<List<VeracodeSastReportModel>> reports = bucketer.putItemsInBuckets(app.getReports());
+			for (int i = 0; i < reports.size(); i++) {
+				if (reports.get(i).isEmpty()) {
+					continue;
+				}
+				for (VeracodeSastReportModel report : reports.get(i)) {
+					updateCounts(datasets, i, reports.size(), "Very High", report.getvHigh());
+					updateCounts(datasets, i, reports.size(), "High", report.getHigh());
+					updateCounts(datasets, i, reports.size(), "Medium", report.getMedium());
+					updateCounts(datasets, i, reports.size(), "Low", report.getLow());
+					updateCounts(datasets, i, reports.size(), "Very Low", report.getvLow());
+					updateCounts(datasets, i, reports.size(), "Informational", report.getInfo());
 				}
 			}
 		}

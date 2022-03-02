@@ -2,15 +2,11 @@ package com.tracelink.prodsec.plugin.veracode.sast.service;
 
 import static org.mockito.Mockito.times;
 
-import com.tracelink.prodsec.plugin.veracode.sast.model.ModelType;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastProductException;
-import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastAppRepository;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +18,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastProductException;
+import com.tracelink.prodsec.plugin.veracode.sast.repository.VeracodeSastAppRepository;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 
 @RunWith(SpringRunner.class)
 public class VeracodeSastAppServiceTest {
@@ -104,10 +105,10 @@ public class VeracodeSastAppServiceTest {
 	public void testGetSastApp() {
 		VeracodeSastAppModel app = new VeracodeSastAppModel();
 		BDDMockito.when(mockAppRepo
-				.findByNameAndModelType(BDDMockito.anyString(), BDDMockito.any(ModelType.class)))
+				.findByName(BDDMockito.anyString()))
 				.thenReturn(app);
 
-		VeracodeSastAppModel returnedApp = appService.getSastApp("", ModelType.SBX);
+		VeracodeSastAppModel returnedApp = appService.getSastApp("");
 		Assert.assertEquals(app, returnedApp);
 	}
 

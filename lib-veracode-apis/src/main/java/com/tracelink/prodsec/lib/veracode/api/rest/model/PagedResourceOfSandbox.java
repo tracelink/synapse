@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * PagedResourceOfSandbox
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-13T02:06:38.897Z")
 public class PagedResourceOfSandbox extends AbstractPagedResources {
 	@SerializedName("_embedded")
 	private EmbeddedSandbox embedded = null;

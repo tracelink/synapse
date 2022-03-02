@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * AppCustomFieldValue
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2022-02-13T02:06:38.897Z")
 public class AppCustomFieldValue {
 	@SerializedName("app_custom_field_name")
 	private AppCustomFieldName appCustomFieldName = null;

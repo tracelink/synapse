@@ -19,7 +19,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Information about the type of module that Veracode scanned.
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-16T18:59:41.331Z[GMT]")
 public class ModuleType {
 	@SerializedName("name")
 	private String name = null;
