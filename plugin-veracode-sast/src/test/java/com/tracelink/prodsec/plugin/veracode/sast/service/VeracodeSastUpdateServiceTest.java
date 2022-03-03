@@ -65,7 +65,7 @@ public class VeracodeSastUpdateServiceTest {
 		profile.setName(appName);
 		app.setId(appId);
 		app.setProfile(profile);
-		embedApp.addApplicationsItem(app);
+		embedApp.setApplications(Arrays.asList(app));
 		pageApp.setEmbedded(embedApp);
 		BDDMockito.when(mockApiClient.getRestApplications(ScanTypeEnum.STATIC, 0))
 				.thenReturn(pageApp);

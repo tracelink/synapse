@@ -50,6 +50,12 @@ public class Project {
 		 * @param text the value of the language to get
 		 * @return the language, or null
 		 */
+		/**
+		 * Convert text to LanguagesEnum
+		 * 
+		 * @param text the text to convert
+		 * @return LanguagesEnum or null
+		 */
 		public static LanguagesEnum fromValue(String text) {
 			for (LanguagesEnum b : LanguagesEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -61,6 +67,9 @@ public class Project {
 
 		/**
 		 * Adapter to convert this enum to and from JSON.
+		 */
+		/**
+		 * Adapter to translate JSON to LanguagesEnum
 		 */
 		public static class Adapter extends TypeAdapter<LanguagesEnum> {
 

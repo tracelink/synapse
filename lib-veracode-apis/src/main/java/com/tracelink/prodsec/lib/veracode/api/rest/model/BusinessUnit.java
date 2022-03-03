@@ -31,11 +31,6 @@ public class BusinessUnit {
 	@SerializedName("name")
 	private String name = null;
 
-	public BusinessUnit guid(String guid) {
-		this.guid = guid;
-		return this;
-	}
-
 	/**
 	 * The business unit GUID.
 	 * 

@@ -74,11 +74,6 @@ public class AppCustomFieldName {
 		return modified;
 	}
 
-	public AppCustomFieldName name(String name) {
-		this.name = name;
-		return this;
-	}
-
 	/**
 	 * Get name
 	 * 
@@ -93,11 +88,6 @@ public class AppCustomFieldName {
 		this.name = name;
 	}
 
-	public AppCustomFieldName organizationId(Integer organizationId) {
-		this.organizationId = organizationId;
-		return this;
-	}
-
 	/**
 	 * Get organizationId
 	 * 
@@ -110,11 +100,6 @@ public class AppCustomFieldName {
 
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
-	}
-
-	public AppCustomFieldName sortOrder(Integer sortOrder) {
-		this.sortOrder = sortOrder;
-		return this;
 	}
 
 	/**

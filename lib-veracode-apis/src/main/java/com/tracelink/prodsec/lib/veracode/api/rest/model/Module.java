@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,19 +23,6 @@ import com.google.gson.annotations.SerializedName;
 public class Module {
 	@SerializedName("module")
 	private List<ModuleType> module = null;
-
-	public Module module(List<ModuleType> module) {
-		this.module = module;
-		return this;
-	}
-
-	public Module addModuleItem(ModuleType moduleItem) {
-		if (this.module == null) {
-			this.module = new ArrayList<ModuleType>();
-		}
-		this.module.add(moduleItem);
-		return this;
-	}
 
 	/**
 	 * Module Type array

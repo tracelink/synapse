@@ -28,11 +28,6 @@ public class CustomNameValue {
 	@SerializedName("value")
 	private String value = null;
 
-	public CustomNameValue name(String name) {
-		this.name = name;
-		return this;
-	}
-
 	/**
 	 * The custom field name.
 	 * 
@@ -45,11 +40,6 @@ public class CustomNameValue {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public CustomNameValue value(String value) {
-		this.value = value;
-		return this;
 	}
 
 	/**

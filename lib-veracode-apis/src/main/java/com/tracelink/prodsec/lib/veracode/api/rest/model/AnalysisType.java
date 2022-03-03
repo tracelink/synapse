@@ -64,11 +64,6 @@ public class AnalysisType {
 	@SerializedName("version")
 	private String version = null;
 
-	public AnalysisType modules(Module modules) {
-		this.modules = modules;
-		return this;
-	}
-
 	/**
 	 * Get modules
 	 * 
@@ -80,11 +75,6 @@ public class AnalysisType {
 
 	public void setModules(Module modules) {
 		this.modules = modules;
-	}
-
-	public AnalysisType rating(String rating) {
-		this.rating = rating;
-		return this;
 	}
 
 	/**
@@ -100,11 +90,6 @@ public class AnalysisType {
 		this.rating = rating;
 	}
 
-	public AnalysisType score(Long score) {
-		this.score = score;
-		return this;
-	}
-
 	/**
 	 * Numeric security score for this application.
 	 * 
@@ -116,11 +101,6 @@ public class AnalysisType {
 
 	public void setScore(Long score) {
 		this.score = score;
-	}
-
-	public AnalysisType mitigatedRating(String mitigatedRating) {
-		this.mitigatedRating = mitigatedRating;
-		return this;
 	}
 
 	/**
@@ -137,11 +117,6 @@ public class AnalysisType {
 		this.mitigatedRating = mitigatedRating;
 	}
 
-	public AnalysisType mitigatedScore(Long mitigatedScore) {
-		this.mitigatedScore = mitigatedScore;
-		return this;
-	}
-
 	/**
 	 * Numeric security score for this application, based on mitigated findings.
 	 * 
@@ -153,11 +128,6 @@ public class AnalysisType {
 
 	public void setMitigatedScore(Long mitigatedScore) {
 		this.mitigatedScore = mitigatedScore;
-	}
-
-	public AnalysisType submittedDate(String submittedDate) {
-		this.submittedDate = submittedDate;
-		return this;
 	}
 
 	/**
@@ -173,11 +143,6 @@ public class AnalysisType {
 		this.submittedDate = submittedDate;
 	}
 
-	public AnalysisType publishedDate(String publishedDate) {
-		this.publishedDate = publishedDate;
-		return this;
-	}
-
 	/**
 	 * Date when Veracode published the analysis for this application.
 	 * 
@@ -189,11 +154,6 @@ public class AnalysisType {
 
 	public void setPublishedDate(String publishedDate) {
 		this.publishedDate = publishedDate;
-	}
-
-	public AnalysisType nextScanDue(String nextScanDue) {
-		this.nextScanDue = nextScanDue;
-		return this;
 	}
 
 	/**
@@ -210,11 +170,6 @@ public class AnalysisType {
 		this.nextScanDue = nextScanDue;
 	}
 
-	public AnalysisType analysisSizeBytes(BigDecimal analysisSizeBytes) {
-		this.analysisSizeBytes = analysisSizeBytes;
-		return this;
-	}
-
 	/**
 	 * Optional. For a static analysis, the size, in bytes, of the scanned modules.
 	 * 
@@ -226,11 +181,6 @@ public class AnalysisType {
 
 	public void setAnalysisSizeBytes(BigDecimal analysisSizeBytes) {
 		this.analysisSizeBytes = analysisSizeBytes;
-	}
-
-	public AnalysisType engineVersion(String engineVersion) {
-		this.engineVersion = engineVersion;
-		return this;
 	}
 
 	/**
@@ -247,11 +197,6 @@ public class AnalysisType {
 		this.engineVersion = engineVersion;
 	}
 
-	public AnalysisType dynamicScanType(DynamicScanType dynamicScanType) {
-		this.dynamicScanType = dynamicScanType;
-		return this;
-	}
-
 	/**
 	 * Get dynamicScanType
 	 * 
@@ -263,11 +208,6 @@ public class AnalysisType {
 
 	public void setDynamicScanType(DynamicScanType dynamicScanType) {
 		this.dynamicScanType = dynamicScanType;
-	}
-
-	public AnalysisType scanExitStatusId(Long scanExitStatusId) {
-		this.scanExitStatusId = scanExitStatusId;
-		return this;
 	}
 
 	/**
@@ -283,11 +223,6 @@ public class AnalysisType {
 		this.scanExitStatusId = scanExitStatusId;
 	}
 
-	public AnalysisType scanExitStatusDesc(String scanExitStatusDesc) {
-		this.scanExitStatusDesc = scanExitStatusDesc;
-		return this;
-	}
-
 	/**
 	 * Optional. For a dynamic analysis, a description for scan_exit_status_id.
 	 * 
@@ -299,11 +234,6 @@ public class AnalysisType {
 
 	public void setScanExitStatusDesc(String scanExitStatusDesc) {
 		this.scanExitStatusDesc = scanExitStatusDesc;
-	}
-
-	public AnalysisType version(String version) {
-		this.version = version;
-		return this;
 	}
 
 	/**

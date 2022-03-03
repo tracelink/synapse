@@ -28,11 +28,6 @@ public class PagedResourceOfSandbox extends AbstractPagedResources {
 	@SerializedName("_links")
 	private Link links = null;
 
-	public PagedResourceOfSandbox embedded(EmbeddedSandbox embedded) {
-		this.embedded = embedded;
-		return this;
-	}
-
 	/**
 	 * Get embedded
 	 * 
@@ -45,11 +40,6 @@ public class PagedResourceOfSandbox extends AbstractPagedResources {
 
 	public void setEmbedded(EmbeddedSandbox embedded) {
 		this.embedded = embedded;
-	}
-
-	public PagedResourceOfSandbox links(Link links) {
-		this.links = links;
-		return this;
 	}
 
 	/**

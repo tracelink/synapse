@@ -13,7 +13,6 @@
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,6 +61,12 @@ public class ApplicationProfile {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Convert text to BusinessCriticalityEnum
+		 * 
+		 * @param text the text to convert
+		 * @return BusinessCriticalityEnum or null
+		 */
 		public static BusinessCriticalityEnum fromValue(String text) {
 			for (BusinessCriticalityEnum b : BusinessCriticalityEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -71,6 +76,9 @@ public class ApplicationProfile {
 			return null;
 		}
 
+		/**
+		 * Adapter to translate JSON to BusinessCriticalityEnum
+		 */
 		public static class Adapter extends TypeAdapter<BusinessCriticalityEnum> {
 			@Override
 			public void write(final JsonWriter jsonWriter, final BusinessCriticalityEnum enumeration)
@@ -119,11 +127,6 @@ public class ApplicationProfile {
 	@SerializedName("teams")
 	private List<AppTeam> teams = null;
 
-	public ApplicationProfile archerAppName(String archerAppName) {
-		this.archerAppName = archerAppName;
-		return this;
-	}
-
 	/**
 	 * Get archerAppName
 	 * 
@@ -136,11 +139,6 @@ public class ApplicationProfile {
 
 	public void setArcherAppName(String archerAppName) {
 		this.archerAppName = archerAppName;
-	}
-
-	public ApplicationProfile businessCriticality(BusinessCriticalityEnum businessCriticality) {
-		this.businessCriticality = businessCriticality;
-		return this;
 	}
 
 	/**
@@ -157,19 +155,6 @@ public class ApplicationProfile {
 		this.businessCriticality = businessCriticality;
 	}
 
-	public ApplicationProfile businessOwners(List<BusinessOwner> businessOwners) {
-		this.businessOwners = businessOwners;
-		return this;
-	}
-
-	public ApplicationProfile addBusinessOwnersItem(BusinessOwner businessOwnersItem) {
-		if (this.businessOwners == null) {
-			this.businessOwners = new ArrayList<BusinessOwner>();
-		}
-		this.businessOwners.add(businessOwnersItem);
-		return this;
-	}
-
 	/**
 	 * Get businessOwners
 	 * 
@@ -182,11 +167,6 @@ public class ApplicationProfile {
 
 	public void setBusinessOwners(List<BusinessOwner> businessOwners) {
 		this.businessOwners = businessOwners;
-	}
-
-	public ApplicationProfile businessUnit(BusinessUnit businessUnit) {
-		this.businessUnit = businessUnit;
-		return this;
 	}
 
 	/**
@@ -203,19 +183,6 @@ public class ApplicationProfile {
 		this.businessUnit = businessUnit;
 	}
 
-	public ApplicationProfile customFieldValues(List<AppCustomFieldValue> customFieldValues) {
-		this.customFieldValues = customFieldValues;
-		return this;
-	}
-
-	public ApplicationProfile addCustomFieldValuesItem(AppCustomFieldValue customFieldValuesItem) {
-		if (this.customFieldValues == null) {
-			this.customFieldValues = new ArrayList<AppCustomFieldValue>();
-		}
-		this.customFieldValues.add(customFieldValuesItem);
-		return this;
-	}
-
 	/**
 	 * Get customFieldValues
 	 * 
@@ -228,19 +195,6 @@ public class ApplicationProfile {
 
 	public void setCustomFieldValues(List<AppCustomFieldValue> customFieldValues) {
 		this.customFieldValues = customFieldValues;
-	}
-
-	public ApplicationProfile customFields(List<CustomNameValue> customFields) {
-		this.customFields = customFields;
-		return this;
-	}
-
-	public ApplicationProfile addCustomFieldsItem(CustomNameValue customFieldsItem) {
-		if (this.customFields == null) {
-			this.customFields = new ArrayList<CustomNameValue>();
-		}
-		this.customFields.add(customFieldsItem);
-		return this;
 	}
 
 	/**
@@ -257,11 +211,6 @@ public class ApplicationProfile {
 		this.customFields = customFields;
 	}
 
-	public ApplicationProfile description(String description) {
-		this.description = description;
-		return this;
-	}
-
 	/**
 	 * Get description
 	 * 
@@ -274,11 +223,6 @@ public class ApplicationProfile {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public ApplicationProfile name(String name) {
-		this.name = name;
-		return this;
 	}
 
 	/**
@@ -295,19 +239,6 @@ public class ApplicationProfile {
 		this.name = name;
 	}
 
-	public ApplicationProfile policies(List<AppPolicy> policies) {
-		this.policies = policies;
-		return this;
-	}
-
-	public ApplicationProfile addPoliciesItem(AppPolicy policiesItem) {
-		if (this.policies == null) {
-			this.policies = new ArrayList<AppPolicy>();
-		}
-		this.policies.add(policiesItem);
-		return this;
-	}
-
 	/**
 	 * Get policies
 	 * 
@@ -320,11 +251,6 @@ public class ApplicationProfile {
 
 	public void setPolicies(List<AppPolicy> policies) {
 		this.policies = policies;
-	}
-
-	public ApplicationProfile settings(ApplicationSettings settings) {
-		this.settings = settings;
-		return this;
 	}
 
 	/**
@@ -341,11 +267,6 @@ public class ApplicationProfile {
 		this.settings = settings;
 	}
 
-	public ApplicationProfile tags(String tags) {
-		this.tags = tags;
-		return this;
-	}
-
 	/**
 	 * Get tags
 	 * 
@@ -358,19 +279,6 @@ public class ApplicationProfile {
 
 	public void setTags(String tags) {
 		this.tags = tags;
-	}
-
-	public ApplicationProfile teams(List<AppTeam> teams) {
-		this.teams = teams;
-		return this;
-	}
-
-	public ApplicationProfile addTeamsItem(AppTeam teamsItem) {
-		if (this.teams == null) {
-			this.teams = new ArrayList<AppTeam>();
-		}
-		this.teams.add(teamsItem);
-		return this;
 	}
 
 	/**

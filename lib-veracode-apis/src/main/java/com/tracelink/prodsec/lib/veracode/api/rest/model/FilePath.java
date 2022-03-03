@@ -23,11 +23,6 @@ public class FilePath {
 	@SerializedName("value")
 	private String value = null;
 
-	public FilePath value(String value) {
-		this.value = value;
-		return this;
-	}
-
 	/**
 	 * Filepath for the component.
 	 * 

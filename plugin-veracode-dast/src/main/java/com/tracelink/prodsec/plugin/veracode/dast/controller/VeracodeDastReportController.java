@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
 import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastAppService;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastReportService;
 import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import com.tracelink.prodsec.synapse.products.service.ProductsService;
 
@@ -21,17 +20,14 @@ import com.tracelink.prodsec.synapse.products.service.ProductsService;
 @Controller
 @RequestMapping(VeracodeDastPlugin.FLAWS_PAGE)
 @PreAuthorize("hasAuthority('" + VeracodeDastPlugin.FLAWS_VIEWER_PRIVILEGE + "')")
-public class VeracodeDastFlawController {
+public class VeracodeDastReportController {
 
 	private final VeracodeDastAppService appService;
-	private final VeracodeDastReportService reportService;
 	private final ProductsService productsService;
 
-	public VeracodeDastFlawController(@Autowired VeracodeDastAppService appService,
-			@Autowired VeracodeDastReportService reportService,
+	public VeracodeDastReportController(@Autowired VeracodeDastAppService appService,
 			@Autowired ProductsService productsService) {
 		this.appService = appService;
-		this.reportService = reportService;
 		this.productsService = productsService;
 	}
 

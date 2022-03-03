@@ -39,11 +39,6 @@ public class SoftwareCompositionAnalysis {
 	@SerializedName("sca_service_available")
 	private Boolean scaServiceAvailable = null;
 
-	public SoftwareCompositionAnalysis vulnerableComponents(VulnerableComponentList vulnerableComponents) {
-		this.vulnerableComponents = vulnerableComponents;
-		return this;
-	}
-
 	/**
 	 * Get vulnerableComponents
 	 * 
@@ -55,11 +50,6 @@ public class SoftwareCompositionAnalysis {
 
 	public void setVulnerableComponents(VulnerableComponentList vulnerableComponents) {
 		this.vulnerableComponents = vulnerableComponents;
-	}
-
-	public SoftwareCompositionAnalysis thirdPartyComponents(Long thirdPartyComponents) {
-		this.thirdPartyComponents = thirdPartyComponents;
-		return this;
 	}
 
 	/**
@@ -75,11 +65,6 @@ public class SoftwareCompositionAnalysis {
 		this.thirdPartyComponents = thirdPartyComponents;
 	}
 
-	public SoftwareCompositionAnalysis violatePolicy(Boolean violatePolicy) {
-		this.violatePolicy = violatePolicy;
-		return this;
-	}
-
 	/**
 	 * Whether the component violates the security policy.
 	 * 
@@ -91,11 +76,6 @@ public class SoftwareCompositionAnalysis {
 
 	public void setViolatePolicy(Boolean violatePolicy) {
 		this.violatePolicy = violatePolicy;
-	}
-
-	public SoftwareCompositionAnalysis componentsViolatedPolicy(Long componentsViolatedPolicy) {
-		this.componentsViolatedPolicy = componentsViolatedPolicy;
-		return this;
 	}
 
 	/**
@@ -111,11 +91,6 @@ public class SoftwareCompositionAnalysis {
 		this.componentsViolatedPolicy = componentsViolatedPolicy;
 	}
 
-	public SoftwareCompositionAnalysis blacklistedComponents(Long blacklistedComponents) {
-		this.blacklistedComponents = blacklistedComponents;
-		return this;
-	}
-
 	/**
 	 * Number of blacklisted components.
 	 * 
@@ -127,11 +102,6 @@ public class SoftwareCompositionAnalysis {
 
 	public void setBlacklistedComponents(Long blacklistedComponents) {
 		this.blacklistedComponents = blacklistedComponents;
-	}
-
-	public SoftwareCompositionAnalysis scaServiceAvailable(Boolean scaServiceAvailable) {
-		this.scaServiceAvailable = scaServiceAvailable;
-		return this;
 	}
 
 	/**

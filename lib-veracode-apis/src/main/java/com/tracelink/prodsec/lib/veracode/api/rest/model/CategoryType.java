@@ -29,11 +29,6 @@ public class CategoryType {
 	@SerializedName("count")
 	private Long count = null;
 
-	public CategoryType categoryName(String categoryName) {
-		this.categoryName = categoryName;
-		return this;
-	}
-
 	/**
 	 * Name of the severity category.
 	 * 
@@ -47,11 +42,6 @@ public class CategoryType {
 		this.categoryName = categoryName;
 	}
 
-	public CategoryType severity(SeverityEnum severity) {
-		this.severity = severity;
-		return this;
-	}
-
 	/**
 	 * Get severity
 	 * 
@@ -63,11 +53,6 @@ public class CategoryType {
 
 	public void setSeverity(SeverityEnum severity) {
 		this.severity = severity;
-	}
-
-	public CategoryType count(Long count) {
-		this.count = count;
-		return this;
 	}
 
 	/**

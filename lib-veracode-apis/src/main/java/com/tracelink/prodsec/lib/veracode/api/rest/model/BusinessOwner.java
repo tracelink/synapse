@@ -28,11 +28,6 @@ public class BusinessOwner {
 	@SerializedName("name")
 	private String name = null;
 
-	public BusinessOwner email(String email) {
-		this.email = email;
-		return this;
-	}
-
 	/**
 	 * Get email
 	 * 
@@ -45,11 +40,6 @@ public class BusinessOwner {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public BusinessOwner name(String name) {
-		this.name = name;
-		return this;
 	}
 
 	/**

@@ -48,11 +48,6 @@ public class Error {
 		return code;
 	}
 
-	public Error _links(ErrorLinks _links) {
-		this._links = _links;
-		return this;
-	}
-
 	/**
 	 * Get _links
 	 * 

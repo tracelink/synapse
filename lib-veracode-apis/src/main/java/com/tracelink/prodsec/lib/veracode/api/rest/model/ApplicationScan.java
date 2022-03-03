@@ -63,6 +63,12 @@ public class ApplicationScan {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Convert text to ScanTypeEnum
+		 * 
+		 * @param text the text to convert
+		 * @return ScanTypeEnum or null
+		 */
 		public static ScanTypeEnum fromValue(String text) {
 			for (ScanTypeEnum b : ScanTypeEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -72,6 +78,9 @@ public class ApplicationScan {
 			return null;
 		}
 
+		/**
+		 * Adapter to translate JSON to ScanTypeEnum
+		 */
 		public static class Adapter extends TypeAdapter<ScanTypeEnum> {
 			@Override
 			public void write(final JsonWriter jsonWriter, final ScanTypeEnum enumeration) throws IOException {
@@ -200,6 +209,12 @@ public class ApplicationScan {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Convert text to StatusEnum
+		 * 
+		 * @param text the text to convert
+		 * @return StatusEnum or null
+		 */
 		public static StatusEnum fromValue(String text) {
 			for (StatusEnum b : StatusEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -209,6 +224,9 @@ public class ApplicationScan {
 			return null;
 		}
 
+		/**
+		 * Adapter to translate JSON to StatusEnum
+		 */
 		public static class Adapter extends TypeAdapter<StatusEnum> {
 			@Override
 			public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
@@ -225,11 +243,6 @@ public class ApplicationScan {
 
 	@SerializedName("status")
 	private StatusEnum status = null;
-
-	public ApplicationScan internalStatus(String internalStatus) {
-		this.internalStatus = internalStatus;
-		return this;
-	}
 
 	/**
 	 * Get internalStatus
@@ -275,11 +288,6 @@ public class ApplicationScan {
 	@ApiModelProperty(value = "Unique path to the latest scan.")
 	public String getScanUrl() {
 		return scanUrl;
-	}
-
-	public ApplicationScan status(StatusEnum status) {
-		this.status = status;
-		return this;
 	}
 
 	/**

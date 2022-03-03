@@ -37,11 +37,6 @@ public class AppCustomFieldValue {
 	@SerializedName("value")
 	private String value = null;
 
-	public AppCustomFieldValue appCustomFieldName(AppCustomFieldName appCustomFieldName) {
-		this.appCustomFieldName = appCustomFieldName;
-		return this;
-	}
-
 	/**
 	 * Get appCustomFieldName
 	 * 
@@ -68,11 +63,6 @@ public class AppCustomFieldValue {
 		return created;
 	}
 
-	public AppCustomFieldValue fieldNameId(Integer fieldNameId) {
-		this.fieldNameId = fieldNameId;
-		return this;
-	}
-
 	/**
 	 * Get fieldNameId
 	 * 
@@ -87,11 +77,6 @@ public class AppCustomFieldValue {
 		this.fieldNameId = fieldNameId;
 	}
 
-	public AppCustomFieldValue id(Integer id) {
-		this.id = id;
-		return this;
-	}
-
 	/**
 	 * Unique identifier of the category.
 	 * 
@@ -104,11 +89,6 @@ public class AppCustomFieldValue {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public AppCustomFieldValue value(String value) {
-		this.value = value;
-		return this;
 	}
 
 	/**

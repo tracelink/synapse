@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,19 +23,6 @@ import com.google.gson.annotations.SerializedName;
 public class FilePathList {
 	@SerializedName("filePath")
 	private List<FilePath> filePath = null;
-
-	public FilePathList filePath(List<FilePath> filePath) {
-		this.filePath = filePath;
-		return this;
-	}
-
-	public FilePathList addFilePathItem(FilePath filePathItem) {
-		if (this.filePath == null) {
-			this.filePath = new ArrayList<FilePath>();
-		}
-		this.filePath.add(filePathItem);
-		return this;
-	}
 
 	/**
 	 * Get filePath

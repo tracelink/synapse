@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,19 +24,6 @@ import com.google.gson.annotations.SerializedName;
 public class CustomFieldsType {
 	@SerializedName("customfield")
 	private List<CustomFieldType> customfield = null;
-
-	public CustomFieldsType customfield(List<CustomFieldType> customfield) {
-		this.customfield = customfield;
-		return this;
-	}
-
-	public CustomFieldsType addCustomfieldItem(CustomFieldType customfieldItem) {
-		if (this.customfield == null) {
-			this.customfield = new ArrayList<CustomFieldType>();
-		}
-		this.customfield.add(customfieldItem);
-		return this;
-	}
 
 	/**
 	 * List of custom field types associated with the scanned application.

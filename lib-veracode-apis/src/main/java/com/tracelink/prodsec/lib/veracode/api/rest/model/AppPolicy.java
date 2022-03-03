@@ -68,6 +68,12 @@ public class AppPolicy {
 			return String.valueOf(value);
 		}
 
+		/**
+		 * Convert text to PolicyComplianceStatusEnum
+		 * 
+		 * @param text the text to convert
+		 * @return PolicyComplianceStatusEnum or null
+		 */
 		public static PolicyComplianceStatusEnum fromValue(String text) {
 			for (PolicyComplianceStatusEnum b : PolicyComplianceStatusEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -77,6 +83,9 @@ public class AppPolicy {
 			return null;
 		}
 
+		/**
+		 * Adapter to translate JSON to PolicyComplianceStatusEnum
+		 */
 		public static class Adapter extends TypeAdapter<PolicyComplianceStatusEnum> {
 			@Override
 			public void write(final JsonWriter jsonWriter, final PolicyComplianceStatusEnum enumeration)
@@ -95,11 +104,6 @@ public class AppPolicy {
 	@SerializedName("policy_compliance_status")
 	private PolicyComplianceStatusEnum policyComplianceStatus = null;
 
-	public AppPolicy guid(String guid) {
-		this.guid = guid;
-		return this;
-	}
-
 	/**
 	 * Get guid
 	 * 
@@ -112,11 +116,6 @@ public class AppPolicy {
 
 	public void setGuid(String guid) {
 		this.guid = guid;
-	}
-
-	public AppPolicy isDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
-		return this;
 	}
 
 	/**

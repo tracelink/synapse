@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,19 +23,6 @@ import com.google.gson.annotations.SerializedName;
 public class VulnerableComponentList {
 	@SerializedName("component")
 	private List<Component> component = null;
-
-	public VulnerableComponentList component(List<Component> component) {
-		this.component = component;
-		return this;
-	}
-
-	public VulnerableComponentList addComponentItem(Component componentItem) {
-		if (this.component == null) {
-			this.component = new ArrayList<Component>();
-		}
-		this.component.add(componentItem);
-		return this;
-	}
 
 	/**
 	 * Get component

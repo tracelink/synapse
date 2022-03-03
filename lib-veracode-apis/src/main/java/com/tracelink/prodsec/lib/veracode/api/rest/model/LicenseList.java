@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,19 +23,6 @@ import com.google.gson.annotations.SerializedName;
 public class LicenseList {
 	@SerializedName("license")
 	private List<License> license = null;
-
-	public LicenseList license(List<License> license) {
-		this.license = license;
-		return this;
-	}
-
-	public LicenseList addLicenseItem(License licenseItem) {
-		if (this.license == null) {
-			this.license = new ArrayList<License>();
-		}
-		this.license.add(licenseItem);
-		return this;
-	}
 
 	/**
 	 * Get license

@@ -26,11 +26,6 @@ public class CustomFieldType {
 	@SerializedName("value")
 	private String value = null;
 
-	public CustomFieldType name(String name) {
-		this.name = name;
-		return this;
-	}
-
 	/**
 	 * Name of the custom field.
 	 * 
@@ -42,11 +37,6 @@ public class CustomFieldType {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public CustomFieldType value(String value) {
-		this.value = value;
-		return this;
 	}
 
 	/**

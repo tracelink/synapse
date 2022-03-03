@@ -24,11 +24,6 @@ public class LinkSelf {
 	@SerializedName("href")
 	private String href = null;
 
-	public LinkSelf href(String href) {
-		this.href = href;
-		return this;
-	}
-
 	/**
 	 * Endpoint for the current request.
 	 * 

@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,19 +28,6 @@ public class SeverityType {
 	@SerializedName("level")
 	private Integer level = null;
 
-	public SeverityType category(List<CategoryType> category) {
-		this.category = category;
-		return this;
-	}
-
-	public SeverityType addCategoryItem(CategoryType categoryItem) {
-		if (this.category == null) {
-			this.category = new ArrayList<CategoryType>();
-		}
-		this.category.add(categoryItem);
-		return this;
-	}
-
 	/**
 	 * Category of findings with one per category for which there is at least one
 	 * finding.
@@ -54,11 +40,6 @@ public class SeverityType {
 
 	public void setCategory(List<CategoryType> category) {
 		this.category = category;
-	}
-
-	public SeverityType level(Integer level) {
-		this.level = level;
-		return this;
 	}
 
 	/**

@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,19 +23,6 @@ import com.google.gson.annotations.SerializedName;
 public class ViolatedRuleList {
 	@SerializedName("policy_rule")
 	private List<PolicyRule> policyRule = null;
-
-	public ViolatedRuleList policyRule(List<PolicyRule> policyRule) {
-		this.policyRule = policyRule;
-		return this;
-	}
-
-	public ViolatedRuleList addPolicyRuleItem(PolicyRule policyRuleItem) {
-		if (this.policyRule == null) {
-			this.policyRule = new ArrayList<PolicyRule>();
-		}
-		this.policyRule.add(policyRuleItem);
-		return this;
-	}
 
 	/**
 	 * Get policyRule

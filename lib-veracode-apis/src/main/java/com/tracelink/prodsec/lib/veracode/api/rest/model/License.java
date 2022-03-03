@@ -32,11 +32,6 @@ public class License {
 	@SerializedName("risk_rating")
 	private String riskRating = null;
 
-	public License name(String name) {
-		this.name = name;
-		return this;
-	}
-
 	/**
 	 * Name of this license.
 	 * 
@@ -48,11 +43,6 @@ public class License {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public License spdxId(String spdxId) {
-		this.spdxId = spdxId;
-		return this;
 	}
 
 	/**
@@ -69,11 +59,6 @@ public class License {
 		this.spdxId = spdxId;
 	}
 
-	public License licenseUrl(String licenseUrl) {
-		this.licenseUrl = licenseUrl;
-		return this;
-	}
-
 	/**
 	 * URL for this license.
 	 * 
@@ -85,11 +70,6 @@ public class License {
 
 	public void setLicenseUrl(String licenseUrl) {
 		this.licenseUrl = licenseUrl;
-	}
-
-	public License riskRating(String riskRating) {
-		this.riskRating = riskRating;
-		return this;
 	}
 
 	/**

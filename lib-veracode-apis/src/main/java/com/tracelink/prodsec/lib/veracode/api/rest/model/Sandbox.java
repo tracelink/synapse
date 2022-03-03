@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,11 +53,6 @@ public class Sandbox {
 	@SerializedName("owner_username")
 	private String ownerUsername = null;
 
-	public Sandbox applicationGuid(String applicationGuid) {
-		this.applicationGuid = applicationGuid;
-		return this;
-	}
-
 	/**
 	 * Get applicationGuid
 	 * 
@@ -71,11 +65,6 @@ public class Sandbox {
 
 	public void setApplicationGuid(String applicationGuid) {
 		this.applicationGuid = applicationGuid;
-	}
-
-	public Sandbox autoRecreate(Boolean autoRecreate) {
-		this.autoRecreate = autoRecreate;
-		return this;
 	}
 
 	/**
@@ -102,19 +91,6 @@ public class Sandbox {
 	@ApiModelProperty(value = "The date and time when the sandbox was created. The date/time format is per RFC3339 and ISO-8601, and the timezone is UTC. Example: 2019-04-12T23:20:50.52Z.")
 	public String getCreated() {
 		return created;
-	}
-
-	public Sandbox customFields(List<CustomNameValue> customFields) {
-		this.customFields = customFields;
-		return this;
-	}
-
-	public Sandbox addCustomFieldsItem(CustomNameValue customFieldsItem) {
-		if (this.customFields == null) {
-			this.customFields = new ArrayList<CustomNameValue>();
-		}
-		this.customFields.add(customFieldsItem);
-		return this;
 	}
 
 	/**
@@ -163,11 +139,6 @@ public class Sandbox {
 		return modified;
 	}
 
-	public Sandbox name(String name) {
-		this.name = name;
-		return this;
-	}
-
 	/**
 	 * The sandbox name
 	 * 
@@ -182,11 +153,6 @@ public class Sandbox {
 		this.name = name;
 	}
 
-	public Sandbox organizationId(Integer organizationId) {
-		this.organizationId = organizationId;
-		return this;
-	}
-
 	/**
 	 * Get organizationId
 	 * 
@@ -199,11 +165,6 @@ public class Sandbox {
 
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
-	}
-
-	public Sandbox ownerUsername(String ownerUsername) {
-		this.ownerUsername = ownerUsername;
-		return this;
 	}
 
 	/**

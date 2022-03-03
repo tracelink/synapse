@@ -34,11 +34,6 @@ public class PageMetadata {
 	@SerializedName("total_pages")
 	private Long totalPages = null;
 
-	public PageMetadata number(Long number) {
-		this.number = number;
-		return this;
-	}
-
 	/**
 	 * Get number
 	 * 
@@ -51,11 +46,6 @@ public class PageMetadata {
 
 	public void setNumber(Long number) {
 		this.number = number;
-	}
-
-	public PageMetadata size(Long size) {
-		this.size = size;
-		return this;
 	}
 
 	/**
@@ -72,11 +62,6 @@ public class PageMetadata {
 		this.size = size;
 	}
 
-	public PageMetadata totalElements(Long totalElements) {
-		this.totalElements = totalElements;
-		return this;
-	}
-
 	/**
 	 * Get totalElements
 	 * 
@@ -89,11 +74,6 @@ public class PageMetadata {
 
 	public void setTotalElements(Long totalElements) {
 		this.totalElements = totalElements;
-	}
-
-	public PageMetadata totalPages(Long totalPages) {
-		this.totalPages = totalPages;
-		return this;
 	}
 
 	/**

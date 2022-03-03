@@ -11,8 +11,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
-import com.veracode.apiwrapper.wrappers.ResultsAPIWrapper;
-import com.veracode.apiwrapper.wrappers.SandboxAPIWrapper;
 import com.veracode.apiwrapper.wrappers.UploadAPIWrapper;
 
 

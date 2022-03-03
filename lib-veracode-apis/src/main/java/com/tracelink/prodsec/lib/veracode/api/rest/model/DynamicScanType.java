@@ -42,6 +42,12 @@ public enum DynamicScanType {
 		return String.valueOf(value);
 	}
 
+	/**
+	 * Convert text to DynamicScanType
+	 * 
+	 * @param input the text to convert
+	 * @return DynamicScanType or null
+	 */
 	public static DynamicScanType fromValue(String input) {
 		for (DynamicScanType b : DynamicScanType.values()) {
 			if (b.value.equals(input)) {
@@ -51,6 +57,9 @@ public enum DynamicScanType {
 		return null;
 	}
 
+	/**
+	 * Adapter to translate JSON to DynamicScanType
+	 */
 	public static class Adapter extends TypeAdapter<DynamicScanType> {
 		@Override
 		public void write(final JsonWriter jsonWriter, final DynamicScanType enumeration) throws IOException {

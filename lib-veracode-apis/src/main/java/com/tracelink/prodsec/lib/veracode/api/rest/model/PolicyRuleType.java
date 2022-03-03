@@ -43,6 +43,12 @@ public enum PolicyRuleType {
 		return String.valueOf(value);
 	}
 
+	/**
+	 * Convert text to PolicyRuleType
+	 * 
+	 * @param input the text to convert
+	 * @return PolicyRuleType or null
+	 */
 	public static PolicyRuleType fromValue(String input) {
 		for (PolicyRuleType b : PolicyRuleType.values()) {
 			if (b.value.equals(input)) {
@@ -52,6 +58,9 @@ public enum PolicyRuleType {
 		return null;
 	}
 
+	/**
+	 * Adapter to translate JSON to PolicyRuleType
+	 */
 	public static class Adapter extends TypeAdapter<PolicyRuleType> {
 		@Override
 		public void write(final JsonWriter jsonWriter, final PolicyRuleType enumeration) throws IOException {

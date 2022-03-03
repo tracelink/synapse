@@ -24,11 +24,6 @@ public class ErrorLinks {
 	@SerializedName("help")
 	private Link help = null;
 
-	public ErrorLinks help(Link help) {
-		this.help = help;
-		return this;
-	}
-
 	/**
 	 * Get help
 	 * 

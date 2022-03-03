@@ -67,10 +67,9 @@ public class VeracodeDastUpdateServiceTest {
 		profile.setName(appName);
 		app.setId(appId);
 		app.setProfile(profile);
-		embedApp.addApplicationsItem(app);
+		embedApp.setApplications(Arrays.asList(app));
 		pageApp.setEmbedded(embedApp);
-		BDDMockito.when(mockApiClient.getRestApplications(ScanTypeEnum.DYNAMIC, 0))
-				.thenReturn(pageApp);
+		BDDMockito.when(mockApiClient.getRestApplications(ScanTypeEnum.DYNAMIC, 0)).thenReturn(pageApp);
 
 		// setup builds
 		long buildId = 789L;
@@ -112,13 +111,13 @@ public class VeracodeDastUpdateServiceTest {
 		BDDMockito.when(mockApiClient.getRestSummaryReport(BDDMockito.anyString(), BDDMockito.anyString()))
 				.thenReturn(report);
 
-		BDDMockito.given(mockAppService.save(BDDMockito.any())).willAnswer(c->c.getArgument(0));
-		
+		BDDMockito.given(mockAppService.save(BDDMockito.any())).willAnswer(c -> c.getArgument(0));
+
 		updateService.syncData(SyncType.RECENT);
-		
+
 		ArgumentCaptor<VeracodeDastReportModel> reportCaptor = ArgumentCaptor.forClass(VeracodeDastReportModel.class);
 		BDDMockito.verify(mockReportService).save(reportCaptor.capture());
-		
+
 		VeracodeDastReportModel reportModel = reportCaptor.getValue();
 		MatcherAssert.assertThat(reportModel.getAnalysisId(), Matchers.is(analysisId));
 		MatcherAssert.assertThat(reportModel.getTotalFlaws(), Matchers.is(totalFlaws));

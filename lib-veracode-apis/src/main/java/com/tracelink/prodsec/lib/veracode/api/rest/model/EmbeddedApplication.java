@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,19 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 public class EmbeddedApplication {
 	@SerializedName("applications")
 	private List<Application> applications = null;
-
-	public EmbeddedApplication applications(List<Application> applications) {
-		this.applications = applications;
-		return this;
-	}
-
-	public EmbeddedApplication addApplicationsItem(Application applicationsItem) {
-		if (this.applications == null) {
-			this.applications = new ArrayList<Application>();
-		}
-		this.applications.add(applicationsItem);
-		return this;
-	}
 
 	/**
 	 * Get applications

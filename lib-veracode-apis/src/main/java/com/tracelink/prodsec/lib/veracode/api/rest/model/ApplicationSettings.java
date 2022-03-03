@@ -34,11 +34,6 @@ public class ApplicationSettings {
 	@SerializedName("static_scan_dependencies_allowed")
 	private Boolean staticScanDependenciesAllowed = null;
 
-	public ApplicationSettings dynamicScanApprovalNotRequired(Boolean dynamicScanApprovalNotRequired) {
-		this.dynamicScanApprovalNotRequired = dynamicScanApprovalNotRequired;
-		return this;
-	}
-
 	/**
 	 * Get dynamicScanApprovalNotRequired
 	 * 
@@ -51,11 +46,6 @@ public class ApplicationSettings {
 
 	public void setDynamicScanApprovalNotRequired(Boolean dynamicScanApprovalNotRequired) {
 		this.dynamicScanApprovalNotRequired = dynamicScanApprovalNotRequired;
-	}
-
-	public ApplicationSettings nextdayConsultationAllowed(Boolean nextdayConsultationAllowed) {
-		this.nextdayConsultationAllowed = nextdayConsultationAllowed;
-		return this;
 	}
 
 	/**
@@ -72,11 +62,6 @@ public class ApplicationSettings {
 		this.nextdayConsultationAllowed = nextdayConsultationAllowed;
 	}
 
-	public ApplicationSettings scaEnabled(Boolean scaEnabled) {
-		this.scaEnabled = scaEnabled;
-		return this;
-	}
-
 	/**
 	 * Get scaEnabled
 	 * 
@@ -89,11 +74,6 @@ public class ApplicationSettings {
 
 	public void setScaEnabled(Boolean scaEnabled) {
 		this.scaEnabled = scaEnabled;
-	}
-
-	public ApplicationSettings staticScanDependenciesAllowed(Boolean staticScanDependenciesAllowed) {
-		this.staticScanDependenciesAllowed = staticScanDependenciesAllowed;
-		return this;
 	}
 
 	/**

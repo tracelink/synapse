@@ -51,6 +51,12 @@ public class IssueSummary {
 		 * @param text the value to get the issue status for
 		 * @return the issue status
 		 */
+		/**
+		 * Convert text to IssueStatusEnum
+		 * 
+		 * @param text the text to convert
+		 * @return IssueStatusEnum or null
+		 */
 		public static IssueStatusEnum fromValue(String text) {
 			for (IssueStatusEnum b : IssueStatusEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -62,6 +68,9 @@ public class IssueSummary {
 
 		/**
 		 * An adapter class to handle JSON translation of the {@link IssueStatusEnum}.
+		 */
+		/**
+		 * Adapter to translate JSON to IssueStatusEnum
 		 */
 		public static class Adapter extends TypeAdapter<IssueStatusEnum> {
 
@@ -109,6 +118,12 @@ public class IssueSummary {
 		 * @param text the value to get the issue type for
 		 * @return the issue type
 		 */
+		/**
+		 * Convert text to IssueTypeEnum
+		 * 
+		 * @param text the text to convert
+		 * @return IssueTypeEnum or null
+		 */
 		public static IssueTypeEnum fromValue(String text) {
 			for (IssueTypeEnum b : IssueTypeEnum.values()) {
 				if (String.valueOf(b.value).equals(text)) {
@@ -120,6 +135,9 @@ public class IssueSummary {
 
 		/**
 		 * An adapter class to handle JSON translation of the {@link IssueTypeEnum}.
+		 */
+		/**
+		 * Adapter to translate JSON to IssueTypeEnum
 		 */
 		public static class Adapter extends TypeAdapter<IssueTypeEnum> {
 

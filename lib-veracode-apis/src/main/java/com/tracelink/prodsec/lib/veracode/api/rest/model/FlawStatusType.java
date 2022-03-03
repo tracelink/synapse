@@ -62,11 +62,6 @@ public class FlawStatusType {
 	@SerializedName("total-reviewed-mitigations")
 	private Long totalReviewedMitigations = null;
 
-	public FlawStatusType _new(Long _new) {
-		this._new = _new;
-		return this;
-	}
-
 	/**
 	 * Number of findings discovered during the first build of this application.
 	 * 
@@ -78,11 +73,6 @@ public class FlawStatusType {
 
 	public void setNew(Long _new) {
 		this._new = _new;
-	}
-
-	public FlawStatusType reopen(Long reopen) {
-		this.reopen = reopen;
-		return this;
 	}
 
 	/**
@@ -100,11 +90,6 @@ public class FlawStatusType {
 		this.reopen = reopen;
 	}
 
-	public FlawStatusType open(Long open) {
-		this.open = open;
-		return this;
-	}
-
 	/**
 	 * Number of findings discovered in this build that Veracode also discovered in
 	 * the build immediately prior to this build.
@@ -117,11 +102,6 @@ public class FlawStatusType {
 
 	public void setOpen(Long open) {
 		this.open = open;
-	}
-
-	public FlawStatusType fixed(Long fixed) {
-		this.fixed = fixed;
-		return this;
 	}
 
 	/**
@@ -139,11 +119,6 @@ public class FlawStatusType {
 		this.fixed = fixed;
 	}
 
-	public FlawStatusType total(Long total) {
-		this.total = total;
-		return this;
-	}
-
 	/**
 	 * Total number of findings discovered in this build.
 	 * 
@@ -157,11 +132,6 @@ public class FlawStatusType {
 		this.total = total;
 	}
 
-	public FlawStatusType notMitigated(Long notMitigated) {
-		this.notMitigated = notMitigated;
-		return this;
-	}
-
 	/**
 	 * Total number of findings discovered in this build that are not mitigated.
 	 * 
@@ -173,11 +143,6 @@ public class FlawStatusType {
 
 	public void setNotMitigated(Long notMitigated) {
 		this.notMitigated = notMitigated;
-	}
-
-	public FlawStatusType sev1Change(Long sev1Change) {
-		this.sev1Change = sev1Change;
-		return this;
 	}
 
 	/**
@@ -194,11 +159,6 @@ public class FlawStatusType {
 		this.sev1Change = sev1Change;
 	}
 
-	public FlawStatusType sev2Change(Long sev2Change) {
-		this.sev2Change = sev2Change;
-		return this;
-	}
-
 	/**
 	 * Number of severity-2 findings discvoered in this build, minus the number of
 	 * severity-2 findings discovered in the build immediately prior to this build.
@@ -211,11 +171,6 @@ public class FlawStatusType {
 
 	public void setSev2Change(Long sev2Change) {
 		this.sev2Change = sev2Change;
-	}
-
-	public FlawStatusType sev3Change(Long sev3Change) {
-		this.sev3Change = sev3Change;
-		return this;
 	}
 
 	/**
@@ -232,11 +187,6 @@ public class FlawStatusType {
 		this.sev3Change = sev3Change;
 	}
 
-	public FlawStatusType sev4Change(Long sev4Change) {
-		this.sev4Change = sev4Change;
-		return this;
-	}
-
 	/**
 	 * Number of severity-4 findings discvoered in this build, minus the number of
 	 * severity-4 findings discovered in the build immediately prior to this build.
@@ -249,11 +199,6 @@ public class FlawStatusType {
 
 	public void setSev4Change(Long sev4Change) {
 		this.sev4Change = sev4Change;
-	}
-
-	public FlawStatusType sev5Change(Long sev5Change) {
-		this.sev5Change = sev5Change;
-		return this;
 	}
 
 	/**
@@ -270,11 +215,6 @@ public class FlawStatusType {
 		this.sev5Change = sev5Change;
 	}
 
-	public FlawStatusType conformsToGuidelines(Long conformsToGuidelines) {
-		this.conformsToGuidelines = conformsToGuidelines;
-		return this;
-	}
-
 	/**
 	 * Number of mitigations that adhere to your risk tolerance guidelines based on
 	 * Veracode review.
@@ -289,11 +229,6 @@ public class FlawStatusType {
 		this.conformsToGuidelines = conformsToGuidelines;
 	}
 
-	public FlawStatusType deviatesFromGuidelines(Long deviatesFromGuidelines) {
-		this.deviatesFromGuidelines = deviatesFromGuidelines;
-		return this;
-	}
-
 	/**
 	 * Number of mitigations that either do not provide enough information or do not
 	 * adhere to your the risk tolerance guidelines, based on Veracode review.
@@ -306,11 +241,6 @@ public class FlawStatusType {
 
 	public void setDeviatesFromGuidelines(Long deviatesFromGuidelines) {
 		this.deviatesFromGuidelines = deviatesFromGuidelines;
-	}
-
-	public FlawStatusType totalReviewedMitigations(Long totalReviewedMitigations) {
-		this.totalReviewedMitigations = totalReviewedMitigations;
-		return this;
 	}
 
 	/**

@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,19 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 public class EmbeddedSandbox {
 	@SerializedName("sandboxes")
 	private List<Sandbox> sandboxes = null;
-
-	public EmbeddedSandbox sandboxes(List<Sandbox> sandboxes) {
-		this.sandboxes = sandboxes;
-		return this;
-	}
-
-	public EmbeddedSandbox addSandboxesItem(Sandbox sandboxesItem) {
-		if (this.sandboxes == null) {
-			this.sandboxes = new ArrayList<Sandbox>();
-		}
-		this.sandboxes.add(sandboxesItem);
-		return this;
-	}
 
 	/**
 	 * Get sandboxes

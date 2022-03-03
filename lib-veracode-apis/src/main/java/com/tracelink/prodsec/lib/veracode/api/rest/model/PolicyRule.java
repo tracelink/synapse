@@ -29,11 +29,6 @@ public class PolicyRule {
 	@SerializedName("desc")
 	private String desc = null;
 
-	public PolicyRule type(PolicyRuleType type) {
-		this.type = type;
-		return this;
-	}
-
 	/**
 	 * Get type
 	 * 
@@ -47,11 +42,6 @@ public class PolicyRule {
 		this.type = type;
 	}
 
-	public PolicyRule value(String value) {
-		this.value = value;
-		return this;
-	}
-
 	/**
 	 * SCA policy type.
 	 * 
@@ -63,11 +53,6 @@ public class PolicyRule {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public PolicyRule desc(String desc) {
-		this.desc = desc;
-		return this;
 	}
 
 	/**

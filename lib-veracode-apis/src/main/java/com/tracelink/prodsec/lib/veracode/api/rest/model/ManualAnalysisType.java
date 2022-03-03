@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,11 +42,6 @@ public class ManualAnalysisType {
 	@SerializedName("next_scan_due")
 	private String nextScanDue = null;
 
-	public ManualAnalysisType ciaAdjustment(Long ciaAdjustment) {
-		this.ciaAdjustment = ciaAdjustment;
-		return this;
-	}
-
 	/**
 	 * For Manual Penetration Testing, the CIA triad that Veracode applied to the
 	 * security score.
@@ -60,19 +54,6 @@ public class ManualAnalysisType {
 
 	public void setCiaAdjustment(Long ciaAdjustment) {
 		this.ciaAdjustment = ciaAdjustment;
-	}
-
-	public ManualAnalysisType deliveryConsultant(List<String> deliveryConsultant) {
-		this.deliveryConsultant = deliveryConsultant;
-		return this;
-	}
-
-	public ManualAnalysisType addDeliveryConsultantItem(String deliveryConsultantItem) {
-		if (this.deliveryConsultant == null) {
-			this.deliveryConsultant = new ArrayList<String>();
-		}
-		this.deliveryConsultant.add(deliveryConsultantItem);
-		return this;
 	}
 
 	/**
@@ -89,11 +70,6 @@ public class ManualAnalysisType {
 		this.deliveryConsultant = deliveryConsultant;
 	}
 
-	public ManualAnalysisType modules(Module modules) {
-		this.modules = modules;
-		return this;
-	}
-
 	/**
 	 * Get modules
 	 * 
@@ -105,11 +81,6 @@ public class ManualAnalysisType {
 
 	public void setModules(Module modules) {
 		this.modules = modules;
-	}
-
-	public ManualAnalysisType rating(String rating) {
-		this.rating = rating;
-		return this;
 	}
 
 	/**
@@ -125,11 +96,6 @@ public class ManualAnalysisType {
 		this.rating = rating;
 	}
 
-	public ManualAnalysisType score(Long score) {
-		this.score = score;
-		return this;
-	}
-
 	/**
 	 * Numeric score for the security of this application.
 	 * 
@@ -141,11 +107,6 @@ public class ManualAnalysisType {
 
 	public void setScore(Long score) {
 		this.score = score;
-	}
-
-	public ManualAnalysisType nextScanDue(String nextScanDue) {
-		this.nextScanDue = nextScanDue;
-		return this;
 	}
 
 	/**

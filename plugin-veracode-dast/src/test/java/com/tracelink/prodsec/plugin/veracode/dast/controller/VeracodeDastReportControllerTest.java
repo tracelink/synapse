@@ -27,7 +27,7 @@ import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplication.class)
 @AutoConfigureMockMvc
-public class VeracodeDastFlawControllerTest {
+public class VeracodeDastReportControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

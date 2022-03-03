@@ -12,7 +12,6 @@
 
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,11 +78,6 @@ public class Application {
 		return created;
 	}
 
-	public Application guid(String guid) {
-		this.guid = guid;
-		return this;
-	}
-
 	/**
 	 * Get guid
 	 * 
@@ -96,11 +90,6 @@ public class Application {
 
 	public void setGuid(String guid) {
 		this.guid = guid;
-	}
-
-	public Application id(Integer id) {
-		this.id = id;
-		return this;
 	}
 
 	/**
@@ -141,11 +130,6 @@ public class Application {
 		return modified;
 	}
 
-	public Application oid(Integer oid) {
-		this.oid = oid;
-		return this;
-	}
-
 	/**
 	 * Get oid
 	 * 
@@ -160,11 +144,6 @@ public class Application {
 		this.oid = oid;
 	}
 
-	public Application organizationId(Integer organizationId) {
-		this.organizationId = organizationId;
-		return this;
-	}
-
 	/**
 	 * Get organizationId
 	 * 
@@ -177,11 +156,6 @@ public class Application {
 
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
-	}
-
-	public Application profile(ApplicationProfile profile) {
-		this.profile = profile;
-		return this;
 	}
 
 	/**
@@ -206,19 +180,6 @@ public class Application {
 	@ApiModelProperty(value = "Unique path to the latest results.")
 	public String getResultsUrl() {
 		return resultsUrl;
-	}
-
-	public Application scans(List<ApplicationScan> scans) {
-		this.scans = scans;
-		return this;
-	}
-
-	public Application addScansItem(ApplicationScan scansItem) {
-		if (this.scans == null) {
-			this.scans = new ArrayList<ApplicationScan>();
-		}
-		this.scans.add(scansItem);
-		return this;
 	}
 
 	/**

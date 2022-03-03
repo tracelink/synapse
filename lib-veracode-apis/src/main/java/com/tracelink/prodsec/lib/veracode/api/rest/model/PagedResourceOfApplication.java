@@ -28,11 +28,6 @@ public class PagedResourceOfApplication extends AbstractPagedResources {
 	@SerializedName("_links")
 	private Link links = null;
 
-	public PagedResourceOfApplication embedded(EmbeddedApplication embedded) {
-		this.embedded = embedded;
-		return this;
-	}
-
 	/**
 	 * Get embedded
 	 * 
@@ -45,11 +40,6 @@ public class PagedResourceOfApplication extends AbstractPagedResources {
 
 	public void setEmbedded(EmbeddedApplication embedded) {
 		this.embedded = embedded;
-	}
-
-	public PagedResourceOfApplication links(Link links) {
-		this.links = links;
-		return this;
 	}
 
 	/**

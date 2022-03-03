@@ -31,11 +31,6 @@ public class AppTeam {
 	@SerializedName("team_name")
 	private String teamName = null;
 
-	public AppTeam guid(String guid) {
-		this.guid = guid;
-		return this;
-	}
-
 	/**
 	 * The team ID in the Veracode Identity API.
 	 * 

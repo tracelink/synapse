@@ -13,7 +13,6 @@
 package com.tracelink.prodsec.lib.veracode.api.rest.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -149,11 +148,6 @@ public class SummaryReport {
 	@SerializedName("legacy_scan_engine")
 	private Boolean legacyScanEngine = null;
 
-	public SummaryReport staticAnalysis(AnalysisType staticAnalysis) {
-		this.staticAnalysis = staticAnalysis;
-		return this;
-	}
-
 	/**
 	 * Get staticAnalysis
 	 * 
@@ -165,11 +159,6 @@ public class SummaryReport {
 
 	public void setStaticAnalysis(AnalysisType staticAnalysis) {
 		this.staticAnalysis = staticAnalysis;
-	}
-
-	public SummaryReport dynamicAnalysis(AnalysisType dynamicAnalysis) {
-		this.dynamicAnalysis = dynamicAnalysis;
-		return this;
 	}
 
 	/**
@@ -185,11 +174,6 @@ public class SummaryReport {
 		this.dynamicAnalysis = dynamicAnalysis;
 	}
 
-	public SummaryReport manualAnalysis(ManualAnalysisType manualAnalysis) {
-		this.manualAnalysis = manualAnalysis;
-		return this;
-	}
-
 	/**
 	 * Get manualAnalysis
 	 * 
@@ -201,19 +185,6 @@ public class SummaryReport {
 
 	public void setManualAnalysis(ManualAnalysisType manualAnalysis) {
 		this.manualAnalysis = manualAnalysis;
-	}
-
-	public SummaryReport severity(List<SeverityType> severity) {
-		this.severity = severity;
-		return this;
-	}
-
-	public SummaryReport addSeverityItem(SeverityType severityItem) {
-		if (this.severity == null) {
-			this.severity = new ArrayList<SeverityType>();
-		}
-		this.severity.add(severityItem);
-		return this;
 	}
 
 	/**
@@ -229,11 +200,6 @@ public class SummaryReport {
 		this.severity = severity;
 	}
 
-	public SummaryReport flawStatus(FlawStatusType flawStatus) {
-		this.flawStatus = flawStatus;
-		return this;
-	}
-
 	/**
 	 * Get flawStatus
 	 * 
@@ -245,11 +211,6 @@ public class SummaryReport {
 
 	public void setFlawStatus(FlawStatusType flawStatus) {
 		this.flawStatus = flawStatus;
-	}
-
-	public SummaryReport customFields(CustomFieldsType customFields) {
-		this.customFields = customFields;
-		return this;
 	}
 
 	/**
@@ -265,11 +226,6 @@ public class SummaryReport {
 		this.customFields = customFields;
 	}
 
-	public SummaryReport softwareCompositionAnalysis(SoftwareCompositionAnalysis softwareCompositionAnalysis) {
-		this.softwareCompositionAnalysis = softwareCompositionAnalysis;
-		return this;
-	}
-
 	/**
 	 * Get softwareCompositionAnalysis
 	 * 
@@ -281,11 +237,6 @@ public class SummaryReport {
 
 	public void setSoftwareCompositionAnalysis(SoftwareCompositionAnalysis softwareCompositionAnalysis) {
 		this.softwareCompositionAnalysis = softwareCompositionAnalysis;
-	}
-
-	public SummaryReport reportFormatVersion(String reportFormatVersion) {
-		this.reportFormatVersion = reportFormatVersion;
-		return this;
 	}
 
 	/**
@@ -301,11 +252,6 @@ public class SummaryReport {
 		this.reportFormatVersion = reportFormatVersion;
 	}
 
-	public SummaryReport accountId(BigDecimal accountId) {
-		this.accountId = accountId;
-		return this;
-	}
-
 	/**
 	 * ID of the Veracode account.
 	 * 
@@ -317,11 +263,6 @@ public class SummaryReport {
 
 	public void setAccountId(BigDecimal accountId) {
 		this.accountId = accountId;
-	}
-
-	public SummaryReport appName(String appName) {
-		this.appName = appName;
-		return this;
 	}
 
 	/**
@@ -337,11 +278,6 @@ public class SummaryReport {
 		this.appName = appName;
 	}
 
-	public SummaryReport appId(BigDecimal appId) {
-		this.appId = appId;
-		return this;
-	}
-
 	/**
 	 * ID of the scanned application.
 	 * 
@@ -353,11 +289,6 @@ public class SummaryReport {
 
 	public void setAppId(BigDecimal appId) {
 		this.appId = appId;
-	}
-
-	public SummaryReport analysisId(BigDecimal analysisId) {
-		this.analysisId = analysisId;
-		return this;
 	}
 
 	/**
@@ -373,11 +304,6 @@ public class SummaryReport {
 		this.analysisId = analysisId;
 	}
 
-	public SummaryReport staticAnalysisUnitId(BigDecimal staticAnalysisUnitId) {
-		this.staticAnalysisUnitId = staticAnalysisUnitId;
-		return this;
-	}
-
 	/**
 	 * Unit ID for a static analysis.
 	 * 
@@ -389,11 +315,6 @@ public class SummaryReport {
 
 	public void setStaticAnalysisUnitId(BigDecimal staticAnalysisUnitId) {
 		this.staticAnalysisUnitId = staticAnalysisUnitId;
-	}
-
-	public SummaryReport sandboxName(String sandboxName) {
-		this.sandboxName = sandboxName;
-		return this;
 	}
 
 	/**
@@ -409,11 +330,6 @@ public class SummaryReport {
 		this.sandboxName = sandboxName;
 	}
 
-	public SummaryReport sandboxId(BigDecimal sandboxId) {
-		this.sandboxId = sandboxId;
-		return this;
-	}
-
 	/**
 	 * ID of the development sandbox. Not applicable for a policy scan.
 	 * 
@@ -425,11 +341,6 @@ public class SummaryReport {
 
 	public void setSandboxId(BigDecimal sandboxId) {
 		this.sandboxId = sandboxId;
-	}
-
-	public SummaryReport firstBuildSubmittedDate(String firstBuildSubmittedDate) {
-		this.firstBuildSubmittedDate = firstBuildSubmittedDate;
-		return this;
 	}
 
 	/**
@@ -446,11 +357,6 @@ public class SummaryReport {
 		this.firstBuildSubmittedDate = firstBuildSubmittedDate;
 	}
 
-	public SummaryReport version(String version) {
-		this.version = version;
-		return this;
-	}
-
 	/**
 	 * Version label for the application.
 	 * 
@@ -462,11 +368,6 @@ public class SummaryReport {
 
 	public void setVersion(String version) {
 		this.version = version;
-	}
-
-	public SummaryReport buildId(BigDecimal buildId) {
-		this.buildId = buildId;
-		return this;
 	}
 
 	/**
@@ -482,11 +383,6 @@ public class SummaryReport {
 		this.buildId = buildId;
 	}
 
-	public SummaryReport vendor(String vendor) {
-		this.vendor = vendor;
-		return this;
-	}
-
 	/**
 	 * Name of the vendor that provided the application, if applicable.
 	 * 
@@ -498,11 +394,6 @@ public class SummaryReport {
 
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
-	}
-
-	public SummaryReport submitter(String submitter) {
-		this.submitter = submitter;
-		return this;
 	}
 
 	/**
@@ -518,11 +409,6 @@ public class SummaryReport {
 		this.submitter = submitter;
 	}
 
-	public SummaryReport platform(String platform) {
-		this.platform = platform;
-		return this;
-	}
-
 	/**
 	 * Platform of the build for the application.
 	 * 
@@ -534,11 +420,6 @@ public class SummaryReport {
 
 	public void setPlatform(String platform) {
 		this.platform = platform;
-	}
-
-	public SummaryReport businessCriticality(Long businessCriticality) {
-		this.businessCriticality = businessCriticality;
-		return this;
 	}
 
 	/**
@@ -554,11 +435,6 @@ public class SummaryReport {
 		this.businessCriticality = businessCriticality;
 	}
 
-	public SummaryReport generationDate(String generationDate) {
-		this.generationDate = generationDate;
-		return this;
-	}
-
 	/**
 	 * Timestamp when Veracode generated the report.
 	 * 
@@ -570,11 +446,6 @@ public class SummaryReport {
 
 	public void setGenerationDate(String generationDate) {
 		this.generationDate = generationDate;
-	}
-
-	public SummaryReport veracodeLevel(String veracodeLevel) {
-		this.veracodeLevel = veracodeLevel;
-		return this;
 	}
 
 	/**
@@ -591,11 +462,6 @@ public class SummaryReport {
 		this.veracodeLevel = veracodeLevel;
 	}
 
-	public SummaryReport totalFlaws(Long totalFlaws) {
-		this.totalFlaws = totalFlaws;
-		return this;
-	}
-
 	/**
 	 * Total number of discovered findings for the application.
 	 * 
@@ -607,11 +473,6 @@ public class SummaryReport {
 
 	public void setTotalFlaws(Long totalFlaws) {
 		this.totalFlaws = totalFlaws;
-	}
-
-	public SummaryReport flawsNotMitigated(Long flawsNotMitigated) {
-		this.flawsNotMitigated = flawsNotMitigated;
-		return this;
 	}
 
 	/**
@@ -627,11 +488,6 @@ public class SummaryReport {
 		this.flawsNotMitigated = flawsNotMitigated;
 	}
 
-	public SummaryReport teams(String teams) {
-		this.teams = teams;
-		return this;
-	}
-
 	/**
 	 * Teams assigned to this application.
 	 * 
@@ -643,11 +499,6 @@ public class SummaryReport {
 
 	public void setTeams(String teams) {
 		this.teams = teams;
-	}
-
-	public SummaryReport lifeCycleStage(String lifeCycleStage) {
-		this.lifeCycleStage = lifeCycleStage;
-		return this;
 	}
 
 	/**
@@ -664,11 +515,6 @@ public class SummaryReport {
 		this.lifeCycleStage = lifeCycleStage;
 	}
 
-	public SummaryReport plannedDeploymentDate(String plannedDeploymentDate) {
-		this.plannedDeploymentDate = plannedDeploymentDate;
-		return this;
-	}
-
 	/**
 	 * Deployment date for the application, if specified.
 	 * 
@@ -680,11 +526,6 @@ public class SummaryReport {
 
 	public void setPlannedDeploymentDate(String plannedDeploymentDate) {
 		this.plannedDeploymentDate = plannedDeploymentDate;
-	}
-
-	public SummaryReport lastUpdateTime(String lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-		return this;
 	}
 
 	/**
@@ -700,11 +541,6 @@ public class SummaryReport {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
-	public SummaryReport isLatestBuild(Boolean isLatestBuild) {
-		this.isLatestBuild = isLatestBuild;
-		return this;
-	}
-
 	/**
 	 * True if this report is for the most recent build of this application.
 	 * 
@@ -718,11 +554,6 @@ public class SummaryReport {
 		this.isLatestBuild = isLatestBuild;
 	}
 
-	public SummaryReport policyName(String policyName) {
-		this.policyName = policyName;
-		return this;
-	}
-
 	/**
 	 * Name of the security policy assigned to this application.
 	 * 
@@ -734,11 +565,6 @@ public class SummaryReport {
 
 	public void setPolicyName(String policyName) {
 		this.policyName = policyName;
-	}
-
-	public SummaryReport policyVersion(Long policyVersion) {
-		this.policyVersion = policyVersion;
-		return this;
 	}
 
 	/**
@@ -755,11 +581,6 @@ public class SummaryReport {
 		this.policyVersion = policyVersion;
 	}
 
-	public SummaryReport policyComplianceStatus(String policyComplianceStatus) {
-		this.policyComplianceStatus = policyComplianceStatus;
-		return this;
-	}
-
 	/**
 	 * Current policy compliance status for this application. Values are
 	 * Calculating, Did Not Pass, Conditional Pass, or Pass.
@@ -772,11 +593,6 @@ public class SummaryReport {
 
 	public void setPolicyComplianceStatus(String policyComplianceStatus) {
 		this.policyComplianceStatus = policyComplianceStatus;
-	}
-
-	public SummaryReport policyRulesStatus(String policyRulesStatus) {
-		this.policyRulesStatus = policyRulesStatus;
-		return this;
 	}
 
 	/**
@@ -794,11 +610,6 @@ public class SummaryReport {
 		this.policyRulesStatus = policyRulesStatus;
 	}
 
-	public SummaryReport gracePeriodExpired(Boolean gracePeriodExpired) {
-		this.gracePeriodExpired = gracePeriodExpired;
-		return this;
-	}
-
 	/**
 	 * True if findings in the latest analyzed build of this application have
 	 * existed for longer than the allowed grace period.
@@ -811,11 +622,6 @@ public class SummaryReport {
 
 	public void setGracePeriodExpired(Boolean gracePeriodExpired) {
 		this.gracePeriodExpired = gracePeriodExpired;
-	}
-
-	public SummaryReport scanOverdue(String scanOverdue) {
-		this.scanOverdue = scanOverdue;
-		return this;
 	}
 
 	/**
@@ -832,11 +638,6 @@ public class SummaryReport {
 		this.scanOverdue = scanOverdue;
 	}
 
-	public SummaryReport anyTypeScanDue(String anyTypeScanDue) {
-		this.anyTypeScanDue = anyTypeScanDue;
-		return this;
-	}
-
 	/**
 	 * Date to analyze a new build of this application for it to remain in
 	 * compliance with the required scan frequency of the security policy.
@@ -849,11 +650,6 @@ public class SummaryReport {
 
 	public void setAnyTypeScanDue(String anyTypeScanDue) {
 		this.anyTypeScanDue = anyTypeScanDue;
-	}
-
-	public SummaryReport businessOwner(String businessOwner) {
-		this.businessOwner = businessOwner;
-		return this;
 	}
 
 	/**
@@ -869,11 +665,6 @@ public class SummaryReport {
 		this.businessOwner = businessOwner;
 	}
 
-	public SummaryReport businessUnit(String businessUnit) {
-		this.businessUnit = businessUnit;
-		return this;
-	}
-
 	/**
 	 * Department or group associated with this application.
 	 * 
@@ -887,11 +678,6 @@ public class SummaryReport {
 		this.businessUnit = businessUnit;
 	}
 
-	public SummaryReport tags(String tags) {
-		this.tags = tags;
-		return this;
-	}
-
 	/**
 	 * Comma-delimited list of tags associated with this application.
 	 * 
@@ -903,11 +689,6 @@ public class SummaryReport {
 
 	public void setTags(String tags) {
 		this.tags = tags;
-	}
-
-	public SummaryReport legacyScanEngine(Boolean legacyScanEngine) {
-		this.legacyScanEngine = legacyScanEngine;
-		return this;
 	}
 
 	/**

@@ -71,11 +71,6 @@ public class Component {
 	@SerializedName("component_affects_policy_compliance")
 	private String componentAffectsPolicyCompliance = null;
 
-	public Component filePaths(FilePathList filePaths) {
-		this.filePaths = filePaths;
-		return this;
-	}
-
 	/**
 	 * Get filePaths
 	 * 
@@ -87,11 +82,6 @@ public class Component {
 
 	public void setFilePaths(FilePathList filePaths) {
 		this.filePaths = filePaths;
-	}
-
-	public Component licenses(LicenseList licenses) {
-		this.licenses = licenses;
-		return this;
 	}
 
 	/**
@@ -107,11 +97,6 @@ public class Component {
 		this.licenses = licenses;
 	}
 
-	public Component vulnerabilities(VulnerabilityList vulnerabilities) {
-		this.vulnerabilities = vulnerabilities;
-		return this;
-	}
-
 	/**
 	 * Get vulnerabilities
 	 * 
@@ -123,11 +108,6 @@ public class Component {
 
 	public void setVulnerabilities(VulnerabilityList vulnerabilities) {
 		this.vulnerabilities = vulnerabilities;
-	}
-
-	public Component violatedPolicyRules(ViolatedRuleList violatedPolicyRules) {
-		this.violatedPolicyRules = violatedPolicyRules;
-		return this;
 	}
 
 	/**
@@ -143,11 +123,6 @@ public class Component {
 		this.violatedPolicyRules = violatedPolicyRules;
 	}
 
-	public Component componentId(String componentId) {
-		this.componentId = componentId;
-		return this;
-	}
-
 	/**
 	 * ID of the component.
 	 * 
@@ -159,11 +134,6 @@ public class Component {
 
 	public void setComponentId(String componentId) {
 		this.componentId = componentId;
-	}
-
-	public Component fileName(String fileName) {
-		this.fileName = fileName;
-		return this;
 	}
 
 	/**
@@ -179,11 +149,6 @@ public class Component {
 		this.fileName = fileName;
 	}
 
-	public Component sha1(String sha1) {
-		this.sha1 = sha1;
-		return this;
-	}
-
 	/**
 	 * sha1
 	 * 
@@ -197,11 +162,6 @@ public class Component {
 		this.sha1 = sha1;
 	}
 
-	public Component vulnerability(Long vulnerability) {
-		this.vulnerability = vulnerability;
-		return this;
-	}
-
 	/**
 	 * Number of vulnerabilities that Veracode discovered in the component.
 	 * 
@@ -213,11 +173,6 @@ public class Component {
 
 	public void setVulnerability(Long vulnerability) {
 		this.vulnerability = vulnerability;
-	}
-
-	public Component maxCvssScore(String maxCvssScore) {
-		this.maxCvssScore = maxCvssScore;
-		return this;
 	}
 
 	/**
@@ -234,11 +189,6 @@ public class Component {
 		this.maxCvssScore = maxCvssScore;
 	}
 
-	public Component library(String library) {
-		this.library = library;
-		return this;
-	}
-
 	/**
 	 * Library name of the component.
 	 * 
@@ -250,11 +200,6 @@ public class Component {
 
 	public void setLibrary(String library) {
 		this.library = library;
-	}
-
-	public Component version(String version) {
-		this.version = version;
-		return this;
 	}
 
 	/**
@@ -270,11 +215,6 @@ public class Component {
 		this.version = version;
 	}
 
-	public Component vendor(String vendor) {
-		this.vendor = vendor;
-		return this;
-	}
-
 	/**
 	 * Vendor name of the component.
 	 * 
@@ -286,11 +226,6 @@ public class Component {
 
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
-	}
-
-	public Component description(String description) {
-		this.description = description;
-		return this;
 	}
 
 	/**
@@ -306,11 +241,6 @@ public class Component {
 		this.description = description;
 	}
 
-	public Component blacklisted(String blacklisted) {
-		this.blacklisted = blacklisted;
-		return this;
-	}
-
 	/**
 	 * Blacklisted status for the component.
 	 * 
@@ -322,11 +252,6 @@ public class Component {
 
 	public void setBlacklisted(String blacklisted) {
 		this.blacklisted = blacklisted;
-	}
-
-	public Component _new(String _new) {
-		this._new = _new;
-		return this;
 	}
 
 	/**
@@ -342,11 +267,6 @@ public class Component {
 		this._new = _new;
 	}
 
-	public Component addedDate(String addedDate) {
-		this.addedDate = addedDate;
-		return this;
-	}
-
 	/**
 	 * Date when you added the component.
 	 * 
@@ -358,11 +278,6 @@ public class Component {
 
 	public void setAddedDate(String addedDate) {
 		this.addedDate = addedDate;
-	}
-
-	public Component componentAffectsPolicyCompliance(String componentAffectsPolicyCompliance) {
-		this.componentAffectsPolicyCompliance = componentAffectsPolicyCompliance;
-		return this;
 	}
 
 	/**

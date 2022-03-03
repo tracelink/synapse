@@ -62,11 +62,6 @@ public class ModuleType {
 	@SerializedName("domain")
 	private String domain = null;
 
-	public ModuleType name(String name) {
-		this.name = name;
-		return this;
-	}
-
 	/**
 	 * Name of the scanned module. For a dynamic analysis, the name is blank.
 	 * 
@@ -78,11 +73,6 @@ public class ModuleType {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public ModuleType compiler(String compiler) {
-		this.compiler = compiler;
-		return this;
 	}
 
 	/**
@@ -99,11 +89,6 @@ public class ModuleType {
 		this.compiler = compiler;
 	}
 
-	public ModuleType os(String os) {
-		this.os = os;
-		return this;
-	}
-
 	/**
 	 * Operating system for which the scanned module is targetted. For a dynamic
 	 * analysis, the value is blank.
@@ -116,11 +101,6 @@ public class ModuleType {
 
 	public void setOs(String os) {
 		this.os = os;
-	}
-
-	public ModuleType architecture(String architecture) {
-		this.architecture = architecture;
-		return this;
 	}
 
 	/**
@@ -137,11 +117,6 @@ public class ModuleType {
 		this.architecture = architecture;
 	}
 
-	public ModuleType loc(Long loc) {
-		this.loc = loc;
-		return this;
-	}
-
 	/**
 	 * Lines of codes. For a dynamic analysis or non-debug modules, the value is
 	 * blank.
@@ -154,11 +129,6 @@ public class ModuleType {
 
 	public void setLoc(Long loc) {
 		this.loc = loc;
-	}
-
-	public ModuleType score(Long score) {
-		this.score = score;
-		return this;
 	}
 
 	/**
@@ -175,11 +145,6 @@ public class ModuleType {
 		this.score = score;
 	}
 
-	public ModuleType numflawssev0(Long numflawssev0) {
-		this.numflawssev0 = numflawssev0;
-		return this;
-	}
-
 	/**
 	 * Number of severity-0 findings. These findings are the lowest severity and are
 	 * usually informational only.
@@ -192,11 +157,6 @@ public class ModuleType {
 
 	public void setNumflawssev0(Long numflawssev0) {
 		this.numflawssev0 = numflawssev0;
-	}
-
-	public ModuleType numflawssev1(Long numflawssev1) {
-		this.numflawssev1 = numflawssev1;
-		return this;
 	}
 
 	/**
@@ -212,11 +172,6 @@ public class ModuleType {
 		this.numflawssev1 = numflawssev1;
 	}
 
-	public ModuleType numflawssev2(Long numflawssev2) {
-		this.numflawssev2 = numflawssev2;
-		return this;
-	}
-
 	/**
 	 * Number of severity-2 findings.
 	 * 
@@ -228,11 +183,6 @@ public class ModuleType {
 
 	public void setNumflawssev2(Long numflawssev2) {
 		this.numflawssev2 = numflawssev2;
-	}
-
-	public ModuleType numflawssev3(Long numflawssev3) {
-		this.numflawssev3 = numflawssev3;
-		return this;
 	}
 
 	/**
@@ -248,11 +198,6 @@ public class ModuleType {
 		this.numflawssev3 = numflawssev3;
 	}
 
-	public ModuleType numflawssev4(Long numflawssev4) {
-		this.numflawssev4 = numflawssev4;
-		return this;
-	}
-
 	/**
 	 * Number of severity-4 findings.
 	 * 
@@ -264,11 +209,6 @@ public class ModuleType {
 
 	public void setNumflawssev4(Long numflawssev4) {
 		this.numflawssev4 = numflawssev4;
-	}
-
-	public ModuleType numflawssev5(Long numflawssev5) {
-		this.numflawssev5 = numflawssev5;
-		return this;
 	}
 
 	/**
@@ -285,11 +225,6 @@ public class ModuleType {
 		this.numflawssev5 = numflawssev5;
 	}
 
-	public ModuleType targetUrl(String targetUrl) {
-		this.targetUrl = targetUrl;
-		return this;
-	}
-
 	/**
 	 * For a dynamic analysis, the URL for the application you scanned.
 	 * 
@@ -301,11 +236,6 @@ public class ModuleType {
 
 	public void setTargetUrl(String targetUrl) {
 		this.targetUrl = targetUrl;
-	}
-
-	public ModuleType domain(String domain) {
-		this.domain = domain;
-		return this;
 	}
 
 	/**

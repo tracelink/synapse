@@ -42,6 +42,12 @@ public enum SeverityEnum {
 		return String.valueOf(value);
 	}
 
+	/**
+	 * Convert text to SeverityEnum
+	 * 
+	 * @param input the text to convert
+	 * @return SeverityEnum or null
+	 */
 	public static SeverityEnum fromValue(String input) {
 		for (SeverityEnum b : SeverityEnum.values()) {
 			if (b.value.equals(input)) {
@@ -51,6 +57,9 @@ public enum SeverityEnum {
 		return null;
 	}
 
+	/**
+	 * Adapter to translate JSON to SeverityEnum
+	 */
 	public static class Adapter extends TypeAdapter<SeverityEnum> {
 		@Override
 		public void write(final JsonWriter jsonWriter, final SeverityEnum enumeration) throws IOException {
