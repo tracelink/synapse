@@ -49,7 +49,7 @@ public class VeracodeSastDashboardRestController {
 	}
 
 	@GetMapping(value = "reports", params = { "productLine", "period", "category" })
-	public ResponseEntity<Map<String, List<?>>> getFlawsForProductLine(@RequestParam String productLine,
+	public ResponseEntity<Map<String, List<?>>> getReportsForProductLine(@RequestParam String productLine,
 			@RequestParam String period, @RequestParam String category) {
 		List<VeracodeSastAppModel> apps = appService.getMappedApps().stream()
 				.filter(app -> app.getSynapseProject().getOwningProductLine().getName().equals(productLine))
@@ -58,7 +58,7 @@ public class VeracodeSastDashboardRestController {
 	}
 
 	@GetMapping(value = "reports", params = { "projectFilter", "period", "category" })
-	public ResponseEntity<Map<String, List<?>>> getFlawsForFilter(@RequestParam String projectFilter,
+	public ResponseEntity<Map<String, List<?>>> getReportsForFilter(@RequestParam String projectFilter,
 			@RequestParam String period, @RequestParam String category) {
 		List<VeracodeSastAppModel> apps = appService.getMappedApps().stream().filter(app -> app.getSynapseProject()
 				.getFilters().stream().anyMatch(filter -> filter.getName().equals(projectFilter)))
@@ -67,7 +67,7 @@ public class VeracodeSastDashboardRestController {
 	}
 
 	@GetMapping(value = "reports", params = { "project", "period", "category" })
-	public ResponseEntity<Map<String, List<?>>> getFlawsForProject(@RequestParam String project,
+	public ResponseEntity<Map<String, List<?>>> getReportsForProject(@RequestParam String project,
 			@RequestParam String period, @RequestParam String category) {
 		List<VeracodeSastAppModel> apps = appService.getMappedApps().stream()
 				.filter(app -> app.getSynapseProject().getName().equals(project)).collect(Collectors.toList());
