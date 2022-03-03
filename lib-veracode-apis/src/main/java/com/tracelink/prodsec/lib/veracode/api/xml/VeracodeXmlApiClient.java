@@ -10,13 +10,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.AppType;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.Applist;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
 import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.Detailedreport;
 import com.veracode.apiwrapper.wrappers.ResultsAPIWrapper;
 import com.veracode.apiwrapper.wrappers.SandboxAPIWrapper;
 import com.veracode.apiwrapper.wrappers.UploadAPIWrapper;
@@ -30,17 +24,10 @@ import com.veracode.apiwrapper.wrappers.UploadAPIWrapper;
  */
 public class VeracodeXmlApiClient {
 
-	private static final String FLAW_XML_STRING = "<flaw ";
-	private static final int MAX_FLAWS = 500;
 	private UploadAPIWrapper uploadWrapper = new UploadAPIWrapper();
-	private SandboxAPIWrapper sandboxWrapper = new SandboxAPIWrapper();
-	private ResultsAPIWrapper resultsWrapper = new ResultsAPIWrapper();
-
 
 	public VeracodeXmlApiClient(String apiID, String apiKey) {
 		uploadWrapper.setUpApiCredentials(apiID, apiKey);
-		sandboxWrapper.setUpApiCredentials(apiID, apiKey);
-		resultsWrapper.setUpApiCredentials(apiID, apiKey);
 	}
 
 	private <T> T translate(String input, Class<T> target)

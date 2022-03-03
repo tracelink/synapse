@@ -3,10 +3,7 @@ package com.tracelink.prodsec.lib.veracode.xml.api;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -19,33 +16,20 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiClient;
-import com.tracelink.prodsec.lib.veracode.api.xml.VeracodeXmlApiException;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.AppType;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.applist.Applist;
 import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
 import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.CategoryType;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.CweType;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.Detailedreport;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.FlawListType;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.FlawType;
-import com.tracelink.prodsec.lib.veracode.api.xml.data.detailedreport.SeverityType;
 import com.veracode.apiwrapper.AbstractAPIWrapper;
 import com.veracode.http.WebClient;
 
 public class VeracodeXmlApiClientTest {
 
-	private static final String GETAPPLIST = "/api/5.0/getapplist.do";
-
 	private static final String GETBUILDLIST = "/api/5.0/getbuildlist.do";
-
-	private static final String DETAILEDREPORT = "/api/5.0/detailedreport.do";
 
 	@Rule
 	public final WireMockRule wireMockRule = new WireMockRule(WireMockConfiguration.wireMockConfig().dynamicPort());
 
 	private void injectWireMock(VeracodeXmlApiClient client) throws Exception {
-		List<String> wrapperFieldNames = Arrays.asList("uploadWrapper", "sandboxWrapper", "resultsWrapper");
+		List<String> wrapperFieldNames = Arrays.asList("uploadWrapper");
 		for (String fieldName : wrapperFieldNames) {
 			WebClient webClient = getWrappedClient(client, fieldName);
 			webClient.baseAddress = wireMockRule.baseUrl();
