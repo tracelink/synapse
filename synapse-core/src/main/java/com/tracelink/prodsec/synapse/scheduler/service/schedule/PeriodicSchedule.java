@@ -14,6 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class PeriodicSchedule extends DelayedSchedule {
 
 	public PeriodicSchedule(long period, TimeUnit timeUnit) {
-		super(0,period, timeUnit);
+		super(period, 0, timeUnit);
 	}
 }
