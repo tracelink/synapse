@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.2</version>
+		<version>2.6.3</version>
 	</parent>
 
 	<properties>
@@ -102,5 +102,6 @@
 		<module>plugin-veracode-dast</module>
 		<module>plugin-veracode-sast</module>
 		<module>plugin-veracode-sca</module>
+		<module>lib-veracode-apis</module>
 	</modules>
 </project>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.api.ApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastClientConfigRepository;
 
@@ -42,14 +42,14 @@ public class VeracodeDastClientConfigService {
 	 * @return an api client, pre-configured with the current config. Or null if no
 	 *         config exists
 	 */
-	public ApiClient getApiClient() {
+	public VeracodeApiClient getApiClient() {
 		VeracodeDastClientConfigModel config = getClientConfig();
 		if (config == null) {
 			return null;
 		}
-		ApiClient client = new ApiClient();
-		client.setConfig(config);
-		return client;
+		VeracodeApiClient apiClient = new VeracodeApiClient("https://api.veracode.com", config.getApiId(),
+				config.getApiKey());
+		return apiClient;
 	}
 
 	/**

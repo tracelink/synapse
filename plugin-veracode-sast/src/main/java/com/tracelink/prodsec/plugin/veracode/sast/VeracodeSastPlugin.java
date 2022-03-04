@@ -4,11 +4,13 @@ import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastThresholdMod
 import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastAppService;
 import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastThresholdsService;
 import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastUpdateService;
+import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastUpdateService.SyncType;
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
 import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
 import com.tracelink.prodsec.synapse.scheduler.job.SimpleSchedulerJob;
+import com.tracelink.prodsec.synapse.scheduler.service.schedule.DelayedSchedule;
 import com.tracelink.prodsec.synapse.scheduler.service.schedule.PeriodicSchedule;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardValue;
@@ -81,9 +83,12 @@ public class VeracodeSastPlugin extends PluginWithDatabase {
 
 	@Override
 	protected List<SchedulerJob> getJobsForScheduler() {
-		return Arrays.asList(new SimpleSchedulerJob("Veracode SAST Updater")
+		return Arrays.asList(new SimpleSchedulerJob("Veracode SAST Updater - Recents")
 				.onSchedule(new PeriodicSchedule(1, TimeUnit.HOURS)).withJob(
-						updateService::syncAllData));
+						()->updateService.syncData(SyncType.RECENT)),
+				new SimpleSchedulerJob("Veracode SAST Updater - Full Sync")
+				.onSchedule(new DelayedSchedule(30, 30, TimeUnit.DAYS)).withJob(
+						()->updateService.syncData(SyncType.ALL)));
 	}
 
 	@Override

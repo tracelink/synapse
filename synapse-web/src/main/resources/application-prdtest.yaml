@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:32770/synapse #${JDBC_URL}
-    username: synapse #${JDBC_USERNAME}
+    url: jdbc:postgresql://localhost:5432/synapse #${JDBC_URL}
+    username: appsecmaster #${JDBC_USERNAME}
     password: synapse #${JDBC_PASSWORD}
   thymeleaf:
     cache: true

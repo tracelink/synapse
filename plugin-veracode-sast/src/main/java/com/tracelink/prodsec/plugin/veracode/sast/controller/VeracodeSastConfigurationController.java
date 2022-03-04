@@ -1,15 +1,7 @@
 package com.tracelink.prodsec.plugin.veracode.sast.controller;
 
-import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
-import com.tracelink.prodsec.plugin.veracode.sast.api.ApiClient;
-import com.tracelink.prodsec.plugin.veracode.sast.api.VeracodeClientException;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastClientConfigModel;
-import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastClientConfigService;
-import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastThresholdsService;
-import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastUpdateService;
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
+import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastClientConfigModel;
+import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastClientConfigService;
+import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastThresholdsService;
+import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastUpdateService;
+import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastUpdateService.SyncType;
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 
 /**
  * The Veracode SAST configurations controller handles requests to the page for
@@ -71,17 +75,17 @@ public class VeracodeSastConfigurationController {
 
 	@GetMapping("test")
 	public String testConfig(RedirectAttributes redirectAttributes) {
-		ApiClient client = configService.getApiClient();
+		VeracodeApiClient client = configService.getApiClient();
 		if (client == null) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Client has not been configured");
 			return CONFIG_REDIRECT;
 		}
 		try {
-			client.testAccess();
+			configService.getApiClient().testAccess(ScanTypeEnum.STATIC);
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
 					"Client Configured Correctly");
-		} catch (VeracodeClientException e) {
+		} catch (VeracodeApiException e) {
 			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
 					"Client does not have access. Error: " + e.getMessage());
 		}
@@ -97,7 +101,22 @@ public class VeracodeSastConfigurationController {
 			return CONFIG_REDIRECT;
 		}
 
-		CompletableFuture.runAsync(metricsService::syncAllData);
+		CompletableFuture.runAsync(()->metricsService.syncData(SyncType.RECENT));
+		redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
+				"Veracode SAST data fetch in progress.");
+		return CONFIG_REDIRECT;
+	}
+	
+	@PostMapping("sync")
+	public String syncData(RedirectAttributes redirectAttributes) {
+		VeracodeSastClientConfigModel config = configService.getClientConfig();
+		if (config == null) {
+			redirectAttributes.addFlashAttribute(SynapseModelAndView.FAILURE_FLASH,
+					"Client has not been configured");
+			return CONFIG_REDIRECT;
+		}
+
+		CompletableFuture.runAsync(()->metricsService.syncData(SyncType.ALL));
 		redirectAttributes.addFlashAttribute(SynapseModelAndView.SUCCESS_FLASH,
 				"Veracode SAST data fetch in progress.");
 		return CONFIG_REDIRECT;

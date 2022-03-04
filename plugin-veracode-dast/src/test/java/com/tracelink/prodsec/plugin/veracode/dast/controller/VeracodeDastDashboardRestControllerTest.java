@@ -1,17 +1,9 @@
 package com.tracelink.prodsec.plugin.veracode.dast.controller;
 
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
-import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastAppService;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
-import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +15,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
+import com.tracelink.prodsec.plugin.veracode.dast.service.VeracodeDastAppService;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplication.class)
@@ -37,177 +36,97 @@ public class VeracodeDastDashboardRestControllerTest {
 	@MockBean
 	private VeracodeDastAppService mockAppService;
 
-	@Test
-	@WithMockUser
-	public void testGetAllFlawsBySeverity() throws Exception {
-		String period = "last-week";
-		String category = "severity";
+	private String[] periods = { "last-week", "last-four-weeks", "last-six-months", "all-time" };
 
-		LocalDateTime fixedDate = LocalDateTime.now().minusDays(2);
-
-		VeracodeDastAppModel app = new VeracodeDastAppModel();
-		VeracodeDastReportModel report = new VeracodeDastReportModel();
-		report.setReportDate(fixedDate);
-		report.setVeryHighVios(1);
-
-		app.setReports(Arrays.asList(report));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/veracodedast/rest/flaws").param("period", period)
-						.param("category",
-								category))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.['Very High']", Matchers.hasItem(1)));
-	}
+	private String[] categories = { "policy", "flaws", "severity" };
+	private static final long SCORE = 80L;
+	private static final long NUM_FLAWS = 5L;
 
 	@Test
 	@WithMockUser
-	public void testGetAllFlawsBadCategory() throws Exception {
-		String period = "last-week";
-		String category = "foobar";
-
-		VeracodeDastAppModel app = new VeracodeDastAppModel();
-
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/veracodedast/rest/flaws").param("period", period)
-						.param("category",
-								category))
-				.andExpect(MockMvcResultMatchers
-						.jsonPath("$.['error']", Matchers.contains("Unknown categorization")));
-	}
-
-	@Test
-	@WithMockUser
-	public void testGetAllFlawsBySeverityAllTime() throws Exception {
-		String period = "all-time";
-		String category = "severity";
-
-		VeracodeDastAppModel app = new VeracodeDastAppModel();
-		VeracodeDastReportModel report = new VeracodeDastReportModel();
-		report.setReportDate(LocalDateTime.now());
-		report.setVeryHighVios(1);
-		VeracodeDastReportModel report2 = new VeracodeDastReportModel();
-		report2.setReportDate(LocalDateTime.of(2020, 2, 1, 1, 1));
-		report2.setVeryHighVios(1);
-
-		app.setReports(Arrays.asList(report, report2));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/veracodedast/rest/flaws").param("period", period)
-						.param("category",
-								category))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.['labels']", Matchers.hasItem("Feb")));
-	}
-
-	@Test
-	@WithMockUser
-	public void testGetAllFlawsBySeverityAllTimeNoFindings() throws Exception {
-		String period = "all-time";
-		String category = "severity";
-
-		VeracodeDastAppModel app = new VeracodeDastAppModel();
-
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
-		String nowMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMM"));
-		if (LocalDate.now().getMonth().equals(Month.DECEMBER) || LocalDate.now().getMonth()
-				.equals(Month.JANUARY)) {
-			nowMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMM yyyy"));
+	public void testGetAllFlaws() throws Exception {
+		for (String period : periods) {
+			for (String category : categories) {
+				VeracodeDastAppModel app = setupAppForPeriod(period);
+				BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
+				ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/veracodedast/rest/reports")
+						.param("period", period).param("category", category));
+				verify(result, app, category, period);
+			}
 		}
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/veracodedast/rest/flaws").param("period", period)
-						.param("category",
-								category)).andExpect(
-				MockMvcResultMatchers.jsonPath("$.['labels']", Matchers.contains(nowMonth)));
-	}
-
-	@Test
-	@WithMockUser
-	public void testGetAllFlawsBySeverityMultiple() throws Exception {
-		String period = "last-week";
-		String category = "severity";
-
-		LocalDateTime fixedDate = LocalDateTime.now().minusDays(2);
-
-		VeracodeDastAppModel app = new VeracodeDastAppModel();
-		VeracodeDastReportModel report = new VeracodeDastReportModel();
-		report.setReportDate(fixedDate);
-		report.setVeryHighVios(1);
-		VeracodeDastReportModel report2 = new VeracodeDastReportModel();
-		report2.setReportDate(fixedDate);
-		report2.setVeryHighVios(1);
-
-		app.setReports(Arrays.asList(report, report2));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/veracodedast/rest/flaws").param("period", period)
-						.param("category",
-								category))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.['Very High']", Matchers.hasItem(2)));
-	}
-
-	@Test
-	@WithMockUser
-	public void testGetAllFlawsByCweMultiple() throws Exception {
-		String period = "last-week";
-		String category = "cwe";
-
-		LocalDateTime fixedDate = LocalDateTime.now().minusDays(2);
-		VeracodeDastAppModel app = new VeracodeDastAppModel();
-		VeracodeDastReportModel report = new VeracodeDastReportModel();
-		report.setReportDate(fixedDate);
-		report.setVeryHighVios(1);
-
-		String cweName = "testCWE";
-		VeracodeDastFlawModel flaw1 = new VeracodeDastFlawModel();
-		flaw1.setCategoryName(cweName);
-		flaw1.setCount(1);
-		VeracodeDastFlawModel flaw2 = new VeracodeDastFlawModel();
-		flaw2.setCategoryName(cweName);
-		flaw2.setCount(1);
-
-		report.setFlaws(Arrays.asList(flaw1, flaw2));
-		app.setReports(Arrays.asList(report));
-		BDDMockito.when(mockAppService.getAllApps()).thenReturn(Arrays.asList(app));
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/veracodedast/rest/flaws").param("period", period)
-						.param("category",
-								category)).andExpect(
-				MockMvcResultMatchers.jsonPath("$.['" + cweName + "']", Matchers.hasItem(2)));
 	}
 
 	@Test
 	@WithMockUser
 	public void testGetFlawsForProductLine() throws Exception {
-		String synapseProductLine = "testLine";
-		String period = "last-week";
-		String category = "severity";
+		String productLine = "foo";
+		for (String period : periods) {
+			for (String category : categories) {
+				VeracodeDastAppModel app = setupAppForPeriod(period);
+				ProductLineModel productLineModel = new ProductLineModel();
+				productLineModel.setName(productLine);
+				app.setSynapseProductLine(productLineModel);
+				BDDMockito.when(mockAppService.getMappedApps()).thenReturn(Arrays.asList(app));
+				ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/veracodedast/rest/reports")
+						.param("productLine", productLine).param("period", period).param("category", category));
+				verify(result, app, category, period);
+			}
+		}
+	}
 
-		ProductLineModel plm = new ProductLineModel();
-		plm.setName(synapseProductLine);
-
-		ProjectModel proj = new ProjectModel();
-		proj.setOwningProductLine(plm);
-
-		LocalDateTime fixedDate = LocalDateTime.now().minusDays(2);
-
+	private VeracodeDastAppModel setupAppForPeriod(String period) {
 		VeracodeDastAppModel app = new VeracodeDastAppModel();
-		app.setSynapseProductLine(plm);
-		VeracodeDastReportModel report = new VeracodeDastReportModel();
-		report.setReportDate(fixedDate);
-		report.setVeryHighVios(1);
+		app.setReports(new ArrayList<>());
 
-		app.setReports(Arrays.asList(report));
-		BDDMockito.when(mockAppService.getMappedApps()).thenReturn(Arrays.asList(app));
+		switch (period) {
+		case "all-time":
+			VeracodeDastReportModel reportAT = new VeracodeDastReportModel();
+			reportAT.setReportDate(LocalDateTime.now().minusYears(2));
+			reportAT.setScore(SCORE);
+			reportAT.setTotalFlaws(NUM_FLAWS);
+			reportAT.setvHigh(NUM_FLAWS);
+			app.getReports().add(reportAT);
+		case "last-six-months":
+			VeracodeDastReportModel reportSM = new VeracodeDastReportModel();
+			reportSM.setReportDate(LocalDateTime.now().minusMonths(2));
+			reportSM.setScore(SCORE);
+			reportSM.setTotalFlaws(NUM_FLAWS);
+			reportSM.setvHigh(NUM_FLAWS);
+			app.getReports().add(reportSM);
+		case "last-four-weeks":
+			VeracodeDastReportModel reportFW = new VeracodeDastReportModel();
+			reportFW.setReportDate(LocalDateTime.now().minusDays(2 * 7));
+			reportFW.setScore(SCORE);
+			reportFW.setTotalFlaws(NUM_FLAWS);
+			reportFW.setvHigh(NUM_FLAWS);
+			app.getReports().add(reportFW);
+		case "last-week":
+			VeracodeDastReportModel reportLW = new VeracodeDastReportModel();
+			reportLW.setReportDate(LocalDateTime.now().minusDays(2));
+			reportLW.setScore(SCORE);
+			reportLW.setTotalFlaws(NUM_FLAWS);
+			reportLW.setvHigh(NUM_FLAWS);
+			app.getReports().add(reportLW);
+		}
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/veracodedast/rest/flaws")
-				.param("productLine", synapseProductLine)
-				.param("period", period).param("category", category))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.['Very High']", Matchers.hasItem(1)));
+		return app;
+	}
+
+	private void verify(ResultActions result, VeracodeDastAppModel app, String category, String period)
+			throws Exception {
+
+		switch (category) {
+		case "policy":
+			result.andExpect(MockMvcResultMatchers.jsonPath("$['Policy Score']", Matchers.hasItem((double) SCORE)));
+			break;
+		case "flaws":
+			result.andExpect(
+					MockMvcResultMatchers.jsonPath("$['Total Flaws']", Matchers.hasItem(Matchers.greaterThan(0))));
+			break;
+		case "severity":
+			result.andExpect(
+					MockMvcResultMatchers.jsonPath("$['Very High']", Matchers.hasItem(Matchers.greaterThan(0))));
+			break;
+		}
 	}
 }

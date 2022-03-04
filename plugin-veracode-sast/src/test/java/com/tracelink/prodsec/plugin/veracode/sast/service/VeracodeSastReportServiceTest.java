@@ -23,15 +23,12 @@ public class VeracodeSastReportServiceTest {
 	@MockBean
 	private VeracodeSastReportRepository mockReportRepo;
 
-	@MockBean
-	private VeracodeSastFlawService mockFlawService;
-
 	private VeracodeSastReportService reportService;
 	private VeracodeSastAppModel app;
 
 	@Before
 	public void setup() {
-		this.reportService = new VeracodeSastReportService(mockReportRepo, mockFlawService);
+		this.reportService = new VeracodeSastReportService(mockReportRepo);
 		this.app = new VeracodeSastAppModel();
 	}
 
@@ -78,8 +75,6 @@ public class VeracodeSastReportServiceTest {
 				.thenReturn(page);
 
 		reportService.deleteReportsByApp(app);
-		BDDMockito.verify(mockFlawService).deleteFlawsByReport(report1);
-		BDDMockito.verify(mockFlawService).deleteFlawsByReport(report2);
 		BDDMockito.verify(mockReportRepo).deleteByApp(app);
 		BDDMockito.verify(mockReportRepo).flush();
 	}
@@ -100,8 +95,6 @@ public class VeracodeSastReportServiceTest {
 				.thenReturn(page2);
 
 		reportService.deleteReportsByApp(app);
-		BDDMockito.verify(mockFlawService).deleteFlawsByReport(report1);
-		BDDMockito.verify(mockFlawService).deleteFlawsByReport(report2);
 		BDDMockito.verify(mockReportRepo).deleteByApp(app);
 		BDDMockito.verify(mockReportRepo).flush();
 	}

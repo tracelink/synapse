@@ -1,16 +1,7 @@
 package com.tracelink.prodsec.plugin.veracode.sast.controller;
 
-import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
-import com.tracelink.prodsec.plugin.veracode.sast.model.ModelType;
-import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
-import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastAppService;
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
-import com.tracelink.prodsec.synapse.products.service.ProductsService;
-import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 import java.util.Arrays;
+
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +16,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
+import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastAppModel;
+import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastAppService;
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
+import com.tracelink.prodsec.synapse.products.service.ProductsService;
+import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplication.class)
@@ -54,10 +55,8 @@ public class VeracodeSastMappingControllerTest {
 		app.setName("name");
 		app.setProductLineName("productLine");
 		app.setSynapseProject(proj);
-		app.setModelType(ModelType.SBX);
 		VeracodeSastAppModel unmapapp = new VeracodeSastAppModel();
 		unmapapp.setName("foo");
-		unmapapp.setModelType(ModelType.SBX);
 		BDDMockito.when(mockAppService.getMappedApps()).thenReturn(Arrays.asList(app));
 		BDDMockito.when(mockProductsService.getAllProductLines()).thenReturn(Arrays.asList(plm));
 		BDDMockito.when(mockAppService.getUnmappedApps()).thenReturn(Arrays.asList(unmapapp));

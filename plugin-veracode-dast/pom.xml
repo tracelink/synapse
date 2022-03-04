@@ -10,7 +10,6 @@
 	<artifactId>plugin-veracode-dast</artifactId>
 
 	<properties>
-		<veracode.api.wrappers.version>21.5.7.7</veracode.api.wrappers.version>
 		<wiremock.version>2.27.2</wiremock.version>
 	</properties>
 	<dependencies>
@@ -23,20 +22,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.veracode.vosp.api.wrappers</groupId>
-			<artifactId>vosp-api-wrappers-java</artifactId>
-			<version>${veracode.api.wrappers.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-		</dependency>
+		
 
 		<!-- Synapse dependencies -->
 		<dependency>
 			<groupId>com.tracelink.prodsec</groupId>
 			<artifactId>synapse-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tracelink.prodsec</groupId>
+			<artifactId>lib-veracode-apis</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

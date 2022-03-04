@@ -1,9 +1,7 @@
 package com.tracelink.prodsec.plugin.veracode.sca.service;
 
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaThresholdsRepository;
 import java.util.Collections;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +11,10 @@ import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaThresholdsRepository;
 
 @RunWith(SpringRunner.class)
 public class VeracodeScaThresholdsServiceTest {

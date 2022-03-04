@@ -4,32 +4,12 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.mockito.Mockito.times;
 
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.github.tomakehurst.wiremock.matching.StringValuePattern;
-import com.google.gson.Gson;
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
-import com.tracelink.prodsec.plugin.veracode.sca.mock.LoggerRule;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaClientRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.IssueSummaries;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.IssueSummary;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.PageMetadata;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesIssueSummary;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesProject;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.PagedResourcesWorkspace;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Project;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Projects;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Workspace;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Workspaces;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,6 +19,28 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.matching.StringValuePattern;
+import com.google.gson.Gson;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummaries;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PageMetadata;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesIssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesProject;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourcesWorkspace;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Project;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Projects;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspace;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspaces;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
+import com.tracelink.prodsec.plugin.veracode.sca.mock.LoggerRule;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaClientRepository;
 
 @RunWith(SpringRunner.class)
 public class VeracodeScaClientServiceTest {
@@ -77,10 +79,10 @@ public class VeracodeScaClientServiceTest {
 		client.setApiId("abcdef123456");
 		client.setApiSecretKey("abcdef1234567890");
 
-		page.setNumber(0);
-		page.setSize(1);
-		page.setTotalElements(1);
-		page.setTotalPages(1);
+		page.setNumber(0L);
+		page.setSize(1L);
+		page.setTotalElements(1L);
+		page.setTotalPages(1L);
 
 		queryParams.put("page", equalTo("0"));
 		queryParams.put("size", equalTo("50"));

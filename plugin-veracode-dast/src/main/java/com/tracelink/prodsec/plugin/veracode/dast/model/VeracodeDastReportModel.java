@@ -1,7 +1,6 @@
 package com.tracelink.prodsec.plugin.veracode.dast.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.tracelink.prodsec.plugin.veracode.dast.VeracodeDastPlugin;
 
@@ -48,30 +43,35 @@ public class VeracodeDastReportModel {
 	@JoinColumn(name = "app", nullable = false)
 	private VeracodeDastAppModel app;
 
-	@OneToMany(mappedBy = "report", fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<VeracodeDastFlawModel> flaws;
-
-	@Column(name = "very_high_vios")
-	private long veryHighVios;
-
-	@Column(name = "high_vios")
-	private long highVios;
-
-	@Column(name = "med_vios")
-	private long medVios;
-
-	@Column(name = "low_vios")
-	private long lowVios;
-
-	@Column(name = "very_low_vios")
-	private long veryLowVios;
-
-	@Column(name = "info_vios")
-	private long infoVios;
-
 	@Column(name = "policy_score")
 	private long policyScore;
+
+	@Column(name = "unmitigated")
+	private long unmitigated;
+
+	@Column(name = "num_very_high")
+	private long vHigh;
+
+	@Column(name = "num_high")
+	private long high;
+
+	@Column(name = "num_medium")
+	private long medium;
+
+	@Column(name = "num_low")
+	private long low;
+
+	@Column(name = "num_very_low")
+	private long vLow;
+
+	@Column(name = "num_info")
+	private long info;
+
+	@Column(name = "total_flaws")
+	private long totalFlaws;
+
+	@Column(name = "report_coordinates")
+	private String coordinates;
 
 	public long getId() {
 		return id;
@@ -109,63 +109,6 @@ public class VeracodeDastReportModel {
 		this.app = app;
 	}
 
-	public List<VeracodeDastFlawModel> getFlaws() {
-		return this.flaws;
-	}
-
-	public void setFlaws(List<VeracodeDastFlawModel> flaws) {
-		this.flaws = flaws;
-	}
-
-	public long getVeryHighVios() {
-		return veryHighVios;
-	}
-
-	public void setVeryHighVios(long veryHighVios) {
-		this.veryHighVios = veryHighVios;
-	}
-
-	public long getHighVios() {
-		return highVios;
-	}
-
-	public void setHighVios(long highVios) {
-		this.highVios = highVios;
-	}
-
-	public long getMedVios() {
-		return medVios;
-	}
-
-	public void setMedVios(long medVios) {
-		this.medVios = medVios;
-	}
-
-	public long getLowVios() {
-		return lowVios;
-	}
-
-	public void setLowVios(long lowVios) {
-		this.lowVios = lowVios;
-	}
-
-	public long getVeryLowVios() {
-		return veryLowVios;
-	}
-
-	public void setVeryLowVios(long veryLowVios) {
-		this.veryLowVios = veryLowVios;
-	}
-
-	public long getInfoVios() {
-		return infoVios;
-	}
-
-	public void setInfoVios(long infoVios) {
-		this.infoVios = infoVios;
-
-	}
-
 	public void setScore(long score) {
 		policyScore = score;
 	}
@@ -174,8 +117,76 @@ public class VeracodeDastReportModel {
 		return policyScore;
 	}
 
-	public long getVulnerabilitiesCount() {
-		return veryHighVios + highVios + medVios + lowVios + veryLowVios + infoVios;
+	public void setTotalFlaws(Long totalFlaws) {
+		this.totalFlaws = totalFlaws;
+	}
+
+	public long getTotalFlaws() {
+		return this.totalFlaws;
+	}
+
+	public void setUnmitigatedFlaws(Long flawsNotMitigated) {
+		this.unmitigated = flawsNotMitigated;
+	}
+
+	public long getUnmitigatedFlaws() {
+		return this.unmitigated;
+	}
+
+	public long getvHigh() {
+		return vHigh;
+	}
+
+	public void setvHigh(long vHigh) {
+		this.vHigh = vHigh;
+	}
+
+	public long getHigh() {
+		return high;
+	}
+
+	public void setHigh(long high) {
+		this.high = high;
+	}
+
+	public long getMedium() {
+		return medium;
+	}
+
+	public void setMedium(long medium) {
+		this.medium = medium;
+	}
+
+	public long getLow() {
+		return low;
+	}
+
+	public void setLow(long low) {
+		this.low = low;
+	}
+
+	public long getvLow() {
+		return vLow;
+	}
+
+	public void setvLow(long vLow) {
+		this.vLow = vLow;
+	}
+
+	public long getInfo() {
+		return info;
+	}
+
+	public void setInfo(long info) {
+		this.info = info;
+	}
+
+	public String getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
 	}
 
 }

@@ -1,20 +1,22 @@
 package com.tracelink.prodsec.plugin.veracode.sca.service;
 
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaWorkspaceRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Workspace;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspace;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaWorkspaceRepository;
 
 /**
  * Service to store and retrieve data about Veracode SCA workspaces from the {@link

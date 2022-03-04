@@ -1,9 +1,8 @@
 package com.tracelink.prodsec.plugin.veracode.dast.service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
-import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastClientConfigRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastClientConfigModel;
+import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastClientConfigRepository;
 
 @RunWith(SpringRunner.class)
 public class VeracodeDastClientConfigServiceTest {
@@ -41,8 +43,9 @@ public class VeracodeDastClientConfigServiceTest {
 	@Test
 	public void testGetApiClient() {
 		VeracodeDastClientConfigModel config = new VeracodeDastClientConfigModel();
-		config.setApiId("1234");
-		config.setApiKey("5678");
+		config.setApiId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		config.setApiKey(
+				"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		BDDMockito.when(mockClientConfigRepo.findAll()).thenReturn(Arrays.asList(config));
 		Assert.assertNotNull(configService.getApiClient());
 	}
@@ -58,8 +61,7 @@ public class VeracodeDastClientConfigServiceTest {
 		BDDMockito.when(mockClientConfigRepo.findAll()).thenReturn(new ArrayList<>());
 		String apiId = "1234";
 		String apiKey = "5678";
-		BDDMockito.given(mockClientConfigRepo.saveAndFlush(BDDMockito.any()))
-				.willAnswer(e -> e.getArgument(0));
+		BDDMockito.given(mockClientConfigRepo.saveAndFlush(BDDMockito.any())).willAnswer(e -> e.getArgument(0));
 		VeracodeDastClientConfigModel config = configService.setClientConfig(apiId, apiKey);
 		Assert.assertEquals(apiId, config.getApiId());
 		Assert.assertEquals(apiKey, config.getApiKey());
@@ -76,12 +78,20 @@ public class VeracodeDastClientConfigServiceTest {
 		String newApiId = "ABCD";
 		String newApiKey = "EFGH";
 		BDDMockito.when(mockClientConfigRepo.findAll()).thenReturn(Arrays.asList(config));
-		BDDMockito.given(mockClientConfigRepo.saveAndFlush(BDDMockito.any()))
-				.willAnswer(e -> e.getArgument(0));
+		BDDMockito.given(mockClientConfigRepo.saveAndFlush(BDDMockito.any())).willAnswer(e -> e.getArgument(0));
 
-		VeracodeDastClientConfigModel newConfig = configService
-				.setClientConfig(newApiId, newApiKey);
+		VeracodeDastClientConfigModel newConfig = configService.setClientConfig(newApiId, newApiKey);
 		Assert.assertEquals(newApiId, newConfig.getApiId());
 		Assert.assertEquals(newApiKey, newConfig.getApiKey());
+	}
+
+	@Test
+	public void testTestAccess() {
+		VeracodeDastClientConfigModel config = new VeracodeDastClientConfigModel();
+		config.setApiId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		config.setApiKey(
+				"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		BDDMockito.when(mockClientConfigRepo.findAll()).thenReturn(Arrays.asList(config));
+		
 	}
 }

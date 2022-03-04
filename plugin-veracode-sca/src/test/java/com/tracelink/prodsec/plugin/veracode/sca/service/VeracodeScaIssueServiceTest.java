@@ -2,16 +2,6 @@ package com.tracelink.prodsec.plugin.veracode.sca.service;
 
 import static org.mockito.Mockito.times;
 
-import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
-import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueType;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaIssueRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.IssueSummary;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.IssueSummary.IssueStatusEnum;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.IssueSummary.IssueTypeEnum;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.VulnerabilitySummary;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +9,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +18,17 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary.IssueStatusEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary.IssueTypeEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.VulnerabilitySummary;
+import com.tracelink.prodsec.plugin.veracode.sca.mock.VeracodeScaMocks;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
+import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueType;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaIssueRepository;
 
 @RunWith(SpringRunner.class)
 public class VeracodeScaIssueServiceTest {

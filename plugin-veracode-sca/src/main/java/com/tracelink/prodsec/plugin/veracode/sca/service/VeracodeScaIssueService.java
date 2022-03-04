@@ -1,19 +1,21 @@
 package com.tracelink.prodsec.plugin.veracode.sca.service;
 
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
-import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
-import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueType;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaIssueRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.IssueSummary;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tracelink.prodsec.lib.veracode.api.rest.model.IssueSummary;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
+import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
+import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueType;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaIssueRepository;
 
 /**
  * Service to store and retrieve data about Veracode SCA issues from the {@link

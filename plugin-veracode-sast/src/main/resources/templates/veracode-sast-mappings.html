@@ -33,7 +33,7 @@
                                         title="Choose a Veracode App"
                                         data-style="rounded border" data-live-search="true">
                                     <th:block th:each="veracodeApp : ${veracodeApps}">
-                                        <option th:data-content="${veracodeApp.productLineName + ' - ' + veracodeApp.name + ' - ' + veracodeApp.modelType.toString()}"
+                                        <option th:data-content="${veracodeApp.productLineName + ' - ' + veracodeApp.name}"
                                                 th:value="${veracodeApp.id}"/>
                                     </th:block>
                                 </select>
@@ -69,7 +69,6 @@
                                 <th scope="col">Synapse Project</th>
                                 <th scope="col">Veracode Product Line</th>
                                 <th scope="col">Veracode App</th>
-                                <th scope="col">App Type</th>
                                 <th scope="col">Remove Mapping</th>
                             </tr>
                             </thead>
@@ -79,7 +78,6 @@
                                 <td th:text=${app.synapseProject.name}></td>
                                 <td th:text="${app.productLineName}"></td>
                                 <td th:text="${app.name}"></td>
-                                <td th:text="${app.modelType}"></td>
                                 <td>
                                     <form method="POST" action="/veracodesast/mappings/delete">
                                         <input type="hidden" name="app" th:value="${app.id}"/>

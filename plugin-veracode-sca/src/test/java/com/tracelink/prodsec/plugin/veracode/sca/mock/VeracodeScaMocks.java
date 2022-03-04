@@ -1,11 +1,12 @@
 package com.tracelink.prodsec.plugin.veracode.sca.mock;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaIssue;
 import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaProject;
 import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueStatus;
 import com.tracelink.prodsec.plugin.veracode.sca.model.issue.IssueType;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class VeracodeScaMocks {
 

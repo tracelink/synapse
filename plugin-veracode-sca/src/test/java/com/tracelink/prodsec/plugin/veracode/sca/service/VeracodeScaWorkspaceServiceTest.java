@@ -2,15 +2,12 @@ package com.tracelink.prodsec.plugin.veracode.sca.service;
 
 import static org.mockito.Mockito.times;
 
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
-import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaWorkspaceRepository;
-import com.tracelink.prodsec.plugin.veracode.sca.util.model.Workspace;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +20,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Workspace;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaProductException;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaWorkspace;
+import com.tracelink.prodsec.plugin.veracode.sca.repository.VeracodeScaWorkspaceRepository;
 
 @RunWith(SpringRunner.class)
 public class VeracodeScaWorkspaceServiceTest {

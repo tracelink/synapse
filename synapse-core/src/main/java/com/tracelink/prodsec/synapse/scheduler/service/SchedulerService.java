@@ -1,7 +1,5 @@
 package com.tracelink.prodsec.synapse.scheduler.service;
 
-import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
-import com.tracelink.prodsec.synapse.scheduler.model.JobDto;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -9,13 +7,16 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.stereotype.Service;
+
+import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
+import com.tracelink.prodsec.synapse.scheduler.model.JobDto;
 
 /**
  * Handles the business logic to schedule jobs with the Scheduler
@@ -70,7 +71,6 @@ public class SchedulerService {
 		this.externalScheduler.schedule(() -> {
 			LOG.info("Beginning scheduled job '{}' for plugin '{}'", job.getJobName(),
 					pluginDisplayName);
-
 			jobDto.setActive(true);
 			jobDto.setLastStartTime(new Date());
 

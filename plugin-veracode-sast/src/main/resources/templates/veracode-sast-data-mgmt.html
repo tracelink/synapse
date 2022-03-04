@@ -69,18 +69,14 @@
             <table class="table table-striped text-center">
               <thead>
               <tr>
-                <th scope="col">App Type</th>
                 <th scope="col">App Name</th>
-                <th scope="col">Sandbox Name</th>
                 <th scope="col">Included?</th>
                 <th scope="col">Delete App</th>
               </tr>
               </thead>
               <tbody>
               <tr th:each="app : ${apps}">
-                <td th:text="${app.modelType}"></td>
-                <td th:text="${app.modelType.toString().equals('Sandbox') ? app.productLineName : app.name}"></td>
-                <td th:text="${app.modelType.toString().equals('Sandbox') ? app.name : 'N/A'}"></td>
+                <td th:text="${app.name}"></td>
                 <td th:text="${app.included ? 'Yes' : 'No'}"></td>
                 <td>
                   <button class="btn btn-outline-danger btn-xs py-1 px-2" data-toggle="modal"

@@ -1,5 +1,14 @@
 package com.tracelink.prodsec.plugin.veracode.sca;
 
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaClientService;
 import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaProjectService;
 import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsService;
@@ -8,13 +17,6 @@ import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
 import com.tracelink.prodsec.synapse.sidebar.model.SidebarLink;
 import com.tracelink.prodsec.synapse.spi.PluginDisplayGroup;
-import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 public class VeracodeScaPluginTest {

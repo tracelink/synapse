@@ -1,5 +1,19 @@
 package com.tracelink.prodsec.plugin.veracode.dast;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastThresholdModel;
@@ -15,15 +29,6 @@ import com.tracelink.prodsec.synapse.scorecard.model.ScorecardValue;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardValue.TrafficLight;
 import com.tracelink.prodsec.synapse.sidebar.model.SidebarLink;
 import com.tracelink.prodsec.synapse.spi.PluginDisplayGroup;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 public class VeracodeDastPluginTest {
@@ -64,8 +69,10 @@ public class VeracodeDastPluginTest {
 	@Test
 	public void testGetJobsForScheduler() {
 		List<SchedulerJob> jobs = plugin.getJobsForScheduler();
-		Assert.assertEquals(1, jobs.size());
-		Assert.assertEquals("Veracode DAST Updater", jobs.get(0).getJobName());
+		Assert.assertEquals(2, jobs.size());
+		MatcherAssert.assertThat(jobs.stream().map(SchedulerJob::getJobName).collect(Collectors.toList()),
+				Matchers.containsInAnyOrder(Matchers.equalTo("Veracode DAST Updater - Recents"),
+						Matchers.equalTo("Veracode DAST Updater - Full Sync")));
 	}
 
 	@Test
@@ -105,14 +112,12 @@ public class VeracodeDastPluginTest {
 		Assert.assertEquals("Mappings", mappings.getDisplayName());
 		Assert.assertEquals("swap_horiz", mappings.getMaterialIcon());
 		Assert.assertEquals(VeracodeDastPlugin.MAPPINGS_PAGE, mappings.getPageLink());
-		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV,
-				mappings.getAuthorizePrivileges().toArray()[0]);
+		Assert.assertEquals(SynapseAdminAuthDictionary.ADMIN_PRIV, mappings.getAuthorizePrivileges().toArray()[0]);
 	}
 
 	@Test
 	public void testGetPrivileges() {
-		Assert.assertEquals(VeracodeDastPlugin.FLAWS_VIEWER_PRIVILEGE,
-				plugin.getPrivileges().get(0));
+		Assert.assertEquals(VeracodeDastPlugin.FLAWS_VIEWER_PRIVILEGE, plugin.getPrivileges().get(0));
 	}
 
 	private ScorecardValue setupProductLineModelCallback(long score) {

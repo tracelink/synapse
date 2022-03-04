@@ -85,11 +85,11 @@
 </div>
 <!-- End Small Stats Blocks -->
 <div class="row">
-  <!-- Bar Graph Violations By Period and Severity -->
+  <!-- Bar Graph Violations By  -->
   <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
     <div class="card card-small">
       <div class="card-header border-bottom">
-        <h6 class="m-0">Violations by Time Period and Severity</h6>
+        <h6 class="m-0">Report Data Graph</h6>
       </div>
       <div class="timeperiod card-body d-flex py-0">
         <canvas height="480" id="violations-bar"></canvas>
@@ -124,8 +124,9 @@
           <div class="col">
             <p class="card-title">Select a Category</p>
             <select class="custom-select custom-select-sm" id="bar-category">
-              <option selected value="severity">By Severity</option>
-              <option value="cwe">By CWE</option>
+              <option selected value="policy">By Policy Score</option>
+              <option value="flaws">By Mitigation Status</option>
+              <option value="severity">By Severity</option>
             </select>
           </div>
         </div>

@@ -1,18 +1,7 @@
 package com.tracelink.prodsec.plugin.veracode.sca.controller;
 
-import com.tracelink.prodsec.plugin.veracode.sca.VeracodeScaPlugin;
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
-import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
-import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaClientService;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaProjectService;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsService;
-import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaWorkspaceService;
-import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
-import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
-import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 import java.util.Arrays;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +17,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.tracelink.prodsec.plugin.veracode.sca.VeracodeScaPlugin;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaClientException;
+import com.tracelink.prodsec.plugin.veracode.sca.exception.VeracodeScaThresholdsException;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaClient;
+import com.tracelink.prodsec.plugin.veracode.sca.model.VeracodeScaThresholds;
+import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaClientService;
+import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaProjectService;
+import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaThresholdsService;
+import com.tracelink.prodsec.plugin.veracode.sca.service.VeracodeScaWorkspaceService;
+import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
+import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
+import com.tracelink.prodsec.synapse.test.TestSynapseBootApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestSynapseBootApplication.class)

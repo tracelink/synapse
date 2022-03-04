@@ -1,29 +1,32 @@
 package com.tracelink.prodsec.plugin.veracode.dast.service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.api.ApiClient;
-import com.tracelink.prodsec.plugin.veracode.dast.api.VeracodeClientException;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.applist.AppType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.applist.Applist;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.buildlist.BuildType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.buildlist.Buildlist;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.AnalysisType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.CweType;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.Detailedreport;
-import com.tracelink.prodsec.plugin.veracode.dast.api.data.detailedreport.FlawType;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastFlawModel;
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.VeracodeRestPagedResourcesIterator;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.AnalysisType;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Application;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.Module;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ModuleType;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.PagedResourceOfApplication;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.SummaryReport;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.BuildType;
+import com.tracelink.prodsec.lib.veracode.api.xml.data.buildlist.Buildlist;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastReportModel;
 
 /**
  * Handles business logic for Updating the apps, reports, and flaws with new
@@ -41,41 +44,66 @@ public class VeracodeDastUpdateService {
 
 	private final VeracodeDastReportService reportService;
 
-	private final VeracodeDastFlawService flawService;
-
 	private final VeracodeDastClientConfigService configService;
-	private final DateTimeFormatter reportDateFormatter = DateTimeFormatter
-			.ofPattern("yyyy-MM-dd HH:mm:ss z");
+	private final DateTimeFormatter reportDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
 
 	public VeracodeDastUpdateService(@Autowired VeracodeDastAppService appService,
-			@Autowired VeracodeDastFlawService flawService,
 			@Autowired VeracodeDastReportService reportService,
 			@Autowired VeracodeDastClientConfigService configService) {
 		this.appService = appService;
-		this.flawService = flawService;
 		this.reportService = reportService;
 		this.configService = configService;
 	}
 
 	/**
-	 * pulls new data from Veracode and syncs it with the current data
+	 * Details the type of data sync to run
+	 * 
+	 * @author csmith
+	 *
 	 */
-	public void syncAllData() {
-		LOG.info("Beginning Veracode DAST data update");
+	public enum SyncType {
+		ALL(Integer.MAX_VALUE, 4), RECENT(5, 2);
+
+		private int lookback;
+		private int threads;
+
+		SyncType(int lookback, int threads) {
+			this.lookback = lookback;
+			this.threads = threads;
+		}
+		
+		int getLookback() {
+			return lookback;
+		}
+		int getThreads() {
+			return threads;
+		}
+	}
+
+	/**
+	 * pulls new data from Veracode and syncs it with the current data
+	 * 
+	 * @param syncType the type of data sync operation to run
+	 */
+	public void syncData(SyncType syncType) {
+		LOG.info("Beginning Veracode DAST data update. Syncing " + syncType);
 		try {
+			VeracodeApiClient client = configService.getApiClient();
 			// get the current client
-			ApiClient client = configService.getApiClient();
 			if (client == null) {
 				LOG.error("No Configuration for Veracode DAST client");
 				return;
 			}
 			// start the sync operation
-			dataSync(client);
-
+			int threadSize = syncType.getThreads();
+			ExecutorService executor = Executors.newFixedThreadPool(threadSize);
+			dataSync(client, syncType, executor);
+			executor.shutdown();
+			executor.awaitTermination(1, TimeUnit.DAYS);
 		} catch (Exception e) {
-			LOG.error("Veracode DAST data update failed due to error: " + e.getMessage());
+			LOG.error("Veracode DAST data update failed due to error: ", e);
 		}
-		LOG.info("Veracode DAST data update complete");
+		LOG.info("Veracode DAST data update complete. Synced " + syncType);
 	}
 
 	/**
@@ -86,34 +114,27 @@ public class VeracodeDastUpdateService {
 	 * <li>Get the associated Veracode report for this build</li>
 	 * <li>Get or create an App Model for the Application</li>
 	 * <li>Get or create a Report Model for each Veracode report</li>
-	 * <li>Update or create the flaws associated with this Veracode report</li>
-	 * <li>Save the flaws</li>
 	 * <li>Save the reports</li>
 	 * <li>Save the app</li>
 	 * </ol>
 	 *
-	 * @param client The API Client to use
+	 * @param client   The API Client to use
+	 * @param syncType The type of data sync process to use
+	 * @param executor The executor for managing multiple processes
+	 * @throws VeracodeApiException if any error occurs during processing
 	 */
-	private void dataSync(ApiClient client) {
-		Applist apps;
-		try {
-			// Get all Applications for this client
-			apps = client.getApplications();
-		} catch (VeracodeClientException e) {
-			LOG.error("Could not get Apps due to exception: " + e.getMessage());
-			return;
-		}
-		for (AppType app : apps.getApp()) {
-			String appName = app.getAppName();
-			LOG.debug("doing app: " + appName);
+	private void dataSync(VeracodeApiClient client, SyncType syncType, ExecutorService executor)
+			throws VeracodeApiException {
+		VeracodeRestPagedResourcesIterator<PagedResourceOfApplication> appIterator = new VeracodeRestPagedResourcesIterator<>(
+				page -> client.getRestApplications(ScanTypeEnum.DYNAMIC, page));
+		while (appIterator.hasNext()) {
+			List<Application> apps = appIterator.next().getEmbedded().getApplications();
+			for (Application app : apps) {
+				String appName = app.getProfile().getName();
+				LOG.debug("doing app: " + appName);
 
-			try {
-				// Get a list of builds for this app
-				Buildlist builds = client.getBuildList(String.valueOf(app.getAppId()));
-				saveAppBuilds(client, appName, builds);
-			} catch (VeracodeClientException e) {
-				LOG.error("Could not get sandbox builds for app: " + appName + " due to exception: "
-						+ e.getMessage());
+				Buildlist builds = client.getXMLBuildList(String.valueOf(app.getId()));
+				saveAppBuilds(client, app, builds, syncType, executor);
 			}
 		}
 	}
@@ -124,33 +145,42 @@ public class VeracodeDastUpdateService {
 	 * <li>Get the associated Veracode report for this build</li>
 	 * <li>Get or create an App Model for the Application</li>
 	 * <li>Get or create a Report Model for each Veracode report</li>
-	 * <li>Update or create the flaws associated with this Veracode report</li>
-	 * <li>Save the flaws</li>
 	 * <li>Save the reports</li>
+	 * <li>Save the app</li>
 	 * </ol>
 	 *
-	 * @param client The API Client to use
-	 * @param builds the list of builds to get reports for
+	 * @param client    The API Client to use
+	 * @param app       the application to sync
+	 * @param buildList the list of builds for this application
+	 * @param syncType  the type of data sync
+	 * @param executor  The executor for managing multiple processes
 	 */
-	private void saveAppBuilds(ApiClient client, String appName, Buildlist builds) {
-		for (BuildType build : builds.getBuild()) {
-			long buildId = build.getBuildId();
-			Detailedreport report;
-			try {
-				// Get the associated Veracode report for this build
-				report = client.getDetailedReport(String.valueOf(buildId));
-			} catch (VeracodeClientException e) {
-				LOG.error("Could not get detailed report due to exception: " + e.getMessage());
-				continue;
-			}
+	private void saveAppBuilds(VeracodeApiClient client, Application app, Buildlist buildList, SyncType syncType,
+			ExecutorService executor) {
+		String appName = app.getProfile().getName();
+		List<BuildType> builds = buildList.getBuild();
+		Collections.sort(builds, (b1, b2) -> b2.getBuildId().compareTo(b1.getBuildId()));
+		int buildLookback = Math.min(syncType.getLookback(), builds.size());
+		for (int i = 0; i < buildLookback; i++) {
+			BuildType build = builds.get(i);
+			executor.submit(() -> {
+				try {
+					long buildId = build.getBuildId();
+					LOG.debug("Doing build " + buildId);
 
-			if (report.getDynamicAnalysis() == null) {
-				LOG.info("No dynamic analysis report found for app: " + appName + " on build id: "
-						+ buildId);
-				continue;
-			}
+					SummaryReport report = client.getRestSummaryReport(String.valueOf(app.getGuid()),
+							String.valueOf(buildId));
+					if (report.getDynamicAnalysis() == null) {
+						LOG.debug("No dynamic analysis report found for app: " + appName + " on build id: " + buildId);
+						return;
+					}
+					saveAppReport(appName, report);
+				} catch (VeracodeApiException e) {
+					LOG.error("Exception while getting Summary Report for app " + appName + " and build "
+							+ build.getBuildId(), e);
+				}
+			});
 
-			saveAppReport(appName, report);
 		}
 
 	}
@@ -160,15 +190,14 @@ public class VeracodeDastUpdateService {
 	 * <ol>
 	 * <li>Get or create an App Model for the Application</li>
 	 * <li>Get or create a Report Model for each Veracode report</li>
-	 * <li>Update or create the flaws associated with this Veracode report</li>
-	 * <li>Save the flaws</li>
 	 * <li>Save the reports</li>
+	 * <li>Save the app</li>
 	 * </ol>
 	 *
 	 * @param appName the Veracode App name for these reports
 	 * @param report  the Veracode report to save
 	 */
-	private void saveAppReport(String appName, Detailedreport report) {
+	private void saveAppReport(String appName, SummaryReport report) {
 		// Get or create an App Model for the Application
 		VeracodeDastAppModel appModel = appService.getDastApp(appName);
 		if (appModel == null) {
@@ -183,45 +212,13 @@ public class VeracodeDastUpdateService {
 
 		// Get or create a Report Model for each Veracode report
 		VeracodeDastReportModel reportModel = reportService
-				.getReportForAnalysisAndBuild(report.getAnalysisId(),
-						report.getBuildId());
+				.getReportForAnalysisAndBuild(report.getAnalysisId().longValue(), report.getBuildId().longValue());
 		if (reportModel == null) {
 			reportModel = new VeracodeDastReportModel();
 			reportModel.setApp(appModel);
 		}
 
-		List<CweType> cwes = report.getSeverity().stream().flatMap(s -> s.getCategory().stream())
-				.flatMap(c -> c.getCwe().stream()).collect(Collectors.toList());
-		Map<Integer, Integer> severityCounts = new HashMap<>();
-		List<VeracodeDastFlawModel> flawModels = new ArrayList<>();
-		for (CweType cwe : cwes) {
-			if (cwe.getDynamicflaws() == null) {
-				LOG.info(
-						"No Dynamic flaws found for cwe: " + cwe.getCweid() + " in app: " + appModel
-								.getName());
-				continue;
-			}
-			for (FlawType flaw : cwe.getDynamicflaws().getFlaw()) {
-				// Update or create the flaws associated with this Veracode report
-				VeracodeDastFlawModel flawModel = flawService
-						.getFlawForIssueId(report.getAnalysisId(),
-								flaw.getIssueid().longValue());
-				if (flawModel == null) {
-					flawModel = new VeracodeDastFlawModel();
-					flawModel.setReport(reportModel);
-					flawModel.setAnalysisId(report.getAnalysisId());
-				}
-				populateFlawModel(flawModel, flaw, cwe);
-
-				if (!flawModel.isRemediated()) {
-					int severity = flaw.getSeverity();
-					int countSev = severityCounts.getOrDefault(severity, 0);
-					severityCounts.put(severity, countSev + flaw.getCount());
-				}
-				flawModels.add(flawModel);
-			}
-		}
-		populateReportModel(reportModel, report, severityCounts);
+		populateReportModel(reportModel, report);
 
 		// Save the reports
 		/*
@@ -229,8 +226,6 @@ public class VeracodeDastUpdateService {
 		 * the flaws to have a relationship with it.
 		 */
 		reportService.save(reportModel);
-		// Save the flaws
-		flawService.saveFlaws(flawModels);
 		// Save the app
 		/*
 		 * N.B. This save confirms the associations with all of the reports
@@ -238,32 +233,39 @@ public class VeracodeDastUpdateService {
 		appService.save(appModel);
 	}
 
-	private void populateFlawModel(VeracodeDastFlawModel flawModel, FlawType flaw, CweType cwe) {
-		flawModel.setIssueId(flaw.getIssueid().longValue());
-		flawModel.setCategoryName(flaw.getCategoryname());
-		flawModel.setCweId(cwe.getCweid().longValue());
-		flawModel.setCweName(cwe.getCwename());
-		flawModel.setRemediationStatus(flaw.getRemediationStatus());
-		flawModel.setMitigationStatus(flaw.getMitigationStatus());
-		flawModel.setSeverity(flaw.getSeverity());
-		flawModel.setCount(flaw.getCount());
-	}
+	private void populateReportModel(VeracodeDastReportModel reportModel, SummaryReport report) {
+		AnalysisType dynamicAnalysis = report.getDynamicAnalysis();
+		reportModel.setAnalysisId(report.getAnalysisId().longValue());
+		reportModel.setReportDate(LocalDateTime.parse(dynamicAnalysis.getPublishedDate(), reportDateFormatter));
+		reportModel.setBuildId(report.getBuildId().longValue());
+		reportModel.setScore(dynamicAnalysis.getMitigatedScore());
+		reportModel.setTotalFlaws(report.getTotalFlaws());
+		reportModel.setUnmitigatedFlaws(report.getFlawsNotMitigated());
+		reportModel.setCoordinates(String.format("%s:%s:%s:%s", report.getAccountId(), report.getAppId(),
+				report.getBuildId(), report.getAnalysisId()));
 
-	private void populateReportModel(VeracodeDastReportModel reportModel, Detailedreport report,
-			Map<Integer, Integer> severityCounts) {
-		reportModel.setAnalysisId(report.getAnalysisId());
-		reportModel.setReportDate(
-				LocalDateTime.parse(report.getDynamicAnalysis().getPublishedDate(),
-						reportDateFormatter));
-		reportModel.setBuildId(report.getBuildId());
-		AnalysisType dynamicAnalysisResult = report.getDynamicAnalysis();
-		reportModel.setScore(dynamicAnalysisResult.getScore().longValue());
-		reportModel.setVeryHighVios(severityCounts.getOrDefault(5, 0));
-		reportModel.setHighVios(severityCounts.getOrDefault(4, 0));
-		reportModel.setMedVios(severityCounts.getOrDefault(3, 0));
-		reportModel.setLowVios(severityCounts.getOrDefault(2, 0));
-		reportModel.setVeryLowVios(severityCounts.getOrDefault(1, 0));
-		reportModel.setInfoVios(severityCounts.getOrDefault(0, 0));
+		Module module = dynamicAnalysis.getModules();
+		long info = 0;
+		long vlow = 0;
+		long low = 0;
+		long med = 0;
+		long high = 0;
+		long vhigh = 0;
+
+		for (ModuleType mt : module.getModule()) {
+			vhigh += mt.getNumflawssev5();
+			high += mt.getNumflawssev4();
+			med += mt.getNumflawssev3();
+			low += mt.getNumflawssev2();
+			vlow += mt.getNumflawssev1();
+			info += mt.getNumflawssev0();
+		}
+		reportModel.setvHigh(vhigh);
+		reportModel.setHigh(high);
+		reportModel.setMedium(med);
+		reportModel.setLow(low);
+		reportModel.setvLow(vlow);
+		reportModel.setInfo(info);
 	}
 
 }

@@ -1,10 +1,8 @@
 package com.tracelink.prodsec.plugin.veracode.dast.service;
 
-import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
-import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastAppRepository;
-import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tracelink.prodsec.plugin.veracode.dast.model.VeracodeDastAppModel;
+import com.tracelink.prodsec.plugin.veracode.dast.repository.VeracodeDastAppRepository;
+import com.tracelink.prodsec.synapse.products.model.ProductLineModel;
 
 @RunWith(SpringRunner.class)
 public class VeracodeDastAppServiceTest {

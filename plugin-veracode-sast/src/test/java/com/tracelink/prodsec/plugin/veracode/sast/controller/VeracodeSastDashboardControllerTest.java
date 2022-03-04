@@ -83,7 +83,7 @@ public class VeracodeSastDashboardControllerTest {
 		BDDMockito.when(hasVulns.isVulnerable()).thenReturn(true);
 		BDDMockito.when(hasVulns.getCurrentReport()).thenReturn(vulnReport);
 		BDDMockito.when(vulnReport.getScore()).thenReturn(score);
-		BDDMockito.when(vulnReport.getVulnerabilitiesCount()).thenReturn(countVulns);
+		BDDMockito.when(vulnReport.getUnmitigatedFlaws()).thenReturn(countVulns);
 
 		BDDMockito.when(mockAppService.getIncludedApps())
 				.thenReturn(Arrays.asList(noVulns, hasVulns));

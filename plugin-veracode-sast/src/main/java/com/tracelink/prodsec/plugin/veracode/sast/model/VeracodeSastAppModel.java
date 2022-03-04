@@ -1,11 +1,9 @@
 package com.tracelink.prodsec.plugin.veracode.sast.model;
 
-import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
-import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,8 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
+import com.tracelink.prodsec.synapse.products.model.ProjectModel;
 
 /**
  * The App Model links the Veracode App to the Synapse Project and has one or
@@ -40,14 +42,10 @@ public class VeracodeSastAppModel {
 	@Column(name = "product_name")
 	private String productLineName;
 
-	@Column(name = "model_type")
-	@Convert(converter = ModelType.ModelTypeConverter.class)
-	private ModelType modelType;
-
 	/**
-	 * Whether the reports and flaws associated with this app should be included by Synapse. If
-	 * excluded, this app and the reports and flaws associated with it will not be displayed in
-	 * graphs, summary statistics, or the flaws page.
+	 * Whether the reports and flaws associated with this app should be included by
+	 * Synapse. If excluded, this app and the reports and flaws associated with it
+	 * will not be displayed in graphs, summary statistics, or the flaws page.
 	 */
 	@Column(name = "included")
 	private boolean included = true;
@@ -79,14 +77,6 @@ public class VeracodeSastAppModel {
 
 	public void setProductLineName(String productLineName) {
 		this.productLineName = productLineName;
-	}
-
-	public ModelType getModelType() {
-		return modelType;
-	}
-
-	public void setModelType(ModelType modelType) {
-		this.modelType = modelType;
 	}
 
 	public boolean isIncluded() {
@@ -130,16 +120,12 @@ public class VeracodeSastAppModel {
 	}
 
 	/**
-	 * Gets the display name for this app model based on whether it is an app or a sandbox.
+	 * Gets the display name for this app model
 	 *
-	 * @return display name including app and/or sandbox name
+	 * @return display name
 	 */
 	public String getDisplayName() {
-		if (modelType.equals(ModelType.APP)) {
-			return name;
-		} else {
-			return productLineName + " - " + name;
-		}
+		return name;
 	}
 
 }

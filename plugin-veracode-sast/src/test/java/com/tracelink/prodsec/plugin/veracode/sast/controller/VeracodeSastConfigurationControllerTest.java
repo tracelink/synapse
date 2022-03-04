@@ -15,9 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiClient;
+import com.tracelink.prodsec.lib.veracode.api.VeracodeApiException;
+import com.tracelink.prodsec.lib.veracode.api.rest.model.ApplicationScan.ScanTypeEnum;
 import com.tracelink.prodsec.plugin.veracode.sast.VeracodeSastPlugin;
-import com.tracelink.prodsec.plugin.veracode.sast.api.ApiClient;
-import com.tracelink.prodsec.plugin.veracode.sast.api.VeracodeClientException;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastClientConfigModel;
 import com.tracelink.prodsec.plugin.veracode.sast.model.VeracodeSastThresholdModel;
 import com.tracelink.prodsec.plugin.veracode.sast.service.VeracodeSastClientConfigService;
@@ -105,12 +106,11 @@ public class VeracodeSastConfigurationControllerTest {
 						Matchers.containsString("not been configured")));
 	}
 
-	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigNoAccess() throws Exception {
-		ApiClient client = BDDMockito.mock(ApiClient.class);
+		VeracodeApiClient client = BDDMockito.mock(VeracodeApiClient.class);
 		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
-		BDDMockito.willThrow(VeracodeClientException.class).given(client).testAccess();
+		BDDMockito.willThrow(new VeracodeApiException("No Access")).given(client).testAccess(ScanTypeEnum.STATIC);
 
 		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeSastPlugin.CONFIGURATIONS_PAGE + "/test"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeSastPlugin.CONFIGURATIONS_PAGE))
@@ -121,13 +121,16 @@ public class VeracodeSastConfigurationControllerTest {
 	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
 	public void testTestConfigSuccess() throws Exception {
-		ApiClient client = BDDMockito.mock(ApiClient.class);
-		BDDMockito.when(mockConfigService.getApiClient()).thenReturn(client);
+		String apiKey = "1234";
+		String apiId = "5678";
 
-		mockMvc.perform(MockMvcRequestBuilders.get(VeracodeSastPlugin.CONFIGURATIONS_PAGE + "/test"))
+		mockMvc.perform(MockMvcRequestBuilders.post(VeracodeSastPlugin.CONFIGURATIONS_PAGE).param("apiId", apiId)
+				.param("apiKey", apiKey).with(SecurityMockMvcRequestPostProcessors.csrf()))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeSastPlugin.CONFIGURATIONS_PAGE))
 				.andExpect(MockMvcResultMatchers.flash().attribute(SynapseModelAndView.SUCCESS_FLASH,
-						Matchers.containsString("Client Configured Correctly")));
+						Matchers.containsString("Configured API client")));
+
+		BDDMockito.verify(mockConfigService, BDDMockito.times(1)).setClientConfig(apiId, apiKey);
 	}
 
 	@Test
@@ -188,7 +191,7 @@ public class VeracodeSastConfigurationControllerTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeSastPlugin.CONFIGURATIONS_PAGE))
 				.andExpect(MockMvcResultMatchers.flash().attribute(SynapseModelAndView.FAILURE_FLASH,
 						Matchers.containsString("Green/Yellow is greater than Yellow/Red")));
-		}
+	}
 
 	@Test
 	@WithMockUser(authorities = { SynapseAdminAuthDictionary.ADMIN_PRIV })
@@ -200,6 +203,7 @@ public class VeracodeSastConfigurationControllerTest {
 				.with(SecurityMockMvcRequestPostProcessors.csrf()))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(VeracodeSastPlugin.CONFIGURATIONS_PAGE))
 				.andExpect(MockMvcResultMatchers.flash().attribute(SynapseModelAndView.SUCCESS_FLASH,
-						Matchers.containsString("Thresholds updated successfully")));}
+						Matchers.containsString("Thresholds updated successfully")));
+	}
 
 }
