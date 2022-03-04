@@ -117,6 +117,7 @@ public class SchedulerService {
 	 * Pause job scheduling
 	 */
 	public void pause() {
+		LOG.warn("Pausing Scheduler");
 		pauseLock.lock();
 		try {
 			isPaused = true;
@@ -129,6 +130,7 @@ public class SchedulerService {
 	 * Resume job scheduling
 	 */
 	public void resume() {
+		LOG.warn("Resuming Scheduler");
 		pauseLock.lock();
 		try {
 			isPaused = false;
