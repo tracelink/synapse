@@ -45,12 +45,12 @@ public class SMEPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("Subject Matter Experts", "supervisor_account");
 	}
 
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		return Arrays.asList(//
 				new SimpleScorecardColumn("Subject Matter Experts")//
 						.withPageLink(PAGELINK)//
@@ -59,7 +59,7 @@ public class SMEPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		return Arrays.asList(//
 				new SimpleSidebarLink("SME List")//
 						.withMaterialIcon("mood")//
@@ -72,7 +72,7 @@ public class SMEPlugin extends PluginWithDatabase {
 	 * Not Implemented
 	 */
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return null;
 	}
 
@@ -80,7 +80,7 @@ public class SMEPlugin extends PluginWithDatabase {
 	 * Not Implemented
 	 */
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		return null;
 	}
 

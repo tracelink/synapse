@@ -38,8 +38,8 @@ public class LoggingService {
 	 */
 	public static final String LOGGER_NAME = "com.tracelink.prodsec.synapse";
 
-	public static final List<Level> ALLOWED_LEVELS = Collections.unmodifiableList(
-			Arrays.asList(Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR));
+	public static final List<Level> ALLOWED_LEVELS = Collections
+			.unmodifiableList(Arrays.asList(Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR));
 
 	private final Map<String, PluginLogger> loggers = new HashMap<>();
 
@@ -49,12 +49,17 @@ public class LoggingService {
 	}
 
 	/**
-	 * Registers the given plugin logger with this service. The logger name is used as a key.
+	 * Registers the given plugin logger with this service. The logger name is used
+	 * as a key.
 	 *
 	 * @param logger the logger to register
 	 */
 	public void registerLogger(PluginLogger logger) {
 		this.loggers.put(logger.getName(), logger);
+	}
+
+	public void unregisterLogger(String displayName) {
+		this.loggers.remove(displayName);
 	}
 
 	public PluginLogger getLogger(String pluginName) {

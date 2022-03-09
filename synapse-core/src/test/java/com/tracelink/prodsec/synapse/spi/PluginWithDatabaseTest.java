@@ -100,27 +100,27 @@ public class PluginWithDatabaseTest {
 
 		// Always null below
 		@Override
-		protected PluginDisplayGroup getPluginDisplayGroup() {
+		public PluginDisplayGroup getPluginDisplayGroup() {
 			return pdg;
 		}
 
 		@Override
-		protected List<SchedulerJob> getJobsForScheduler() {
+		public List<SchedulerJob> getJobsForScheduler() {
 			return null;
 		}
 
 		@Override
-		protected List<ScorecardColumn> getColumnsForScorecard() {
+		public List<ScorecardColumn> getColumnsForScorecard() {
 			return null;
 		}
 
 		@Override
-		protected List<SidebarLink> getLinksForSidebar() {
+		public List<SidebarLink> getLinksForSidebar() {
 			return null;
 		}
 
 		@Override
-		protected List<String> getPrivileges() {
+		public List<String> getPrivileges() {
 			return null;
 		}
 

@@ -74,12 +74,12 @@ public class VeracodeDastPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("Veracode DAST", "zoom_in");
 	}
 
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		return Arrays.asList(
 				new SimpleSchedulerJob("Veracode DAST Updater - Recents")
 						.onSchedule(new PeriodicSchedule(1, TimeUnit.HOURS))
@@ -90,13 +90,13 @@ public class VeracodeDastPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		return Arrays.asList(new SimpleScorecardColumn("Veracode DAST").withPageLink(DASHBOARD_PAGE)
 				.withProductLineCallback(this::getScorecardForProductLine));
 	}
 
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		// Dashboard page
 		SidebarLink dashboard = new SimpleSidebarLink("Dashboard").withMaterialIcon("dashboard")
 				.withPageLink(DASHBOARD_PAGE);
@@ -117,7 +117,7 @@ public class VeracodeDastPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return Arrays.asList(FLAWS_VIEWER_PRIVILEGE);
 	}
 

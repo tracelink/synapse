@@ -89,7 +89,7 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("Veracode SCA", "layers");
 	}
 
@@ -97,7 +97,7 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		SchedulerJob fetchViolationsJob = new SimpleSchedulerJob("Fetch Veracode SCA Data")
 				.withJob(clientService::fetchData)
 				.onSchedule(new PeriodicSchedule(PERIOD, TIME_UNIT));
@@ -108,7 +108,7 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		ScorecardColumn issuesColumn = new SimpleScorecardColumn("Veracode SCA")
 				.withPageLink(DASHBOARD_PAGE)
 				.withProductLineCallback(this::getScorecardValueForProductLine)
@@ -120,7 +120,7 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		// Dashboard page
 		SidebarLink dashboard = new SimpleSidebarLink("Dashboard").withMaterialIcon("dashboard")
 				.withPageLink(DASHBOARD_PAGE);
@@ -153,7 +153,7 @@ public class VeracodeScaPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return Collections.singletonList(VIEW_ISSUES_PRIV);
 	}
 

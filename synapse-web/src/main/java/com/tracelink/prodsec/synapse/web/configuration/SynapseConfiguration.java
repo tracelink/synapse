@@ -19,10 +19,4 @@ public class SynapseConfiguration {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12);
 	}
-
-	@Bean
-	public ConcurrentTaskScheduler scheduler() {
-		return new ConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor());
-	}
-
 }

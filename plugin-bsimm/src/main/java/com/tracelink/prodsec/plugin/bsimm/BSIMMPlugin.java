@@ -44,18 +44,18 @@ public class BSIMMPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("BSIMM", "timeline");
 	}
 
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		return Arrays.asList(new SimpleScorecardColumn("BSIMM Score").withPageLink(PAGELINK)
 				.withProductLineCallback(bsimmService::getProductLineScorecard));
 	}
 
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		return Arrays.asList(new SimpleSidebarLink("Overview").withMaterialIcon("dashboard")
 						.withPageLink(PAGELINK),
 				new SimpleSidebarLink("Surveys").withMaterialIcon("assignment")
@@ -63,7 +63,7 @@ public class BSIMMPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return Arrays.asList(PRIV);
 	}
 
@@ -71,7 +71,7 @@ public class BSIMMPlugin extends PluginWithDatabase {
 	 * Unimplemented
 	 */
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		return null;
 	}
 }

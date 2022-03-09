@@ -59,14 +59,6 @@ public class PluginTest {
 		return plugin;
 	}
 
-	@Test
-	public void configureSchedulerTest() {
-		SchedulerJob job = BDDMockito.mock(SchedulerJob.class);
-		Plugin plugin = injectMocks(new PluginTestClass(pdg, Arrays.asList(job), null, null, null));
-		ContextRefreshedEvent event = BDDMockito.mock(ContextRefreshedEvent.class);
-		plugin.onApplicationEvent(event);
-		BDDMockito.verify(mockScheduler).scheduleJob(displayName, job);
-	}
 
 	@Test
 	public void registerWithScorecardTest() {
@@ -122,27 +114,27 @@ public class PluginTest {
 		}
 
 		@Override
-		protected PluginDisplayGroup getPluginDisplayGroup() {
+		public PluginDisplayGroup getPluginDisplayGroup() {
 			return pdg;
 		}
 
 		@Override
-		protected List<SchedulerJob> getJobsForScheduler() {
+		public List<SchedulerJob> getJobsForScheduler() {
 			return jobs;
 		}
 
 		@Override
-		protected List<ScorecardColumn> getColumnsForScorecard() {
+		public List<ScorecardColumn> getColumnsForScorecard() {
 			return cols;
 		}
 
 		@Override
-		protected List<SidebarLink> getLinksForSidebar() {
+		public List<SidebarLink> getLinksForSidebar() {
 			return links;
 		}
 
 		@Override
-		protected List<String> getPrivileges() {
+		public List<String> getPrivileges() {
 			return privs;
 		}
 

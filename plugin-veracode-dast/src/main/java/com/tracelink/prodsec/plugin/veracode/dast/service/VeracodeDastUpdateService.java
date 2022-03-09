@@ -175,7 +175,7 @@ public class VeracodeDastUpdateService {
 						return;
 					}
 					saveAppReport(appName, report);
-				} catch (VeracodeApiException e) {
+				} catch (Exception e) {
 					LOG.error("Exception while getting Summary Report for app " + appName + " and build "
 							+ build.getBuildId(), e);
 				}
@@ -238,7 +238,8 @@ public class VeracodeDastUpdateService {
 		reportModel.setAnalysisId(report.getAnalysisId().longValue());
 		reportModel.setReportDate(LocalDateTime.parse(dynamicAnalysis.getPublishedDate(), reportDateFormatter));
 		reportModel.setBuildId(report.getBuildId().longValue());
-		reportModel.setScore(dynamicAnalysis.getMitigatedScore());
+		long score = dynamicAnalysis.getMitigatedScore() != null ? dynamicAnalysis.getMitigatedScore() : dynamicAnalysis.getScore();
+		reportModel.setScore(score);
 		reportModel.setTotalFlaws(report.getTotalFlaws());
 		reportModel.setUnmitigatedFlaws(report.getFlawsNotMitigated());
 		reportModel.setCoordinates(String.format("%s:%s:%s:%s", report.getAccountId(), report.getAppId(),
