@@ -58,8 +58,13 @@ public class LoggingService {
 		this.loggers.put(logger.getName(), logger);
 	}
 
-	public void unregisterLogger(String displayName) {
-		this.loggers.remove(displayName);
+	/**
+	 * removes this logger from the cached loggers
+	 * 
+	 * @param loggerName the logger's name
+	 */
+	public void unregisterLogger(String loggerName) {
+		this.loggers.remove(loggerName);
 	}
 
 	public PluginLogger getLogger(String pluginName) {

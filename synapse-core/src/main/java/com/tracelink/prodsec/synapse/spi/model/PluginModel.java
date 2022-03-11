@@ -9,6 +9,12 @@ import javax.persistence.Table;
 
 import com.tracelink.prodsec.synapse.auth.SynapseAdminAuthDictionary;
 
+/**
+ * Entity description for a plugin. Can be activated/deactivated
+ * 
+ * @author csmith
+ *
+ */
 @Entity
 @Table(name = "plugins", schema = SynapseAdminAuthDictionary.DEFAULT_SCHEMA)
 public class PluginModel {

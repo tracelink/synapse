@@ -52,6 +52,11 @@ public class SidebarService {
 		this.sidebar.put(dropdown, links);
 	}
 
+	/**
+	 * remove all links in this PluginDisplayGroup from the sidebar
+	 * 
+	 * @param sidebarGroup the group containing the links to remove
+	 */
 	public void removeLinks(PluginDisplayGroup sidebarGroup) {
 		if (this.dropdownLookup.containsKey(sidebarGroup.getDisplayName())) {
 			SidebarDropdown dropdown = this.dropdownLookup.remove(sidebarGroup.getDisplayName());

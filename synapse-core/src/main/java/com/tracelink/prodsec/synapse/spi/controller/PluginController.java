@@ -14,6 +14,13 @@ import com.tracelink.prodsec.synapse.mvc.SynapseModelAndView;
 import com.tracelink.prodsec.synapse.spi.model.PluginModel;
 import com.tracelink.prodsec.synapse.spi.service.PluginService;
 
+/**
+ * Controller to manage interacting with Plugin states. Allows
+ * Activation/Deactivation of plugins
+ * 
+ * @author csmith
+ *
+ */
 @Controller
 @RequestMapping("/plugins")
 @PreAuthorize("hasAuthority('" + SynapseAdminAuthDictionary.ADMIN_PRIV + "')")

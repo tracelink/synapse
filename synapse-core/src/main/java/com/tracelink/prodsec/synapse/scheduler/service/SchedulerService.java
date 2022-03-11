@@ -83,6 +83,12 @@ public class SchedulerService {
 		jobs.put(jobKey, jobDto);
 	}
 
+	/**
+	 * Remove a job from the schedulers
+	 * 
+	 * @param displayName the name of the plugin that owns this job
+	 * @param job         the job itself
+	 */
 	public void unscheduleJob(String displayName, SchedulerJob job) {
 		String jobKey = displayName + job.getJobName();
 		JobDto jobDto = this.jobs.remove(jobKey);
@@ -106,16 +112,27 @@ public class SchedulerService {
 		return jobs.values();
 	}
 
+	/**
+	 * halts processing of new tasks in both plugin and core schedulers
+	 */
 	public void pause() {
 		((PauseableScheduledThreadPoolExecutor) this.pluginScheduler.getConcurrentExecutor()).pause();
 		((PauseableScheduledThreadPoolExecutor) this.coreScheduler.getConcurrentExecutor()).pause();
 	}
 
+	/**
+	 * resumes processing of new tasks in both plugin and core schedulers
+	 */
 	public void resume() {
 		((PauseableScheduledThreadPoolExecutor) this.pluginScheduler.getConcurrentExecutor()).resume();
 		((PauseableScheduledThreadPoolExecutor) this.coreScheduler.getConcurrentExecutor()).resume();
 	}
 
+	/**
+	 * After startup, the schedulers will be resumed
+	 * 
+	 * @param event the startup event
+	 */
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		resume();

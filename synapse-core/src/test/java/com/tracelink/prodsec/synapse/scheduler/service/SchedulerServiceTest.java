@@ -49,7 +49,7 @@ public class SchedulerServiceTest {
 		SchedulerJob scheduledJob = new SimpleSchedulerJob(jobName).onSchedule(schedule).withJob(mockJob);
 
 		SchedulerService schedulerService = new SchedulerService();
-
+		schedulerService.resume();
 		// first schedule and add to the map
 		schedulerService.scheduleJob(pluginName, scheduledJob);
 		Thread.sleep(500);
@@ -70,7 +70,7 @@ public class SchedulerServiceTest {
 		SchedulerJob scheduledJob = new SimpleSchedulerJob(jobName).onSchedule(schedule).withJob(mockJob);
 
 		SchedulerService schedulerService = new SchedulerService();
-
+		schedulerService.resume();
 		// first schedule and add to the map
 		schedulerService.scheduleCoreJob(scheduledJob);
 		Thread.sleep(500);

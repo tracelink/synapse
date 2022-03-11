@@ -1,6 +1,5 @@
 package com.tracelink.prodsec.synapse.spi.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,31 +25,39 @@ import com.tracelink.prodsec.synapse.spi.Plugin;
 import com.tracelink.prodsec.synapse.spi.model.PluginModel;
 import com.tracelink.prodsec.synapse.spi.repository.PluginRepository;
 
+/**
+ * Service used to register plugins, and activate/deactivate plugins
+ * 
+ * @author csmith
+ *
+ */
 @Service
 public class PluginService {
 	private static final Logger LOG = LoggerFactory.getLogger(PluginService.class);
 
-	@Autowired
 	private LoggingService logsService;
 
-	@Autowired
 	private ScorecardService scorecardService;
 
-	@Autowired
 	private SidebarService sidebar;
 
-	@Autowired
 	private SchedulerService scheduler;
 
-	@Autowired
 	private AuthService auth;
 
 	private final PluginRepository pluginRepository;
 
 	private final Map<String, Plugin> pluginMap;
 
-	public PluginService(@Autowired PluginRepository pluginRepository) {
+	public PluginService(@Autowired PluginRepository pluginRepository, @Autowired LoggingService logsService,
+			@Autowired ScorecardService scorecardService, @Autowired SidebarService sidebar,
+			@Autowired SchedulerService scheduler, @Autowired AuthService auth) {
 		this.pluginRepository = pluginRepository;
+		this.logsService = logsService;
+		this.scorecardService = scorecardService;
+		this.sidebar = sidebar;
+		this.scheduler = scheduler;
+		this.auth = auth;
 		this.pluginMap = new HashMap<>();
 	}
 
@@ -62,10 +69,21 @@ public class PluginService {
 		return pluginRepository.getById(pluginId);
 	}
 
+	/**
+	 * enables a plugin to be used by Synapse. This will set the entity's activation
+	 * to true while also registering the plugin with all internal services
+	 * 
+	 * @param pluginModel the plugin to activate
+	 * @return the plugin in its activated state
+	 */
 	public PluginModel activate(PluginModel pluginModel) {
 		pluginModel.setActivated(true);
 		Plugin plugin = pluginMap.get(pluginModel.getPluginName());
-
+		if (plugin == null) {
+			LOG.error(
+					"Attempted to activate a plugin " + pluginModel.getPluginName() + " that has not been registered");
+			throw new IllegalArgumentException("Plugin is unknown");
+		}
 		LOG.info("Registering Logging : " + pluginModel.getPluginName());
 		registerWithLogging(plugin);
 
@@ -84,10 +102,22 @@ public class PluginService {
 		return save(pluginModel);
 	}
 
+	/**
+	 * disables a plugin to be used by Synapse. This will set the entity's
+	 * activation to false while also unregistering the plugin with all internal
+	 * services
+	 * 
+	 * @param pluginModel the plugin to deactivate
+	 * @return the plugin in its deactivated state
+	 */
 	public PluginModel deactivate(PluginModel pluginModel) {
 		pluginModel.setActivated(false);
 		Plugin plugin = pluginMap.get(pluginModel.getPluginName());
-
+		if (plugin == null) {
+			LOG.error("Attempted to deactivate a plugin " + pluginModel.getPluginName()
+					+ " that has not been registered");
+			throw new IllegalArgumentException("Plugin is unknown");
+		}
 		LOG.info("Unregistering Logging: " + pluginModel.getPluginName());
 		unregisterWithLogging(plugin);
 
@@ -110,21 +140,21 @@ public class PluginService {
 		return pluginRepository.saveAndFlush(plugin);
 	}
 
-	public PluginModel createNew(String pluginName) {
+	private PluginModel createNew(String pluginName) {
 		PluginModel plugin = new PluginModel();
 		plugin.setPluginName(pluginName);
 		plugin.setActivated(false);
 		return save(plugin);
 	}
 
-	private final void registerModel(Plugin plugin) {
+	private void registerModel(Plugin plugin) {
 		PluginModel model = getPlugin(plugin.getPluginDisplayGroup().getDisplayName());
 		if (model == null) {
 			model = createNew(plugin.getPluginDisplayGroup().getDisplayName());
 		}
 		this.pluginMap.put(model.getPluginName(), plugin);
 		// On register, start activate/deactivate process
-		if(model.isActivated()) {
+		if (model.isActivated()) {
 			activate(model);
 		}
 	}
@@ -191,6 +221,13 @@ public class PluginService {
 		}
 	}
 
+	/**
+	 * Register a new Plugin with the service. If this plugin is new to Synapse, it
+	 * will start deactivated, if it is previously known to Synapse, its state will
+	 * be restored
+	 * 
+	 * @param plugin the plugin to register
+	 */
 	public void registerPlugin(Plugin plugin) {
 		String name = null;
 		if (plugin.getPluginDisplayGroup() != null) {

@@ -354,10 +354,16 @@ public class AuthService implements UserDetailsService {
 		return privRepo.findByName(privilegeName);
 	}
 
-	public void removePrivilege(String priv) {
-		PrivilegeModel privilege = privRepo.findByName(priv);
+	/**
+	 * Remove privilege from repository. Also removes from all roles. Used to
+	 * unregister a plugin
+	 * 
+	 * @param privilegeName the privilege name to remove
+	 */
+	public void removePrivilege(String privilegeName) {
+		PrivilegeModel privilege = privRepo.findByName(privilegeName);
 		roleRepo.findAll().stream().forEach(role -> {
-			if (role.getPrivileges().removeIf(p -> p.getName().equals(priv))) {
+			if (role.getPrivileges().removeIf(p -> p.getName().equals(privilegeName))) {
 				roleRepo.save(role);
 			}
 		});
