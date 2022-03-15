@@ -3,7 +3,6 @@ package com.tracelink.prodsec.synapse.scheduler.service;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ScheduledFuture;
 
@@ -30,28 +29,11 @@ public class SchedulerService {
 	private final ConcurrentTaskScheduler pluginScheduler;
 	private final ConcurrentTaskScheduler coreScheduler;
 	private final Map<String, JobDto> jobs = new ConcurrentSkipListMap<>();
-	private final Map<String, JobDto> futures = new ConcurrentSkipListMap<>();
 
 	public SchedulerService() {
 		this.pluginScheduler = new ConcurrentTaskScheduler(new PauseableScheduledThreadPoolExecutor(1));
 		this.coreScheduler = new ConcurrentTaskScheduler(new PauseableScheduledThreadPoolExecutor(1));
 		pause();
-	}
-
-	private class PluginRunnable implements Runnable {
-		private final String name;
-		private final Runnable runnable;
-
-		PluginRunnable(String name, Runnable runnable) {
-			this.name = name;
-			this.runnable = runnable;
-		}
-
-		@Override
-		public void run() {
-			runnable.run();
-		}
-
 	}
 
 	/**
@@ -67,7 +49,7 @@ public class SchedulerService {
 		JobDto jobDto = jobs.getOrDefault(jobKey, new JobDto(pluginDisplayName, job.getJobName()));
 		jobDto.setNextStartTime(trigger.nextExecutionTime(jobDto));
 
-		ScheduledFuture<?> future = this.pluginScheduler.schedule(new PluginRunnable(job.getJobName(), () -> {
+		ScheduledFuture<?> future = this.pluginScheduler.schedule(() -> {
 			LOG.info("Beginning scheduled job '{}' for plugin '{}'", job.getJobName(), pluginDisplayName);
 			jobDto.setActive(true);
 			jobDto.setLastStartTime(new Date());
@@ -78,7 +60,7 @@ public class SchedulerService {
 			jobDto.setActive(false);
 			jobDto.setNextStartTime(trigger.nextExecutionTime(jobDto));
 			LOG.info("Completed scheduled job '{}' for plugin '{}'", job.getJobName(), pluginDisplayName);
-		}), trigger);
+		}, trigger);
 		jobDto.setFuture(future);
 		jobs.put(jobKey, jobDto);
 	}

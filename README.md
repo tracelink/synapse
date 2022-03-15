@@ -93,7 +93,7 @@ There are a number of ways to customize your own installation of Synapse.
 
 ### Choosing Plugins
 
-An installation can be modified to include a subset of the provided plugins, or your own custom plugins by either modifying the pom file of [synapse-web](./synapse-web/pom.xml) or providing references to your custom plugin jars on the classpath. Any plugins found in your execution's classpath will be automatically included and installed in your Synapse deployment.
+It is recommended to include all plugins in the web pom or in the web app's classpath. After startup, administrators can activate/deactivate individual plugins using the web UI which will start each plugin. On restart, any previously activated plugin will automatically start with the web app.
 
 ### Creating Custom Plugins
 
