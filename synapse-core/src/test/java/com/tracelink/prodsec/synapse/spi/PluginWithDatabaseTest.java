@@ -13,35 +13,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.tracelink.prodsec.synapse.auth.service.AuthService;
-import com.tracelink.prodsec.synapse.logging.service.LoggingService;
 import com.tracelink.prodsec.synapse.scheduler.job.SchedulerJob;
-import com.tracelink.prodsec.synapse.scheduler.service.SchedulerService;
 import com.tracelink.prodsec.synapse.scorecard.model.ScorecardColumn;
-import com.tracelink.prodsec.synapse.scorecard.service.ScorecardService;
 import com.tracelink.prodsec.synapse.sidebar.model.SidebarLink;
-import com.tracelink.prodsec.synapse.sidebar.service.SidebarService;
+import com.tracelink.prodsec.synapse.spi.service.PluginService;
 
 @RunWith(SpringRunner.class)
 public class PluginWithDatabaseTest {
-	@MockBean
-	private ScorecardService mockScorecardService;
-
-	@MockBean
-	private SidebarService mockSidebar;
-
-	@MockBean
-	private SchedulerService mockScheduler;
-
-	@MockBean
-	private AuthService mockAuth;
-	
-	@MockBean
-	private LoggingService mockLogsService;
-	
 	
 	private Flyway flyway;
 
+	@MockBean
+	private PluginService pluginService;
+	
 	private final String displayName = "displayName";
 	private final String materialIcon = "materialIcon";
 
@@ -58,7 +42,7 @@ public class PluginWithDatabaseTest {
 	 */
 	private PluginWithDatabase injectMocks(PluginWithDatabase plugin) {
 		ReflectionTestUtils.setField(plugin, "flyway", flyway);
-		ReflectionTestUtils.setField(plugin, "logsService", mockLogsService);
+		ReflectionTestUtils.setField(plugin, "pluginService", pluginService);
 		return plugin;
 	}
 
@@ -100,27 +84,27 @@ public class PluginWithDatabaseTest {
 
 		// Always null below
 		@Override
-		protected PluginDisplayGroup getPluginDisplayGroup() {
+		public PluginDisplayGroup getPluginDisplayGroup() {
 			return pdg;
 		}
 
 		@Override
-		protected List<SchedulerJob> getJobsForScheduler() {
+		public List<SchedulerJob> getJobsForScheduler() {
 			return null;
 		}
 
 		@Override
-		protected List<ScorecardColumn> getColumnsForScorecard() {
+		public List<ScorecardColumn> getColumnsForScorecard() {
 			return null;
 		}
 
 		@Override
-		protected List<SidebarLink> getLinksForSidebar() {
+		public List<SidebarLink> getLinksForSidebar() {
 			return null;
 		}
 
 		@Override
-		protected List<String> getPrivileges() {
+		public List<String> getPrivileges() {
 			return null;
 		}
 

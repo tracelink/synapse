@@ -2,6 +2,8 @@ package com.tracelink.prodsec.synapse.scheduler.model;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.concurrent.ScheduledFuture;
+
 import org.springframework.scheduling.TriggerContext;
 
 /**
@@ -23,6 +25,8 @@ public class JobDto implements TriggerContext {
 	private Date lastEndTime;
 
 	private boolean active;
+
+	private ScheduledFuture<?> future;
 
 	public JobDto(String pluginName, String jobName) {
 		this.pluginName = pluginName;
@@ -116,6 +120,14 @@ public class JobDto implements TriggerContext {
 	@Override
 	public Date lastCompletionTime() {
 		return lastEndTime;
+	}
+
+	public void setFuture(ScheduledFuture<?> future) {
+		this.future = future;
+	}
+	
+	public ScheduledFuture<?> getFuture(){
+		return this.future;
 	}
 
 }

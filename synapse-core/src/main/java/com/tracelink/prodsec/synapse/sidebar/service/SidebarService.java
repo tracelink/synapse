@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class SidebarService {
 
 	private final SortedMap<SidebarDropdown, List<SidebarLink>> sidebar;
-	private final Map<PluginDisplayGroup, SidebarDropdown> dropdownLookup;
+	private final Map<String, SidebarDropdown> dropdownLookup;
 
 	public SidebarService() {
 		this.sidebar = new TreeMap<>(new SidebarGroupSorter());
@@ -41,15 +41,27 @@ public class SidebarService {
 	 *                     {@link SidebarDropdown}
 	 */
 	public void addLink(PluginDisplayGroup sidebarGroup, SidebarLink link) {
-		SidebarDropdown dropdown = this.dropdownLookup.get(sidebarGroup);
+		SidebarDropdown dropdown = this.dropdownLookup.get(sidebarGroup.getDisplayName());
 		if (dropdown == null) {
 			dropdown = new SidebarDropdown(sidebarGroup);
-			this.dropdownLookup.put(sidebarGroup, dropdown);
+			this.dropdownLookup.put(sidebarGroup.getDisplayName(), dropdown);
 		}
 		dropdown.addAuthorization(link.getAuthorizePrivileges());
 		List<SidebarLink> links = this.sidebar.getOrDefault(dropdown, new ArrayList<>());
 		links.add(link);
 		this.sidebar.put(dropdown, links);
+	}
+
+	/**
+	 * remove all links in this PluginDisplayGroup from the sidebar
+	 * 
+	 * @param sidebarGroup the group containing the links to remove
+	 */
+	public void removeLinks(PluginDisplayGroup sidebarGroup) {
+		if (this.dropdownLookup.containsKey(sidebarGroup.getDisplayName())) {
+			SidebarDropdown dropdown = this.dropdownLookup.remove(sidebarGroup.getDisplayName());
+			this.sidebar.remove(dropdown);
+		}
 	}
 
 	public Map<SidebarDropdown, List<SidebarLink>> getSidebar() {
@@ -69,4 +81,5 @@ public class SidebarService {
 			return o1.getDisplayName().compareTo(o2.getDisplayName());
 		}
 	}
+
 }

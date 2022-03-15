@@ -78,12 +78,12 @@ public class DemoPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("Demo Plugin", "stars");
 	}
 
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		return Arrays.asList(
 				// Create the configuration for a regular job
 				new SimpleSchedulerJob("Demo Job").withJob(demoService::logVulns)
@@ -91,7 +91,7 @@ public class DemoPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		return Arrays.asList(
 				// Create the scorecard column for reporting
 				new SimpleScorecardColumn("Demo Column").withPageLink(PAGELINK)
@@ -100,7 +100,7 @@ public class DemoPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		return Arrays.asList(
 				// Create the configuration locked to a specific priv
 				new SimpleSidebarLink("Configure Demo").withPrivileges(PRIV).withMaterialIcon("swap_vert")
@@ -108,7 +108,7 @@ public class DemoPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return Arrays.asList(PRIV);
 	}
 

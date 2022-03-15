@@ -90,7 +90,7 @@ public class JiraPlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("Jira Plugin", "stars");
 	}
 
@@ -98,7 +98,7 @@ public class JiraPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		return Arrays.asList(
 				new SimpleSchedulerJob("Fetch Jira Data").withJob(jiraUpdateService::syncAllData)
 						.onSchedule(new PeriodicSchedule(1, TimeUnit.DAYS)));
@@ -108,7 +108,7 @@ public class JiraPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		return Arrays.asList(
 				// Create the scorecard column for reporting
 				new SimpleScorecardColumn("Jira Vulns").withPageLink(VULN_PAGE)
@@ -119,7 +119,7 @@ public class JiraPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		// Vulnerabilities page
 		SidebarLink vulnMetrics = new SimpleSidebarLink("Vulnerabilities")
 				.withMaterialIcon("dashboard")
@@ -147,7 +147,7 @@ public class JiraPlugin extends PluginWithDatabase {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return Collections.emptyList();
 	}
 

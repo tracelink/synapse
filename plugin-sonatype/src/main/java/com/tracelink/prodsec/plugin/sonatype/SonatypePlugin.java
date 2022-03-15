@@ -75,12 +75,12 @@ public class SonatypePlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("Sonatype Nexus IQ", "layers");
 	}
 
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		SchedulerJob fetchViolationsJob = new SimpleSchedulerJob("Fetch Sonatype Data")
 				.withJob(clientService::fetchData)
 				.onSchedule(new PeriodicSchedule(PERIOD, TIME_UNIT));
@@ -88,7 +88,7 @@ public class SonatypePlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		ScorecardColumn violations = new SimpleScorecardColumn("Sonatype Violations")
 				.withPageLink(DASHBOARD_PAGE)
 				.withProductLineCallback(this::getScorecardValueForProductLine)
@@ -97,7 +97,7 @@ public class SonatypePlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		// Dashboard page
 		SidebarLink dashboard = new SimpleSidebarLink("Dashboard").withMaterialIcon("dashboard")
 				.withPageLink(DASHBOARD_PAGE);
@@ -116,7 +116,7 @@ public class SonatypePlugin extends PluginWithDatabase {
 	}
 
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return Collections.emptyList();
 	}
 

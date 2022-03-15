@@ -1,0 +1,47 @@
+<div class="page-header row no-gutters py-4">
+  <div class="col-12 col-sm-6 text-center text-sm-left mb-0">
+    <h3 class="page-title">Job Status</h3>
+  </div>
+</div>
+<!-- End Page Header -->
+<!-- Content -->
+<div class="row">
+  <div class="col">
+    <div class="card card-small mb-4">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">Plug-Ins</h6>
+      </div>
+      <div class="card-body p-0 pb-3 text-center">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="bg-light">
+            <tr>
+              <th scope="col" class="border-0">Plugin</th>
+              <th scope="col" class="border-0">Active</th>
+              <th scope="col" class="border-0">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="plugin : ${plugins}">
+              <tr>
+                <td th:text="${plugin.pluginName}">Plugin</td>
+                <td th:text="${plugin.activated}" th:class="${plugin.activated ? '' : 'text-danger'}">Active</td>
+                <td>
+					<form action="/plugins" method="POST">
+						<input type="hidden" name="enable" th:value="${!plugin.activated}"/>
+						<input type="hidden" name="pluginId" th:value="${plugin.id}"/>
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" />
+                    	<button type="submit" class="btn btn-accent"
+                    	    th:text="${plugin.activated ? 'Disable' : 'Enable'}"></button>
+                    </form>
+				</td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

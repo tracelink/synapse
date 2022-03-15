@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,20 +34,20 @@ public class ScorecardService {
 
 	public static final String NOT_READY_MESSAGE = "Scorecards are being generated and will be available soon";
 
-	private final List<ScorecardColumn> scorecardColumnDefs = new ArrayList<>();
+	private final List<ScorecardColumn> scorecardColumnDefs = new CopyOnWriteArrayList<>();
 
 	private final ProductsService productsService;
 
 	private boolean ready = false;
 
 	private Scorecard topLevelCache = null;
-	private Map<String, Scorecard> productLineScorecardCache = new HashMap<String, Scorecard>();
-	private Map<String, Scorecard> filterScorecardCache = new HashMap<String, Scorecard>();
-	private Map<String, Scorecard> projectScorecardCache = new HashMap<String, Scorecard>();
+	private Map<String, Scorecard> productLineScorecardCache = new ConcurrentHashMap<String, Scorecard>();
+	private Map<String, Scorecard> filterScorecardCache = new ConcurrentHashMap<String, Scorecard>();
+	private Map<String, Scorecard> projectScorecardCache = new ConcurrentHashMap<String, Scorecard>();
 
 	public ScorecardService(@Autowired ProductsService productsService, @Autowired SchedulerService scheduler) {
 		this.productsService = productsService;
-		scheduler.scheduleInternalJob(new SimpleSchedulerJob("Scorecard Updater")
+		scheduler.scheduleCoreJob(new SimpleSchedulerJob("Scorecard Updater")
 				.onSchedule(new DelayedSchedule(15, 1, TimeUnit.MINUTES)).withJob(() -> {
 					updateAll();
 				}));
@@ -58,6 +60,15 @@ public class ScorecardService {
 	 */
 	public void addColumn(ScorecardColumn column) {
 		scorecardColumnDefs.add(column);
+	}
+
+	/**
+	 * Remove a column to the Synapse Scorecard if it matches the given name
+	 *
+	 * @param columnName the column name for the column to remove
+	 */
+	public void removeColumn(String columnName) {
+		scorecardColumnDefs.removeIf(sc -> sc.getColumnName().equals(columnName));
 	}
 
 	/**
@@ -74,8 +85,8 @@ public class ScorecardService {
 	 * Update all scorecard column definitions
 	 */
 	public void updateAll() {
-		//skip if scorecard columns haven't been defined
-		if(scorecardColumnDefs.isEmpty()) {
+		// skip if scorecard columns haven't been defined
+		if (scorecardColumnDefs.isEmpty()) {
 			return;
 		}
 		updateTopLevelScorecard();
@@ -123,7 +134,7 @@ public class ScorecardService {
 	public Scorecard getScorecardForProductLine(String productLineName) throws ProductsNotFoundException {
 		Scorecard scorecard = productLineScorecardCache.get(productLineName);
 		if (scorecard == null) {
-			if(productsService.getProductLine(productLineName) == null) {
+			if (productsService.getProductLine(productLineName) == null) {
 				throw new ProductsNotFoundException("Unknown Product Line Name");
 			}
 			throw new ProductsNotFoundException("Scorecard has not been generated yet");
@@ -158,7 +169,7 @@ public class ScorecardService {
 	public Scorecard getScorecardForFilter(String filterName) throws ProductsNotFoundException {
 		Scorecard scorecard = filterScorecardCache.get(filterName);
 		if (scorecard == null) {
-			if(productsService.getProjectFilter(filterName) == null) {
+			if (productsService.getProjectFilter(filterName) == null) {
 				throw new ProductsNotFoundException("Unknown Filter Name");
 			}
 			throw new ProductsNotFoundException("Scorecard has not been generated yet");
@@ -193,7 +204,7 @@ public class ScorecardService {
 	public Scorecard getScorecardForProject(String projectName) throws ProductsNotFoundException {
 		Scorecard scorecard = projectScorecardCache.get(projectName);
 		if (scorecard == null) {
-			if(productsService.getProject(projectName) == null) {
+			if (productsService.getProject(projectName) == null) {
 				throw new ProductsNotFoundException("Unknown Project Name");
 			}
 			throw new ProductsNotFoundException("Scorecard has not been generated yet");

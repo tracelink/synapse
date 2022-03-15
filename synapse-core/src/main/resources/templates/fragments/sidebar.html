@@ -89,6 +89,12 @@
             </a>
           </li>
           <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+            <a class="nav-link" href="/plugins">
+              <i class="material-icons">settings_input_composite</i>
+              <span>Plugins</span>
+            </a>
+          </li>
+          <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
             <a class="nav-link" href="/encryption">
               <i class="material-icons">vpn_key</i>
               <span>Encryption</span>

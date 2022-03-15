@@ -479,7 +479,7 @@ public class KeyRotationService {
 	 * Schedules the data encryption key rotation job with the scheduler service.
 	 */
 	private void scheduleKeyRotationJob() {
-		schedulerService.scheduleInternalJob(
+		schedulerService.scheduleCoreJob(
 				new SimpleSchedulerJob("Auto-Rotate Data Encryption Keys")
 						.withJob(this::autoRotateKeys).onSchedule(new CronSchedule("0 0 0 * * *")));
 	}

@@ -49,7 +49,8 @@ public class AuthService implements UserDetailsService {
 
 	private final PrivilegeRepository privRepo;
 
-	public AuthService(@Autowired PasswordEncoder passwordEncoder, @Autowired UserRepository userRepo, @Autowired RoleRepository roleRepo, @Autowired PrivilegeRepository privRepo) {
+	public AuthService(@Autowired PasswordEncoder passwordEncoder, @Autowired UserRepository userRepo,
+			@Autowired RoleRepository roleRepo, @Autowired PrivilegeRepository privRepo) {
 		this.passwordEncoder = passwordEncoder;
 		this.userRepo = userRepo;
 		this.roleRepo = roleRepo;
@@ -143,7 +144,9 @@ public class AuthService implements UserDetailsService {
 			throw new UsernameNotFoundException("Unknown username");
 		}
 
-		return User.builder().username(user.getUsername()).password(user.getPassword()).disabled(!user.isEnabled()).accountExpired(false).accountLocked(false).credentialsExpired(false).authorities(getAuthorities(user.getRoles())).build();
+		return User.builder().username(user.getUsername()).password(user.getPassword()).disabled(!user.isEnabled())
+				.accountExpired(false).accountLocked(false).credentialsExpired(false)
+				.authorities(getAuthorities(user.getRoles())).build();
 	}
 
 	private List<GrantedAuthority> getAuthorities(Collection<RoleModel> roles) {
@@ -177,8 +180,8 @@ public class AuthService implements UserDetailsService {
 	}
 
 	/**
-	 * Creates a new, enabled user in the {@link UserRepository} with the given username and
-	 * password.
+	 * Creates a new, enabled user in the {@link UserRepository} with the given
+	 * username and password.
 	 *
 	 * @param username the username of the new user
 	 * @param password the password of the new user
@@ -212,8 +215,8 @@ public class AuthService implements UserDetailsService {
 	}
 
 	/**
-	 * Determines whether the hash of the given password provided by the given user matches the
-	 * currently stored password hash for that user.
+	 * Determines whether the hash of the given password provided by the given user
+	 * matches the currently stored password hash for that user.
 	 *
 	 * @param user            the user to check a password match for
 	 * @param currentPassword the current password as provided by the user
@@ -324,8 +327,8 @@ public class AuthService implements UserDetailsService {
 	}
 
 	/**
-	 * Gets the privilege with the given name, or creates the privilege if it does not already
-	 * exist.
+	 * Gets the privilege with the given name, or creates the privilege if it does
+	 * not already exist.
 	 *
 	 * @param priv the name of the privilege to retrieve or create
 	 * @return the privilege with the given name
@@ -349,5 +352,21 @@ public class AuthService implements UserDetailsService {
 	 */
 	public PrivilegeModel findPrivilegeByName(String privilegeName) {
 		return privRepo.findByName(privilegeName);
+	}
+
+	/**
+	 * Remove privilege from repository. Also removes from all roles. Used to
+	 * unregister a plugin
+	 * 
+	 * @param privilegeName the privilege name to remove
+	 */
+	public void removePrivilege(String privilegeName) {
+		PrivilegeModel privilege = privRepo.findByName(privilegeName);
+		roleRepo.findAll().stream().forEach(role -> {
+			if (role.getPrivileges().removeIf(p -> p.getName().equals(privilegeName))) {
+				roleRepo.save(role);
+			}
+		});
+		privRepo.delete(privilege);
 	}
 }

@@ -31,28 +31,28 @@ public class OwaspRiskPlugin extends Plugin {
 	}
 
 	@Override
-	protected PluginDisplayGroup getPluginDisplayGroup() {
+	public PluginDisplayGroup getPluginDisplayGroup() {
 		return new PluginDisplayGroup("OWASP Risk Rating", "rate_review");
 	}
 
 	@Override
-	protected List<SidebarLink> getLinksForSidebar() {
+	public List<SidebarLink> getLinksForSidebar() {
 		return Arrays
 				.asList(new SimpleSidebarLink("Risk Rating").withMaterialIcon("gavel").withPageLink("/risk_rating"));
 	}
 
 	@Override
-	protected List<SchedulerJob> getJobsForScheduler() {
+	public List<SchedulerJob> getJobsForScheduler() {
 		return null;
 	}
 
 	@Override
-	protected List<ScorecardColumn> getColumnsForScorecard() {
+	public List<ScorecardColumn> getColumnsForScorecard() {
 		return null;
 	}
 
 	@Override
-	protected List<String> getPrivileges() {
+	public List<String> getPrivileges() {
 		return null;
 	}
 
