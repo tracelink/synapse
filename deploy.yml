@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse-deployment
+  namespace: synapse
+  labels:
+    app: synapse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synapse
+  template:
+    metadata:
+      labels:
+        app: synapse
+    spec:
+      containers:
+      - name: synapse-container
+        image: !!!IMAGE_LOCATION!!!
+        ports:
+        - containerPort: 8888
+        imagePullPolicy: Always
+        env: 
+        - name: SPRING_PROFILES_ACTIVE
+          value: prdtest
+        - name: SERVER_PORT
+          value: '8888'
+        - name: JDBC_URL
+          valueFrom:
+            configMapKeyRef:
+              name: synapse-secrets
+              key: db_url
+        - name: JDBC_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: synapse-secrets
+              key: db_user
+        - name: JDBC_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: synapse-secrets
+              key: db_pass
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapse-service
+  labels:
+    app: synapse
+  namespace: synapse
+  annotations:
+    kubernetes.io/ingress.class: alb
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: '443'
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: !!!CERTIFICATE!!!
+spec:
+  type: LoadBalancer
+  selector:
+    app: synapse
+  ports:
+  - name: synapse
+    port: 443
+    targetPort: 8888
