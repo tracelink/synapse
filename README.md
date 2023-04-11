@@ -44,6 +44,8 @@ To execute this jar, it requires a `JDBC_URL`, `JDBC_USERNAME`, and `JDBC_PASSWO
 
 By default, the server runs on port 8080 and will configure the database tables automatically, including any necessary migrations from version to version.
 
+Synapse can be run in a container using Docker and Docker Compose. A local setup is configured in [Dockerfile](Dockerfile) and [docker-compose.yml](docker-compose.yml). Be sure to define the environment variables listed in [Docker.env](Docker.env), then type `docker-compose up` in the root directory to build the application and start the Docker container. The application will be hosted on port 8081.
+
 ## Authentication
 There are two built-in ways to authenticate to Synapse.
 1. "Local" Authentication - Usernames and hashed passwords are stored in the database and users authenticate to Synapse directly. This is configured by default.

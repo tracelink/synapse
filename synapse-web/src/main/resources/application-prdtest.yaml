@@ -3,9 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/synapse #${JDBC_URL}
-    username: appsecmaster #${JDBC_USERNAME}
-    password: synapse #${JDBC_PASSWORD}
+    url: ${JDBC_URL}
+    username: ${JDBC_USERNAME}
+    password: ${JDBC_PASSWORD}
+
   thymeleaf:
     cache: true
   flyway:
