@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: Always
         env: 
         - name: SPRING_PROFILES_ACTIVE
-          value: prdtest
+          value: prd
         - name: SERVER_PORT
           value: '8888'
         - name: JDBC_URL
